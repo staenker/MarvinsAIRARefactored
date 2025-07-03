@@ -47,10 +47,10 @@
                 <DataTrigger Binding="{Binding ElementName=TabControl, Path=SelectedIndex}" Value="1">
                     <Setter Property="Background" Value="{StaticResource PedalsTabBackground}"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=TabControl, Path=SelectedIndex}" Value="2">
+                <DataTrigger Binding="{Binding ElementName=TabControl, Path=SelectedIndex}" Value="3">
                     <Setter Property="Background" Value="{StaticResource AdminBoxxTabBackground}"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=TabControl, Path=SelectedIndex}" Value="5">
+                <DataTrigger Binding="{Binding ElementName=TabControl, Path=SelectedIndex}" Value="6">
                     <Setter Property="Background" Value="{StaticResource AppTabBackground}"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -356,6 +356,7 @@
 
                             <controls:MairaSwitch Margin="10,20,10,0" IsOn="{Binding Settings.RacingWheelCenterWheelWhenNotInCar, Mode=TwoWay}" Title="{Binding Localization[CenterWheelWhenNotInCar]}" ContextSwitches="{Binding Settings.RacingWheelCenterWheelWhenNotInCarContextSwitches}" Tag="Complex"/>
                             <controls:MairaSwitch Margin="10,10,10,0" IsOn="{Binding Settings.RacingWheelFadeEnabled, Mode=TwoWay}" Title="{Binding Localization[FadeForceFeedback]}" ContextSwitches="{Binding Settings.RacingWheelFadeEnabledContextSwitches}" Tag="Complex"/>
+                            <controls:MairaSwitch Margin="10,10,10,0" IsOn="{Binding Settings.RacingWheelSendChatMessages, Mode=TwoWay}" Title="{Binding Localization[SendChatMessages]}" Tag="Complex"/>
                             <controls:MairaSwitch Margin="10,10,10,0" IsOn="{Binding Settings.RacingWheelAllowSuperStrength, Mode=TwoWay}" Title="{Binding Localization[AllowSuperStrength]}" Tag="Complex"/>
                             <controls:MairaSwitch Margin="10,10,10,0" IsOn="{Binding Settings.RacingWheelAlwaysEnableFFB, Mode=TwoWay}" Title="{Binding Localization[AlwaysEnableFFB]}" Tag="Complex"/>
                             <controls:MairaSwitch Margin="10,10,10,10" IsOn="{Binding Settings.RacingWheelSimpleModeEnabled, Mode=TwoWay}" Title="{Binding Localization[SimpleMode]}"/>
@@ -732,6 +733,85 @@
                             </Grid.ColumnDefinitions>
 
                             <controls:MairaKnob Grid.Column="0" Margin="10,0,10,0" Title="{Binding Localization[NoiseDamper]}" Value="{Binding Settings.PedalsNoiseDamper, Mode=TwoWay}" ValueString="{Binding Settings.PedalsNoiseDamperString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.05" RotationMultiplier="10" ContextSwitches="{Binding Settings.PedalsNoiseDamperContextSwitches}" PlusButtonMappings="{Binding Settings.PedalsNoiseDamperPlusButtonMappings}" MinusButtonMappings="{Binding Settings.PedalsNoiseDamperMinusButtonMappings}" DefaultValue="0.1"/>
+
+                        </Grid>
+
+                    </GroupBox>
+
+                </StackPanel>
+
+            </TabItem>
+
+            <TabItem x:Name="Sounds_TabItem" Header="{Binding Localization[Sounds]}">
+
+                <StackPanel Margin="10,10,10,20">
+
+                    <GroupBox Header="{Binding Localization[ABSEngaged]}">
+
+                        <Grid Margin="0,10,0,20">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:MairaSwitch Grid.Column="0" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsABSEngagedEnabled, Mode=TwoWay}" Title="{Binding Localization[Enabled]}" LabelPosition="Top"/>
+                            <controls:MairaKnob Grid.Column="1" Margin="10,0,10,0" Title="{Binding Localization[Volume]}" Value="{Binding Settings.SoundsABSEngagedVolume, Mode=TwoWay}" ValueString="{Binding Settings.SoundsABSEngagedVolumeString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsABSEngagedVolumePlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsABSEngagedVolumeMinusButtonMappings}" DefaultValue="0.75"/>
+                            <controls:MairaKnob Grid.Column="2" Margin="10,0,10,0" Title="{Binding Localization[FrequencyRatio]}" Value="{Binding Settings.SoundsABSEngagedFrequencyRatio, Mode=TwoWay}" ValueString="{Binding Settings.SoundsABSEngagedFrequencyRatioString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsABSEngagedFrequencyRatioPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsABSEngagedFrequencyRatioMinusButtonMappings}" DefaultValue="1"/>
+                            <controls:MairaSwitch Grid.Column="4" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsABSEngagedFadeWithBrake, Mode=TwoWay}" Title="{Binding Localization[Fade]}" LabelPosition="Top"/>
+                            <controls:MairaButton Grid.Column="5" Margin="10,0,10,0" Title="{Binding Localization[Test]}" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_vibrate.png" Click="Sounds_ABSEngaged_Test_MairaButton_Click"/>
+
+                        </Grid>
+
+                    </GroupBox>
+
+                    <GroupBox Header="{Binding Localization[WheelLock]}">
+
+                        <Grid Margin="0,10,0,20">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:MairaSwitch Grid.Column="0" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsWheelLockEnabled, Mode=TwoWay}" Title="{Binding Localization[Enabled]}" LabelPosition="Top"/>
+                            <controls:MairaKnob Grid.Column="1" Margin="10,0,10,0" Title="{Binding Localization[Volume]}" Value="{Binding Settings.SoundsWheelLockVolume, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelLockVolumeString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelLockVolumePlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelLockVolumeMinusButtonMappings}" DefaultValue="0.75"/>
+                            <controls:MairaKnob Grid.Column="2" Margin="10,0,10,0" Title="{Binding Localization[FrequencyRatio]}" Value="{Binding Settings.SoundsWheelLockFrequencyRatio, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelLockFrequencyRatioString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelLockFrequencyRatioPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelLockFrequencyRatioMinusButtonMappings}" DefaultValue="1"/>
+                            <controls:MairaKnob Grid.Column="3" Margin="10,0,10,0" Title="{Binding Localization[Sensitivity]}" Value="{Binding Settings.SoundsWheelLockSensitivity, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelLockSensitivityString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelLockSensitivityPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelLockSensitivityMinusButtonMappings}" DefaultValue="0.95"/>
+                            <controls:MairaSwitch Grid.Column="4" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsWheelLockFadeWithBrake, Mode=TwoWay}" Title="{Binding Localization[Fade]}" LabelPosition="Top"/>
+                            <controls:MairaButton Grid.Column="5" Margin="10,0,10,0" Title="{Binding Localization[Test]}" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_vibrate.png" Click="Sounds_WheelLock_Test_MairaButton_Click"/>
+
+                        </Grid>
+
+                    </GroupBox>
+
+                    <GroupBox Header="{Binding Localization[WheelSpin]}">
+
+                        <Grid Margin="0,10,0,20">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:MairaSwitch Grid.Column="0" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsWheelSpinEnabled, Mode=TwoWay}" Title="{Binding Localization[Enabled]}" LabelPosition="Top"/>
+                            <controls:MairaKnob Grid.Column="1" Margin="10,0,10,0" Title="{Binding Localization[Volume]}" Value="{Binding Settings.SoundsWheelSpinVolume, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelSpinVolumeString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelSpinVolumePlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelSpinVolumeMinusButtonMappings}" DefaultValue="0.75"/>
+                            <controls:MairaKnob Grid.Column="2" Margin="10,0,10,0" Title="{Binding Localization[FrequencyRatio]}" Value="{Binding Settings.SoundsWheelSpinFrequencyRatio, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelSpinFrequencyRatioString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelSpinFrequencyRatioPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelSpinFrequencyRatioMinusButtonMappings}" DefaultValue="1"/>
+                            <controls:MairaKnob Grid.Column="3" Margin="10,0,10,0" Title="{Binding Localization[Sensitivity]}" Value="{Binding Settings.SoundsWheelSpinSensitivity, Mode=TwoWay}" ValueString="{Binding Settings.SoundsWheelSpinSensitivityString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="0.1" PlusButtonMappings="{Binding Settings.SoundsWheelSpinSensitivityPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SoundsWheelSpinSensitivityMinusButtonMappings}" DefaultValue="0.95"/>
+                            <controls:MairaSwitch Grid.Column="4" Margin="10,0,10,0" IsOn="{Binding Settings.SoundsWheelSpinFadeWithThrottle, Mode=TwoWay}" Title="{Binding Localization[Fade]}" LabelPosition="Top"/>
+                            <controls:MairaButton Grid.Column="5" Margin="10,0,10,0" Title="{Binding Localization[Test]}" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_vibrate.png" Click="Sounds_WheelSpin_Test_MairaButton_Click"/>
 
                         </Grid>
 

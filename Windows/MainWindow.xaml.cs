@@ -658,6 +658,72 @@ public partial class MainWindow : Window
 		app.Pedals.StartTest( 2, 2 );
 	}
 
+	private void Sounds_ABSEngaged_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.ABSEngaged );
+	}
+
+	private void Sounds_WheelLock_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.WheelLock );
+	}
+
+	private void Sounds_WheelSpin_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.WheelSpin );
+	}
+
+	private void AdminBoxx_ConnectToAdminBoxx_MairaSwitch_Toggled( object sender, EventArgs e )
+	{
+		var app = App.Instance!;
+
+		if ( AdminBoxx_ConnectToAdminBoxx_MairaSwitch.IsOn )
+		{
+			if ( !app.AdminBoxx.IsConnected )
+			{
+				app.AdminBoxx.Connect();
+			}
+		}
+		else
+		{
+			app.AdminBoxx.Disconnect();
+		}
+	}
+
+	private void AdminBoxx_Brightness_ValueChanged( float newValue )
+	{
+		var app = App.Instance!;
+
+		app.AdminBoxx.ResendAllLEDs();
+	}
+
+	private void AdminBoxx_BlackFlag_ValueChanged( float newValue )
+	{
+		var app = App.Instance!;
+
+		app.AdminBoxx.WaveBlackFlag();
+	}
+
+	private void AdminBoxx_Volume_ValueChanged( float newValue )
+	{
+		var app = App.Instance!;
+
+		app.AudioManager.Play( "beep", newValue );
+	}
+
+	private void AdminBoxx_Test_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.AdminBoxx.StartTestCycle();
+	}
+
 	private void Simulator_HeaderData_HeaderDataViewer_MouseWheel( object sender, MouseWheelEventArgs e )
 	{
 		var delta = e.Delta / 30.0f;
@@ -725,51 +791,6 @@ public partial class MainWindow : Window
 	private void Simulator_TelemetryData_ScrollBar_Scroll( object sender, ScrollEventArgs e )
 	{
 		Simulator_TelemetryData_TelemetryDataViewer.ScrollIndex = (int) e.NewValue;
-	}
-
-	private void AdminBoxx_ConnectToAdminBoxx_MairaSwitch_Toggled( object sender, EventArgs e )
-	{
-		var app = App.Instance!;
-
-		if ( AdminBoxx_ConnectToAdminBoxx_MairaSwitch.IsOn )
-		{
-			if ( !app.AdminBoxx.IsConnected )
-			{
-				app.AdminBoxx.Connect();
-			}
-		}
-		else
-		{
-			app.AdminBoxx.Disconnect();
-		}
-	}
-
-	private void AdminBoxx_Brightness_ValueChanged( float newValue )
-	{
-		var app = App.Instance!;
-
-		app.AdminBoxx.ResendAllLEDs();
-	}
-
-	private void AdminBoxx_BlackFlag_ValueChanged( float newValue )
-	{
-		var app = App.Instance!;
-
-		app.AdminBoxx.WaveBlackFlag();
-	}
-
-	private void AdminBoxx_Volume_ValueChanged( float newValue )
-	{
-		var app = App.Instance!;
-
-		app.AudioManager.Play( "beep", newValue );
-	}
-
-	private void AdminBoxx_Test_Click( object sender, RoutedEventArgs e )
-	{
-		var app = App.Instance!;
-
-		app.AdminBoxx.StartTestCycle();
 	}
 
 	private async void App_CheckNow_MairaButton_Click( object sender, RoutedEventArgs e )

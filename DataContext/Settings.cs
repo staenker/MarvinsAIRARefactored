@@ -1709,6 +1709,27 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Racing wheel - Send chat messages
+
+	private bool _racingWheelSendChatMessages = true;
+
+	public bool RacingWheelSendChatMessages
+	{
+		get => _racingWheelSendChatMessages;
+
+		set
+		{
+			if ( value != _racingWheelSendChatMessages )
+			{
+				_racingWheelSendChatMessages = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
 	#region Racing wheel - Allow super strength
 
 	private bool _racingWheelAllowSuperStrength = false;
@@ -3724,6 +3745,500 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Sounds - ABS engaged enabled
+
+	private bool _soundsABSEngagedEnabled = false;
+
+	public bool SoundsABSEngagedEnabled
+	{
+		get => _soundsABSEngagedEnabled;
+
+		set
+		{
+			if ( value != _soundsABSEngagedEnabled )
+			{
+				_soundsABSEngagedEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - ABS engaged volume
+
+	private float _soundsABSEngagedVolume = 0.75f;
+
+	public float SoundsABSEngagedVolume
+	{
+		get => _soundsABSEngagedVolume;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsABSEngagedVolume )
+			{
+				_soundsABSEngagedVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsABSEngagedVolumeString = $"{_soundsABSEngagedVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsABSEngagedVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsABSEngagedVolumeString
+	{
+		get => _soundsABSEngagedVolumeString;
+
+		set
+		{
+			if ( value != _soundsABSEngagedVolumeString )
+			{
+				_soundsABSEngagedVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsABSEngagedVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsABSEngagedVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - ABS engaged frequency ratio
+
+	private float _soundsABSEngagedFrequencyRatio = 1f;
+
+	public float SoundsABSEngagedFrequencyRatio
+	{
+		get => _soundsABSEngagedFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsABSEngagedFrequencyRatio )
+			{
+				_soundsABSEngagedFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsABSEngagedFrequencyRatioString = $"{_soundsABSEngagedFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsABSEngagedFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsABSEngagedFrequencyRatioString
+	{
+		get => _soundsABSEngagedFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsABSEngagedFrequencyRatioString )
+			{
+				_soundsABSEngagedFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsABSEngagedFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsABSEngagedFrequencyRatioMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - ABS engaged fade with brake
+
+	private bool _soundsABSEngagedFadeWithBrake = false;
+
+	public bool SoundsABSEngagedFadeWithBrake
+	{
+		get => _soundsABSEngagedFadeWithBrake;
+
+		set
+		{
+			if ( value != _soundsABSEngagedFadeWithBrake )
+			{
+				_soundsABSEngagedFadeWithBrake = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Wheel lock enabled
+
+	private bool _soundsWheelLockEnabled = false;
+
+	public bool SoundsWheelLockEnabled
+	{
+		get => _soundsWheelLockEnabled;
+
+		set
+		{
+			if ( value != _soundsWheelLockEnabled )
+			{
+				_soundsWheelLockEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Wheel lock volume
+
+	private float _soundsWheelLockVolume = 0.75f;
+
+	public float SoundsWheelLockVolume
+	{
+		get => _soundsWheelLockVolume;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsWheelLockVolume )
+			{
+				_soundsWheelLockVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelLockVolumeString = $"{_soundsWheelLockVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelLockVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelLockVolumeString
+	{
+		get => _soundsWheelLockVolumeString;
+
+		set
+		{
+			if ( value != _soundsWheelLockVolumeString )
+			{
+				_soundsWheelLockVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelLockVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelLockVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel lock frequency ratio
+
+	private float _soundsWheelLockFrequencyRatio = 1f;
+
+	public float SoundsWheelLockFrequencyRatio
+	{
+		get => _soundsWheelLockFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsWheelLockFrequencyRatio )
+			{
+				_soundsWheelLockFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelLockFrequencyRatioString = $"{_soundsWheelLockFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelLockFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelLockFrequencyRatioString
+	{
+		get => _soundsWheelLockFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsWheelLockFrequencyRatioString )
+			{
+				_soundsWheelLockFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelLockFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelLockFrequencyRatioMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel lock sensitivity
+
+	private float _soundsWheelLockSensitivity = 0.95f;
+
+	public float SoundsWheelLockSensitivity
+	{
+		get => _soundsWheelLockSensitivity;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsWheelLockSensitivity )
+			{
+				_soundsWheelLockSensitivity = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelLockSensitivityString = $"{_soundsWheelLockSensitivity * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelLockSensitivityString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelLockSensitivityString
+	{
+		get => _soundsWheelLockSensitivityString;
+
+		set
+		{
+			if ( value != _soundsWheelLockSensitivityString )
+			{
+				_soundsWheelLockSensitivityString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelLockSensitivityPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelLockSensitivityMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel lock fade with brake
+
+	private bool _soundsWheelLockFadeWithBrake = true;
+
+	public bool SoundsWheelLockFadeWithBrake
+	{
+		get => _soundsWheelLockFadeWithBrake;
+
+		set
+		{
+			if ( value != _soundsWheelLockFadeWithBrake )
+			{
+				_soundsWheelLockFadeWithBrake = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Wheel spin enabled
+
+	private bool _soundsWheelSpinEnabled = false;
+
+	public bool SoundsWheelSpinEnabled
+	{
+		get => _soundsWheelSpinEnabled;
+
+		set
+		{
+			if ( value != _soundsWheelSpinEnabled )
+			{
+				_soundsWheelSpinEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Wheel spin volume
+
+	private float _soundsWheelSpinVolume = 0.75f;
+
+	public float SoundsWheelSpinVolume
+	{
+		get => _soundsWheelSpinVolume;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsWheelSpinVolume )
+			{
+				_soundsWheelSpinVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelSpinVolumeString = $"{_soundsWheelSpinVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelSpinVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelSpinVolumeString
+	{
+		get => _soundsWheelSpinVolumeString;
+
+		set
+		{
+			if ( value != _soundsWheelSpinVolumeString )
+			{
+				_soundsWheelSpinVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelSpinVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelSpinVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel spin frequency ratio
+
+	private float _soundsWheelSpinFrequencyRatio = 1f;
+
+	public float SoundsWheelSpinFrequencyRatio
+	{
+		get => _soundsWheelSpinFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsWheelSpinFrequencyRatio )
+			{
+				_soundsWheelSpinFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelSpinFrequencyRatioString = $"{_soundsWheelSpinFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelSpinFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelSpinFrequencyRatioString
+	{
+		get => _soundsWheelSpinFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsWheelSpinFrequencyRatioString )
+			{
+				_soundsWheelSpinFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelSpinFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelSpinFrequencyRatioMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel spin sensitivity
+
+	private float _soundsWheelSpinSensitivity = 0.95f;
+
+	public float SoundsWheelSpinSensitivity
+	{
+		get => _soundsWheelSpinSensitivity;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsWheelSpinSensitivity )
+			{
+				_soundsWheelSpinSensitivity = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsWheelSpinSensitivityString = $"{_soundsWheelSpinSensitivity * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsWheelSpinSensitivityString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsWheelSpinSensitivityString
+	{
+		get => _soundsWheelSpinSensitivityString;
+
+		set
+		{
+			if ( value != _soundsWheelSpinSensitivityString )
+			{
+				_soundsWheelSpinSensitivityString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsWheelSpinSensitivityPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsWheelSpinSensitivityMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Wheel spin fade with throttle
+
+	private bool _soundsWheelSpinFadeWithThrottle = true;
+
+	public bool SoundsWheelSpinFadeWithThrottle
+	{
+		get => _soundsWheelSpinFadeWithThrottle;
+
+		set
+		{
+			if ( value != _soundsWheelSpinFadeWithThrottle )
+			{
+				_soundsWheelSpinFadeWithThrottle = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
 	#region AdminBoxx - Connect on startup
 
 	private bool _adminBoxxConnectOnStartup = false;
@@ -4331,7 +4846,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region App - UI scale
 
-	private float _appUIScale = 1f;
+	private float _appUIScale = 0.9f;
 
 	public float AppUIScale
 	{
