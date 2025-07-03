@@ -725,7 +725,7 @@
     <comment>Contribute</comment>
   </data>
   <data name="Donors" xml:space="preserve">
-    <value> Donantes</value>
+    <value>Donantes</value>
     <comment>Contribute</comment>
   </data>
   <data name="SuperDonors" xml:space="preserve">
@@ -801,7 +801,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="SlewUnits" xml:space="preserve">
-    <value></value>
+    <value>Nm/ms</value>
     <comment>Abbreviation for Newton-meters per second</comment>
   </data>
   <data name="WheelForce" xml:space="preserve">
@@ -845,7 +845,15 @@
     <comment>Contribute</comment>
   </data>
   <data name="AdminBoxxIsUpdating" xml:space="preserve">
-    <value>l firmware de AdminBoxx se está actualizando</value>
+    <value>El firmware de AdminBoxx se está actualizando.</value>
     <comment>AdminBoxx</comment>
+  </data>
+  <data name="AllowSuperStrength" xml:space="preserve">
+    <value>Permitir hasta un 200% de intensidad (potencialmente peligroso)</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Activado</value>
+    <comment>Generic</comment>
   </data>
 </root>
