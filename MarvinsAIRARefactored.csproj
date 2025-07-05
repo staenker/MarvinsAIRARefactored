@@ -18,6 +18,7 @@
     <None Remove="AdminBoxx\code.py" />
     <None Remove="Artwork\icon_left_small.png" />
     <None Remove="Artwork\icon_right_small.png" />
+    <None Remove="Artwork\icon_target.png" />
     <None Remove="Artwork\icon_up_small.png" />
   </ItemGroup>
 
@@ -47,6 +48,7 @@
     <Resource Include="Artwork\icon_magic.png" />
     <Resource Include="Artwork\icon_record_off.png" />
     <Resource Include="Artwork\icon_right_small.png" />
+    <Resource Include="Artwork\icon_target.png" />
     <Resource Include="Artwork\icon_thumbs_up.png" />
     <Resource Include="Artwork\icon_up_small.png" />
     <Resource Include="Artwork\icon_zero.png" />

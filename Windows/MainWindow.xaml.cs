@@ -724,6 +724,32 @@ public partial class MainWindow : Window
 		app.AdminBoxx.StartTestCycle();
 	}
 
+	private void Graph_Target_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		if ( Graph_BottomPanel_StackPanel.Visibility == Visibility.Visible )
+		{
+			Misc.ApplyToTaggedElements( MainGrid, "HideWhenGraphIsSoloed", element => element.Visibility = Visibility.Collapsed );
+
+			Graph_Main_StackPanel.Margin = new Thickness( 0 );
+			Graph_Border.Margin = new Thickness( 0 );
+
+			WindowStyle = WindowStyle.None;
+			ResizeMode = ResizeMode.NoResize;
+			SizeToContent = SizeToContent.Height;
+		}
+		else
+		{
+			Misc.ApplyToTaggedElements( MainGrid, "HideWhenGraphIsSoloed", element => element.Visibility = Visibility.Visible );
+
+			Graph_Main_StackPanel.Margin = new Thickness( 10, 10, 10, 20 );
+			Graph_Border.Margin = new Thickness( 0, 10, 0, 0 );
+
+			WindowStyle = WindowStyle.SingleBorderWindow;
+			ResizeMode = ResizeMode.CanResizeWithGrip;
+			SizeToContent = SizeToContent.Manual;
+		}
+	}
+
 	private void Simulator_HeaderData_HeaderDataViewer_MouseWheel( object sender, MouseWheelEventArgs e )
 	{
 		var delta = e.Delta / 30.0f;
