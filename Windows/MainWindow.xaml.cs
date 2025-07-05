@@ -22,6 +22,8 @@ namespace MarvinsAIRARefactored.Windows;
 
 public partial class MainWindow : Window
 {
+	private const int UpdateInterval = 6;
+
 	public nint WindowHandle { get; private set; } = 0;
 	public bool GraphTabItemIsVisible { get; private set; } = false;
 	public bool DebugTabItemIsVisible { get; private set; } = false;
@@ -31,6 +33,8 @@ public partial class MainWindow : Window
 	private bool _initialized = false;
 
 	private NotifyIcon? _notifyIcon = null;
+
+	private int _updateCounter = UpdateInterval + 6;
 
 	public MainWindow()
 	{
@@ -849,55 +853,62 @@ public partial class MainWindow : Window
 
 	public void Tick( App app )
 	{
-		// header data
+		_updateCounter--;
 
-		Simulator_HeaderData_HeaderDataViewer.InvalidateVisual();
-
-		Simulator_HeaderData_ScrollBar.Maximum = Simulator_HeaderData_HeaderDataViewer.NumTotalLines - Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
-		Simulator_HeaderData_ScrollBar.ViewportSize = Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
-
-		if ( Simulator_HeaderData_HeaderDataViewer.NumVisibleLines >= Simulator_HeaderData_HeaderDataViewer.NumTotalLines )
+		if ( _updateCounter == 0 )
 		{
-			Simulator_HeaderData_HeaderDataViewer.ScrollIndex = 0;
-			Simulator_HeaderData_ScrollBar.Visibility = Visibility.Collapsed;
-		}
-		else
-		{
-			Simulator_HeaderData_ScrollBar.Visibility = Visibility.Visible;
-		}
+			_updateCounter = UpdateInterval;
 
-		// session information
+			// header data
 
-		Simulator_SessionInfo_SessionInfoViewer.InvalidateVisual();
+			Simulator_HeaderData_HeaderDataViewer.InvalidateVisual();
 
-		Simulator_SessionInfo_ScrollBar.Maximum = Simulator_SessionInfo_SessionInfoViewer.NumTotalLines - Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
-		Simulator_SessionInfo_ScrollBar.ViewportSize = Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
+			Simulator_HeaderData_ScrollBar.Maximum = Simulator_HeaderData_HeaderDataViewer.NumTotalLines - Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
+			Simulator_HeaderData_ScrollBar.ViewportSize = Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
 
-		if ( Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines >= Simulator_SessionInfo_SessionInfoViewer.NumTotalLines )
-		{
-			Simulator_SessionInfo_SessionInfoViewer.ScrollIndex = 0;
-			Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Collapsed;
-		}
-		else
-		{
-			Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Visible;
-		}
+			if ( Simulator_HeaderData_HeaderDataViewer.NumVisibleLines >= Simulator_HeaderData_HeaderDataViewer.NumTotalLines )
+			{
+				Simulator_HeaderData_HeaderDataViewer.ScrollIndex = 0;
+				Simulator_HeaderData_ScrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				Simulator_HeaderData_ScrollBar.Visibility = Visibility.Visible;
+			}
 
-		// telemetry data
+			// session information
 
-		Simulator_TelemetryData_TelemetryDataViewer.InvalidateVisual();
+			Simulator_SessionInfo_SessionInfoViewer.InvalidateVisual();
 
-		Simulator_TelemetryData_ScrollBar.Maximum = Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines - Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
-		Simulator_TelemetryData_ScrollBar.ViewportSize = Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
+			Simulator_SessionInfo_ScrollBar.Maximum = Simulator_SessionInfo_SessionInfoViewer.NumTotalLines - Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
+			Simulator_SessionInfo_ScrollBar.ViewportSize = Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
 
-		if ( Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines >= Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines )
-		{
-			Simulator_TelemetryData_TelemetryDataViewer.ScrollIndex = 0;
-			Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Collapsed;
-		}
-		else
-		{
-			Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Visible;
+			if ( Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines >= Simulator_SessionInfo_SessionInfoViewer.NumTotalLines )
+			{
+				Simulator_SessionInfo_SessionInfoViewer.ScrollIndex = 0;
+				Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Visible;
+			}
+
+			// telemetry data
+
+			Simulator_TelemetryData_TelemetryDataViewer.InvalidateVisual();
+
+			Simulator_TelemetryData_ScrollBar.Maximum = Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines - Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
+			Simulator_TelemetryData_ScrollBar.ViewportSize = Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
+
+			if ( Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines >= Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines )
+			{
+				Simulator_TelemetryData_TelemetryDataViewer.ScrollIndex = 0;
+				Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Visible;
+			}
 		}
 	}
 }
