@@ -14,9 +14,9 @@ namespace MarvinsAIRARefactored;
 
 public partial class App : Application
 {
-	public const string APP_FOLDER_NAME = "MarvinsAIRA Refactored";
+	public const string AppFolderName = "MarvinsAIRA Refactored";
 
-	public static string DocumentsFolder { get; } = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), APP_FOLDER_NAME );
+	public static string DocumentsFolder { get; } = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), AppFolderName );
 
 	public static App? Instance { get; private set; }
 
