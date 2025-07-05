@@ -27,8 +27,8 @@ public class Pedals
 	private const int UpdateInterval = 3;
 
 	public HPR.PedalsDevice PedalsDevice { get; private set; }
-
-	private int _updateCounter = UpdateInterval;
+	
+	private int _updateCounter = UpdateInterval + 3;
 
 	private bool _testing = false;
 	private bool _testJustStarted = false;
