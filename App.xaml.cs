@@ -1089,6 +1089,18 @@ public partial class App : Application
 				settings.PedalsNoiseDamper -= 0.01f;
 			}
 
+			// sounds master volume
+
+			if ( CheckMappedButtons( settings.SoundsMasterVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsMasterVolume += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsMasterVolumeMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsMasterVolume -= 0.01f;
+			}
+
 			// sounds abs engaged volume
 
 			if ( CheckMappedButtons( settings.SoundsABSEngagedVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )

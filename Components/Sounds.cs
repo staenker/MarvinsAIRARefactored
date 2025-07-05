@@ -60,7 +60,7 @@ public class Sounds
 			if ( keyValuePair.Key == _testSoundEffectType )
 			{
 				keyValuePair.Value.ShouldBePlaying = true;
-				keyValuePair.Value.Volume = 1f;
+				keyValuePair.Value.Volume = settings.SoundsMasterVolume;
 			}
 			else
 			{
@@ -69,49 +69,54 @@ public class Sounds
 			}
 		}
 
-		// abs engaged
+		// master sound switch can disable everything
 
-		if ( settings.SoundsABSEngagedEnabled )
+		if ( settings.SoundsMasterEnabled )
 		{
-			if ( app.Simulator.BrakeABSactive )
+			// abs engaged
+
+			if ( settings.SoundsABSEngagedEnabled )
 			{
-				_soundEffects[ SoundEffectType.ABSEngaged ].ShouldBePlaying = true;
-				_soundEffects[ SoundEffectType.ABSEngaged ].Volume = ( settings.SoundsABSEngagedFadeWithBrake ) ? ( app.Simulator.Brake * 0.75f + 0.25f ) : 1f;
-			}
-		}
-
-		// wheel lock
-
-		if ( settings.SoundsWheelLockEnabled )
-		{
-			if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
-			{
-				var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelLockSensitivity;
-				var difference = app.Simulator.CurrentRpmSpeedRatio - adjustedRpmSpeedRatio;
-				var differencePct = difference / adjustedRpmSpeedRatio;
-
-				if ( differencePct > 0.05f )
+				if ( app.Simulator.BrakeABSactive )
 				{
-					_soundEffects[ SoundEffectType.WheelLock ].ShouldBePlaying = true;
-					_soundEffects[ SoundEffectType.WheelLock ].Volume = ( settings.SoundsWheelLockFadeWithBrake ) ? ( app.Simulator.Brake * 0.75f + 0.25f ) : 1f;
+					_soundEffects[ SoundEffectType.ABSEngaged ].ShouldBePlaying = true;
+					_soundEffects[ SoundEffectType.ABSEngaged ].Volume = settings.SoundsMasterVolume * ( ( settings.SoundsABSEngagedFadeWithBrake ) ? ( app.Simulator.Brake * 0.9f + 0.1f ) : 1f );
 				}
 			}
-		}
 
-		// wheel spin
+			// wheel lock
 
-		if ( settings.SoundsWheelSpinEnabled )
-		{
-			if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
+			if ( settings.SoundsWheelLockEnabled )
 			{
-				var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelSpinSensitivity;
-				var difference = adjustedRpmSpeedRatio - app.Simulator.CurrentRpmSpeedRatio;
-				var differencePct = difference / adjustedRpmSpeedRatio;
-
-				if ( differencePct > 0.05f )
+				if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
 				{
-					_soundEffects[ SoundEffectType.WheelSpin ].ShouldBePlaying = true;
-					_soundEffects[ SoundEffectType.WheelSpin ].Volume = ( settings.SoundsWheelSpinFadeWithThrottle ) ? ( app.Simulator.Throttle * 0.75f + 0.25f ) : 1f;
+					var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelLockSensitivity;
+					var difference = app.Simulator.CurrentRpmSpeedRatio - adjustedRpmSpeedRatio;
+					var differencePct = difference / adjustedRpmSpeedRatio;
+
+					if ( differencePct > 0.05f )
+					{
+						_soundEffects[ SoundEffectType.WheelLock ].ShouldBePlaying = true;
+						_soundEffects[ SoundEffectType.WheelLock ].Volume = settings.SoundsMasterVolume * ( ( settings.SoundsWheelLockFadeWithBrake ) ? ( app.Simulator.Brake * 0.9f + 0.1f ) : 1f );
+					}
+				}
+			}
+
+			// wheel spin
+
+			if ( settings.SoundsWheelSpinEnabled )
+			{
+				if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
+				{
+					var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelSpinSensitivity;
+					var difference = adjustedRpmSpeedRatio - app.Simulator.CurrentRpmSpeedRatio;
+					var differencePct = difference / adjustedRpmSpeedRatio;
+
+					if ( differencePct > 0.05f )
+					{
+						_soundEffects[ SoundEffectType.WheelSpin ].ShouldBePlaying = true;
+						_soundEffects[ SoundEffectType.WheelSpin ].Volume = settings.SoundsMasterVolume * ( ( settings.SoundsWheelSpinFadeWithThrottle ) ? ( app.Simulator.Throttle * 0.9f + 0.1f ) : 1f );
+					}
 				}
 			}
 		}

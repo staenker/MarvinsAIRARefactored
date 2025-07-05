@@ -3745,6 +3745,73 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Sounds - Master enabled
+
+	private bool _soundsMasterEnabled = true;
+
+	public bool SoundsMasterEnabled
+	{
+		get => _soundsMasterEnabled;
+
+		set
+		{
+			if ( value != _soundsMasterEnabled )
+			{
+				_soundsMasterEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Master volume
+
+	private float _soundsMasterVolume = 0.75f;
+
+	public float SoundsMasterVolume
+	{
+		get => _soundsMasterVolume;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 1f );
+
+			if ( value != _soundsMasterVolume )
+			{
+				_soundsMasterVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsMasterVolumeString = $"{_soundsMasterVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsMasterVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsMasterVolumeString
+	{
+		get => _soundsMasterVolumeString;
+
+		set
+		{
+			if ( value != _soundsMasterVolumeString )
+			{
+				_soundsMasterVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsMasterVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsMasterVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
 	#region Sounds - ABS engaged enabled
 
 	private bool _soundsABSEngagedEnabled = false;
@@ -3994,7 +4061,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Sounds - Wheel lock sensitivity
 
-	private float _soundsWheelLockSensitivity = 0.95f;
+	private float _soundsWheelLockSensitivity = 0.85f;
 
 	public float SoundsWheelLockSensitivity
 	{
@@ -4174,7 +4241,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Sounds - Wheel spin sensitivity
 
-	private float _soundsWheelSpinSensitivity = 0.95f;
+	private float _soundsWheelSpinSensitivity = 0.85f;
 
 	public float SoundsWheelSpinSensitivity
 	{
@@ -4846,7 +4913,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region App - UI scale
 
-	private float _appUIScale = 0.9f;
+	private float _appUIScale = 0.85f;
 
 	public float AppUIScale
 	{
