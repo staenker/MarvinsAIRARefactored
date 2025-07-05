@@ -870,7 +870,11 @@
     <comment>Sounds</comment>
   </data>
   <data name="SendChatMessages" xml:space="preserve">
-    <value>Send Chat Messages</value>
+    <value>Send private chat messages to the driver</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="EnableLogitechRPMLights" xml:space="preserve">
+    <value>Enable Logitech RPM lights</value>
     <comment>Racing wheel</comment>
   </data>
 </root>
