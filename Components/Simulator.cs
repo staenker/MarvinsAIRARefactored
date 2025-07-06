@@ -4,6 +4,7 @@ using System.Text;
 using PInvoke;
 
 using IRSDKSharper;
+using MarvinsAIRARefactored.Classes;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -519,9 +520,22 @@ public class Simulator
 		{
 			CurrentRpmSpeedRatio = VelocityX / RPM;
 
-			if ( ( PlayerTrackSurface == IRacingSdkEnum.TrkLoc.OnTrack ) && ( Brake == 0f ) && ( VelocityY < 0.1f ) )
+			if ( ( Brake == 0f ) && ( VelocityY < 0.1f ) && ( PlayerTrackSurface == IRacingSdkEnum.TrkLoc.OnTrack ) )
 			{
-				RPMSpeedRatios[ Gear ] = MathF.Max( CurrentRpmSpeedRatio, RPMSpeedRatios[ Gear ] );
+				var delta = MathF.Abs( CurrentRpmSpeedRatio - RPMSpeedRatios[ Gear ] );
+
+				if ( delta > 0.001f )
+				{
+					RPMSpeedRatios[ Gear ] = CurrentRpmSpeedRatio;
+				}
+				else if ( delta > 0f )
+				{
+					RPMSpeedRatios[ Gear ] = Misc.Lerp( RPMSpeedRatios[ Gear ], CurrentRpmSpeedRatio, 0.001f );
+				}
+				else
+				{
+					RPMSpeedRatios[ Gear ] = Misc.Lerp( RPMSpeedRatios[ Gear ], CurrentRpmSpeedRatio, 0.01f );
+				}
 
 				switch ( Gear )
 				{

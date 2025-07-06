@@ -90,14 +90,13 @@ public class Sounds
 			{
 				if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
 				{
-					var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelLockSensitivity;
-					var difference = app.Simulator.CurrentRpmSpeedRatio - adjustedRpmSpeedRatio;
-					var differencePct = difference / adjustedRpmSpeedRatio;
+					var difference = app.Simulator.CurrentRpmSpeedRatio - app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ];
+					var differencePct = ( difference / app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] ) - ( 1f - settings.PedalsWheelLockSensitivity );
 
-					if ( differencePct > 0.05f )
+					if ( differencePct > 0f )
 					{
 						_soundEffects[ SoundEffectType.WheelLock ].ShouldBePlaying = true;
-						_soundEffects[ SoundEffectType.WheelLock ].Volume = settings.SoundsMasterVolume * ( ( settings.SoundsWheelLockFadeWithBrake ) ? ( app.Simulator.Brake * 0.9f + 0.1f ) : 1f );
+						_soundEffects[ SoundEffectType.WheelLock ].Volume = settings.SoundsMasterVolume * Math.Clamp( differencePct / 0.03f, 0f, 1f ) * ( ( settings.SoundsWheelLockFadeWithBrake ) ? ( app.Simulator.Brake * 0.9f + 0.1f ) : 1f );
 					}
 				}
 			}
@@ -108,14 +107,13 @@ public class Sounds
 			{
 				if ( ( app.Simulator.CurrentRpmSpeedRatio > 0f ) && ( app.Simulator.Gear > 0 ) )
 				{
-					var adjustedRpmSpeedRatio = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] * settings.SoundsWheelSpinSensitivity;
-					var difference = adjustedRpmSpeedRatio - app.Simulator.CurrentRpmSpeedRatio;
-					var differencePct = difference / adjustedRpmSpeedRatio;
+					var difference = app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] - app.Simulator.CurrentRpmSpeedRatio;
+					var differencePct = ( difference / app.Simulator.RPMSpeedRatios[ app.Simulator.Gear ] ) - ( 1f - settings.PedalsWheelSpinSensitivity );
 
-					if ( differencePct > 0.05f )
+					if ( differencePct > 0f )
 					{
 						_soundEffects[ SoundEffectType.WheelSpin ].ShouldBePlaying = true;
-						_soundEffects[ SoundEffectType.WheelSpin ].Volume = settings.SoundsMasterVolume * ( ( settings.SoundsWheelSpinFadeWithThrottle ) ? ( app.Simulator.Throttle * 0.9f + 0.1f ) : 1f );
+						_soundEffects[ SoundEffectType.WheelSpin ].Volume = settings.SoundsMasterVolume * Math.Clamp( differencePct / 0.03f, 0f, 1f ) * ( ( settings.SoundsWheelSpinFadeWithThrottle ) ? ( app.Simulator.Throttle * 0.9f + 0.1f ) : 1f );
 					}
 				}
 			}
