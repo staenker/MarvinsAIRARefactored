@@ -9,7 +9,7 @@
         xmlns:datacontext="clr-namespace:MarvinsAIRARefactored.DataContext"
         mc:Ignorable="d"
         Title="{Binding Localization[NewVersionAvailable]}"
-        Icon="/artwork/white_icon.ico"
+        Icon="/Artwork/AppIcon/white_icon.ico"
         MinWidth="600"
         Width="800"
         MinHeight="150"
@@ -24,7 +24,7 @@
     </Window.DataContext>
 
     <Window.Background>
-        <ImageBrush ImageSource="/MarvinsAIRARefactored;component/artwork/background_buttonmapping.png" Stretch="UniformToFill" Opacity="0.2"/>
+        <ImageBrush ImageSource="/MarvinsAIRARefactored;component/Artwork/Backgrounds/background_buttonmapping.png" Stretch="UniformToFill" Opacity="0.2"/>
     </Window.Background>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -47,8 +47,8 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                <controls:MairaButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_cancel.png" Margin="10,10,10,0" Click="Cancel_MairaButton_Click"/>
-                <controls:MairaButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_thumbs_up.png" Margin="10,10,10,0" Click="ThumbsUp_MairaButton_Click"/>
+                <controls:MairaButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_cancel.png" Margin="10,10,10,0" Click="Cancel_MairaButton_Click"/>
+                <controls:MairaButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_thumbs_up.png" Margin="10,10,10,0" Click="ThumbsUp_MairaButton_Click"/>
 
             </StackPanel>
 

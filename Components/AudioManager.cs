@@ -1,9 +1,8 @@
 ﻿
-using System.IO;
-
-using SharpDX.XAudio2;
-
 using MarvinsAIRARefactored.Classes;
+using SharpDX.DirectSound;
+using SharpDX.XAudio2;
+using System.IO;
 
 namespace MarvinsAIRARefactored.Components
 {
@@ -197,19 +196,20 @@ namespace MarvinsAIRARefactored.Components
 			}
 		}
 
-		public bool SomethingIsPlaying()
+		public bool IsPlaying( string key )
 		{
-			foreach ( var keyValuePair in _soundPlayerCache )
+			using ( _lock.EnterScope() )
 			{
-				var soundPlayer = keyValuePair.Value;
-
-				if ( soundPlayer.IsPlaying() )
+				if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
 				{
-					return true;
+					if ( !_soundPlayerCache.TryGetValue( key, out player ) )
+					{
+						player = null;
+					}
 				}
-			}
 
-			return false;
+				return player?.IsPlaying() ?? false;
+			}
 		}
 
 		public void Dispose()

@@ -9,18 +9,10 @@
     <Version>2.0.$([MSBuild]::Subtract($([System.Math]::Floor($([MSBuild]::Divide($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)))), 20180)).$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 60))</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>artwork\white_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Artwork\AppIcon\white_icon.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="AdminBoxx\code.py" />
-    <None Remove="Artwork\icon_left_small.png" />
-    <None Remove="Artwork\icon_right_small.png" />
-    <None Remove="Artwork\icon_target.png" />
-    <None Remove="Artwork\icon_up_small.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -39,49 +31,57 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Artwork\background_adminboxx.png" />
-    <Resource Include="Artwork\background_pedals.png" />
-    <Resource Include="Artwork\background_racingwheel.png" />
-    <Resource Include="Artwork\icon_binoculars.png" />
-    <Resource Include="Artwork\icon_cancel.png" />
-    <Resource Include="Artwork\icon_left_small.png" />
-    <Resource Include="Artwork\icon_magic.png" />
-    <Resource Include="Artwork\icon_record_off.png" />
-    <Resource Include="Artwork\icon_right_small.png" />
-    <Resource Include="Artwork\icon_target.png" />
-    <Resource Include="Artwork\icon_thumbs_up.png" />
-    <Resource Include="Artwork\icon_up_small.png" />
-    <Resource Include="Artwork\icon_zero.png" />
-    <Resource Include="Artwork\power_led_black.png" />
-    <Resource Include="Artwork\round_button_disabled.png" />
-    <Resource Include="Artwork\round_button_disabled_small.png" />
-    <Resource Include="Artwork\round_button_mapped.png" />
-    <Resource Include="Artwork\round_button_mapped_small.png" />
-    <Resource Include="Artwork\background_buttonmapping.png" />
-    <Resource Include="Artwork\simagic_logo.png" />
-    <Resource Include="Artwork\white_icon.ico" />
-    <Resource Include="Artwork\background_app.png" />
-    <Resource Include="Artwork\dial.png" />
-    <Resource Include="Artwork\dial_marker.png" />
-    <Resource Include="Artwork\icon_down_small.png" />
-    <Resource Include="Artwork\icon_minus_small.png" />
-    <Resource Include="Artwork\icon_plus.png" />
-    <Resource Include="Artwork\icon_plus_small.png" />
-    <Resource Include="Artwork\icon_record_on.png" />
-    <Resource Include="Artwork\icon_reset.png" />
-    <Resource Include="Artwork\icon_vibrate.png" />
-    <Resource Include="Artwork\icon_trash.png" />
-    <Resource Include="Artwork\power_led_green.png" />
-    <Resource Include="Artwork\power_led_red.png" />
-    <Resource Include="Artwork\power_led_yellow.png" />
-    <Resource Include="Artwork\round_button_down_arrow.png" />
-    <Resource Include="Artwork\round_button.png" />
-    <Resource Include="Artwork\round_button_small.png" />
-    <Resource Include="Artwork\round_button_pressed.png" />
-    <Resource Include="Artwork\round_button_pressed_small.png" />
-    <Resource Include="Artwork\switch_off.png" />
-    <Resource Include="Artwork\switch_on.png" />
-    <Resource Include="Artwork\white_icon.png" />
+    <Resource Include="Artwork\AppIcon\white_icon.ico" />
+    <Resource Include="Artwork\Backgrounds\background_adminboxx.png" />
+    <Resource Include="Artwork\Backgrounds\background_app.png" />
+    <Resource Include="Artwork\Backgrounds\background_buttonmapping.png" />
+    <Resource Include="Artwork\Backgrounds\background_pedals.png" />
+    <Resource Include="Artwork\Backgrounds\background_racingwheel.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_binoculars.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_cancel.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_down_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_left_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_magic.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_minus_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_plus.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_plus_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_record_off.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_record_on.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_reset.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_right_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_target.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_thumbs_up.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_trash.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_up_small.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_vibrate.png" />
+    <Resource Include="Artwork\ButtonIcons\icon_zero.png" />
+    <Resource Include="Artwork\ButtonIcons\power_led_black.png" />
+    <Resource Include="Artwork\ButtonIcons\power_led_green.png" />
+    <Resource Include="Artwork\ButtonIcons\power_led_red.png" />
+    <Resource Include="Artwork\ButtonIcons\power_led_yellow.png" />
+    <Resource Include="Artwork\ComboBox\round_button_down_arrow.png" />
+    <Resource Include="Artwork\Dial\dial.png" />
+    <Resource Include="Artwork\Dial\dial_marker.png" />
+    <Resource Include="Artwork\Flags\brazil.png" />
+    <Resource Include="Artwork\Flags\canada.png" />
+    <Resource Include="Artwork\Flags\czech-republic.png" />
+    <Resource Include="Artwork\Flags\france.png" />
+    <Resource Include="Artwork\Flags\germany.png" />
+    <Resource Include="Artwork\Flags\italy.png" />
+    <Resource Include="Artwork\Flags\netherlands.png" />
+    <Resource Include="Artwork\Flags\russia.png" />
+    <Resource Include="Artwork\Flags\spain.png" />
+    <Resource Include="Artwork\Misc\simagic_logo.png" />
+    <Resource Include="Artwork\RoundButton\round_button.png" />
+    <Resource Include="Artwork\RoundButton\round_button_disabled.png" />
+    <Resource Include="Artwork\RoundButton\round_button_disabled_small.png" />
+    <Resource Include="Artwork\RoundButton\round_button_mapped.png" />
+    <Resource Include="Artwork\RoundButton\round_button_mapped_small.png" />
+    <Resource Include="Artwork\RoundButton\round_button_pressed.png" />
+    <Resource Include="Artwork\RoundButton\round_button_pressed_small.png" />
+    <Resource Include="Artwork\RoundButton\round_button_small.png" />
+    <Resource Include="Artwork\Switch\switch_off.png" />
+    <Resource Include="Artwork\Switch\switch_on.png" />
     <Resource Include="Fonts\digital-7 (mono).ttf" />
   </ItemGroup>
 

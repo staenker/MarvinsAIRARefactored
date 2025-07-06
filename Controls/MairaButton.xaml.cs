@@ -138,9 +138,9 @@ public partial class MairaButton : UserControl
 	{
 		if ( Small )
 		{
-			Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_small.png" ) as ImageSource;
-			Pressed_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_pressed_small.png" ) as ImageSource;
-			Disabled_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_disabled_small.png" ) as ImageSource;
+			Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_small.png" ) as ImageSource;
+			Pressed_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_pressed_small.png" ) as ImageSource;
+			Disabled_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_disabled_small.png" ) as ImageSource;
 
 			Normal_Image.Height = 24;
 			Pressed_Image.Height = 24;
@@ -150,9 +150,9 @@ public partial class MairaButton : UserControl
 		}
 		else
 		{
-			Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button.png" ) as ImageSource;
-			Pressed_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_pressed.png" ) as ImageSource;
-			Disabled_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_disabled.png" ) as ImageSource;
+			Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button.png" ) as ImageSource;
+			Pressed_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_pressed.png" ) as ImageSource;
+			Disabled_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_disabled.png" ) as ImageSource;
 
 			Normal_Image.Height = 48;
 			Pressed_Image.Height = 48;

@@ -9,6 +9,7 @@ using Color = System.Windows.Media.Color;
 using Control = System.Windows.Controls.Control;
 using FlowDirection = System.Windows.FlowDirection;
 using Point = System.Windows.Point;
+using ScrollBar = System.Windows.Controls.Primitives.ScrollBar;
 
 namespace MarvinsAIRARefactored.Viewers;
 
@@ -29,13 +30,26 @@ public class SessionInfoViewer : Control
 	private const double _lineHeight = 24;
 	private const double _fontSize = 15;
 
+	private ScrollBar? _scrollBar = null;
+
 	static SessionInfoViewer()
 	{
 		DefaultStyleKeyProperty.OverrideMetadata( typeof( SessionInfoViewer ), new FrameworkPropertyMetadata( typeof( SessionInfoViewer ) ) );
 	}
+
+	public void Initialize( ScrollBar scrollBar )
+	{
+		_scrollBar = scrollBar;
+	}
+
 	protected override void OnRender( DrawingContext drawingContext )
 	{
-		var app = App.Instance!;
+		var app = App.Instance;
+
+		if ( app == null )
+		{
+			return;
+		}
 
 		var irsdk = app.Simulator.IRSDK;
 
@@ -57,6 +71,23 @@ public class SessionInfoViewer : Control
 
 		NumTotalLines = lineIndex;
 		NumVisibleLines = (int) Math.Floor( ActualHeight / _lineHeight );
+
+		if ( _scrollBar != null )
+		{
+			_scrollBar.Maximum = NumTotalLines - NumVisibleLines;
+			_scrollBar.ViewportSize = NumVisibleLines;
+
+			if ( NumVisibleLines >= NumTotalLines )
+			{
+				ScrollIndex = 0;
+
+				_scrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				_scrollBar.Visibility = Visibility.Visible;
+			}
+		}
 	}
 
 	private void DrawSessionInfo( DrawingContext drawingContext, string propertyName, object? valueAsObject, int indent, ref Point point, ref int lineIndex, ref bool stopDrawing )

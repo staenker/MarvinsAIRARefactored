@@ -68,7 +68,7 @@ public partial class AdminBoxx
 
 	private static readonly Color[,] _playbackEnabledColors = new Color[ _numRows, _numColumns ]
 	{
-		{ Green, Red, Red, Red, Cyan,     Cyan,     Green,    Cyan     },
+		{ Green, Red, Red, Red, Cyan,     Cyan,     Green,    Green    },
 		{ Green, Red, Red, Red, Cyan,     Cyan,     Cyan,     Cyan     },
 		{ Green, Red, Red, Red, Green,    Disabled, Green,    Green    },
 		{ Green, Red, Red, Red, Disabled, Disabled, Disabled, Disabled }
@@ -82,13 +82,10 @@ public partial class AdminBoxx
 		{ Red, Yellow, Cyan, Green, Red, Red, Red, Red }
 	};
 
-	private bool _globalChatEnabled = true;
-	private readonly HashSet<string> _driverChatDisabled = [];
-
 	private bool _inNumpadMode = false;
 	private bool _replayEnabled = false;
-	private bool _blackFlagDriveThrough = false;
 	private bool _singleFilePaceMode = false;
+	private bool _globalChatEnabled = true;
 	private bool _carNumberIsRequired = false;
 
 	private bool _shownYellowFlag = false;
@@ -102,9 +99,6 @@ public partial class AdminBoxx
 	private bool _shownBlueFlag = false;
 	private bool _shownRedFlag = false;
 
-	private int _connectCounter = 0;
-	private int _connectState = 0;
-
 	private int _wavingFlagCounter = 0;
 	private int _wavingFlagNumberOfTimes = 0;
 	private int _wavingFlagState = 0;
@@ -114,14 +108,20 @@ public partial class AdminBoxx
 	private int _testCounter = 0;
 	private int _testState = 0;
 
-	private int _beepCounter = 0;
-	private int _beepsRemaining = 0;
+	private int _sequenceCounter = 0;
+	private int _sequenceState = 0;
+	private int _sequenceBeepsRemaining = 0;
+	private bool _sequenceBlinkWhenBeeping = false;
+	private bool _sequenceBlinkState = false;
+	private Color _sequenceBlinkColor = Disabled;
+	private int _sequenceBlinkX = 0;
+	private int _sequenceBlinkY = 0;
+	private string? _sequenceSoundToPlay = null;
+	private string? _sequenceDriverNumberToSay = null;
+	private int _sequenceDriverNumberToSayIndex = 0;
+	private int _sequenceDriverNumberState = 0;
 
-	private string? _soundToPlay = null;
-	private string? _driverNumberToSay = null;
-	private int _driverNumberToSayIndex = 0;
-
-	private int _blinkCounter = 60;
+	private int _cautionBlinkCounter = 60;
 
 	private float _brightness = 1f;
 
@@ -171,13 +171,14 @@ public partial class AdminBoxx
 		var app = App.Instance!;
 
 		string[] soundKeys = [
-			"beep",
+			"adminboxx_tone", "iracing_tone", "replay_tone",
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 			"restart_is_double_file", "restart_is_single_file",
 			"caution_extended_by_one_lap", "caution_shortened_by_one_lap",
-			"we_are_under_caution",
-			"black_flag_driver_number", "clear_driver_number", "wave_by_driver_number", "end_of_line_driver_number", "disqualify_driver_number",
-			"connected_to_adminboxx_app", "connected_to_iracing_simulator",
+			"chat_disabled", "chat_enabled",
+			"we_are_under_caution", "all_penalties_cleared", "session_has_been_advanced",
+			"black_flag_driver_number", "clear_driver_number", "wave_by_driver_number", "end_of_line_driver_number", "disqualify_driver_number", "remove_driver_number",
+			"connected_to_adminboxx_app", "connected_to_iracing_simulator", "disconnected_from_iracing_simulator"
 		];
 
 		app.AudioManager.LoadSounds( "AdminBoxx", soundKeys );
@@ -202,7 +203,14 @@ public partial class AdminBoxx
 
 			UpdateColors( _blueNoiseLedOrder, true );
 
-			PlayAudio( 3, "connected_to_adminboxx_app", null );
+			if ( app.Simulator.IsConnected )
+			{
+				RunSequence( 0, false, null, 0, 0, "connected_to_iracing_simulator" );
+			}
+			else
+			{
+				RunSequence( 3, true, Green, 3, 3, "connected_to_adminboxx_app" );
+			}
 
 			RequestVersionNumber();
 		}
@@ -279,9 +287,7 @@ public partial class AdminBoxx
 
 		if ( IsConnected )
 		{
-			StopAudio( "connected_to_adminboxx_app" );
-
-			PlayAudio( 3, "connected_to_iracing_simulator", null );
+			RunSequence( 0, false, null, 0, 0, "connected_to_iracing_simulator" );
 		}
 	}
 
@@ -291,9 +297,13 @@ public partial class AdminBoxx
 
 		_inNumpadMode = false;
 
+		_singleFilePaceMode = false;
 		_globalChatEnabled = true;
 
-		_driverChatDisabled.Clear();
+		if ( IsConnected )
+		{
+			RunSequence( 3, true, Green, 3, 3, "disconnected_from_iracing_simulator" );
+		}
 	}
 
 	public void StartTestCycle()
@@ -327,7 +337,7 @@ public partial class AdminBoxx
 
 				if ( ( app.Simulator.SessionFlags & IRacingSdkEnum.Flags.CautionWaving ) != 0 )
 				{
-					PlayAudio( 0, "we_are_under_caution", null );
+					RunSequence( 2, false, null, 0, 0, "we_are_under_caution" );
 				}
 			}
 		}
@@ -493,6 +503,9 @@ public partial class AdminBoxx
 		_wavingFlagCheckered = checkered;
 		_wavingFlagNumberOfTimes = numberOfTimes;
 		_wavingFlagCounter = 1;
+
+		_sequenceState = 0;
+		_sequenceCounter = 0;
 	}
 
 	private void SetLEDToColor( int y, int x, Color color, bool forceUpdate )
@@ -522,11 +535,7 @@ public partial class AdminBoxx
 		{
 			SetAllLEDsToColor( Disabled, _wavingFlagLedOrder, forceUpdate );
 
-			SetLEDToColor( 0, 1, Red, forceUpdate );
-			SetLEDToColor( 0, 2, Yellow, forceUpdate );
-
-			_connectState = 0;
-			_connectCounter = 45;
+			SetLEDToColor( 3, 3, Green, forceUpdate );
 		}
 		else
 		{
@@ -667,8 +676,6 @@ public partial class AdminBoxx
 			{
 				_carNumberCallback?.Invoke();
 			}
-
-			_blackFlagDriveThrough = false;
 
 			return true;
 		}
@@ -819,6 +826,8 @@ public partial class AdminBoxx
 				case 8: SetLEDToColor( 2, 2, Magenta, false ); break;
 				case 9: SetLEDToColor( 2, 3, Magenta, false ); break;
 			}
+
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( $"[AdminBoxx] <<< DoNumber( {number} )" );
@@ -834,7 +843,7 @@ public partial class AdminBoxx
 		{
 			LeaveNumpadMode( false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoEscape" );
@@ -869,7 +878,7 @@ public partial class AdminBoxx
 			{
 				app.ChatQueue.SendMessage( "!yellow" );
 
-				PlayAudio( 3, null, null );
+				RunSequence( 3, true, Yellow, 0, 0 );
 			}
 		}
 
@@ -888,24 +897,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 0, 4, Cyan, false );
 
-			PlayAudio( 1, null, null );
-		}
-		else if ( _carNumberCallback == BlackFlagCallback )
-		{
-			_blackFlagDriveThrough = !_blackFlagDriveThrough;
-
-			if ( _blackFlagDriveThrough )
-			{
-				SetLEDToColor( 0, 4, Yellow, false );
-
-				PlayAudio( 2, null, null );
-			}
-			else
-			{
-				SetLEDToColor( 0, 4, Cyan, false );
-
-				PlayAudio( 1, null, null );
-			}
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoBlackFlag" );
@@ -917,17 +909,9 @@ public partial class AdminBoxx
 
 		app.Logger.WriteLine( "[AdminBoxx] BlackFlagCallback >>>" );
 
-		if ( _blackFlagDriveThrough )
-		{
-			app.ChatQueue.SendMessage( $"!black #{_carNumber} D" );
+		app.ChatQueue.SendMessage( $"!black #{_carNumber}" );
 
-		}
-		else
-		{
-			app.ChatQueue.SendMessage( $"!black #{_carNumber}" );
-		}
-
-		PlayAudio( 1, "black_flag_driver_number", _carNumber );
+		RunSequence( 1, false, null, 0, 0, "black_flag_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< BlackFlagCallback" );
 	}
@@ -944,7 +928,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 0, 5, Cyan, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoClearFlag" );
@@ -958,7 +942,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!clear #{_carNumber}" );
 
-		PlayAudio( 1, "clear_driver_number", _carNumber );
+		RunSequence( 1, false, null, 0, 0, "clear_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< ClearFlagCallback" );
 	}
@@ -972,6 +956,8 @@ public partial class AdminBoxx
 		if ( !_inNumpadMode )
 		{
 			app.ChatQueue.SendMessage( "!clearall" );
+
+			RunSequence( 1, true, White, 6, 0, "all_penalties_cleared" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoClearAllFlags" );
@@ -985,70 +971,25 @@ public partial class AdminBoxx
 
 		if ( !_inNumpadMode )
 		{
-			EnterNumpadMode( ChatCallback, false );
-
-			SetLEDToColor( 0, 7, Cyan, false );
-		}
-		else
-		{
-			_driverChatDisabled.Clear();
-
 			if ( _globalChatEnabled )
 			{
 				app.ChatQueue.SendMessage( "!nchat" );
 
 				_globalChatEnabled = false;
+
+				RunSequence( 1, true, White, 7, 0, "chat_disabled" );
 			}
 			else
 			{
 				app.ChatQueue.SendMessage( "!chat" );
 
 				_globalChatEnabled = true;
-			}
 
-			LeaveNumpadMode( false );
+				RunSequence( 1, true, White, 7, 0, "chat_enabled" );
+			}
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoChat" );
-	}
-
-	private void ChatCallback()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[AdminBoxx] ChatCallback >>>" );
-
-		if ( _carNumber == string.Empty )
-		{
-			_driverChatDisabled.Clear();
-
-			if ( _globalChatEnabled )
-			{
-				app.ChatQueue.SendMessage( "!nchat" );
-
-				_globalChatEnabled = false;
-			}
-			else
-			{
-				app.ChatQueue.SendMessage( "!chat" );
-
-				_globalChatEnabled = true;
-			}
-		}
-		else if ( _driverChatDisabled.Contains( _carNumber ) )
-		{
-			app.ChatQueue.SendMessage( $"!chat #{_carNumber}" );
-
-			_driverChatDisabled.Remove( _carNumber );
-		}
-		else
-		{
-			app.ChatQueue.SendMessage( $"!nchat #{_carNumber}" );
-
-			_driverChatDisabled.Add( _carNumber );
-		}
-
-		app.Logger.WriteLine( "[AdminBoxx] <<< ChatCallback" );
 	}
 
 	private void DoTogglePaceMode()
@@ -1065,13 +1006,13 @@ public partial class AdminBoxx
 			{
 				app.ChatQueue.SendMessage( "!restart single" );
 
-				PlayAudio( 1, "restart_is_single_file", null );
+				RunSequence( 1, true, White, 0, 1, "restart_is_single_file", null );
 			}
 			else
 			{
 				app.ChatQueue.SendMessage( "!restart double" );
 
-				PlayAudio( 2, "restart_is_double_file", null );
+				RunSequence( 2, true, White, 0, 1, "restart_is_double_file", null );
 			}
 		}
 
@@ -1090,7 +1031,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 4, Cyan, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoWaveByDriver" );
@@ -1104,7 +1045,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!waveby #{_carNumber}" );
 
-		PlayAudio( 1, "wave_by_driver_number", _carNumber );
+		RunSequence( 1, false, null, 0, 0, "wave_by_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< WaveByDriverCallback" );
 	}
@@ -1121,7 +1062,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 5, Cyan, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoEndOfLineDriver" );
@@ -1135,7 +1076,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!eol #{_carNumber}" );
 
-		PlayAudio( 1, "end_of_line_driver_number", _carNumber );
+		RunSequence( 1, false, null, 0, 0, "end_of_line_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< EndOfLineDriverCallback" );
 	}
@@ -1152,7 +1093,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 6, Cyan, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoDisqualifyDriver" );
@@ -1166,7 +1107,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!dq #{_carNumber}" );
 
-		PlayAudio( 1, "disqualify_driver_number", _carNumber );
+		RunSequence( 1, false, null, 0, 0, "disqualify_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DisqualifyDriverCallback" );
 	}
@@ -1183,7 +1124,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 7, Cyan, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoRemoveDriver" );
@@ -1196,6 +1137,8 @@ public partial class AdminBoxx
 		app.Logger.WriteLine( "[AdminBoxx] RemoveDriverCallback >>>" );
 
 		app.ChatQueue.SendMessage( $"!remove #{_carNumber}" );
+
+		RunSequence( 1, false, null, 0, 0, "remove_driver_number", _carNumber );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< RemoveDriverCallback" );
 	}
@@ -1210,7 +1153,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!pacelaps +1" );
 
-			PlayAudio( 2, "caution_extended_by_one_lap", null );
+			RunSequence( 1, true, White, 0, 2, "caution_extended_by_one_lap", null );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoPlusOneLap" );
@@ -1226,7 +1169,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!advance" );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1, true, White, 4, 2, "session_has_been_advanced", null );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoAdvanceToNextSession" );
@@ -1243,7 +1186,7 @@ public partial class AdminBoxx
 			app.Simulator.IRSDK.ReplaySetPlayPosition( IRacingSdkEnum.RpyPosMode.End, 0 );
 			app.Simulator.IRSDK.ReplaySetPlaySpeed( 16, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoLive" );
@@ -1259,7 +1202,7 @@ public partial class AdminBoxx
 		{
 			app.Simulator.IRSDK.ReplaySearch( IRacingSdkEnum.RpySrchMode.PrevIncident );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoGoToPreviousIncident" );
@@ -1275,7 +1218,7 @@ public partial class AdminBoxx
 		{
 			app.Simulator.IRSDK.ReplaySearch( IRacingSdkEnum.RpySrchMode.NextIncident );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoGoToNextIncident" );
@@ -1291,7 +1234,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!pacelaps -1" );
 
-			PlayAudio( 2, "caution_shortened_by_one_lap", null );
+			RunSequence( 1, true, White, 0, 3, "caution_shortened_by_one_lap", null );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoMinusOneLap" );
@@ -1332,7 +1275,7 @@ public partial class AdminBoxx
 
 			app.Simulator.IRSDK.ReplaySetPlaySpeed( replayPlaySpeed, true );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoSlowMotion" );
@@ -1359,7 +1302,7 @@ public partial class AdminBoxx
 
 			app.Simulator.IRSDK.ReplaySetPlaySpeed( replayPlaySpeed, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoReverse" );
@@ -1384,7 +1327,7 @@ public partial class AdminBoxx
 				replayPlaySpeed = 0;
 			}
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 
 			app.Simulator.IRSDK.ReplaySetPlaySpeed( replayPlaySpeed, false );
 		}
@@ -1413,7 +1356,7 @@ public partial class AdminBoxx
 
 			app.Simulator.IRSDK.ReplaySetPlaySpeed( replayPlaySpeed, false );
 
-			PlayAudio( 1, null, null );
+			RunSequence( 1 );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoFastForward" );
@@ -1459,30 +1402,24 @@ public partial class AdminBoxx
 		app.Logger.WriteLine( "[AdminBoxx] <<< HandleVersionNumber" );
 	}
 
-	private void PlayAudio( int beepCount, string? key, string? driverNumberToSay )
+	private void RunSequence( int beepCount, bool blinkWhenBeeping = false, Color? blinkColor = null, int blinkX = 0, int blinkY = 0, string? key = null, string? driverNumberToSay = null )
 	{
-		_beepsRemaining = beepCount;
-		_beepCounter = 1;
+		_sequenceState = 0;
+		_sequenceCounter = 1;
 
-		_soundToPlay = key;
+		_sequenceBeepsRemaining = beepCount;
 
-		_driverNumberToSay = driverNumberToSay;
-		_driverNumberToSayIndex = 0;
-	}
+		_sequenceBlinkWhenBeeping = blinkWhenBeeping;
+		_sequenceBlinkState = false;
+		_sequenceBlinkColor = blinkColor ?? Disabled;
+		_sequenceBlinkX = blinkX;
+		_sequenceBlinkY = blinkY;
 
-	private void StopAudio( string key )
-	{
-		var app = App.Instance!;
+		_sequenceSoundToPlay = key;
 
-		app.AudioManager.Stop( key );
-
-		if ( _soundToPlay == key )
-		{
-			_beepsRemaining = 0;
-			_beepCounter = 0;
-
-			_soundToPlay = null;
-		}
+		_sequenceDriverNumberToSay = driverNumberToSay;
+		_sequenceDriverNumberToSayIndex = 0;
+		_sequenceDriverNumberState = 0;
 	}
 
 	private void OnPortClosed( object? sender, EventArgs e )
@@ -1522,37 +1459,6 @@ public partial class AdminBoxx
 
 	public void Tick( App app )
 	{
-		_blinkCounter--;
-
-		if ( _connectCounter > 0 )
-		{
-			_wavingFlagCounter = 0;
-			_testCounter = 0;
-
-			if ( Interlocked.Decrement( ref _connectCounter ) == 0 )
-			{
-				_connectCounter = 15;
-
-				switch ( Interlocked.Increment( ref _connectState ) )
-				{
-					case 1:
-					case 3:
-					case 5:
-						SetLEDToColor( 0, 3, Green, false );
-						break;
-
-					case 2:
-					case 4:
-						SetLEDToColor( 0, 3, Disabled, false );
-						break;
-
-					case 6:
-						_connectCounter = 0;
-						break;
-				}
-			}
-		}
-
 		if ( _wavingFlagCounter > 0 )
 		{
 			if ( Interlocked.Decrement( ref _wavingFlagCounter ) == 0 )
@@ -1646,11 +1552,27 @@ public partial class AdminBoxx
 		}
 		else if ( _wavingFlagCounter == 0 )
 		{
-			if ( !_inNumpadMode && app.Simulator.IsConnected )
+			if ( !_inNumpadMode && app.Simulator.IsConnected && ( ( _sequenceCounter == 0 ) || ( _sequenceState >= 3 ) ) )
 			{
 				if ( ( app.Simulator.SessionFlags & ( IRacingSdkEnum.Flags.Yellow | IRacingSdkEnum.Flags.YellowWaving | IRacingSdkEnum.Flags.Caution | IRacingSdkEnum.Flags.CautionWaving ) ) != 0 )
 				{
-					SetLEDToColor( 0, 0, _blinkCounter >= 30 ? Yellow : Disabled, false );
+					_cautionBlinkCounter--;
+
+					SetLEDToColor( 0, 0, _cautionBlinkCounter >= 30 ? Yellow : Disabled, false );
+
+					if ( _cautionBlinkCounter == 0 )
+					{
+						_cautionBlinkCounter = 60;
+					}
+				}
+
+				if ( _globalChatEnabled )
+				{
+					SetLEDToColor( 0, 7, Green, false );
+				}
+				else
+				{
+					SetLEDToColor( 0, 7, Disabled, false );
 				}
 
 				if ( _singleFilePaceMode )
@@ -1673,52 +1595,129 @@ public partial class AdminBoxx
 			}
 		}
 
-		if ( _beepCounter > 0 )
+		if ( _sequenceCounter > 0 )
 		{
-			_beepCounter--;
+			_sequenceCounter--;
 
-			if ( _beepCounter == 0 )
+			if ( _sequenceCounter == 0 )
 			{
-				if ( _beepsRemaining > 0 )
+				switch ( _sequenceState )
 				{
-					app.AudioManager.Play( "beep", DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
+					case 0: // turn off all leds (if we want to blink)
 
-					_beepsRemaining--;
-
-					_beepCounter = 30;
-				}
-				else if ( _soundToPlay != null )
-				{
-					app.AudioManager.Play( _soundToPlay, DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
-
-					_soundToPlay = null;
-
-					_beepCounter = 1;
-				}
-				else if ( _driverNumberToSay != null )
-				{
-					if ( !app.AudioManager.SomethingIsPlaying() )
-					{
-						var nextNumberToSay = _driverNumberToSay[ _driverNumberToSayIndex ];
-
-						app.AudioManager.Play( $"{nextNumberToSay}", DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
-
-						_driverNumberToSayIndex++;
-
-						if ( _driverNumberToSayIndex == _driverNumberToSay.Length )
+						if ( _sequenceBlinkWhenBeeping )
 						{
-							_driverNumberToSay = null;
+							SetAllLEDsToColor( Disabled, _blueNoiseLedOrder, false );
 						}
-					}
 
-					_beepCounter = 1;
+						_sequenceState++;
+						_sequenceCounter = 1;
+
+						break;
+
+					case 1: // beep / blink
+
+						if ( _sequenceBeepsRemaining == 0 )
+						{
+							_sequenceState++;
+							_sequenceCounter = 1;
+						}
+						else
+						{
+							_sequenceBlinkState = !_sequenceBlinkState;
+
+							if ( _sequenceBlinkState )
+							{
+								app.AudioManager.Play( "adminboxx_tone", DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
+
+								_sequenceBeepsRemaining--;
+
+								if ( _sequenceBeepsRemaining == 0 )
+								{
+									_sequenceState++;
+								}
+							}
+
+							if ( _sequenceBlinkWhenBeeping )
+							{
+								SetLEDToColor( _sequenceBlinkY, _sequenceBlinkX, _sequenceBlinkState ? _sequenceBlinkColor : Disabled, false );
+							}
+
+							_sequenceCounter = 30;
+						}
+
+						break;
+
+					case 2: // restore led colors
+
+						if ( _sequenceBlinkWhenBeeping )
+						{
+							UpdateColors( _blueNoiseLedOrder, false );
+						}
+
+						_sequenceState++;
+						_sequenceCounter = 1;
+
+						break;
+
+					case 3: // say phrase
+
+						if ( _sequenceSoundToPlay != null )
+						{
+							app.AudioManager.Play( _sequenceSoundToPlay, DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
+						}
+
+						_sequenceState++;
+						_sequenceCounter = 1;
+
+						break;
+
+					case 4: // wait for phrase to finish
+
+						if ( ( _sequenceSoundToPlay == null ) || !app.AudioManager.IsPlaying( _sequenceSoundToPlay ) )
+						{
+							_sequenceState++;
+						}
+
+						_sequenceCounter = 1;
+
+						break;
+
+					case 5: // say driver number
+
+						if ( _sequenceDriverNumberToSay != null )
+						{
+							var numberToSay = _sequenceDriverNumberToSay[ (int) _sequenceDriverNumberToSayIndex ];
+
+							if ( _sequenceDriverNumberState == 0 )
+							{
+								app.AudioManager.Play( $"{numberToSay}", DataContext.DataContext.Instance.Settings.AdminBoxxVolume );
+
+								_sequenceDriverNumberState = 1;
+							}
+							else
+							{
+								if ( !app.AudioManager.IsPlaying( $"{numberToSay}" ) )
+								{
+									_sequenceDriverNumberToSayIndex++;
+
+									if ( _sequenceDriverNumberToSayIndex == _sequenceDriverNumberToSay.Length )
+									{
+										_sequenceDriverNumberToSay = null;
+									}
+									else
+									{
+										_sequenceDriverNumberState = 0;
+									}
+								}
+							}
+
+							_sequenceCounter = 1;
+						}
+
+						break;
 				}
 			}
-		}
-
-		if ( _blinkCounter == 0 )
-		{
-			_blinkCounter = 60;
 		}
 	}
 }

@@ -8,6 +8,7 @@ using Control = System.Windows.Controls.Control;
 using Color = System.Windows.Media.Color;
 using FlowDirection = System.Windows.FlowDirection;
 using Point = System.Windows.Point;
+using ScrollBar = System.Windows.Controls.Primitives.ScrollBar;
 
 using IRSDKSharper;
 
@@ -29,14 +30,26 @@ public class TelemetryDataViewer : Control
 	private const double _lineHeight = 24;
 	private const double _fontSize = 15;
 
+	private ScrollBar? _scrollBar = null;
+
 	static TelemetryDataViewer()
 	{
 		DefaultStyleKeyProperty.OverrideMetadata( typeof( TelemetryDataViewer ), new FrameworkPropertyMetadata( typeof( TelemetryDataViewer ) ) );
 	}
 
+	public void Initialize( ScrollBar scrollBar )
+	{
+		_scrollBar = scrollBar;
+	}
+
 	protected override void OnRender( DrawingContext drawingContext )
 	{
-		var app = App.Instance!;
+		var app = App.Instance;
+
+		if ( app == null )
+		{
+			return;
+		}
 
 		var irsdk = app.Simulator.IRSDK;
 
@@ -233,6 +246,23 @@ public class TelemetryDataViewer : Control
 
 		NumTotalLines = lineIndex;
 		NumVisibleLines = (int) Math.Floor( ActualHeight / _lineHeight );
+
+		if ( _scrollBar != null )
+		{
+			_scrollBar.Maximum = NumTotalLines - NumVisibleLines;
+			_scrollBar.ViewportSize = NumVisibleLines;
+
+			if ( NumVisibleLines >= NumTotalLines )
+			{
+				ScrollIndex = 0;
+
+				_scrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				_scrollBar.Visibility = Visibility.Visible;
+			}
+		}
 	}
 
 	private static string GetString<T>( IRacingSdk irsdk, IRacingSdkDatum var, int index ) where T : Enum

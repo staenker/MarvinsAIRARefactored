@@ -50,6 +50,10 @@ public partial class MainWindow : Window
 
 		Components.Localization.SetLanguageComboBoxItemsSource( App_Language_ComboBox );
 
+		Simulator_HeaderData_HeaderDataViewer.Initialize( Simulator_HeaderData_ScrollBar );
+		Simulator_SessionInfo_SessionInfoViewer.Initialize( Simulator_SessionInfo_ScrollBar );
+		Simulator_TelemetryData_TelemetryDataViewer.Initialize( Simulator_TelemetryData_ScrollBar );
+
 		// AdminBoxx_TabItem.Visibility = Visibility.Collapsed;
 		// Debug_TabItem.Visibility = Visibility.Collapsed;
 
@@ -234,13 +238,13 @@ public partial class MainWindow : Window
 
 			if ( !MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings.RacingWheelEnableForceFeedback )
 			{
-				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/power_led_red.png" ) as ImageSource;
+				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/power_led_red.png" ) as ImageSource;
 
 				RacingWheel_Power_MairaMappableButton.Blink = true;
 			}
 			else if ( app.RacingWheel.SuspendForceFeedback || !app.DirectInput.ForceFeedbackInitialized )
 			{
-				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/power_led_yellow.png" ) as ImageSource;
+				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/power_led_yellow.png" ) as ImageSource;
 
 				if ( app.Simulator.IsConnected )
 				{
@@ -249,7 +253,7 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/power_led_green.png" ) as ImageSource;
+				imageSource = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/power_led_green.png" ) as ImageSource;
 			}
 
 			if ( imageSource != null )
@@ -383,7 +387,7 @@ public partial class MainWindow : Window
 
 			if ( MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings.AppMinimizeToSystemTray )
 			{
-				var resourceStream = Application.GetResourceStream( new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/white_icon.ico" ) ).Stream;
+				var resourceStream = Application.GetResourceStream( new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/white_icon.ico" ) ).Stream;
 
 				_notifyIcon = new()
 				{
@@ -859,56 +863,9 @@ public partial class MainWindow : Window
 		{
 			_updateCounter = UpdateInterval;
 
-			// header data
-
 			Simulator_HeaderData_HeaderDataViewer.InvalidateVisual();
-
-			Simulator_HeaderData_ScrollBar.Maximum = Simulator_HeaderData_HeaderDataViewer.NumTotalLines - Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
-			Simulator_HeaderData_ScrollBar.ViewportSize = Simulator_HeaderData_HeaderDataViewer.NumVisibleLines;
-
-			if ( Simulator_HeaderData_HeaderDataViewer.NumVisibleLines >= Simulator_HeaderData_HeaderDataViewer.NumTotalLines )
-			{
-				Simulator_HeaderData_HeaderDataViewer.ScrollIndex = 0;
-				Simulator_HeaderData_ScrollBar.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				Simulator_HeaderData_ScrollBar.Visibility = Visibility.Visible;
-			}
-
-			// session information
-
 			Simulator_SessionInfo_SessionInfoViewer.InvalidateVisual();
-
-			Simulator_SessionInfo_ScrollBar.Maximum = Simulator_SessionInfo_SessionInfoViewer.NumTotalLines - Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
-			Simulator_SessionInfo_ScrollBar.ViewportSize = Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines;
-
-			if ( Simulator_SessionInfo_SessionInfoViewer.NumVisibleLines >= Simulator_SessionInfo_SessionInfoViewer.NumTotalLines )
-			{
-				Simulator_SessionInfo_SessionInfoViewer.ScrollIndex = 0;
-				Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				Simulator_SessionInfo_ScrollBar.Visibility = Visibility.Visible;
-			}
-
-			// telemetry data
-
 			Simulator_TelemetryData_TelemetryDataViewer.InvalidateVisual();
-
-			Simulator_TelemetryData_ScrollBar.Maximum = Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines - Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
-			Simulator_TelemetryData_ScrollBar.ViewportSize = Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines;
-
-			if ( Simulator_TelemetryData_TelemetryDataViewer.NumVisibleLines >= Simulator_TelemetryData_TelemetryDataViewer.NumTotalLines )
-			{
-				Simulator_TelemetryData_TelemetryDataViewer.ScrollIndex = 0;
-				Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				Simulator_TelemetryData_ScrollBar.Visibility = Visibility.Visible;
-			}
 		}
 	}
 }

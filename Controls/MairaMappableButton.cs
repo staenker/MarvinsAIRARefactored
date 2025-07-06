@@ -97,14 +97,14 @@ public class MairaMappableButton : MairaButton
 		{
 			if ( HasAnyMappedButton() )
 			{
-				Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_mapped_small.png" ) as ImageSource;
+				Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_mapped_small.png" ) as ImageSource;
 			}
 		}
 		else
 		{
 			if ( HasAnyMappedButton() )
 			{
-				Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/artwork/round_button_mapped.png" ) as ImageSource;
+				Normal_Image.Source = new ImageSourceConverter().ConvertFromString( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_mapped.png" ) as ImageSource;
 			}
 		}
 	}

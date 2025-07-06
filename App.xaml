@@ -109,7 +109,7 @@
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Border x:Name="templateRoot" Background="{StaticResource ComboBox.Background}" BorderBrush="{StaticResource ComboBox.Border}" BorderThickness="2" CornerRadius="4" SnapsToDevicePixels="true">
                             <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="0,5,10,0" SnapsToDevicePixels="true">
-                                <Image Source="/artwork/round_button_down_arrow.png" Stretch="None"/>
+                                <Image Source="/MarvinsAIRARefactored;component/Artwork/ComboBox/round_button_down_arrow.png" Stretch="None"/>
                             </Border>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -633,12 +633,13 @@
         <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="#F0F0F0"/>
         <SolidColorBrush x:Key="ScrollBar.Disabled.Glyph" Color="#BFBFBF"/>
 
-        <ImageSource x:Key="RoundButtonSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/round_button_small.png</ImageSource>
-        <ImageSource x:Key="RoundButtonPressedSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/round_button_pressed_small.png</ImageSource>
-        <ImageSource x:Key="IconDownSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/icon_down_small.png</ImageSource>
-        <ImageSource x:Key="IconUpSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/icon_up_small.png</ImageSource>
-        <ImageSource x:Key="IconLeftSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/icon_left_small.png</ImageSource>
-        <ImageSource x:Key="IconRightSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/icon_right_small.png</ImageSource>
+        <ImageSource x:Key="RoundButtonSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_small.png</ImageSource>
+        <ImageSource x:Key="RoundButtonPressedSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/RoundButton/round_button_pressed_small.png</ImageSource>
+        
+        <ImageSource x:Key="IconDownSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_down_small.png</ImageSource>
+        <ImageSource x:Key="IconUpSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_up_small.png</ImageSource>
+        <ImageSource x:Key="IconLeftSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_left_small.png</ImageSource>
+        <ImageSource x:Key="IconRightSmall">pack://application:,,,/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_right_small.png</ImageSource>
 
         <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
 

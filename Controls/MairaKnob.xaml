@@ -34,9 +34,9 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Source="/MarvinsAIRARefactored;component/artwork/dial.png"/>
+                <Image Grid.Column="0" Source="/MarvinsAIRARefactored;component/Artwork/Dial/dial.png"/>
 
-                <Image Grid.Column="0" x:Name="KnobImage" Source="/MarvinsAIRARefactored;component/artwork/dial_marker.png" RenderTransformOrigin="0.5,0.5" MouseDown="KnobImage_Image_MouseDown" MouseMove="KnobImage_Image_MouseMove" MouseUp="KnobImage_Image_MouseUp" LostMouseCapture="KnobImage_Image_LostMouseCapture" Cursor="Hand"/>
+                <Image Grid.Column="0" x:Name="KnobImage" Source="/MarvinsAIRARefactored;component/Artwork/Dial/dial_marker.png" RenderTransformOrigin="0.5,0.5" MouseDown="KnobImage_Image_MouseDown" MouseMove="KnobImage_Image_MouseMove" MouseUp="KnobImage_Image_MouseUp" LostMouseCapture="KnobImage_Image_LostMouseCapture" Cursor="Hand"/>
 
                 <Grid Grid.Column="1">
 
@@ -52,8 +52,8 @@
 
                 <StackPanel Grid.Column="2" Margin="5,0,0,0">
 
-                    <controls:MairaMappableButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_plus_small.png" Padding="0" Margin="1" Click="Plus_MairaMappableButton_Click" Small="True" ButtonMappings="{Binding PlusButtonMappings, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                    <controls:MairaMappableButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/artwork/icon_minus_small.png" Padding="0" Margin="1" Click="Minus_MairaMappableButton_Click" Small="True" ButtonMappings="{Binding MinusButtonMappings, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    <controls:MairaMappableButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_plus_small.png" Padding="0" Margin="1" Click="Plus_MairaMappableButton_Click" Small="True" ButtonMappings="{Binding PlusButtonMappings, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    <controls:MairaMappableButton Title="" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/icon_minus_small.png" Padding="0" Margin="1" Click="Minus_MairaMappableButton_Click" Small="True" ButtonMappings="{Binding MinusButtonMappings, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
                 </StackPanel>
 

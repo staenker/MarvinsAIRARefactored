@@ -15,8 +15,8 @@
 
         <Button Grid.Column="0" x:Name="Button" Click="Button_Click">
             <Grid>
-                <Image x:Name="OffImage" Source="/MarvinsAIRARefactored;component/artwork/switch_off.png" Height="48" Visibility="Visible"/>
-                <Image x:Name="OnImage" Source="/MarvinsAIRARefactored;component/artwork/switch_on.png" Height="48" Visibility="Hidden"/>
+                <Image x:Name="OffImage" Source="/MarvinsAIRARefactored;component/Artwork/Switch/switch_off.png" Height="48" Visibility="Visible"/>
+                <Image x:Name="OnImage" Source="/MarvinsAIRARefactored;component/Artwork/Switch/switch_on.png" Height="48" Visibility="Hidden"/>
             </Grid>
         </Button>
 

@@ -8,6 +8,7 @@ using Color = System.Windows.Media.Color;
 using Control = System.Windows.Controls.Control;
 using FlowDirection = System.Windows.FlowDirection;
 using Point = System.Windows.Point;
+using ScrollBar = System.Windows.Controls.Primitives.ScrollBar;
 
 namespace MarvinsAIRARefactored.Viewers;
 
@@ -27,14 +28,26 @@ public class HeaderDataViewer : Control
 	private const double _lineHeight = 24;
 	private const double _fontSize = 15;
 
+	private ScrollBar? _scrollBar = null;
+
 	static HeaderDataViewer()
 	{
 		DefaultStyleKeyProperty.OverrideMetadata( typeof( HeaderDataViewer ), new FrameworkPropertyMetadata( typeof( HeaderDataViewer ) ) );
 	}
 
+	public void Initialize( ScrollBar scrollBar )
+	{
+		_scrollBar = scrollBar;
+	}
+
 	protected override void OnRender( DrawingContext drawingContext )
 	{
-		var app = App.Instance!;
+		var app = App.Instance;
+
+		if ( app == null )
+		{
+			return;
+		}
 
 		var irsdk = app.Simulator.IRSDK;
 
@@ -101,5 +114,22 @@ public class HeaderDataViewer : Control
 
 		NumTotalLines = dictionary.Count;
 		NumVisibleLines = (int) Math.Floor( ActualHeight / _lineHeight );
+
+		if ( _scrollBar != null )
+		{
+			_scrollBar.Maximum = NumTotalLines - NumVisibleLines;
+			_scrollBar.ViewportSize = NumVisibleLines;
+
+			if ( NumVisibleLines >= NumTotalLines )
+			{
+				ScrollIndex = 0;
+
+				_scrollBar.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				_scrollBar.Visibility = Visibility.Visible;
+			}
+		}
 	}
 }
