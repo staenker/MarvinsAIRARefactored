@@ -378,8 +378,6 @@
 
                         <UniformGrid Columns="4" Margin="0,10,0,20">
 
-                            <controls:MairaKnob Title="{Binding Localization[SteeringWheelAngle]}" Value="{Binding Settings.SteeringEffectsSteeringWheelAngle, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsSteeringWheelAngleString}" SmallValueChangeStep="0.01" LargeValueChangeStep="1" RotationMultiplier="1" DefaultValue="45"/>
-
                             <controls:MairaButton Title="{Binding Localization[RunCalibration]}" Click="SteeringEffects_RunCalibration_MairaButton_Click"/>
                             <controls:MairaButton Title="{Binding Localization[StopCalibration]}" Click="SteeringEffects_StopCalibration_MairaButton_Click"/>
 
@@ -404,6 +402,8 @@
 
                             <controls:MairaButton Title="{Binding Localization[ShiftUp]}" Click="SteeringEffects_ShiftUp_MairaButton_Click"/>
                             <controls:MairaButton Title="{Binding Localization[ShiftDown]}" Click="SteeringEffects_ShiftDown_MairaButton_Click"/>
+                            <controls:MairaButton Title="{Binding Localization[ActiveResetSave]}" Click="SteeringEffects_ActiveResetSave_MairaButton_Click"/>
+                            <controls:MairaButton Title="{Binding Localization[ActiveResetRun]}" Click="SteeringEffects_ActiveResetRun_MairaButton_Click"/>
 
                         </UniformGrid>
 
