@@ -7,7 +7,7 @@ public class SteeringEffects
 {
 	private const float RadiansToDegrees = 180f / MathF.PI;
 
-	private const int SteeringWheelAngleInterval = 30;
+	private const int SteeringWheelAngleInterval = 10;
 	private const int MaxSteeringWheelAngle = 180;
 	private const int MaxSpeedInMPS = 90;
 	private const int NumSteeringWheelAngles = MaxSteeringWheelAngle * 2 / SteeringWheelAngleInterval + 1;
@@ -240,7 +240,14 @@ public class SteeringEffects
 
 			for ( var i = 0; i < _numSteeringWheelAngles; i++ )
 			{
-				dataString += $",{_yawRateData[ i, j ]:F6}";
+				if ( _yawRateData[ i, j ] == 0f )
+				{
+					dataString += $",";
+				}
+				else
+				{
+					dataString += $",{_yawRateData[ i, j ]:F6}";
+				}
 			}
 
 			writer.WriteLine( dataString );
