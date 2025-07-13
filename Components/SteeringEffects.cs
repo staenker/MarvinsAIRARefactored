@@ -62,13 +62,10 @@ public class SteeringEffects
 
 	private float _robotSettleTimer = 0f;
 	private float _robotSteeringWheelAngleInDegrees = 0f;
-	private float _robotClutch = 1f;
 	private float _robotBrake = 0f;
 	private float _robotThrottle = 0f;
 	private float _robotLastFrameVelocityX = 0f;
 	private float _robotGearShiftTimer = 0f;
-	private bool _robotGearShifted = false;
-	private bool _robotGearShiftUp = false;
 
 	private int _initialSteeringWheelAngleInDegrees = 0;
 	private int _numSteeringWheelAnglesRecorded = 0;
@@ -148,13 +145,9 @@ public class SteeringEffects
 	{
 		_robotSettleTimer = 0f;
 		_robotSteeringWheelAngleInDegrees = 0f;
-		_robotClutch = 1f;
 		_robotBrake = 0f;
 		_robotThrottle = 0f;
 		_robotLastFrameVelocityX = 0f;
-		_robotGearShiftTimer = 0f;
-		_robotGearShifted = false;
-		_robotGearShiftUp = false;
 	}
 
 	private void UpdateRobot( App app )
@@ -165,8 +158,7 @@ public class SteeringEffects
 
 			_robotSettleTimer = Math.Min( _robotSettleTimer + DeltaTime, 1f );
 
-			_robotClutch = 1f;
-			_robotBrake = 0.5f;
+			_robotBrake = 1f;
 			_robotThrottle = 0f;
 			_robotSteeringWheelAngleInDegrees = 0f;
 
@@ -177,48 +169,15 @@ public class SteeringEffects
 		{
 			// adjust gear
 
-			if ( app.Simulator.Gear == 0 )
+			if ( app.Simulator.Gear < app.Simulator.NumForwardGears )
 			{
-				app.VirtualJoystick.ShiftUp = true;
-			}
-			else if ( _robotGearShiftTimer >= 2f )
-			{
-				if ( app.Simulator.RPM >= app.Simulator.ShiftLightsShiftRPM * 0.75f )
-				{
-					if ( app.Simulator.Gear < app.Simulator.NumForwardGears )
-					{
-						_robotGearShiftUp = true;
-						_robotGearShifted = false;
-						_robotGearShiftTimer = 0f;
-					}
-				}
-				else if ( app.Simulator.RPM <= app.Simulator.ShiftLightsShiftRPM * 0.25f )
-				{
-					if ( app.Simulator.Gear > 1 )
-					{
-						_robotGearShiftUp = false;
-						_robotGearShifted = false;
-						_robotGearShiftTimer = 0f;
-					}
-				}
-			}
+				_robotGearShiftTimer += DeltaTime;
 
-			if ( _robotGearShiftTimer < 2f )
-			{
-				_robotGearShiftTimer = Math.Min( _robotGearShiftTimer + DeltaTime, 2f );
-
-				if ( ( _robotGearShiftTimer >= 0.98f ) && !_robotGearShifted )
+				if ( _robotGearShiftTimer >= 1f )
 				{
-					_robotGearShifted = true;
+					_robotGearShiftTimer = 0f;
 
-					if ( _robotGearShiftUp )
-					{
-						app.VirtualJoystick.ShiftUp = true;
-					}
-					else
-					{
-						app.VirtualJoystick.ShiftDown = true;
-					}
+					app.VirtualJoystick.ShiftUp = true;
 				}
 			}
 
@@ -229,38 +188,34 @@ public class SteeringEffects
 				var nearestDistanceToTargetTurningLeft = PredictNearestDistanceToTarget( app, app.Simulator.YawRate - 0.005f, 0.01f );
 				var nearestDistanceToTargetTurningRight = PredictNearestDistanceToTarget( app, app.Simulator.YawRate + 0.005f, 0.01f );
 
-				var wheelTurnAmount = ( nearestDistanceToTargetTurningRight - nearestDistanceToTargetTurningLeft ) * 0.05f;
+				var wheelTurnAmount = ( nearestDistanceToTargetTurningRight - nearestDistanceToTargetTurningLeft ) * 0.15f;
 
-				_robotSteeringWheelAngleInDegrees += Math.Clamp( wheelTurnAmount, -0.25f, 0.25f ) * Math.Min( 1f, app.Simulator.VelocityX );
+				_robotSteeringWheelAngleInDegrees += Math.Clamp( wheelTurnAmount, -0.25f, 0.25f ) * Math.Min( 1f, app.Simulator.VelocityX * 0.25f );
 			}
 			else
 			{
 				_robotSteeringWheelAngleInDegrees = _targetSteeringWheelAngleInDegrees;
 			}
 
-			// should we be speeding up or slowing down?
-
-			var deltaTargetVelocity = _targetVelocityInKPH * KPHToMPS - app.Simulator.VelocityX;
-
-			// adjust clutch
-
-			_robotClutch = MathF.Cos( _robotGearShiftTimer * 0.5f * MathF.Tau ) * 0.5f + 0.5f;
-
-			// adjust brake
-
-			if ( deltaTargetVelocity < 0 )
+			if ( app.Simulator.Gear == app.Simulator.NumForwardGears )
 			{
-				_robotBrake = Math.Min( _robotBrake - deltaTargetVelocity * 0.002f, 0.25f );
-			}
-			else
-			{
-				_robotBrake -= 0.01f;
-			}
+				// should we be speeding up or slowing down?
 
-			// adjust throttle
+				var deltaTargetVelocity = _targetVelocityInKPH * KPHToMPS - app.Simulator.VelocityX;
 
-			if ( _robotGearShiftTimer >= 2f )
-			{
+				// adjust brake
+
+				if ( deltaTargetVelocity < 0 )
+				{
+					_robotBrake = Math.Min( _robotBrake - deltaTargetVelocity * 0.002f, 0.25f );
+				}
+				else
+				{
+					_robotBrake -= 0.01f;
+				}
+
+				// adjust throttle
+
 				var currentAcceleration = app.Simulator.VelocityX - _robotLastFrameVelocityX;
 
 				_robotLastFrameVelocityX = app.Simulator.VelocityX;
@@ -280,23 +235,17 @@ public class SteeringEffects
 					_robotThrottle += deltaTargetVelocity * 0.0015f;
 				}
 			}
-			else
-			{
-				_robotThrottle -= 0.00025f;
-			}
 		}
 
 		// update virtual joystick
 
 		_robotSteeringWheelAngleInDegrees = Math.Clamp( _robotSteeringWheelAngleInDegrees, -450f, 450f );
-		_robotClutch = Math.Clamp( _robotClutch, 0f, 1f );
 		_robotBrake = Math.Clamp( _robotBrake, 0f, 1f );
 		_robotThrottle = Math.Clamp( _robotThrottle, 0f, 1f );
 
 		app.VirtualJoystick.Steering = _robotSteeringWheelAngleInDegrees / 450f;
-		app.VirtualJoystick.Clutch = _robotClutch;
 		app.VirtualJoystick.Brake = _robotBrake;
-		app.VirtualJoystick.Throttle = _robotThrottle * ( MathF.Cos( _robotGearShiftTimer * MathF.PI ) * 0.5f + 0.5f );
+		app.VirtualJoystick.Throttle = _robotThrottle;
 	}
 
 	private void DoResetCalibration( App app )
@@ -488,7 +437,7 @@ public class SteeringEffects
 
 			// check if we are done with this pass
 
-			if ( crashed || ( _targetVelocityInKPH > MaxSpeedInKPH ) || ( MathF.Abs( app.Simulator.VelocityY ) > 3f ) || ( ( absYawRateInDegrees < ( _maxAbsYawRateInDegrees * 0.5f ) ) && ( _robotGearShiftTimer >= 2f ) ) )
+			if ( crashed || ( _targetVelocityInKPH > MaxSpeedInKPH ) || ( MathF.Abs( app.Simulator.VelocityY ) > 3f ) || ( absYawRateInDegrees < ( _maxAbsYawRateInDegrees * 0.5f ) ) )
 			{
 				// increase num steering wheel angles recorded
 
@@ -632,7 +581,6 @@ public class SteeringEffects
 			};
 
 			app.MainWindow.SteeringEffects_Calibration_Steering.Content = $"S: {_robotSteeringWheelAngleInDegrees,4:F0}";
-			app.MainWindow.SteeringEffects_Calibration_Clutch.Content = $"C: {_robotClutch * 100f,3:F0}%";
 			app.MainWindow.SteeringEffects_Calibration_Brake.Content = $"B: {_robotBrake * 100f,3:F0}%";
 			app.MainWindow.SteeringEffects_Calibration_Throttle.Content = $"T: {_robotThrottle * 100f,3:F0}%";
 

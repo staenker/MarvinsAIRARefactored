@@ -704,20 +704,6 @@ public partial class MainWindow : Window
 		app.VirtualJoystick.ActiveResetRun = true;
 	}
 
-	private void SteeringEffects_MinClutch_MairaButton_Click( object sender, RoutedEventArgs e )
-	{
-		var app = App.Instance!;
-
-		app.VirtualJoystick.Clutch = 1f;
-	}
-
-	private void SteeringEffects_MaxClutch_MairaButton_Click( object sender, RoutedEventArgs e )
-	{
-		var app = App.Instance!;
-
-		app.VirtualJoystick.Clutch = 0f;
-	}
-
 	private void Pedals_ClutchTest1_MairaMappableButton_Click( object sender, RoutedEventArgs e )
 	{
 		var app = App.Instance!;

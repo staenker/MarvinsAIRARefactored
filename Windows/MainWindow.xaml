@@ -404,7 +404,6 @@
                                 <Label x:Name="SteeringEffects_Calibration_Phase" FontSize="18" Padding="0" Content="Phase: " FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen"/>
                                 <Label x:Name="SteeringEffects_Calibration_ExtraInfo" FontSize="18" Padding="0" Content="Extra Info:" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen"/>
                                 <Label x:Name="SteeringEffects_Calibration_Steering" FontSize="18" Padding="0" Content="S:    0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen" Margin="0,20,0,0"/>
-                                <Label x:Name="SteeringEffects_Calibration_Clutch" FontSize="18" Padding="0" Content="C: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen"/>
                                 <Label x:Name="SteeringEffects_Calibration_Brake" FontSize="18" Padding="0" Content="B: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen"/>
                                 <Label x:Name="SteeringEffects_Calibration_Throttle" FontSize="18" Padding="0" Content="T: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Digital-7 Mono" Foreground="PaleGreen"/>
                             </StackPanel>
@@ -447,9 +446,6 @@
 
                             <controls:MairaButton Title="{Binding Localization[ActiveResetSave]}" Click="SteeringEffects_ActiveResetSave_MairaButton_Click"/>
                             <controls:MairaButton Title="{Binding Localization[ActiveResetRun]}" Click="SteeringEffects_ActiveResetRun_MairaButton_Click"/>
-
-                            <controls:MairaButton Title="{Binding Localization[MinClutch]}" Click="SteeringEffects_MinClutch_MairaButton_Click"/>
-                            <controls:MairaButton Title="{Binding Localization[MaxClutch]}" Click="SteeringEffects_MaxClutch_MairaButton_Click"/>
 
                         </UniformGrid>
 
