@@ -517,11 +517,14 @@ public class RacingWheel
 
 			if ( ActivateCrashProtection )
 			{
+				if ( _crashProtectionTimerMS <= 0f )
+				{
+					SendChatMessage( DataContext.DataContext.Instance.Localization[ "CrashProtectionActivated" ] );
+				}
+
 				_crashProtectionTimerMS = settings.RacingWheelCrashProtectionDuration * 1000f + CrashProtectionRecoveryTime;
 
 				ActivateCrashProtection = false;
-
-				SendChatMessage( DataContext.DataContext.Instance.Localization[ "CrashProtectionActivated" ] );
 			}
 
 			var crashProtectionScale = 1f;
@@ -537,11 +540,14 @@ public class RacingWheel
 
 			if ( ActivateCurbProtection )
 			{
+				if ( _curbProtectionTimerMS <= 0f )
+				{
+					SendChatMessage( DataContext.DataContext.Instance.Localization[ "CurbProtectionActivated" ] );
+				}
+
 				_curbProtectionTimerMS = settings.RacingWheelCurbProtectionDuration * 1000f;
 
 				ActivateCurbProtection = false;
-
-				SendChatMessage( DataContext.DataContext.Instance.Localization[ "CurbProtectionActivated" ] );
 			}
 
 			var curbProtectionLerpFactor = 0f;
