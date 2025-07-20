@@ -133,7 +133,7 @@
     <comment>Window title</comment>
   </data>
   <data name="DetailBoostBias" xml:space="preserve">
-    <value>Balanço do Boost de Detalhes</value>
+    <value>Viés do Boost de Detalhes</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Debug" xml:space="preserve">
@@ -622,7 +622,7 @@
   </data>
   <data name="ABSEngaged" xml:space="preserve">
     <value>ABS Ativado</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedal effects list, Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value>[Desativado]</value>
@@ -829,7 +829,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="Sensitivity" xml:space="preserve">
-    <value>Sensibilidadesta</value>
+    <value>Sensibilidade</value>
     <comment>Pedals</comment>
   </data>
   <data name="ZeAlanLeTwist" xml:space="preserve">
@@ -847,5 +847,37 @@
   <data name="AdminBoxxIsUpdating" xml:space="preserve">
     <value>O firmware do AdminBoxx está sendo atualizado</value>
     <comment>AdminBoxx</comment>
+  </data>
+  <data name="AllowSuperStrength" xml:space="preserve">
+    <value>Permitir intensidade até 200% (use com cuidado)</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Ligado</value>
+    <comment>Generic</comment>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sons</value>
+    <comment>Tab item</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Habilitado</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="FrequencyRatio" xml:space="preserve">
+    <value>Razão de Frequência</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="Fade" xml:space="preserve">
+    <value>Esmaecer</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="SendChatMessages" xml:space="preserve">
+    <value>Enviar mensagens de chat ao piloto</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="EnableLogitechRPMLights" xml:space="preserve">
+    <value>Habilitar LEDs de RPM Logitech</value>
+    <comment>Racing wheel</comment>
   </data>
 </root>

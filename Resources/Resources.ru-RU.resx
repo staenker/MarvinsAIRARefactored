@@ -517,11 +517,11 @@
     <comment>Cloud service</comment>
   </data>
   <data name="RunInstaller" xml:space="preserve">
-    <value>Запустить установщик?</value>
+    <value>Запустить обновление?</value>
     <comment>Window title</comment>
   </data>
   <data name="RunInstallerQuestion" xml:space="preserve">
-    <value>Запустить установщик прямо сейчас?</value>
+    <value>Установить обновление сейчас?</value>
     <comment>Cloud service</comment>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
@@ -545,7 +545,7 @@
     <comment>AdminBoxx</comment>
   </data>
   <data name="NoAudioDevicesFound" xml:space="preserve">
-    <value>[Аудио устройства не найдены]</value>
+    <value>[Звуковые устройства не найдены]</value>
     <comment>Audio device list</comment>
   </data>
   <data name="Connection" xml:space="preserve">
@@ -622,7 +622,7 @@
   </data>
   <data name="ABSEngaged" xml:space="preserve">
     <value>Работа АБС </value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedal effects list, Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value>[Выкл]</value>
@@ -825,7 +825,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="SimpleMode" xml:space="preserve">
-    <value>Включить просто режим</value>
+    <value>Включить простой режим настройки</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Sensitivity" xml:space="preserve">
@@ -847,5 +847,41 @@
   <data name="AdminBoxxIsUpdating" xml:space="preserve">
     <value>Прошивка AdminBoxx обновляется</value>
     <comment>AdminBoxx</comment>
+  </data>
+  <data name="AllowSuperStrength" xml:space="preserve">
+    <value>Увеличить максимальную силу до 200% (будьте аккуратны- может быть опасно)</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>ВКЛ</value>
+    <comment>Generic</comment>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Звуки</value>
+    <comment>Tab item</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Включено</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="FrequencyRatio" xml:space="preserve">
+    <value>Частота</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="Fade" xml:space="preserve">
+    <value>Затихание</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="SendChatMessages" xml:space="preserve">
+    <value>Направлять водителю сообщения в личку</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="EnableLogitechRPMLights" xml:space="preserve">
+    <value>Включить RPM лампы Logitech</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value>Общая громкость</value>
+    <comment>Sounds</comment>
   </data>
 </root>

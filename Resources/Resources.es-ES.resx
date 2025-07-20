@@ -622,7 +622,7 @@
   </data>
   <data name="ABSEngaged" xml:space="preserve">
     <value>ABS Activado</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedal effects list, Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value>[Desactivado]</value>
@@ -855,5 +855,29 @@
   <data name="ON" xml:space="preserve">
     <value>Activado</value>
     <comment>Generic</comment>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sonidos</value>
+    <comment>Tab item</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Activado</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="FrequencyRatio" xml:space="preserve">
+    <value>Relación de Frecuencia</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="Fade" xml:space="preserve">
+    <value> Atenuación</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="SendChatMessages" xml:space="preserve">
+    <value>Enviar mensajes de chat privados al piloto</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="EnableLogitechRPMLights" xml:space="preserve">
+    <value>Activar luces RPM de Logitech</value>
+    <comment>Racing wheel</comment>
   </data>
 </root>

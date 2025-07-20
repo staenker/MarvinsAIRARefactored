@@ -885,4 +885,12 @@
     <value>Master</value>
     <comment>Sounds</comment>
   </data>
+  <data name="CrashProtectionActivated" xml:space="preserve">
+    <value>Crash protection has been activated!</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurbProtectionActivated" xml:space="preserve">
+    <value>Curb protection has been activated!</value>
+    <comment>Racing wheel</comment>
+  </data>
 </root>

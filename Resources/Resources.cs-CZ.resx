@@ -622,7 +622,7 @@
   </data>
   <data name="ABSEngaged" xml:space="preserve">
     <value>ABS aktivováno</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedal effects list, Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value>[Zakázáno]</value>
@@ -847,5 +847,37 @@
   <data name="AdminBoxxIsUpdating" xml:space="preserve">
     <value>AdminBoxx bude aktualizován..</value>
     <comment>AdminBoxx</comment>
+  </data>
+  <data name="AllowSuperStrength" xml:space="preserve">
+    <value>Povolit zvýšení síly FFB na 200% (může být riskantní)</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ON" xml:space="preserve">
+    <value>Zapnout</value>
+    <comment>Generic</comment>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Zvuky</value>
+    <comment>Tab item</comment>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Povolit</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="FrequencyRatio" xml:space="preserve">
+    <value>Poměr frekvence</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="Fade" xml:space="preserve">
+    <value>Slábnutí</value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="SendChatMessages" xml:space="preserve">
+    <value>Odeslat jezdci soukromou zprávu </value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="EnableLogitechRPMLights" xml:space="preserve">
+    <value>Povolit Logitech RPM světla</value>
+    <comment>Racing wheel</comment>
   </data>
 </root>
