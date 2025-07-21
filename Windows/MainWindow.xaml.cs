@@ -77,6 +77,15 @@ public partial class MainWindow : Window
 
 #endif
 
+#if !CODER
+
+		SteeringEffects_TabItem.Visibility = Visibility.Collapsed;
+		Debug_TabItem.Visibility = Visibility.Collapsed;
+
+		TabItemPositionHelper.SetIsLast( Donate_TabItem, true );
+
+#endif
+
 		app.Logger.WriteLine( "[MainWindow] <<< Constructor" );
 	}
 
