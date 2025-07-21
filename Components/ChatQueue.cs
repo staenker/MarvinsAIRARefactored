@@ -20,6 +20,7 @@ public partial class ChatQueue
 	private readonly List<Message> _messageList = [];
 
 	private bool _chatWindowOpened = false;
+	private int _chatWindowCloseCounter = 0;
 
 	private int _updateCounter = UpdateInterval + 0;
 
@@ -82,7 +83,7 @@ public partial class ChatQueue
 
 					_messageList.RemoveAt( 0 );
 
-					_chatWindowOpened = false;
+					_chatWindowCloseCounter = 5;
 				}
 				else
 				{
@@ -90,6 +91,18 @@ public partial class ChatQueue
 
 					_chatWindowOpened = true;
 				}
+			}
+		}
+
+		if ( _chatWindowCloseCounter > 0 )
+		{
+			_chatWindowCloseCounter--;
+
+			if ( _chatWindowCloseCounter == 0 )
+			{
+				app.Simulator.IRSDK.ChatComand( IRacingSdkEnum.ChatCommandMode.Cancel, 0 );
+
+				_chatWindowOpened = false;
 			}
 		}
 	}
