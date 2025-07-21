@@ -31,7 +31,7 @@ public class VirtualJoystick
 
 	private bool _initialized = false;
 
-	public VirtualJoystick()
+	public void Initialize()
 	{
 		var app = App.Instance!;
 
