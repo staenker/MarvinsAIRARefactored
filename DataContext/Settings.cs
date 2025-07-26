@@ -1663,6 +1663,90 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Racing wheel - Send chat messages
+
+	private bool _racingWheelSendChatMessages = true;
+
+	public bool RacingWheelSendChatMessages
+	{
+		get => _racingWheelSendChatMessages;
+
+		set
+		{
+			if ( value != _racingWheelSendChatMessages )
+			{
+				_racingWheelSendChatMessages = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Racing wheel - Input mapped setting update enabled
+
+	private bool _racingWheelInputMappedSettingUpdateEnabled = true;
+
+	public bool RacingWheelInputMappedSettingUpdateEnabled
+	{
+		get => _racingWheelInputMappedSettingUpdateEnabled;
+
+		set
+		{
+			if ( value != _racingWheelInputMappedSettingUpdateEnabled )
+			{
+				_racingWheelInputMappedSettingUpdateEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Racing wheel - Crash protection messages enabled
+
+	private bool _racingWheelCrashProtectionMessagesEnabled = false;
+
+	public bool RacingWheelCrashProtectionMessagesEnabled
+	{
+		get => _racingWheelCrashProtectionMessagesEnabled;
+
+		set
+		{
+			if ( value != _racingWheelCrashProtectionMessagesEnabled )
+			{
+				_racingWheelCrashProtectionMessagesEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Racing wheel - Curb protection messages enabled
+
+	private bool _racingWheelCurbProtectionMessagesEnabled = false;
+
+	public bool RacingWheelCurbProtectionMessagesEnabled
+	{
+		get => _racingWheelCurbProtectionMessagesEnabled;
+
+		set
+		{
+			if ( value != _racingWheelCurbProtectionMessagesEnabled )
+			{
+				_racingWheelCurbProtectionMessagesEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
 	#region Racing wheel - Center wheel when not in car
 
 	private bool _racingWheelCenterWheelWhenNotInCar = true;
@@ -1706,27 +1790,6 @@ public class Settings : INotifyPropertyChanged
 	}
 
 	public ContextSwitches RacingWheelFadeEnabledContextSwitches { get; set; } = new( false, false, false, false, false );
-
-	#endregion
-
-	#region Racing wheel - Send chat messages
-
-	private bool _racingWheelSendChatMessages = true;
-
-	public bool RacingWheelSendChatMessages
-	{
-		get => _racingWheelSendChatMessages;
-
-		set
-		{
-			if ( value != _racingWheelSendChatMessages )
-			{
-				_racingWheelSendChatMessages = value;
-
-				OnPropertyChanged();
-			}
-		}
-	}
 
 	#endregion
 

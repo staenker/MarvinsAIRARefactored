@@ -14,7 +14,7 @@
         MinWidth="550"
         MinHeight="350"
         Width="1100"
-        Height="550"
+        Height="650"
         d:Height="Auto"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"
@@ -372,13 +372,29 @@
 
                         </Grid>
 
+                        <Grid Tag="Complex">
+                            
+                        <GroupBox Header="{Binding Localization[PrivateMessages]}">
+
+                            <StackPanel>
+
+                                <controls:MairaSwitch Margin="0" IsOn="{Binding Settings.RacingWheelSendChatMessages, Mode=TwoWay}" Title="{Binding Localization[SendChatMessages]}"/>
+                                <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelInputMappedSettingUpdateEnabled, Mode=TwoWay}" Title="{Binding Localization[InputMappedSettingUpdateEnabled]}"/>
+                                <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelCrashProtectionMessagesEnabled, Mode=TwoWay}" Title="{Binding Localization[CrashProtectionMessagesEnabled]}"/>
+                                <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelCurbProtectionMessagesEnabled, Mode=TwoWay}" Title="{Binding Localization[CurbProtectionMessagesEnabled]}"/>
+
+                            </StackPanel>
+
+                        </GroupBox>
+                            
+                        </Grid>
+
                         <GroupBox Header="{Binding Localization[Switches]}">
 
                             <StackPanel>
 
                                 <controls:MairaSwitch Margin="0" IsOn="{Binding Settings.RacingWheelCenterWheelWhenNotInCar, Mode=TwoWay}" Title="{Binding Localization[CenterWheelWhenNotInCar]}" ContextSwitches="{Binding Settings.RacingWheelCenterWheelWhenNotInCarContextSwitches}" Tag="Complex"/>
                                 <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelFadeEnabled, Mode=TwoWay}" Title="{Binding Localization[FadeForceFeedback]}" ContextSwitches="{Binding Settings.RacingWheelFadeEnabledContextSwitches}" Tag="Complex"/>
-                                <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelSendChatMessages, Mode=TwoWay}" Title="{Binding Localization[SendChatMessages]}" Tag="Complex"/>
                                 <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelEnableLogitechRPMLights, Mode=TwoWay}" Title="{Binding Localization[EnableLogitechRPMLights]}" Tag="Complex"/>
                                 <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelAllowSuperStrength, Mode=TwoWay}" Title="{Binding Localization[AllowSuperStrength]}" Tag="Complex"/>
                                 <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.RacingWheelAlwaysEnableFFB, Mode=TwoWay}" Title="{Binding Localization[AlwaysEnableFFB]}" Tag="Complex"/>

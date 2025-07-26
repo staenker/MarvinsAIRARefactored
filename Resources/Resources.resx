@@ -258,7 +258,7 @@
     <comment>AdminBoxx</comment>
   </data>
   <data name="UpdateButtonMappings" xml:space="preserve">
-    <value>Update Button Mappings</value>
+    <value>Update Input Mapping</value>
     <comment>Window title</comment>
   </data>
   <data name="PressTheRecordButton" xml:space="preserve">
@@ -879,6 +879,22 @@
   </data>
   <data name="CurbProtectionActivated" xml:space="preserve">
     <value>Curb protection has been activated!</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="PrivateMessages" xml:space="preserve">
+    <value>Private Messages</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurbProtectionMessagesEnabled" xml:space="preserve">
+    <value>Enable curb protection messages</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CrashProtectionMessagesEnabled" xml:space="preserve">
+    <value>Enable crash protection messages</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="InputMappedSettingUpdateEnabled" xml:space="preserve">
+    <value>Enable input mapped setting update messages</value>
     <comment>Racing wheel</comment>
   </data>
 </root>

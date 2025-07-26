@@ -195,7 +195,7 @@ public class Misc
 	public static void SetStartWithWindows( bool enable )
 	{
 		var startupPath = Environment.GetFolderPath( Environment.SpecialFolder.Startup );
-		var shortcutPath = Path.Combine( startupPath, "MarvinsAIRA Refactored.lnk" );
+		var shortcutPath = Path.Combine( startupPath, App.AppName + ".lnk" );
 
 		if ( enable )
 		{

@@ -84,6 +84,11 @@ public class RacingWheel
 		app.Logger.WriteLine( "[RacingWheel] <<< Initialize" );
 	}
 
+	public float GetCurrentAutoTorque()
+	{
+		return _autoTorque;
+	}
+
 	public static void SendChatMessage( string key, string? value = null )
 	{
 		var app = App.Instance!;
@@ -519,7 +524,10 @@ public class RacingWheel
 			{
 				if ( _crashProtectionTimerMS <= 0f )
 				{
-					SendChatMessage( DataContext.DataContext.Instance.Localization[ "CrashProtectionActivated" ] );
+					if ( settings.RacingWheelCrashProtectionMessagesEnabled )
+					{
+						SendChatMessage( "CrashProtectionActivated" );
+					}
 				}
 
 				_crashProtectionTimerMS = settings.RacingWheelCrashProtectionDuration * 1000f + CrashProtectionRecoveryTime;
@@ -542,7 +550,10 @@ public class RacingWheel
 			{
 				if ( _curbProtectionTimerMS <= 0f )
 				{
-					SendChatMessage( DataContext.DataContext.Instance.Localization[ "CurbProtectionActivated" ] );
+					if ( settings.RacingWheelCurbProtectionMessagesEnabled )
+					{
+						SendChatMessage( "CurbProtectionActivated" );
+					}
 				}
 
 				_curbProtectionTimerMS = settings.RacingWheelCurbProtectionDuration * 1000f;

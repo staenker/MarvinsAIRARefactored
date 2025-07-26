@@ -18,6 +18,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
   <ItemGroup>
     <None Remove="Artwork\ButtonIcons\button_icon_dot.png" />
     <None Remove="Artwork\Misc\adminboxx_logo.png" />

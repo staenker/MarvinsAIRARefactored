@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using Color = MarvinsAIRARefactored.Classes.Color;
@@ -10,7 +11,6 @@ using Timer = System.Timers.Timer;
 using IRSDKSharper;
 
 using MarvinsAIRARefactored.Classes;
-using System.Text;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -186,7 +186,7 @@ public partial class AdminBoxx
 			"restart_is_double_file", "restart_is_single_file",
 			"caution_extended_by_one_lap", "caution_shortened_by_one_lap",
 			"chat_disabled", "chat_enabled",
-			"we_are_under_caution", "all_penalties_cleared", "session_has_been_advanced",
+			"all_penalties_cleared", "session_has_been_advanced", "one_lap_to_green",
 			"black_flag_driver_number", "clear_driver_number", "wave_by_driver_number", "end_of_line_driver_number", "disqualify_driver_number", "remove_driver_number",
 			"connected_to_adminboxx_app", "connected_to_iracing_simulator", "disconnected_from_iracing_simulator"
 		];
@@ -335,6 +335,11 @@ public partial class AdminBoxx
 	{
 		var app = App.Instance!;
 
+		if ( !IsConnected )
+		{
+			return;
+		}
+
 		// yellow flag / caution flag
 
 		if ( ( app.Simulator.SessionFlags & ( IRacingSdkEnum.Flags.YellowWaving | IRacingSdkEnum.Flags.CautionWaving ) ) != 0 )
@@ -343,11 +348,11 @@ public partial class AdminBoxx
 			{
 				_shownYellowFlag = true;
 
-				WaveFlag( Yellow, 2 );
+				WaveFlag( Yellow, 3 );
 
 				if ( ( app.Simulator.SessionFlags & IRacingSdkEnum.Flags.CautionWaving ) != 0 )
 				{
-					RunSequence( 2, Tone.Telemetry, false, null, 0, 0, "we_are_under_caution" );
+					RunSequence( 3, Tone.Telemetry );
 				}
 			}
 		}
@@ -366,7 +371,7 @@ public partial class AdminBoxx
 
 				WaveFlag( Yellow, 1 );
 
-				RunSequence( 1, Tone.Telemetry );
+				RunSequence( 1, Tone.Telemetry, false, null, 0, 0, "one_lap_to_green" );
 			}
 		}
 		else
@@ -418,9 +423,9 @@ public partial class AdminBoxx
 			{
 				_shownGreenFlag = true;
 
-				WaveFlag( Green, 1 );
+				WaveFlag( Green, 3 );
 
-				RunSequence( 1, Tone.Telemetry );
+				RunSequence( 3, Tone.Telemetry );
 			}
 		}
 		else
@@ -850,7 +855,7 @@ public partial class AdminBoxx
 				case 9: SetLEDToColor( 2, 3, Magenta, false ); break;
 			}
 
-			RunSequence( 1 );
+			RunSequence( 0, Tone.AdminBoxx, false, null, 0, 0, $"{number}" );
 		}
 
 		app.Logger.WriteLine( $"[AdminBoxx] <<< DoNumber( {number} )" );
