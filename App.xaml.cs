@@ -63,6 +63,8 @@ public partial class App : Application
 
 	private readonly Timer _timer = new( TimerPeriodInMilliseconds );
 
+	private readonly Lock _lock = new();
+
 	App()
 	{
 		Instance = this;
@@ -1459,22 +1461,25 @@ public partial class App : Application
 			{
 				app._autoResetEvent.WaitOne();
 
-				app.Dispatcher.BeginInvoke( () =>
+				using ( app._lock.EnterScope() )
 				{
-					app.RacingWheel.Tick( app );
-					app.SettingsFile.Tick( app );
-					app.Pedals.Tick( app );
-					app.AdminBoxx.Tick( app );
-					app.Debug.Tick( app );
-					app.ChatQueue.Tick( app );
-					app.MainWindow.Tick( app );
-					app.MultimediaTimer.Tick( app );
-					app.Simulator.Tick( app );
-					app.Sounds.Tick( app );
-					app.Graph.Tick( app );
-					app.SteeringEffects.Tick( app );
-					app.VirtualJoystick.Tick( app );
-				} );
+					app.Dispatcher.BeginInvoke( () =>
+					{
+						app.RacingWheel.Tick( app );
+						app.SettingsFile.Tick( app );
+						app.Pedals.Tick( app );
+						app.AdminBoxx.Tick( app );
+						app.Debug.Tick( app );
+						app.ChatQueue.Tick( app );
+						app.MainWindow.Tick( app );
+						app.MultimediaTimer.Tick( app );
+						app.Simulator.Tick( app );
+						app.Sounds.Tick( app );
+						app.Graph.Tick( app );
+						app.SteeringEffects.Tick( app );
+						app.VirtualJoystick.Tick( app );
+					} );
+				}
 			}
 		}
 	}
