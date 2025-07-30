@@ -12,7 +12,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{49221926-0B97-4313-B82A-7ADD3B922AED}
+AppId={{49221926-0B97-4313-B82A-7ADD3B922AED}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -51,9 +51,12 @@ Name: "{userdocs}\MarvinsAIRA Refactored"
 Name: "{userdocs}\MarvinsAIRA Refactored\Languages"
 Name: "{userdocs}\MarvinsAIRA Refactored\Sounds"
 Name: "{userdocs}\MarvinsAIRA Refactored\Recordings"
+Name: "{userdocs}\MarvinsAIRA Refactored\Calibration"
 
 [Files]
-Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\bin\publish\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\bin\publish\MarvinsAIRARefactored.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\bin\publish\createdump.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\bin\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\Resources\Resources*.resx"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Languages"; Flags: ignoreversion
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\Sounds\*.wav"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Sounds"; Flags: ignoreversion recursesubdirs
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\Recordings\*.csv"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Recordings"; Flags: ignoreversion
