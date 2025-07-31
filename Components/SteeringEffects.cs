@@ -54,8 +54,6 @@ public class SteeringEffects
 
 	private const int StartingSteeringWheelAngle = 10;
 
-	private const int WarningMarginInKPH = 15;
-
 	private readonly string _calibrationDirectory = Path.Combine( App.DocumentsFolder, "Calibration" );
 
 	private Phase _currentPhase = Phase.NotCalibrating;
@@ -91,13 +89,10 @@ public class SteeringEffects
 	private float _carPositionX = 0f;
 	private float _carPositionY = 0f;
 
-	private double[]? _leftCoefficientsPeak;
-	private double[]? _leftCoefficientsWarn;
+	private double[]? _leftCoefficients;
+	private double[]? _rightCoefficients;
 
-	private double[]? _rightCoefficientsPeak;
-	private double[]? _rightCoefficientsWarn;
-
-	private Cobyla _cobyla = new( 2, CobylaObjective );
+	private readonly Cobyla _cobyla = new( 2, CobylaObjective );
 
 	public void RunCalibration()
 	{
@@ -130,16 +125,16 @@ public class SteeringEffects
 			app.Debug.Label_2 = $"Abs Yaw Rate: {absYawRateInDegrees:F1} Degrees";
 			app.Debug.Label_3 = $"Speed: {speedInKPH:F0} KPH";
 
-			var peak = PredictPeak( steeringWheelAngleInDegrees );
-			var warn = PredictWarn( steeringWheelAngleInDegrees );
+			var peak = Predict( steeringWheelAngleInDegrees );
+			var warn = peak * 0.9f;
 
-			var current = speedInKPH / ( absYawRateInDegrees + 1f );
+			var current = MathF.Log( speedInKPH / ( absYawRateInDegrees + 1f ) );
 
 			app.Debug.Label_5 = $"Peak: {peak:F6}";
 			app.Debug.Label_6 = $"Warn: {warn:F6}";
 			app.Debug.Label_7 = $"Current: {current:F6}";
 
-			if ( ( peak != 0f ) && ( warn != 0f ) && ( MathF.Sign( steeringWheelAngleInDegrees ) == MathF.Sign( yawRateInDegrees ) ) && ( current > warn ) )
+			if ( ( app.Simulator.VelocityX > 0f ) && ( warn > 0f ) && ( current > warn ) && ( MathF.Sign( steeringWheelAngleInDegrees ) == MathF.Sign( yawRateInDegrees ) ) )
 			{
 				UndersteerEffectIntensity = Math.Clamp( ( current - warn ) / ( peak - warn ), 0f, 1f );
 
@@ -838,11 +833,8 @@ public class SteeringEffects
 			var leftAngles = new double[ _numSteeringWheelAnglesRecorded ];
 			var rightAngles = new double[ _numSteeringWheelAnglesRecorded ];
 
-			var leftValuesPeak = new double[ _numSteeringWheelAnglesRecorded ];
-			var leftValuesWarn = new double[ _numSteeringWheelAnglesRecorded ];
-
-			var rightValuesPeak = new double[ _numSteeringWheelAnglesRecorded ];
-			var rightValuesWarn = new double[ _numSteeringWheelAnglesRecorded ];
+			var leftValues = new double[ _numSteeringWheelAnglesRecorded ];
+			var rightValues = new double[ _numSteeringWheelAnglesRecorded ];
 
 			// fill out the data arrays
 
@@ -893,32 +885,19 @@ public class SteeringEffects
 				{
 					// store values as speed / ( yaw rate + 1 ) for each steering wheel angle
 
-					if ( speedAtMaxAbsYawRateInKPH > WarningMarginInKPH )
+					if ( _steeringWheelAnglesInDegrees[ angleIndex ] < 0 )
 					{
-						var speedAtWarnInKPH = speedAtMaxAbsYawRateInKPH - WarningMarginInKPH;
-						var warnAbsYawRateInDegrees = MathF.Abs( _yawRateDataInDegrees[ angleIndex, speedAtWarnInKPH ] );
+						leftAngles[ numLeftAngles ] = Math.Abs( _steeringWheelAnglesInDegrees[ angleIndex ] );
+						leftValues[ numLeftAngles ] = speedAtMaxAbsYawRateInKPH / ( maxAbsYawRateInDegrees + 1f );
 
-						if ( warnAbsYawRateInDegrees > 0f )
-						{
-							if ( _steeringWheelAnglesInDegrees[ angleIndex ] < 0 )
-							{
-								leftAngles[ numLeftAngles ] = Math.Abs( _steeringWheelAnglesInDegrees[ angleIndex ] );
+						numLeftAngles++;
+					}
+					else
+					{
+						rightAngles[ numRightAngles ] = Math.Abs( _steeringWheelAnglesInDegrees[ angleIndex ] );
+						rightValues[ numRightAngles ] = speedAtMaxAbsYawRateInKPH / ( maxAbsYawRateInDegrees + 1f );
 
-								leftValuesPeak[ numLeftAngles ] = speedAtMaxAbsYawRateInKPH / ( maxAbsYawRateInDegrees + 1f );
-								leftValuesWarn[ numLeftAngles ] = speedAtWarnInKPH / ( warnAbsYawRateInDegrees + 1f );
-
-								numLeftAngles++;
-							}
-							else
-							{
-								rightAngles[ numRightAngles ] = Math.Abs( _steeringWheelAnglesInDegrees[ angleIndex ] );
-
-								rightValuesPeak[ numRightAngles ] = speedAtMaxAbsYawRateInKPH / ( maxAbsYawRateInDegrees + 1f );
-								rightValuesWarn[ numRightAngles ] = speedAtWarnInKPH / ( warnAbsYawRateInDegrees + 1f );
-
-								numRightAngles++;
-							}
-						}
+						numRightAngles++;
 					}
 				}
 			}
@@ -952,11 +931,8 @@ public class SteeringEffects
 
 			// get our coefficients
 
-			_leftCoefficientsPeak = calculateCoefficients( numLeftAngles, leftAngles, leftValuesPeak );
-			_leftCoefficientsWarn = calculateCoefficients( numLeftAngles, leftAngles, leftValuesWarn );
-
-			_rightCoefficientsPeak = calculateCoefficients( numRightAngles, rightAngles, rightValuesPeak );
-			_rightCoefficientsWarn = calculateCoefficients( numRightAngles, rightAngles, rightValuesWarn );
+			_leftCoefficients = calculateCoefficients( numLeftAngles, leftAngles, leftValues );
+			_rightCoefficients = calculateCoefficients( numRightAngles, rightAngles, rightValues );
 
 			// write out debug csv file
 
@@ -971,26 +947,25 @@ public class SteeringEffects
 			for ( var angleIndex = 0; angleIndex < numLeftAngles; angleIndex++ )
 			{
 				var angle = leftAngles[ angleIndex ];
-				var valuePeak = leftValuesPeak[ angleIndex ];
-				var predictedPeak = PredictPeak( (float) -angle );
+				var value = MathF.Log( (float) leftValues[ angleIndex ] );
+				var predicted = Predict( (float) -angle );
 
-				writer.WriteLine( $"{angle:F0},{valuePeak:F6},{predictedPeak:F6}" );
+				writer.WriteLine( $"{angle:F0},{value:F6},{predicted:F6}" );
 			}
 
 			filePath = Path.Combine( _calibrationDirectory, "debug2.csv" );
 
 			using var writer2 = new StreamWriter( filePath );
 
-			headerString = "SWA,Predicted Peak,Predicted Warn";
+			headerString = "SWA,Predicted";
 
 			writer2.WriteLine( headerString );
 
 			for ( var angle = 0.1f; angle < 90.0f; angle += 0.1f )
 			{
-				var predictedPeak = PredictPeak( (float) -angle );
-				var predictedWarn = PredictWarn( (float) -angle );
+				var predicted = Predict( (float) -angle );
 
-				writer2.WriteLine( $"{angle:F1},{predictedPeak:F6},{predictedWarn:F6}" );
+				writer2.WriteLine( $"{angle:F1},{predicted:F6}" );
 			}
 		}
 
@@ -1000,58 +975,28 @@ public class SteeringEffects
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private float PredictPeak( float steeringWheelAngle )
+	private float Predict( float steeringWheelAngle )
 	{
-		if ( ( _leftCoefficientsPeak != null ) && ( _rightCoefficientsPeak != null ) )
+		if ( ( _leftCoefficients != null ) && ( _rightCoefficients != null ) )
 		{
 			var absSteeringWheelAngle = MathF.Abs( steeringWheelAngle );
 
 			if ( steeringWheelAngle < 0f )
 			{
-				var denominator = absSteeringWheelAngle + (float) _leftCoefficientsPeak[ 1 ];
+				var denominator = absSteeringWheelAngle + (float) _leftCoefficients[ 1 ];
 
 				if ( denominator > 0 )
 				{
-					return (float) MathF.Log( (float) _leftCoefficientsPeak[ 0 ] ) - MathF.Log( denominator );
+					return (float) MathF.Log( (float) _leftCoefficients[ 0 ] ) - MathF.Log( denominator );
 				}
 			}
 			else
 			{
-				var denominator = absSteeringWheelAngle + (float) _rightCoefficientsPeak[ 1 ];
+				var denominator = absSteeringWheelAngle + (float) _rightCoefficients[ 1 ];
 
 				if ( denominator > 0 )
 				{
-					return (float) MathF.Log( (float) _rightCoefficientsPeak[ 0 ] ) - MathF.Log( denominator );
-				}
-			}
-		}
-
-		return 0f;
-	}
-
-	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private float PredictWarn( float steeringWheelAngle )
-	{
-		if ( ( _leftCoefficientsWarn != null ) && ( _rightCoefficientsWarn != null ) )
-		{
-			var absSteeringWheelAngle = MathF.Abs( steeringWheelAngle );
-
-			if ( steeringWheelAngle < 0f )
-			{
-				var denominator = absSteeringWheelAngle + (float) _leftCoefficientsWarn[ 1 ];
-
-				if ( denominator > 0 )
-				{
-					return (float) MathF.Log( (float) _leftCoefficientsWarn[ 0 ] ) - MathF.Log( denominator );
-				}
-			}
-			else
-			{
-				var denominator = absSteeringWheelAngle + (float) _rightCoefficientsWarn[ 1 ];
-
-				if ( denominator > 0 )
-				{
-					return (float) MathF.Log( (float) _rightCoefficientsWarn[ 0 ] ) - MathF.Log( denominator );
+					return (float) MathF.Log( (float) _rightCoefficients[ 0 ] ) - MathF.Log( denominator );
 				}
 			}
 		}
@@ -1096,24 +1041,23 @@ public class SteeringEffects
 
 		if ( app.MainWindow.SteeringEffectsTabItemIsVisible )
 		{
-			app.MainWindow.SteeringEffects_Calibration_Phase.Content = $"Phase: {_currentPhase}";
+			app.MainWindow.SteeringEffects_Calibration_Phase_Label.Content = $"{localization[ "Phase:" ]} {localization[ _currentPhase.ToString() ]}";
 
-			app.MainWindow.SteeringEffects_Calibration_ExtraInfo.Content = _currentPhase switch
-			{
-				Phase.WarmUpTires => $"Lap: {_currentWarmUpLapNumber} of {WarmUpLaps}",
-				_ => "",
-			};
+			app.MainWindow.SteeringEffects_Calibration_Throttle_Label.Content = $"{localization[ "Throttle:" ]} {_robotThrottle * 100f:F0}{localization[ "Percent" ]}";
+			app.MainWindow.SteeringEffects_Calibration_Brake_Label.Content = $"{localization[ "Brake:" ]} {_robotBrake * 100f:F0}{localization[ "Percent" ]}";
 
-			app.MainWindow.SteeringEffects_Calibration_Steering.Content = $"SW: {_robotSteeringWheelAngleInDegrees,4:F0}{localization[ "Degrees" ]}";
-			app.MainWindow.SteeringEffects_Calibration_Brake.Content = $"BR:  {_robotBrake * 100f,3:F0}{localization[ "Percent" ]}";
-			app.MainWindow.SteeringEffects_Calibration_Throttle.Content = $"TH:  {_robotThrottle * 100f,3:F0}{localization[ "Percent" ]}";
+			app.MainWindow.SteeringEffects_Calibration_SteeringPosition_Label.Content = $"{localization[ "SteeringPosition:" ]} {_robotSteeringWheelAngleInDegrees:F0}{localization[ "Degrees" ]}";
+			app.MainWindow.SteeringEffects_Calibration_SteeringIncrement_Label.Content = $"{localization[ "SteeringIncrement:" ]} {_currentSteeringWheelInterval:F0}{localization[ "Degrees" ]}";
 
-			app.MainWindow.SteeringEffects_Calibration_CarPositionX.Content = $"X: {_carPositionX,6:F1}";
-			app.MainWindow.SteeringEffects_Calibration_CarPositionY.Content = $"Y: {_carPositionY,6:F1}";
+			app.MainWindow.SteeringEffects_Calibration_YawRate_Label.Content = $"{localization[ "YawRate:" ]} {app.Simulator.YawRate * RadiansToDegrees,6:F1}";
 
-			app.MainWindow.SteeringEffects_Calibration_YawRate.Content = $"YR: {app.Simulator.YawRate * RadiansToDegrees,6:F1}";
-			app.MainWindow.SteeringEffects_Calibration_YawNorth.Content = $"YN: {app.Simulator.YawNorth * RadiansToDegrees,6:F1}";
-			app.MainWindow.SteeringEffects_Calibration_VelocityY.Content = $"VY: {app.Simulator.VelocityY,6:F1}";
+			app.MainWindow.SteeringEffects_Calibration_CarPositionX_Label.Content = $"{localization[ "CarPositionX:" ]} {_carPositionX,6:F1}";
+			app.MainWindow.SteeringEffects_Calibration_CarPositionY_Label.Content = $"{localization[ "CarPositionY:" ]} {_carPositionY,6:F1}";
+
+			app.MainWindow.SteeringEffects_Calibration_VelocityX_Label.Content = $"{localization[ "VelocityX:" ]} {app.Simulator.VelocityX,6:F1}";
+			app.MainWindow.SteeringEffects_Calibration_VelocityY_Label.Content = $"{localization[ "VelocityY:" ]} {app.Simulator.VelocityY,6:F1}";
+
+			app.MainWindow.SteeringEffects_Calibration_Heading_Label.Content = $"{localization[ "Heading:" ]} {app.Simulator.YawNorth * RadiansToDegrees,6:F1}";
 
 			var transformGroup = new TransformGroup
 			{
