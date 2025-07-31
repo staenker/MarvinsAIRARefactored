@@ -1,12 +1,11 @@
 ﻿
+using Accord.Math.Optimization;
+using MarvinsAIRARefactored.Classes;
+using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
-
-using Accord.Math.Optimization;
-
-using MarvinsAIRARefactored.Classes;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -702,7 +701,7 @@ public class SteeringEffects
 				}
 				else
 				{
-					dataString += $",{_yawRateDataInDegrees[ angleIndex, speed ]:F6}";
+					dataString += "," + _yawRateDataInDegrees[ angleIndex, speed ].ToString( "F6", CultureInfo.InvariantCulture );
 				}
 			}
 
@@ -814,7 +813,7 @@ public class SteeringEffects
 
 								if ( partIndex >= parts.Length ) break;
 
-								if ( float.TryParse( parts[ partIndex ], out var yawRate ) )
+								if ( float.TryParse( parts[ partIndex ], NumberStyles.Float, CultureInfo.InvariantCulture, out var yawRate ) )
 								{
 									_yawRateDataInDegrees[ angleIndex, speedInKPH ] = yawRate;
 								}
