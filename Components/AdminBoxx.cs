@@ -371,7 +371,8 @@ public partial class AdminBoxx
 
 				WaveFlag( Yellow, 1 );
 
-				RunSequence( 1, Tone.Telemetry, false, null, 0, 0, "one_lap_to_green" );
+				// RunSequence( 1, Tone.Telemetry, false, null, 0, 0, "one_lap_to_green" );
+				RunSequence( 1, Tone.Telemetry );
 			}
 		}
 		else
@@ -925,7 +926,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 0, 4, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "black_flag_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoBlackFlag" );
@@ -939,7 +940,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!black #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "black_flag_driver_number", _carNumber );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< BlackFlagCallback" );
 	}
@@ -956,7 +957,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 0, 5, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "clear_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoClearFlag" );
@@ -970,7 +971,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!clear #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "clear_driver_number", _carNumber );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< ClearFlagCallback" );
 	}
@@ -1034,13 +1035,13 @@ public partial class AdminBoxx
 			{
 				app.ChatQueue.SendMessage( "!restart single" );
 
-				RunSequence( 1, Tone.AdminBoxx, true, White, 0, 1, "restart_is_single_file", null );
+				RunSequence( 1, Tone.AdminBoxx, true, White, 0, 1, "restart_is_single_file" );
 			}
 			else
 			{
 				app.ChatQueue.SendMessage( "!restart double" );
 
-				RunSequence( 2, Tone.AdminBoxx, true, White, 0, 1, "restart_is_double_file", null );
+				RunSequence( 2, Tone.AdminBoxx, true, White, 0, 1, "restart_is_double_file" );
 			}
 		}
 
@@ -1059,7 +1060,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 4, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "wave_by_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoWaveByDriver" );
@@ -1073,7 +1074,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!waveby #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "wave_by_driver_number", _carNumber );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< WaveByDriverCallback" );
 	}
@@ -1090,7 +1091,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 5, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "end_of_line_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoEndOfLineDriver" );
@@ -1104,7 +1105,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!eol #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "end_of_line_driver_number", _carNumber );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< EndOfLineDriverCallback" );
 	}
@@ -1121,7 +1122,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 6, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "disqualify_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoDisqualifyDriver" );
@@ -1135,7 +1136,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!dq #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "disqualify_driver_number", _carNumber );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DisqualifyDriverCallback" );
 	}
@@ -1166,7 +1167,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!remove #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "remove_driver_number", _carNumber );
+		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "remove_driver_number" );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< RemoveDriverCallback" );
 	}
@@ -1181,7 +1182,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!pacelaps +1" );
 
-			RunSequence( 1, Tone.AdminBoxx, true, White, 0, 2, "caution_extended_by_one_lap", null );
+			RunSequence( 1, Tone.AdminBoxx, true, White, 0, 2, "caution_extended_by_one_lap" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoPlusOneLap" );
@@ -1197,7 +1198,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!advance" );
 
-			RunSequence( 1, Tone.AdminBoxx, true, White, 4, 2, "session_has_been_advanced", null );
+			RunSequence( 1, Tone.AdminBoxx, true, White, 4, 2, "session_has_been_advanced" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoAdvanceToNextSession" );
@@ -1262,7 +1263,7 @@ public partial class AdminBoxx
 		{
 			app.ChatQueue.SendMessage( "!pacelaps -1" );
 
-			RunSequence( 1, Tone.AdminBoxx, true, White, 0, 3, "caution_shortened_by_one_lap", null );
+			RunSequence( 1, Tone.AdminBoxx, true, White, 0, 3, "caution_shortened_by_one_lap" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoMinusOneLap" );
