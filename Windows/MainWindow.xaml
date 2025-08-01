@@ -416,10 +416,42 @@
 
                     <StackPanel Margin="0,10,0,10">
 
-                        <GroupBox Header="{Binding Localization[UndersteerEffect]}">
+                        <GroupBox Header="{Binding Localization[UndersteerVibrationEffect]}">
 
                             <StackPanel>
 
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <controls:MairaKnob Grid.Column="0" Title="{Binding Localization[Strength]}" Value="{Binding Settings.SteeringEffectsUndersteerStrength, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerStrengthString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerStrengthContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerStrengthPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerStrengthMinusButtonMappings}" DefaultValue="0.1"/>
+                                    <controls:MairaKnob Grid.Column="2" Title="{Binding Localization[WarningThreshold]}" Value="{Binding Settings.SteeringEffectsUndersteerWarningThreshold, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerWarningThresholdString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWarningThresholdContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWarningThresholdPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWarningThresholdMinusButtonMappings}" DefaultValue="0.75"/>
+                                    <controls:MairaKnob Grid.Column="4" Title="{Binding Localization[UndersteerThreshold]}" Value="{Binding Settings.SteeringEffectsUndersteerThreshold, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerThresholdString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerThresholdContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerThresholdPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerThresholdMinusButtonMappings}" DefaultValue="1"/>
+
+                                </Grid>
+
+                                <Grid Margin="0,20,0,0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <controls:MairaKnob Grid.Column="0" Title="{Binding Localization[Curve]}" Value="{Binding Settings.SteeringEffectsUndersteerCurve, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerCurveString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerCurveContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerCurvePlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerCurveMinusButtonMappings}" ShowCurve="True" DefaultValue="0"/>
+                                    <controls:MairaKnob Grid.Column="2" Title="{Binding Localization[WarningFrequency]}" Value="{Binding Settings.SteeringEffectsUndersteerWarningFrequency, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerWarningFrequencyString}" SmallValueChangeStep="0.1" LargeValueChangeStep="1" RotationMultiplier="0.1" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWarningFrequencyContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWarningFrequencyPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWarningFrequencyMinusButtonMappings}" DefaultValue="35"/>
+                                    <controls:MairaKnob Grid.Column="4" Title="{Binding Localization[UndersteerFrequency]}" Value="{Binding Settings.SteeringEffectsUndersteerFrequency, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerFrequencyString}" SmallValueChangeStep="0.1" LargeValueChangeStep="1" RotationMultiplier="0.1" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerFrequencyContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerFrequencyPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerFrequencyMinusButtonMappings}" DefaultValue="50"/>
+
+                                </Grid>
+                                
                             </StackPanel>
 
                         </GroupBox>
@@ -1124,7 +1156,7 @@
 
                                     </Grid>
 
-                                    <controls:MairaButton Grid.Column="1" x:Name="AdminBoxx_Test" Title="Test" Click="AdminBoxx_Test_Click"/>
+                                    <controls:MairaButton Grid.Column="1" x:Name="AdminBoxx_Test" Title="{Binding Localization[Test]}" Click="AdminBoxx_Test_Click"/>
 
                                 </Grid>
 
@@ -1386,7 +1418,7 @@
 
                     <StackPanel Margin="0,10,0,10">
 
-                        <GroupBox Header="{Binding Localization[Language]}">
+                        <GroupBox x:Name="App_Language_GroupBox" Header="{Binding Localization[Language]}">
 
                             <ComboBox Grid.Row="0" x:Name="App_Language_ComboBox" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Settings.AppCurrentLanguageCode}" VerticalContentAlignment="Center"/>
 

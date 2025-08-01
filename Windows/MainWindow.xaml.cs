@@ -68,6 +68,7 @@ public partial class MainWindow : Window
 		Donate_TabItem.Visibility = Visibility.Collapsed;
 		Debug_TabItem.Visibility = Visibility.Collapsed;
 
+		App_Language_GroupBox.Visibility = Visibility.Collapsed;
 		App_CloudService_GroupBox.Visibility = Visibility.Collapsed;
 
 		TabItemPositionHelper.SetIsFirst( AdminBoxx_TabItem, true );
@@ -79,7 +80,6 @@ public partial class MainWindow : Window
 
 #if !CODER
 
-		SteeringEffects_TabItem.Visibility = Visibility.Collapsed;
 		Debug_TabItem.Visibility = Visibility.Collapsed;
 
 		TabItemPositionHelper.SetIsLast( Donate_TabItem, true );

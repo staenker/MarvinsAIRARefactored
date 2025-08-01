@@ -336,9 +336,11 @@ public class RacingWheel
 
 			if ( app.SteeringEffects.UndersteerEffectIntensity > 0f )
 			{
-				var understeerEffectTorque = MathF.Cos( _understeerEffectTimerMS * MathF.Tau / 10f ) * 0.1f;
+				var freq = app.SteeringEffects.IsUndersteering ? settings.SteeringEffectsUndersteerFrequency : settings.SteeringEffectsUndersteerWarningFrequency;
 
-				_understeerEffectTimerMS -= deltaMilliseconds;
+				var understeerEffectTorque = MathF.Cos( _understeerEffectTimerMS * MathF.Tau * freq ) * settings.SteeringEffectsUndersteerStrength;
+
+				_understeerEffectTimerMS -= deltaMilliseconds * 0.001f;
 
 				if ( _understeerEffectTimerMS < 0f )
 				{

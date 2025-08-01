@@ -13,6 +13,7 @@ namespace MarvinsAIRARefactored.Components;
 
 public class SteeringEffects
 {
+	public bool IsUndersteering { get; private set; } = false;
 	public float UndersteerEffectIntensity { get; private set; } = 0f;
 	public float MaximumGrip { get; private set; } = 0f; // if == 0 then there is no max grip
 	public float CurrentGrip { get; private set; } = 0f;
@@ -128,39 +129,52 @@ public class SteeringEffects
 	{
 		if ( _currentPhase == Phase.NotCalibrating )
 		{
+			var settings = DataContext.DataContext.Instance.Settings;
+
 			var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * RadiansToDegrees;
+			var prediction = Predict( steeringWheelAngleInDegrees );
 
-			var peak = Predict( steeringWheelAngleInDegrees );
-			var warn = peak * 1f;
-
-			if ( peak == 0f )
+			if ( prediction == 0f )
 			{
 				MaximumGrip = 0f;
-				CurrentGrip = 0f;
 			}
 			else
 			{
-				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( peak - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
+				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
 			}
+
+			var peak = prediction * settings.SteeringEffectsUndersteerThreshold;
+			var warn = prediction * settings.SteeringEffectsUndersteerWarningThreshold;
 
 			if ( ( app.Simulator.VelocityX > 1f ) && ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) ) )
 			{
 				var speedInKPH = app.Simulator.VelocityX * MPSToKPH;
 				var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
 				var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
-
 				var current = MathF.Log( speedInKPH / ( absYawRateInDegrees + 1f ) );
 
 				if ( peak > 0f )
 				{
 					CurrentGrip = ( current / peak ) * MaximumGrip;
+					IsUndersteering = ( current > peak );
 
-					UndersteerEffectIntensity = ( current > peak ) ? 1f : 0f; // Math.Clamp( ( current - warn ) / ( peak - warn ), 0f, 1f );
+					var range = peak - warn;
+
+					if ( range > 0f )
+					{
+						var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
+
+						UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerCurve ) );
+					}
+					else
+					{
+						UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
+					}
 				}
 				else
 				{
 					CurrentGrip = 0f;
-
+					IsUndersteering = false;
 					UndersteerEffectIntensity = 0f;
 				}
 
@@ -186,6 +200,8 @@ public class SteeringEffects
 
 				app.Debug.Label_9 = $"Effect Intensity: ---";
 
+				CurrentGrip = 0f;
+				IsUndersteering = false;
 				UndersteerEffectIntensity = 0f;
 			}
 		}
@@ -198,6 +214,8 @@ public class SteeringEffects
 			_carPositionY += worldVelocityY * deltaSeconds;
 
 			CurrentGrip = 0f;
+			IsUndersteering = false;
+			UndersteerEffectIntensity = 0f;
 		}
 	}
 

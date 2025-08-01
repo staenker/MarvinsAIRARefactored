@@ -1888,6 +1888,306 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Steering effects - Understeer strength
+
+	private float _steeringEffectsUndersteerStrength = 0.1f;
+
+	public float SteeringEffectsUndersteerStrength
+	{
+		get => _steeringEffectsUndersteerStrength;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 0.3f );
+
+			if ( value != _steeringEffectsUndersteerStrength )
+			{
+				_steeringEffectsUndersteerStrength = value;
+
+				OnPropertyChanged();
+			}
+
+			if ( _steeringEffectsUndersteerStrength == 0f )
+			{
+				SteeringEffectsUndersteerStrengthString = DataContext.Instance.Localization[ "OFF" ];
+			}
+			else
+			{
+				SteeringEffectsUndersteerStrengthString = $"{_steeringEffectsUndersteerStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			}
+		}
+	}
+
+	private string _steeringEffectsUndersteerStrengthString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerStrengthString
+	{
+		get => _steeringEffectsUndersteerStrengthString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerStrengthString )
+			{
+				_steeringEffectsUndersteerStrengthString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerStrengthContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerStrengthPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerStrengthMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer warning threshold
+
+	private float _steeringEffectsUndersteerWarningThreshold = 0.75f;
+
+	public float SteeringEffectsUndersteerWarningThreshold
+	{
+		get => _steeringEffectsUndersteerWarningThreshold;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 2f );
+
+			if ( value != _steeringEffectsUndersteerWarningThreshold )
+			{
+				_steeringEffectsUndersteerWarningThreshold = value;
+
+				SteeringEffectsUndersteerThreshold = MathF.Max( SteeringEffectsUndersteerThreshold, _steeringEffectsUndersteerWarningThreshold );
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsUndersteerWarningThresholdString = $"{_steeringEffectsUndersteerWarningThreshold * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _steeringEffectsUndersteerWarningThresholdString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerWarningThresholdString
+	{
+		get => _steeringEffectsUndersteerWarningThresholdString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerWarningThresholdString )
+			{
+				_steeringEffectsUndersteerWarningThresholdString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerWarningThresholdContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerWarningThresholdPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerWarningThresholdMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer threshold
+
+	private float _steeringEffectsUndersteerThreshold = 1f;
+
+	public float SteeringEffectsUndersteerThreshold
+	{
+		get => _steeringEffectsUndersteerThreshold;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 2f );
+
+			if ( value != _steeringEffectsUndersteerThreshold )
+			{
+				_steeringEffectsUndersteerThreshold = value;
+
+				SteeringEffectsUndersteerWarningThreshold = MathF.Min( SteeringEffectsUndersteerWarningThreshold, _steeringEffectsUndersteerThreshold );
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsUndersteerThresholdString = $"{_steeringEffectsUndersteerThreshold * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _steeringEffectsUndersteerThresholdString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerThresholdString
+	{
+		get => _steeringEffectsUndersteerThresholdString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerThresholdString )
+			{
+				_steeringEffectsUndersteerThresholdString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerThresholdContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerThresholdPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerThresholdMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer curve
+
+	private float _steeringEffectsUndersteerCurve = 0f;
+
+	public float SteeringEffectsUndersteerCurve
+	{
+		get => _steeringEffectsUndersteerCurve;
+
+		set
+		{
+			value = Math.Clamp( value, -1f, 1f );
+
+			if ( value != _steeringEffectsUndersteerCurve )
+			{
+				_steeringEffectsUndersteerCurve = value;
+
+				OnPropertyChanged();
+			}
+
+			if ( _steeringEffectsUndersteerCurve == 0f )
+			{
+				SteeringEffectsUndersteerCurveString = DataContext.Instance.Localization[ "OFF" ];
+			}
+			else
+			{
+				SteeringEffectsUndersteerCurveString = $"{_steeringEffectsUndersteerCurve * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			}
+		}
+	}
+
+	private string _steeringEffectsUndersteerCurveString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerCurveString
+	{
+		get => _steeringEffectsUndersteerCurveString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerCurveString )
+			{
+				_steeringEffectsUndersteerCurveString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerCurveContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerCurvePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerCurveMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer warning frequency
+
+	private float _steeringEffectsUndersteerWarningFrequency = 35f;
+
+	public float SteeringEffectsUndersteerWarningFrequency
+	{
+		get => _steeringEffectsUndersteerWarningFrequency;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 50f );
+
+			if ( value != _steeringEffectsUndersteerWarningFrequency )
+			{
+				_steeringEffectsUndersteerWarningFrequency = value;
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsUndersteerWarningFrequencyString = $"{_steeringEffectsUndersteerWarningFrequency:F0}{DataContext.Instance.Localization[ "HertzUnits" ]}";
+		}
+	}
+
+	private string _steeringEffectsUndersteerWarningFrequencyString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerWarningFrequencyString
+	{
+		get => _steeringEffectsUndersteerWarningFrequencyString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerWarningFrequencyString )
+			{
+				_steeringEffectsUndersteerWarningFrequencyString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerWarningFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerWarningFrequencyPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerWarningFrequencyMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer frequency
+
+	private float _steeringEffectsUndersteerFrequency = 50f;
+
+	public float SteeringEffectsUndersteerFrequency
+	{
+		get => _steeringEffectsUndersteerFrequency;
+
+		set
+		{
+			value = Math.Clamp( value, 0f, 50f );
+
+			if ( value != _steeringEffectsUndersteerFrequency )
+			{
+				_steeringEffectsUndersteerFrequency = value;
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsUndersteerFrequencyString = $"{_steeringEffectsUndersteerFrequency:F0}{DataContext.Instance.Localization[ "HertzUnits" ]}";
+		}
+	}
+
+	private string _steeringEffectsUndersteerFrequencyString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerFrequencyString
+	{
+		get => _steeringEffectsUndersteerFrequencyString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerFrequencyString )
+			{
+				_steeringEffectsUndersteerFrequencyString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerFrequencyPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerFrequencyMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
 	#region Steering effects - Show Grip-O-Meter window
 
 	private bool _steeringEffectsShowGripOMeterWindow = false;

@@ -1061,4 +1061,24 @@
     <value>Reset Grip-O-Meter Window</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="UndersteerVibrationEffect" xml:space="preserve">
+    <value>Understeer Vibration Effect</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarningThreshold" xml:space="preserve">
+    <value>Warning Threshold</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerThreshold" xml:space="preserve">
+    <value>Understeer Threshold</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarningFrequency" xml:space="preserve">
+    <value>Warning Frequency</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerFrequency" xml:space="preserve">
+    <value>Understeer Frequency</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>
