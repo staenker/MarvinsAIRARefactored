@@ -14,7 +14,7 @@
         MinWidth="550"
         MinHeight="350"
         Width="1100"
-        Height="650"
+        Height="750"
         d:Height="Auto"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"

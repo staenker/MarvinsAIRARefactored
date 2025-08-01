@@ -8,6 +8,24 @@
 
     <Grid>
 
+        <Grid.Style>
+
+            <Style TargetType="Grid">
+
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+
+                <Style.Triggers>
+
+                    <DataTrigger Binding="{Binding TitleOnRight, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    </DataTrigger>
+
+                </Style.Triggers>
+
+            </Style>
+            
+        </Grid.Style>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
