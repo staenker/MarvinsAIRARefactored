@@ -92,6 +92,7 @@ public partial class GripOMeter : Window
 			if ( settings.SteeringEffectsShowGripOMeterWindow )
 			{
 				Show();
+				MakeDraggable();
 			}
 			else
 			{
@@ -100,9 +101,11 @@ public partial class GripOMeter : Window
 		}
 	}
 
-	public void MakeDraggable( bool enable )
+	public void MakeDraggable()
 	{
-		_isDraggable = enable;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+		_isDraggable = settings.SteeringEffectsMakeGripOMeterDraggable;
 
 		var hwnd = new WindowInteropHelper( this ).Handle;
 

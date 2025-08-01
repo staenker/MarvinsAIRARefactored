@@ -1932,7 +1932,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GripOMeter.MakeDraggable( _steeringEffectsMakeGripOMeterDraggable );
+			app.GripOMeter.MakeDraggable();
 		}
 	}
 
