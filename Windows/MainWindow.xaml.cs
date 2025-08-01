@@ -671,6 +671,13 @@ public partial class MainWindow : Window
 		parent?.RaiseEvent( eventArg );
 	}
 
+	private void SteeringEffects_ResetGripOMeter_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.GripOMeter.ResetWindow();
+	}
+
 	private void SteeringEffects_RunCalibration_MairaButton_Click( object sender, RoutedEventArgs e )
 	{
 		var app = App.Instance!;

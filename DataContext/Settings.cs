@@ -1907,14 +1907,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			if ( _steeringEffectsShowGripOMeterWindow )
-			{
-				app.GripOMeter.Show();
-			}
-			else
-			{
-				app.GripOMeter.Hide();
-			}
+			app.GripOMeter.UpdateVisibility();
 		}
 	}
 
@@ -1940,6 +1933,70 @@ public class Settings : INotifyPropertyChanged
 			var app = App.Instance!;
 
 			app.GripOMeter.MakeDraggable( _steeringEffectsMakeGripOMeterDraggable );
+		}
+	}
+
+	#endregion
+
+	#region Steering effects - Grip-O-Meter window position
+
+	private Rectangle _steeringEffectsGripOMeterWindowPosition = Rectangle.Empty;
+
+	public Rectangle SteeringEffectsGripOMeterWindowPosition
+	{
+		get => _steeringEffectsGripOMeterWindowPosition;
+
+		set
+		{
+			if ( value != _steeringEffectsGripOMeterWindowPosition )
+			{
+				_steeringEffectsGripOMeterWindowPosition = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Steering effects - Grip-O-Meter window scale
+
+	private float _steeringEffectsGripOMeterWindowScale = 1f;
+
+	public float SteeringEffectsGripOMeterWindowScale
+	{
+		get => _steeringEffectsGripOMeterWindowScale;
+
+		set
+		{
+			value = Math.Clamp( value, 0.5f, 2f );
+
+			if ( value != _steeringEffectsGripOMeterWindowScale )
+			{
+				_steeringEffectsGripOMeterWindowScale = value;
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsGripOMeterWindowScaleString = $"{_steeringEffectsGripOMeterWindowScale * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _steeringEffectsGripOMeterWindowScaleString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsGripOMeterWindowScaleString
+	{
+		get => _steeringEffectsGripOMeterWindowScaleString;
+
+		set
+		{
+			if ( value != _steeringEffectsGripOMeterWindowScaleString )
+			{
+				_steeringEffectsGripOMeterWindowScaleString = value;
+
+				OnPropertyChanged();
+			}
 		}
 	}
 

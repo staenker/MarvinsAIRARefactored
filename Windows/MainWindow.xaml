@@ -420,10 +420,36 @@
 
                             <StackPanel>
 
-                                <controls:MairaSwitch Margin="0" IsOn="{Binding Settings.SteeringEffectsShowGripOMeterWindow, Mode=TwoWay}" Title="{Binding Localization[ShowGripOMeter]}"/>
-                                <controls:MairaSwitch Margin="0,10,0,0" IsOn="{Binding Settings.SteeringEffectsMakeGripOMeterDraggable, Mode=TwoWay}" Title="{Binding Localization[MakeGripOMeterDraggable]}"/>
-
                             </StackPanel>
+
+                        </GroupBox>
+
+                        <GroupBox Header="{Binding Localization[GripOMeter]}">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <controls:MairaSwitch Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0" IsOn="{Binding Settings.SteeringEffectsShowGripOMeterWindow, Mode=TwoWay}" Title="{Binding Localization[ShowGripOMeter]}"/>
+                                <controls:MairaSwitch Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" IsOn="{Binding Settings.SteeringEffectsMakeGripOMeterDraggable, Mode=TwoWay}" Title="{Binding Localization[MakeGripOMeterDraggable]}"/>
+
+                                <controls:MairaButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SteeringEffects_ResetGripOMeter_MairaButton" Margin="0,10,0,0" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_reset.png" Title="{Binding Localization[ResetGripOMeter]}" TitleOnRight="True" Click="SteeringEffects_ResetGripOMeter_MairaButton_Click"/>
+                                
+                                <controls:MairaKnob Grid.Row="0" Grid.Column="4" Grid.RowSpan="5" VerticalAlignment="Center" Margin="0,0,0,10" Title="{Binding Localization[GripOMeterScale]}" Value="{Binding Settings.SteeringEffectsGripOMeterWindowScale, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsGripOMeterWindowScaleString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.05" RotationMultiplier="10" DefaultValue="1"/>
+
+                            </Grid>
 
                         </GroupBox>
 

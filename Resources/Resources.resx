@@ -1049,4 +1049,16 @@
     <value>Make the Grip-O-Meter window draggable</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="GripOMeterScale" xml:space="preserve">
+    <value>Grip-O-Meter Scale</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ResetGripOMeter" xml:space="preserve">
+    <value>Reset Grip-O-Meter Window</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>

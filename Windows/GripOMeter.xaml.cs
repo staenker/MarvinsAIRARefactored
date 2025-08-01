@@ -13,12 +13,10 @@ using Brushes = System.Windows.Media.Brushes;
 
 namespace MarvinsAIRARefactored.Windows;
 
-// Bar at top = Margin = 0
-// Bar at bottom = Margin = 256
-
 public partial class GripOMeter : Window
 {
-	private bool _isDraggable;
+	private bool _initialized = false;
+	private bool _isDraggable = false;
 
 	public GripOMeter()
 	{
@@ -37,6 +35,19 @@ public partial class GripOMeter : Window
 
 		app.Logger.WriteLine( "[GripOMeter] Initialize >>>" );
 
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+		var rectangle = settings.SteeringEffectsGripOMeterWindowPosition;
+
+		Left = rectangle.Location.X;
+		Top = rectangle.Location.Y;
+
+		WindowStartupLocation = WindowStartupLocation.Manual;
+
+		UpdateVisibility();
+
+		_initialized = true;
+
 		app.Logger.WriteLine( "[GripOMeter] <<< Initialize" );
 	}
 
@@ -47,6 +58,46 @@ public partial class GripOMeter : Window
 		var exStyle = User32.GetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE );
 
 		_ = User32.SetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE, (SetWindowLongFlags) ( (uint) exStyle | (uint) SetWindowLongFlags.WS_EX_TOOLWINDOW ) ); // Prevent Alt+Tab visibility
+	}
+
+	private void Window_LocationChanged( object sender, EventArgs e )
+	{
+		if ( _initialized )
+		{
+			if ( IsVisible && ( WindowState == WindowState.Normal ) )
+			{
+				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+				var rectangle = settings.SteeringEffectsGripOMeterWindowPosition;
+
+				rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
+
+				settings.SteeringEffectsGripOMeterWindowPosition = rectangle;
+			}
+		}
+	}
+
+	public void ResetWindow()
+	{
+		Left = 0;
+		Top = 0;
+	}
+
+	public void UpdateVisibility()
+	{
+		if ( _initialized )
+		{
+			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+			if ( settings.SteeringEffectsShowGripOMeterWindow )
+			{
+				Show();
+			}
+			else
+			{
+				Hide();
+			}
+		}
 	}
 
 	public void MakeDraggable( bool enable )

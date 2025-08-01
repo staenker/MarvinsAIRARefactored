@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarvinsAIRARefactored.Windows"
+        xmlns:datacontext="clr-namespace:MarvinsAIRARefactored.DataContext"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -11,11 +12,20 @@
         Topmost="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        Width="128"
-        Height="384"
-        Loaded="Window_Loaded">
+        SizeToContent="WidthAndHeight"
+        Loaded="Window_Loaded"
+        LocationChanged="Window_LocationChanged"
+        Cursor="SizeAll">
+
+    <Window.DataContext>
+        <Binding Source="{x:Static datacontext:DataContext.Instance}"/>
+    </Window.DataContext>
 
     <Grid>
+
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="RootScaleTransform" ScaleX="{Binding Settings.SteeringEffectsGripOMeterWindowScale}" ScaleY="{Binding Settings.SteeringEffectsGripOMeterWindowScale}"/>
+        </Grid.LayoutTransform>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32"/>
@@ -30,19 +40,19 @@
             <RowDefinition Height="4"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.RowSpan="3" Grid.ColumnSpan="4" Source="/MarvinsAIRARefactored;component/Artwork/Misc/grip-o-meter.png" Width="128" Height="384"/>
+        <Image Grid.RowSpan="3" Grid.ColumnSpan="4" Source="/MarvinsAIRARefactored;component/Artwork/Misc/grip-o-meter.png" Width="128" Height="384" RenderOptions.BitmapScalingMode="HighQuality"/>
 
         <Grid Grid.Row="1" Grid.Column="2">
 
             <Grid.Clip>
                 <RectangleGeometry Rect="0,0,88,376" RadiusX="44" RadiusY="44"/>
             </Grid.Clip>
-            
+
             <Rectangle x:Name="GripOMeter_Fill_Rectangle" Fill="SkyBlue" VerticalAlignment="Bottom" Height="324"/>
-            
+
         </Grid>
 
-        <Image x:Name="GripOMeter_Bar_Image" Grid.Row="1" Grid.Column="2" Source="/MarvinsAIRARefactored;component/Artwork/Misc/grip-o-meter-bar.png" Width="88" Height="32" VerticalAlignment="Bottom" Margin="0,0,0,306"/>
+        <Image x:Name="GripOMeter_Bar_Image" Grid.Row="1" Grid.Column="2" Source="/MarvinsAIRARefactored;component/Artwork/Misc/grip-o-meter-bar.png" Width="88" Height="32" VerticalAlignment="Bottom" Margin="0,0,0,306" RenderOptions.BitmapScalingMode="HighQuality"/>
 
     </Grid>
 

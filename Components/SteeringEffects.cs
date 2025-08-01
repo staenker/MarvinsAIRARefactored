@@ -1,19 +1,21 @@
 ﻿
-using Accord.Math.Optimization;
-using MarvinsAIRARefactored.Classes;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 
+using Accord.Math.Optimization;
+
+using MarvinsAIRARefactored.Classes;
+
 namespace MarvinsAIRARefactored.Components;
 
 public class SteeringEffects
 {
 	public float UndersteerEffectIntensity { get; private set; } = 0f;
-	public float MaximumGrip { get; private set; } = 0f; // if == 0f then there is no max grip
-	public float CurrentGrip { get; private set; } = 0f; // % of maximum grip - can exceed 100%
+	public float MaximumGrip { get; private set; } = 0f; // if == 0 then there is no max grip
+	public float CurrentGrip { get; private set; } = 0f;
 
 	private enum Phase
 	{
