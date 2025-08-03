@@ -162,6 +162,8 @@ public partial class MainWindow : Window
 			Pedals.SetMairaComboBoxItemsSource( Pedals_ThrottleEffect2_ComboBox );
 			Pedals.SetMairaComboBoxItemsSource( Pedals_ThrottleEffect3_ComboBox );
 
+			app.SteeringEffects.SetMairaComboBoxItemsSource();
+
 #endif
 
 			UpdateStatus();
@@ -260,13 +262,6 @@ public partial class MainWindow : Window
 				Status_WetDry_Label.Content = panel4Message;
 				Status_WetDry_Label.Visibility = Visibility.Visible;
 			}
-
-			var disableButtons = ( app.Simulator.TrackDisplayName != "Centripetal Circuit" );
-
-			SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = disableButtons ? Visibility.Visible : Visibility.Collapsed;
-
-			SteeringEffects_RunCalibration_MairaButton.Disabled = disableButtons;
-			SteeringEffects_StopCalibration_MairaButton.Disabled = disableButtons;
 		} );
 	}
 

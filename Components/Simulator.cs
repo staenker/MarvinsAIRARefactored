@@ -25,9 +25,7 @@ public class Simulator
 	public bool BrakeABSactive { get; private set; } = false;
 	public float Brake { get; private set; } = 0f;
 	public string CarScreenName { get; private set; } = string.Empty;
-	public string CarSetupLoadTypeName { get; private set; } = string.Empty;
 	public string CarSetupName { get; private set; } = string.Empty;
-	public string CarSetupTireType { get; private set; } = string.Empty;
 	public float[] CFShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public float Clutch { get; private set; } = 0f;
 	public float[] CRShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
@@ -42,6 +40,7 @@ public class Simulator
 	public float[] LRShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public int NumForwardGears { get; private set; } = 0;
 	public IRacingSdkEnum.PaceMode PaceMode { get; private set; } = IRacingSdkEnum.PaceMode.NotPacing;
+	public int PlayerCarIdx { get; private set; } = 0;
 	public IRacingSdkEnum.TrkLoc PlayerTrackSurface { get; private set; } = IRacingSdkEnum.TrkLoc.NotInWorld;
 	public int ReplayFrameNumEnd { get; private set; } = 1;
 	public bool ReplayPlaySlowMotion { get; private set; } = false;
@@ -59,6 +58,8 @@ public class Simulator
 	public float SteeringWheelAngleMax { get; private set; } = 0f;
 	public float[] SteeringWheelTorque_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public float Throttle { get; private set; } = 0f;
+	public int TireCompound { get; private set; } = 0;
+	public string TireCompoundType { get; private set; } = string.Empty;
 	public string TrackDisplayName { get; private set; } = string.Empty;
 	public string TrackConfigName { get; private set; } = string.Empty;
 	public string UserName { get; private set; } = string.Empty;
@@ -82,6 +83,7 @@ public class Simulator
 
 	private IRacingSdkDatum? _brakeABSactiveDatum = null;
 	private IRacingSdkDatum? _brakeDatum = null;
+	private IRacingSdkDatum? _carIdxTireCompoundDatum = null;
 	private IRacingSdkDatum? _cfShockVel_STDatum = null;
 	private IRacingSdkDatum? _clutchDatum = null;
 	private IRacingSdkDatum? _crShockVel_STDatum = null;
@@ -92,6 +94,7 @@ public class Simulator
 	private IRacingSdkDatum? _lfShockVel_STDatum = null;
 	private IRacingSdkDatum? _lrShockVel_STDatum = null;
 	private IRacingSdkDatum? _paceModeDatum = null;
+	private IRacingSdkDatum? _playerCarIdxDatum = null;
 	private IRacingSdkDatum? _playerTrackSurfaceDatum = null;
 	private IRacingSdkDatum? _replayFrameNumEndDatum = null;
 	private IRacingSdkDatum? _replayPlaySlowMotionDatum = null;
@@ -236,17 +239,7 @@ public class Simulator
 
 		var sessionInfo = _irsdk.Data.SessionInfo;
 
-		CarSetupLoadTypeName = sessionInfo.DriverInfo.DriverSetupLoadTypeName; // "iracing" or "user"
-		CarSetupName = sessionInfo.DriverInfo.DriverSetupName;
-
-		if ( ( sessionInfo.CarSetup != null ) && ( sessionInfo.CarSetup.Tires != null ) && ( sessionInfo.CarSetup.Tires.TireType != null ) )
-		{
-			CarSetupTireType = sessionInfo.CarSetup.Tires.TireType.TireType; // "wet" or "dry"
-		}
-		else
-		{
-			CarSetupTireType = "dry";
-		}
+		CarSetupName = Path.GetFileNameWithoutExtension( sessionInfo.DriverInfo.DriverSetupName ).ToLower();
 
 		NumForwardGears = sessionInfo.DriverInfo.DriverCarGearNumForward;
 
@@ -268,6 +261,8 @@ public class Simulator
 		TrackDisplayName = _irsdk.Data.SessionInfo.WeekendInfo.TrackDisplayName ?? string.Empty;
 		TrackConfigName = _irsdk.Data.SessionInfo.WeekendInfo.TrackConfigName ?? string.Empty;
 
+		UpdateTireCompoundType();
+
 		if ( _needToUpdateFromContextSettings )
 		{
 			DataContext.DataContext.Instance.Settings.UpdateFromContextSettings();
@@ -278,6 +273,8 @@ public class Simulator
 		_needToLoadCalibration = true;
 
 		app.MainWindow.UpdateStatus();
+
+		app.SteeringEffects.SetMairaComboBoxItemsSource();
 
 #if DEBUG
 
@@ -300,12 +297,14 @@ public class Simulator
 		{
 			_brakeABSactiveDatum = _irsdk.Data.TelemetryDataProperties[ "BrakeABSactive" ];
 			_brakeDatum = _irsdk.Data.TelemetryDataProperties[ "Brake" ];
+			_carIdxTireCompoundDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxTireCompound" ];
 			_clutchDatum = _irsdk.Data.TelemetryDataProperties[ "Clutch" ];
 			_gearDatum = _irsdk.Data.TelemetryDataProperties[ "Gear" ];
 			_isOnTrackDatum = _irsdk.Data.TelemetryDataProperties[ "IsOnTrack" ];
 			_isReplayPlayingDatum = _irsdk.Data.TelemetryDataProperties[ "IsReplayPlaying" ];
 			_lapDistPctDatum = _irsdk.Data.TelemetryDataProperties[ "LapDistPct" ];
 			_paceModeDatum = _irsdk.Data.TelemetryDataProperties[ "PaceMode" ];
+			_playerCarIdxDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerCarIdx" ];
 			_playerTrackSurfaceDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerTrackSurface" ];
 			_replayFrameNumEndDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayFrameNumEnd" ];
 			_replayPlaySlowMotionDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayPlaySlowMotion" ];
@@ -421,6 +420,10 @@ public class Simulator
 
 		PaceMode = (IRacingSdkEnum.PaceMode) _irsdk.Data.GetInt( _paceModeDatum );
 
+		// get the player car index
+
+		PlayerCarIdx = _irsdk.Data.GetInt( _playerCarIdxDatum );
+
 		// get the player track surface
 
 		PlayerTrackSurface = (IRacingSdkEnum.TrkLoc) _irsdk.Data.GetInt( _playerTrackSurfaceDatum );
@@ -469,6 +472,19 @@ public class Simulator
 		}
 
 		_weatherDeclaredWetLastFrame = WeatherDeclaredWet;
+
+		// get the tire compound and tire compound type
+
+		if ( ( PlayerCarIdx >= 0 ) && ( PlayerCarIdx < _carIdxTireCompoundDatum!.Count ) )
+		{
+			int[] carIdxTireCompounds = new int[ _carIdxTireCompoundDatum!.Count ];
+
+			_irsdk.Data.GetIntArray( _carIdxTireCompoundDatum, carIdxTireCompounds, 0, _carIdxTireCompoundDatum.Count );
+
+			TireCompound = carIdxTireCompounds[ PlayerCarIdx ];
+
+			UpdateTireCompoundType();
+		}
 
 		// get the yaw north and rate
 
@@ -603,6 +619,39 @@ public class Simulator
 		// trigger the app worker thread
 
 		app.TriggerWorkerThread();
+	}
+
+	private void UpdateTireCompoundType()
+	{
+		var tireCompoundTypeFound = false;
+
+		var sessionInfo = _irsdk.Data.SessionInfo;
+
+		if ( sessionInfo != null )
+		{
+			if ( sessionInfo.DriverInfo != null )
+			{
+				if ( sessionInfo.DriverInfo.DriverTires != null )
+				{
+					for ( var tireIndex = 0; tireIndex < sessionInfo.DriverInfo.DriverTires.Count; tireIndex++ )
+					{
+						if ( sessionInfo.DriverInfo.DriverTires[ tireIndex ].TireIndex == TireCompound )
+						{
+							TireCompoundType = sessionInfo.DriverInfo.DriverTires[ tireIndex ].TireCompoundType.ToLower();
+
+							tireCompoundTypeFound = true;
+
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if ( !tireCompoundTypeFound )
+		{
+			TireCompoundType = "unknown";
+		}
 	}
 
 	private void OnDebugLog( string message )

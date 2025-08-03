@@ -94,6 +94,8 @@ public class SteeringEffects
 	private float _carPositionX = 0f;
 	private float _carPositionY = 0f;
 
+	private bool _calibrationIsValid = false;
+
 	private float[]? _leftCoefficients;
 	private float[]? _rightCoefficients;
 
@@ -102,15 +104,59 @@ public class SteeringEffects
 
 	private readonly Cobyla _cobyla = new( 2, CobylaObjective );
 
+	public void SetMairaComboBoxItemsSource()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[SteeringEffects] SetMairaComboBoxItemsSource >>>" );
+
+		var localization = DataContext.DataContext.Instance.Localization;
+
+		var dictionary = new Dictionary<string, string>()
+		{
+			{ string.Empty, localization["CalibrationFileNotSelected"] }
+		};
+
+		foreach ( var filePath in Directory.GetFiles( _calibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
+		{
+			var option = Path.GetFileNameWithoutExtension( filePath );
+
+			dictionary.Add( option, option );
+		}
+
+		if ( !dictionary.ContainsKey( DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile ) )
+		{
+			DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile = string.Empty;
+		}
+
+		app.Dispatcher.BeginInvoke( () =>
+		{
+			app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.ItemsSource = dictionary;
+			app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.SelectedValue = DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile;
+		} );
+
+		app.Logger.WriteLine( "[SteeringEffects] <<< SetMairaComboBoxItemsSource" );
+	}
+
 	public void RunCalibration()
 	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[SteeringEffects] RunCalibration >>>" );
+
 		// start at the very beginning
 
 		_currentPhase = Phase.ResetCalibration;
+
+		app.Logger.WriteLine( "[SteeringEffects] <<< RunCalibration" );
 	}
 
 	public void StopCalibration()
 	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[SteeringEffects] StopCalibration >>>" );
+
 		// whoa, nelly!
 
 		_currentPhase = Phase.Stop;
@@ -122,52 +168,63 @@ public class SteeringEffects
 		// load the calibration data
 
 		LoadCalibration();
+
+		app.Logger.WriteLine( "[SteeringEffects] <<< StopCalibration" );
 	}
 
 	public void Update( App app, float deltaSeconds )
 	{
 		if ( _currentPhase == Phase.NotCalibrating )
 		{
-			var settings = DataContext.DataContext.Instance.Settings;
-
-			var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * RadiansToDegrees;
-			var prediction = Predict( steeringWheelAngleInDegrees );
-
-			if ( prediction == 0f )
+			if ( _calibrationIsValid )
 			{
-				MaximumGrip = 0f;
-			}
-			else
-			{
-				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
-			}
+				var settings = DataContext.DataContext.Instance.Settings;
 
-			var peak = prediction * settings.SteeringEffectsUndersteerThreshold;
-			var warn = prediction * settings.SteeringEffectsUndersteerWarningThreshold;
+				var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * RadiansToDegrees;
+				var prediction = Predict( steeringWheelAngleInDegrees );
 
-			if ( ( app.Simulator.VelocityX > 1f ) && ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) ) )
-			{
-				var speedInKPH = app.Simulator.VelocityX * MPSToKPH;
-				var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
-				var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
-				var current = MathF.Log( speedInKPH / ( absYawRateInDegrees + 1f ) );
-
-				if ( peak > 0f )
+				if ( prediction == 0f )
 				{
-					CurrentGrip = ( current / peak ) * MaximumGrip;
-					IsUndersteering = ( current > peak );
+					MaximumGrip = 0f;
+				}
+				else
+				{
+					MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
+				}
 
-					var range = peak - warn;
+				var peak = prediction * settings.SteeringEffectsUndersteerThreshold;
+				var warn = prediction * settings.SteeringEffectsUndersteerWarningThreshold;
 
-					if ( range > 0f )
+				if ( ( app.Simulator.VelocityX > 1f ) && ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) ) )
+				{
+					var speedInKPH = app.Simulator.VelocityX * MPSToKPH;
+					var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
+					var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
+					var current = MathF.Log( speedInKPH / ( absYawRateInDegrees + 1f ) );
+
+					if ( peak > 0f )
 					{
-						var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
+						CurrentGrip = ( current / peak ) * MaximumGrip;
+						IsUndersteering = ( current > peak );
 
-						UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerCurve ) );
+						var range = peak - warn;
+
+						if ( range > 0f )
+						{
+							var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
+
+							UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerCurve ) );
+						}
+						else
+						{
+							UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
+						}
 					}
 					else
 					{
-						UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
+						CurrentGrip = 0f;
+						IsUndersteering = false;
+						UndersteerEffectIntensity = 0f;
 					}
 				}
 				else
@@ -646,19 +703,6 @@ public class SteeringEffects
 		}
 	}
 
-	private string GetPreferredCalibrationFileName()
-	{
-		// TODO update this code so the user can override the calibration file name
-
-		var app = App.Instance!;
-
-		var carSetupName = Path.GetFileNameWithoutExtension( app.Simulator.CarSetupName );
-
-		var filePath = Path.Combine( _calibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupLoadTypeName} - {carSetupName} - {app.Simulator.CarSetupTireType}.csv" );
-
-		return filePath;
-	}
-
 	private void SaveCalibration()
 	{
 		var app = App.Instance!;
@@ -674,13 +718,13 @@ public class SteeringEffects
 
 		// open file
 
-		var filePath = GetPreferredCalibrationFileName();
+		var filePath = Path.Combine( _calibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupName} - {app.Simulator.TireCompoundType}.csv" );
 
 		using var writer = new StreamWriter( filePath );
 
 		// write car name and calibration
 
-		writer.WriteLine( $"{app.Simulator.CarScreenName},{app.Simulator.CarSetupLoadTypeName},{app.Simulator.CarSetupName},{app.Simulator.CarSetupTireType}" );
+		writer.WriteLine( $"{app.Simulator.CarScreenName},{app.Simulator.CarSetupName},{app.Simulator.TireCompoundType}" );
 
 		// write header row
 
@@ -714,6 +758,16 @@ public class SteeringEffects
 			writer.WriteLine( dataString );
 		}
 
+		// update understeer setting to use this calibration file
+
+		DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile = Path.GetFileNameWithoutExtension( filePath );
+
+		// update the combo box options
+
+		SetMairaComboBoxItemsSource();
+
+		//
+
 		app.Logger.WriteLine( "[SteeringEffects] <<< SaveCalibration" );
 	}
 
@@ -722,6 +776,8 @@ public class SteeringEffects
 		var app = App.Instance!;
 
 		app.Logger.WriteLine( "[SteeringEffects] LoadCalibration >>>" );
+
+		var settings = DataContext.DataContext.Instance.Settings;
 
 		if ( _currentPhase == Phase.NotCalibrating )
 		{
@@ -732,13 +788,23 @@ public class SteeringEffects
 			Array.Clear( _steeringWheelAnglesInDegrees );
 			Array.Clear( _yawRateDataInDegrees );
 
+			// clear out calibration
+
+			_calibrationIsValid = false;
+
+			_leftCoefficients = null;
+			_rightCoefficients = null;
+
+			_scaleTop = 0f;
+			_scaleBottom = 0f;
+
 			// keep track of whether the file load was good or not
 
 			var fileLoadWasSuccessful = true;
 
 			// open file
 
-			var filePath = GetPreferredCalibrationFileName();
+			var filePath = Path.Combine( _calibrationDirectory, $"{settings.SteeringEffectsUndersteerCalibrationFile}.csv" );
 
 			if ( !File.Exists( filePath ) )
 			{
@@ -918,6 +984,10 @@ public class SteeringEffects
 				rightPrediction = Predict( 180f );
 
 				_scaleBottom = MathF.Min( leftPrediction, rightPrediction );
+
+				// all good to go!
+
+				_calibrationIsValid = true;
 			}
 		}
 
@@ -1022,7 +1092,12 @@ public class SteeringEffects
 				app.MainWindow.SteeringEffects_TargetPosition_Image.Visibility = Visibility.Hidden;
 			}
 
+			app.MainWindow.SteeringEffects_CarSetupName_TextBlock.Text = app.Simulator.CarSetupName;
+			app.MainWindow.SteeringEffects_TireCompoundType_TextBlock.Text = app.Simulator.TireCompoundType;
+
 			var disableButtons = ( app.Simulator.TrackDisplayName != "Centripetal Circuit" );
+
+			app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = disableButtons ? Visibility.Visible : Visibility.Collapsed;
 
 			if ( _currentPhase == Phase.NotCalibrating )
 			{
