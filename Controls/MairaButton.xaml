@@ -23,7 +23,7 @@
                 </Style.Triggers>
 
             </Style>
-            
+
         </Grid.Style>
 
         <Grid.RowDefinitions>
@@ -37,11 +37,11 @@
         </Grid.ColumnDefinitions>
 
         <Label x:Name="Label" Content="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-            
+
             <Label.Style>
-                
+
                 <Style TargetType="Label">
-                    
+
                     <Setter Property="Visibility" Value="Visible"/>
                     <Setter Property="Foreground" Value="#FFFFFFFF"/>
                     <Setter Property="Grid.Row" Value="0"/>
@@ -49,7 +49,7 @@
                     <Setter Property="Margin" Value="0,0,0,10"/>
 
                     <Style.Triggers>
-                        
+
                         <DataTrigger Binding="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
@@ -61,11 +61,11 @@
                         </DataTrigger>
 
                     </Style.Triggers>
-                    
+
                 </Style>
-                
+
             </Label.Style>
-            
+
         </Label>
 
         <Button Grid.Row="1" Grid.Column="0" x:Name="Button" Focusable="False" IsTabStop="False" Background="Transparent" BorderThickness="0" Click="Button_Click" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" PreviewMouseDown="Button_PreviewMouseDown" PreviewMouseUp="Button_PreviewMouseUp">
@@ -73,10 +73,10 @@
             <Button.Style>
 
                 <Style TargetType="Button">
-                    
+
                     <Setter Property="OverridesDefaultStyle" Value="True"/>
                     <Setter Property="Cursor" Value="Hand"/>
-                    
+
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
@@ -84,15 +84,15 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                    
+
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Disabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                             <Setter Property="Cursor" Value="Arrow"/>
                         </DataTrigger>
                     </Style.Triggers>
-                    
+
                 </Style>
-                
+
             </Button.Style>
 
             <Grid>
@@ -106,8 +106,26 @@
                 <Image x:Name="ButtonBorder_Mapped_Image" Source="/MarvinsAIRARefactored;component/Artwork/Button/button_border_mapped.png" Width="48" Height="48" Visibility="Hidden"/>
 
                 <Image x:Name="BehindIcon_Image" Source="{Binding BehindIcon, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Name="ButtonIcon_Image" Source="{Binding ButtonIcon, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality"/>
-                
+                <Image x:Name="ButtonIcon_Image" Source="{Binding ButtonIcon, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="48" Height="48" RenderOptions.BitmapScalingMode="HighQuality">
+
+                    <Image.Style>
+
+                        <Style TargetType="Image">
+
+                            <Setter Property="Opacity" Value="1.0"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Disabled, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+
+                    </Image.Style>
+
+                </Image>
+
             </Grid>
 
         </Button>
