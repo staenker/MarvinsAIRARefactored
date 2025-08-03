@@ -1081,4 +1081,12 @@
     <value>Progress:</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="UndersteerCalibrationFile" xml:space="preserve">
+    <value>Understeer Calibration File</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CalibrationFileNotSelected" xml:space="preserve">
+    <value>[Calibration File Not Selected]</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>
