@@ -969,12 +969,8 @@
     <value>Phase:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="SteeringPosition:" xml:space="preserve">
-    <value>Steering Position:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="SteeringIncrement:" xml:space="preserve">
-    <value>Steering Increment:</value>
+  <data name="SteeringWheel:" xml:space="preserve">
+    <value>Steering Wheel:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="YawRate:" xml:space="preserve">
@@ -1079,6 +1075,10 @@
   </data>
   <data name="UndersteerFrequency" xml:space="preserve">
     <value>Understeer Frequency</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Progress:" xml:space="preserve">
+    <value>Progress:</value>
     <comment>Steering effects</comment>
   </data>
 </root>
