@@ -79,16 +79,16 @@ public class Pedals
 		var selectedEffect = mairaComboBox.SelectedValue as Effect?;
 
 		var dictionary = new Dictionary<Effect, string>
-			{
-				{ Effect.None, DataContext.DataContext.Instance.Localization[ "None" ] },
-				{ Effect.GearChange, DataContext.DataContext.Instance.Localization[ "GearChange" ] },
-				{ Effect.ABSEngaged, DataContext.DataContext.Instance.Localization[ "ABSEngaged" ] },
-				{ Effect.RPM, DataContext.DataContext.Instance.Localization[ "RPM" ] },
-				{ Effect.SteeringEffects, DataContext.DataContext.Instance.Localization[ "SteeringEffects" ] },
-				{ Effect.WheelLock, DataContext.DataContext.Instance.Localization[ "WheelLock" ] },
-				{ Effect.WheelSpin, DataContext.DataContext.Instance.Localization[ "WheelSpin" ] },
-				{ Effect.ClutchSlip, DataContext.DataContext.Instance.Localization[ "ClutchSlip" ] },
-			};
+		{
+			{ Effect.None, DataContext.DataContext.Instance.Localization[ "None" ] },
+			{ Effect.GearChange, DataContext.DataContext.Instance.Localization[ "GearChange" ] },
+			{ Effect.ABSEngaged, DataContext.DataContext.Instance.Localization[ "ABSEngaged" ] },
+			{ Effect.RPM, DataContext.DataContext.Instance.Localization[ "RPM" ] },
+			{ Effect.SteeringEffects, DataContext.DataContext.Instance.Localization[ "SteeringEffects" ] },
+			{ Effect.WheelLock, DataContext.DataContext.Instance.Localization[ "WheelLock" ] },
+			{ Effect.WheelSpin, DataContext.DataContext.Instance.Localization[ "WheelSpin" ] },
+			{ Effect.ClutchSlip, DataContext.DataContext.Instance.Localization[ "ClutchSlip" ] },
+		};
 
 		mairaComboBox.ItemsSource = dictionary;
 

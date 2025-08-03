@@ -111,15 +111,15 @@ public class RacingWheel
 		app.Logger.WriteLine( "[RacingWheel] SetMairaComboBoxItemsSource >>>" );
 
 		var dictionary = new Dictionary<Algorithm, string>
-			{
-				{ Algorithm.Native60Hz, DataContext.DataContext.Instance.Localization[ "Native60Hz" ] },
-				{ Algorithm.Native360Hz, DataContext.DataContext.Instance.Localization[ "Native360Hz" ] },
-				{ Algorithm.DetailBooster, DataContext.DataContext.Instance.Localization[ "DetailBooster" ] },
-				{ Algorithm.DeltaLimiter, DataContext.DataContext.Instance.Localization[ "DeltaLimiter" ] },
-				{ Algorithm.DetailBoosterOn60Hz, DataContext.DataContext.Instance.Localization[ "DetailBoosterOn60Hz" ] },
-				{ Algorithm.DeltaLimiterOn60Hz, DataContext.DataContext.Instance.Localization[ "DeltaLimiterOn60Hz" ] },
-				{ Algorithm.ZeAlanLeTwist, DataContext.DataContext.Instance.Localization[ "ZeAlanLeTwist" ] }
-			};
+		{
+			{ Algorithm.Native60Hz, DataContext.DataContext.Instance.Localization[ "Native60Hz" ] },
+			{ Algorithm.Native360Hz, DataContext.DataContext.Instance.Localization[ "Native360Hz" ] },
+			{ Algorithm.DetailBooster, DataContext.DataContext.Instance.Localization[ "DetailBooster" ] },
+			{ Algorithm.DeltaLimiter, DataContext.DataContext.Instance.Localization[ "DeltaLimiter" ] },
+			{ Algorithm.DetailBoosterOn60Hz, DataContext.DataContext.Instance.Localization[ "DetailBoosterOn60Hz" ] },
+			{ Algorithm.DeltaLimiterOn60Hz, DataContext.DataContext.Instance.Localization[ "DeltaLimiterOn60Hz" ] },
+			{ Algorithm.ZeAlanLeTwist, DataContext.DataContext.Instance.Localization[ "ZeAlanLeTwist" ] }
+		};
 
 		mairaComboBox.ItemsSource = dictionary;
 		mairaComboBox.SelectedValue = DataContext.DataContext.Instance.Settings.RacingWheelAlgorithm;

@@ -54,16 +54,16 @@ public class Graph : GraphBase
 		var selectedLayerIndex = mairaComboBox.SelectedValue as LayerIndex?;
 
 		var dictionary = new Dictionary<LayerIndex, string>
-			{
-				{ LayerIndex.InputTorque, DataContext.DataContext.Instance.Localization[ "InputTorque" ] },
-				{ LayerIndex.OutputTorque, DataContext.DataContext.Instance.Localization[ "OutputTorque" ] },
-				{ LayerIndex.InputTorque60Hz, DataContext.DataContext.Instance.Localization[ "InputTorque60Hz" ] },
-				{ LayerIndex.InputLFE, DataContext.DataContext.Instance.Localization[ "InputLFE" ] },
-				{ LayerIndex.ClutchPedalHaptics, DataContext.DataContext.Instance.Localization[ "ClutchPedalHaptics" ] },
-				{ LayerIndex.BrakePedalHaptics, DataContext.DataContext.Instance.Localization[ "BrakePedalHaptics" ] },
-				{ LayerIndex.ThrottlePedalHaptics, DataContext.DataContext.Instance.Localization[ "ThrottlePedalHaptics" ] },
-				{ LayerIndex.TimerJitter, DataContext.DataContext.Instance.Localization[ "TimerJitter" ] }
-			};
+		{
+			{ LayerIndex.InputTorque, DataContext.DataContext.Instance.Localization[ "InputTorque" ] },
+			{ LayerIndex.OutputTorque, DataContext.DataContext.Instance.Localization[ "OutputTorque" ] },
+			{ LayerIndex.InputTorque60Hz, DataContext.DataContext.Instance.Localization[ "InputTorque60Hz" ] },
+			{ LayerIndex.InputLFE, DataContext.DataContext.Instance.Localization[ "InputLFE" ] },
+			{ LayerIndex.ClutchPedalHaptics, DataContext.DataContext.Instance.Localization[ "ClutchPedalHaptics" ] },
+			{ LayerIndex.BrakePedalHaptics, DataContext.DataContext.Instance.Localization[ "BrakePedalHaptics" ] },
+			{ LayerIndex.ThrottlePedalHaptics, DataContext.DataContext.Instance.Localization[ "ThrottlePedalHaptics" ] },
+			{ LayerIndex.TimerJitter, DataContext.DataContext.Instance.Localization[ "TimerJitter" ] }
+		};
 
 		mairaComboBox.ItemsSource = dictionary;
 
