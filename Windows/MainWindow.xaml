@@ -548,6 +548,7 @@
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                                        <Label x:Name="SteeringEffects_Calibration_RPM_Label" FontSize="18" Padding="0" Content="RPM: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_Brake_Label" FontSize="18" Padding="0" Content="Brake: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_Throttle_Label" FontSize="18" Padding="0" Content="Throttle: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_SteeringWheel_Label" FontSize="18" Padding="0" Content="Steering Wheel: 0°" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
