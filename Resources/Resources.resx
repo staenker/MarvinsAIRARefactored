@@ -1089,4 +1089,8 @@
     <value>[Calibration File Not Selected]</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="RPM:" xml:space="preserve">
+    <value>RPM:</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>
