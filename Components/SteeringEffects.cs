@@ -42,8 +42,8 @@ public class SteeringEffects
 
 	private const float MapScale = 1.225f;
 
-	private const float CarHomePositionX = -0.8f;
-	private const float CarHomePositionY = -5.2f;
+	private const float CarHomePositionX = -0.1f;
+	private const float CarHomePositionY = -5.4f;
 
 	private const float WarmUpTiresDrivingRadius = 190f;
 	private const int WarmUpLaps = 10;
