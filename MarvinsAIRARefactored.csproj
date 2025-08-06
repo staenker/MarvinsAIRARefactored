@@ -36,6 +36,8 @@
     <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_center.png" />
     <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_left.png" />
     <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_right.png" />
+    <None Remove="Artwork\Knob\knob_default.png" />
+    <None Remove="Artwork\Knob\knob_pressed.png" />
     <None Remove="Artwork\Misc\adminboxx_logo.png" />
     <None Remove="Artwork\Misc\grip-o-meter-bar.png" />
     <None Remove="Artwork\Misc\grip-o-meter.png" />
@@ -65,6 +67,8 @@
     <Resource Include="Artwork\ButtonIcons\button_icon_steering_wheel_center.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_steering_wheel_left.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_steering_wheel_right.png" />
+    <Resource Include="Artwork\Knob\knob_default.png" />
+    <Resource Include="Artwork\Knob\knob_pressed.png" />
     <Resource Include="Artwork\Misc\adminboxx_logo.png" />
     <Resource Include="Artwork\Misc\grip-o-meter-bar.png" />
     <Resource Include="Artwork\Misc\grip-o-meter.png" />
