@@ -145,7 +145,7 @@
     <value>Atenuar el force feedback al entrar o salir del coche</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
+  <data name="RacingFriction" xml:space="preserve">
     <value>Fricción</value>
     <comment>Racing wheel</comment>
   </data>
@@ -188,10 +188,6 @@
   <data name="OFF" xml:space="preserve">
     <value>OFF</value>
     <comment>Generic</comment>
-  </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value>Fuerza en Parado</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Encendido</value>

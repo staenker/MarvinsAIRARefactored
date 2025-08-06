@@ -145,7 +145,7 @@
     <value>Vervaag force feedback bij het in- of uitstappen van de auto</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
+  <data name="RacingFriction" xml:space="preserve">
     <value>Wrijving</value>
     <comment>Racing wheel</comment>
   </data>
@@ -188,10 +188,6 @@
   <data name="OFF" xml:space="preserve">
     <value>UIT</value>
     <comment>Generic</comment>
-  </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value>Sterkte bij stilstaan</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Power</value>

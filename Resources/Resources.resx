@@ -145,8 +145,8 @@
     <value>Fade force feedback when entering or exiting car</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
-    <value>Friction</value>
+  <data name="RacingFriction" xml:space="preserve">
+    <value>Racing Friction</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Graph" xml:space="preserve">
@@ -188,10 +188,6 @@
   <data name="OFF" xml:space="preserve">
     <value>OFF</value>
     <comment>Generic</comment>
-  </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value>Parked Strength</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Power</value>
@@ -1054,7 +1050,7 @@
     <comment>Steering effects</comment>
   </data>
   <data name="ResetGripOMeter" xml:space="preserve">
-    <value>Reset Grip-O-Meter Window</value>
+    <value>Reset the Grip-O-Meter window position</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerVibrationEffect" xml:space="preserve">
@@ -1092,5 +1088,33 @@
   <data name="RPM:" xml:space="preserve">
     <value>RPM:</value>
     <comment>Steering effects</comment>
+  </data>
+  <data name="ParkedEffects" xml:space="preserve">
+    <value>Parked Effects</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ForceFeedbackStrength" xml:space="preserve">
+    <value>Force Feedback Strength</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="WheelCenteringStrength" xml:space="preserve">
+    <value>Wheel Centering Strength</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileRacing" xml:space="preserve">
+    <value>Center wheel while racing</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileParked" xml:space="preserve">
+    <value>Center wheel while parked</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedFriction" xml:space="preserve">
+    <value>Parked Friction</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
+    <value>Parked Wheel Centering Strength</value>
+    <comment>Racing wheel</comment>
   </data>
 </root>

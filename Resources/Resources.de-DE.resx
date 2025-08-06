@@ -145,7 +145,7 @@
     <value>Reduziere FFB beim Ein- und Aussteigen</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
+  <data name="RacingFriction" xml:space="preserve">
     <value>Lenkrad-Widerstand</value>
     <comment>Racing wheel</comment>
   </data>
@@ -188,10 +188,6 @@
   <data name="OFF" xml:space="preserve">
     <value>AUS</value>
     <comment>Generic</comment>
-  </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value>Stärke  stehendes Fahrzeug</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Ein/Aus</value>

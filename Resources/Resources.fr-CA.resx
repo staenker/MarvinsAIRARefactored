@@ -145,7 +145,7 @@
     <value>Diminution du retour de force à l'entrée et sortie de la voiture</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
+  <data name="RacingFriction" xml:space="preserve">
     <value>Friction</value>
     <comment>Racing wheel</comment>
   </data>
@@ -188,10 +188,6 @@
   <data name="OFF" xml:space="preserve">
     <value>Désactivé</value>
     <comment>Generic</comment>
-  </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value>Force/Résistance stationnée</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Activé</value>
