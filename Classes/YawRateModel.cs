@@ -1,29 +1,30 @@
 ﻿
-using Accord.Math;
+using System.IO;
 
 namespace MarvinsAIRARefactored.Classes;
 
+using MarvinsAIRARefactored.Components;
+
 public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateDataInDegrees, int maxSpeed )
 {
+	private const int MinStartingMagnitude = 150;
+	private const float MaxYawPredictionError = 1.5f;
+
 	private readonly int[] _steeringWheelAnglesInDegrees = steeringWheelAnglesInDegrees;
 	private readonly float[,] _yawRateDataInDegrees = yawRateDataInDegrees;
 	private readonly int _maxSpeed = maxSpeed;
 
-	public float MaxYawPredictionError = 2.5f; // adjustable threshold
-
-	private readonly int _minStartingMagnitude = 150;
-
-	public (float[] yawRateCoefficients, float[] speedCoefficients) FitWithProgressiveRefinement( bool leftTurn )
+	public (Func<float, float> yawRatePredictor, Func<float, float> speedPredictor, int lowestSteeringWheelAngle) FitWithProgressiveRefinement()
 	{
 		var usedAngles = new List<float>();
 		var usedMaxYawRates = new List<float>();
 		var usedCorrespondingSpeeds = new List<float>();
 
-		var initialAngles = GetSortedAngles( leftTurn ).Where( a => Math.Abs( a ) >= _minStartingMagnitude ).ToList();
+		var initialAngles = GetSortedAngles().Where( a => Math.Abs( a ) >= MinStartingMagnitude ).ToList();
 
 		foreach ( var angle in initialAngles )
 		{
-			var (maxYawRate, correspondingSpeed) = GetMaxYawRateAtAngle( angle, leftTurn );
+			var (maxYawRate, correspondingSpeed) = GetMaxYawRateAtAngle( angle );
 
 			if ( correspondingSpeed >= 0 )
 			{
@@ -33,13 +34,13 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 			}
 		}
 
-		var remainingAngles = GetSortedAngles( leftTurn ).Where( a => Math.Abs( a ) < _minStartingMagnitude ).ToList();
+		var remainingAngles = GetSortedAngles().Where( a => Math.Abs( a ) < MinStartingMagnitude ).ToList();
 
 		foreach ( var angle in remainingAngles )
 		{
-			var yawRateCoefficients = FitQuadratic( [ .. usedAngles ], [ .. usedMaxYawRates ] );
-			var expectedYawRate = Predict( yawRateCoefficients, angle );
-			var yawRatePeakCandidates = GetYawRatePeaksAtAngle( angle, out var speeds, leftTurn );
+			var yawRatePredictor = FitSpline( [ .. usedAngles ], [ .. usedMaxYawRates ] );
+			var expectedYawRate = yawRatePredictor( angle );
+			var yawRatePeakCandidates = GetYawRatePeaksAtAngle( angle, out var speeds );
 
 			if ( yawRatePeakCandidates.Count > 0 )
 			{
@@ -66,18 +67,31 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 			}
 		}
 
-		var finalYawCoefficients = FitQuadratic( [ .. usedAngles ], [ .. usedMaxYawRates ] );
-		var finalSpeedCoefficients = FitQuadratic( [ .. usedAngles ], [ .. usedCorrespondingSpeeds ] );
+		var finalYawRatePredictor = FitSpline( [ .. usedAngles ], [ .. usedMaxYawRates ] );
+		var finalSpeedPredictor = FitSpline( [ .. usedAngles ], [ .. usedCorrespondingSpeeds ] );
 
-		return (finalYawCoefficients, finalSpeedCoefficients);
+		// write to debug file
+
+		var filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_sampled_yaw_rates.csv" );
+
+		using var writer = new StreamWriter( filePath );
+
+		writer.WriteLine( "Steering Wheel Angle,Max Yaw Rate,Corresponding Speed" );
+
+		for ( var i = 0; i < usedAngles.Count; i++ )
+		{
+			writer.WriteLine( $"{usedAngles[ i ]:F0},{usedMaxYawRates[ i ]:F6},{usedCorrespondingSpeeds[ i ]:F0}" );
+		}
+
+		return (finalYawRatePredictor, finalSpeedPredictor, (int) usedAngles.Last());
 	}
 
-	private List<int> GetSortedAngles( bool leftTurn )
+	private List<int> GetSortedAngles()
 	{
-		return [ .. _steeringWheelAnglesInDegrees.Where( angle => leftTurn ? angle < 0 : angle > 0 ).OrderBy( angle => Math.Abs( angle ) ).Reverse() ];
+		return [ .. _steeringWheelAnglesInDegrees.Where( angle => angle < 0 ).OrderBy( angle => Math.Abs( angle ) ).Reverse() ];
 	}
 
-	private (float yaw, int speed) GetMaxYawRateAtAngle( int angle, bool leftTurn = true )
+	private (float yaw, int speed) GetMaxYawRateAtAngle( int angle )
 	{
 		var angleIndex = Array.IndexOf( _steeringWheelAnglesInDegrees, angle );
 
@@ -93,11 +107,6 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 		{
 			var yaw = _yawRateDataInDegrees[ angleIndex, speed ];
 
-			if ( !leftTurn )
-			{
-				yaw = -yaw;
-			}
-
 			if ( yaw > maxYaw )
 			{
 				maxYaw = yaw;
@@ -108,7 +117,7 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 		return (maxYaw, speedAtMax);
 	}
 
-	private List<float> GetYawRatePeaksAtAngle( int angle, out List<int> speeds, bool leftTurn = true )
+	private List<float> GetYawRatePeaksAtAngle( int angle, out List<int> speeds )
 	{
 		speeds = [];
 
@@ -126,13 +135,6 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 			var curr = _yawRateDataInDegrees[ angleIndex, speed ];
 			var next = _yawRateDataInDegrees[ angleIndex, speed + 1 ];
 
-			if ( !leftTurn )
-			{
-				prev = -prev;
-				curr = -curr;
-				next = -next;
-			}
-
 			if ( ( curr > prev ) && ( curr > next ) )
 			{
 				peaks.Add( curr );
@@ -143,32 +145,15 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 		return peaks;
 	}
 
-	public static float[] FitQuadratic( float[] x, float[] y )
+	public static Func<float, float> FitSpline( float[] x, float[] y )
 	{
-		var length = x.Length;
-
-		var designMatrix = new float[ length, 3 ];
-
-		for ( var i = 0; i < length; i++ )
+		if ( x.Length < 3 )
 		{
-			designMatrix[ i, 0 ] = 1f;              // Constant term
-			designMatrix[ i, 1 ] = x[ i ];          // Linear term
-			designMatrix[ i, 2 ] = x[ i ] * x[ i ]; // Quadratic term
+			throw new ArgumentException( "Need at least three points for cubic spline." );
 		}
 
-		// Solve via normal equations: (X^T * X) * coeffs = X^T * y
+		var spline = new CubicSpline( x, y );
 
-		float[,] xt = designMatrix.Transpose();
-		float[,] xtx = xt.Dot( designMatrix );
-		float[] xty = xt.Dot( y );
-
-		float[] coefficients = xtx.Solve( xty );
-
-		return coefficients;
-	}
-
-	public static float Predict( float[] coefficients, float angle )
-	{
-		return coefficients[ 0 ] + coefficients[ 1 ] * angle + coefficients[ 2 ] * angle * angle;
+		return spline.Interpolate;
 	}
 }

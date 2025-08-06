@@ -1,11 +1,12 @@
 ﻿
+
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 
-using Accord.Math.Optimization;
+using Accord.Statistics.Models.Regression.Linear;
 
 using MarvinsAIRARefactored.Classes;
 
@@ -13,6 +14,8 @@ namespace MarvinsAIRARefactored.Components;
 
 public class SteeringEffects
 {
+	public static string CalibrationDirectory { get; private set; } = Path.Combine( App.DocumentsFolder, "Calibration" );
+
 	public bool IsUndersteering { get; private set; } = false;
 	public float UndersteerEffectIntensity { get; private set; } = 0f;
 	public float MaximumGrip { get; private set; } = 0f; // if == 0 then there is no max grip
@@ -65,9 +68,11 @@ public class SteeringEffects
 	private const int MaxNumSteeringWheelAngles = 17;
 	private const int MaxCalibrationProgress = 1 + WarmUpLaps + 1 + MaxNumSteeringWheelAngles;
 
+	private const float AbsYawRateSpikeThreshold = 0.025f;
+
 	private const int SteeringWheelAngleIncrement = 10;
 
-	private readonly string _calibrationDirectory = Path.Combine( App.DocumentsFolder, "Calibration" );
+	private const int PolynomialDegrees = 4;
 
 	private CalibrationPhase _calibrationPhase = CalibrationPhase.NotCalibrating;
 	private int _calibrationProgress = 0;
@@ -106,12 +111,10 @@ public class SteeringEffects
 
 	private bool _calibrationIsValid = false;
 
-	private float[]? _coefficients;
+	private MultipleLinearRegression? _multipleLinearRegression = null;
 
 	private float _scaleTop = 0f;
 	private float _scaleBottom = 0f;
-
-	private readonly Cobyla _cobyla = new( 2, CobylaObjective );
 
 	public void SetMairaComboBoxItemsSource()
 	{
@@ -126,7 +129,7 @@ public class SteeringEffects
 			{ string.Empty, localization["CalibrationFileNotSelected"] }
 		};
 
-		foreach ( var filePath in Directory.GetFiles( _calibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
+		foreach ( var filePath in Directory.GetFiles( CalibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
 		{
 			var option = Path.GetFileNameWithoutExtension( filePath );
 
@@ -188,21 +191,17 @@ public class SteeringEffects
 	{
 		if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 		{
+			var clearUndersteerEffect = true;
+
 			if ( _calibrationIsValid )
 			{
 				var settings = DataContext.DataContext.Instance.Settings;
 
-				var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * RadiansToDegrees;
-				var prediction = Predict( steeringWheelAngleInDegrees );
+				var absSteeringWheelAngleInDegrees = MathF.Abs( app.Simulator.SteeringWheelAngle * RadiansToDegrees );
 
-				if ( prediction == 0f )
-				{
-					MaximumGrip = 0f;
-				}
-				else
-				{
-					MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
-				}
+				var prediction = Predict( -absSteeringWheelAngleInDegrees );
+
+				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
 
 				var peak = prediction * settings.SteeringEffectsUndersteerThreshold;
 				var warn = prediction * settings.SteeringEffectsUndersteerWarningThreshold;
@@ -216,6 +215,8 @@ public class SteeringEffects
 
 					if ( peak > 0f )
 					{
+						clearUndersteerEffect = false;
+
 						CurrentGrip = ( current / peak ) * MaximumGrip;
 						IsUndersteering = ( current > peak );
 
@@ -232,21 +233,10 @@ public class SteeringEffects
 							UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
 						}
 					}
-					else
-					{
-						CurrentGrip = 0f;
-						IsUndersteering = false;
-						UndersteerEffectIntensity = 0f;
-					}
-				}
-				else
-				{
-					CurrentGrip = 0f;
-					IsUndersteering = false;
-					UndersteerEffectIntensity = 0f;
 				}
 			}
-			else
+			
+			if ( clearUndersteerEffect )
 			{
 				CurrentGrip = 0f;
 				IsUndersteering = false;
@@ -782,14 +772,14 @@ public class SteeringEffects
 
 		// create directory if it does not exist
 
-		if ( !Directory.Exists( _calibrationDirectory ) )
+		if ( !Directory.Exists( CalibrationDirectory ) )
 		{
-			Directory.CreateDirectory( _calibrationDirectory );
+			Directory.CreateDirectory( CalibrationDirectory );
 		}
 
 		// open file
 
-		var filePath = Path.Combine( _calibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupName} - {app.Simulator.TireCompoundType}.csv" );
+		var filePath = Path.Combine( CalibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupName} - {app.Simulator.TireCompoundType}.csv" );
 
 		using var writer = new StreamWriter( filePath );
 
@@ -863,7 +853,7 @@ public class SteeringEffects
 
 			_calibrationIsValid = false;
 
-			_coefficients = null;
+			_multipleLinearRegression = null;
 
 			_scaleTop = 0f;
 			_scaleBottom = 0f;
@@ -874,7 +864,7 @@ public class SteeringEffects
 
 			// open file
 
-			var filePath = Path.Combine( _calibrationDirectory, $"{settings.SteeringEffectsUndersteerCalibrationFile}.csv" );
+			var filePath = Path.Combine( CalibrationDirectory, $"{settings.SteeringEffectsUndersteerCalibrationFile}.csv" );
 
 			if ( !File.Exists( filePath ) )
 			{
@@ -974,15 +964,39 @@ public class SteeringEffects
 
 			if ( fileLoadWasSuccessful )
 			{
+				int steeringWheelAngle;
+
+				// clean up the yaw rate spikes
+
+				CleanUpYawRateSpikes();
+
 				// find the best coefficients to use for predicting the peak yaw rates and corresponding speeds
 
 				var yawRateModel = new YawRateModel( _steeringWheelAnglesInDegrees, _yawRateDataInDegrees, MaxSpeedInKPH );
 
-				var (yawCoefficients, speedCoefficients) = yawRateModel.FitWithProgressiveRefinement( true );
+				var (yawRatePredictor, speedPredictor, lowestSteeringWheelAngle) = yawRateModel.FitWithProgressiveRefinement();
+
+				// write to debug file
+
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_fitted_yaw_rates.csv" );
+
+				using var writer = new StreamWriter( filePath );
+
+				writer.WriteLine( "Steering Wheel Angle,Max Yaw Rate,Corresponding Speed" );
+
+				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= lowestSteeringWheelAngle; steeringWheelAngle++ )
+				{
+					var predictedMaxYawRate = yawRatePredictor( steeringWheelAngle );
+					var predictedCorrespondingSpeed = speedPredictor( steeringWheelAngle );
+
+					writer.WriteLine( $"{steeringWheelAngle:F0},{predictedMaxYawRate:F6},{predictedCorrespondingSpeed:F1}" );
+				}
 
 				// allocate data arrays for curve fitting
 
-				var numAngles = 160;
+				steeringWheelAngle = -MaxSteeringWheelAngleInDegrees;
+
+				var numAngles = MaxSteeringWheelAngleInDegrees - Math.Abs( lowestSteeringWheelAngle ) + 1;
 
 				var angles = new double[ numAngles ];
 				var values = new double[ numAngles ];
@@ -991,55 +1005,60 @@ public class SteeringEffects
 
 				for ( var angleIndex = 0; angleIndex < numAngles; angleIndex++ )
 				{
-					var angle = angleIndex + 20;
+					angles[ angleIndex ] = steeringWheelAngle;
 
-					angles[ angleIndex ] = angle;
+					var predictedMaxYawRate = yawRatePredictor( steeringWheelAngle );
+					var predictedCorrespondingSpeed = speedPredictor( steeringWheelAngle );
 
-					var maxYawRate = YawRateModel.Predict( yawCoefficients, -angle );
-					var correspondingSpeed = YawRateModel.Predict( speedCoefficients, -angle );
+					values[ angleIndex ] = MathF.Log( predictedCorrespondingSpeed / ( predictedMaxYawRate + 1f ) );
 
-					values[ angleIndex ] = correspondingSpeed / ( MathF.Abs( maxYawRate ) + 1f );
+					steeringWheelAngle++;
 				}
 
-				//
+				// write to debug file
 
-				float[] calculateCoefficients( int numAngles, double[] inAngles, double[] inValues )
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_source_yaw_rate_factors.csv" );
+
+				using var writer2 = new StreamWriter( filePath );
+
+				writer2.WriteLine( "Steering Wheel Angle,Yaw Rate Factor" );
+
+				for ( var angleIndex = 0; angleIndex < numAngles; angleIndex++ )
 				{
-					// trim the data arrays
-
-					double[] angles = [ .. inAngles.Take( numAngles ) ];
-					double[] values = [ .. inValues.Take( numAngles ) ];
-
-					double[] logValues = [ .. values.Select( v => Math.Log( v ) ) ];
-
-					// prep Cobyla objective function
-
-					_cobylaAngles = angles;
-					_cobylaValues = logValues;
-
-					// initial guess
-
-					double[] coefficients = [ 150, -5 ];
-
-					// run optimizer (modifies initial guess in place)
-
-					var success = _cobyla.Minimize( coefficients );
-
-					return [ (float) coefficients[ 0 ], (float) coefficients[ 1 ] ];
+					writer2.WriteLine( $"{angles[ angleIndex ]:F0},{values[ angleIndex ]:F6}" );
 				}
 
-				// get our coefficients
+				// train the model
 
-				_coefficients = calculateCoefficients( numAngles, angles, values );
+				double[][] inputs = ExpandPolynomialFeaturesFast( angles );
+
+				var ols = new OrdinaryLeastSquares();
+
+				_multipleLinearRegression = ols.Learn( inputs, values );
 
 				// figure out a good scale to use
 
-				_scaleTop = Predict( MathF.Min( 0, _coefficients[ 1 ] ) - 1f );
-				_scaleBottom = Predict( -180f );
+				_scaleTop = Predict( 0f );
+				_scaleBottom = Predict( -MaxSteeringWheelAngleInDegrees );
 
 				// all good to go!
 
 				_calibrationIsValid = true;
+
+				// write to debug file
+
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_predicted_yaw_rate_factors.csv" );
+
+				using var writer3 = new StreamWriter( filePath );
+
+				writer3.WriteLine( "Steering Wheel Angle,Yaw Rate Factor" );
+
+				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= 0; steeringWheelAngle++ )
+				{
+					float prediction = Predict( steeringWheelAngle );
+
+					writer3.WriteLine( $"{steeringWheelAngle:F1},{prediction:F6}" );
+				}
 			}
 		}
 
@@ -1048,41 +1067,148 @@ public class SteeringEffects
 		app.Logger.WriteLine( "[SteeringEffects] <<< LoadCalibration" );
 	}
 
-	private static double[] _cobylaAngles = [];
-	private static double[] _cobylaValues = [];
-
-	private static double CobylaObjective( double[] parameters )
+	public static double[] ExpandPolynomialFeaturesFast( double x )
 	{
-		var a = parameters[ 0 ];
-		var b = parameters[ 1 ];
+		var features = new double[ PolynomialDegrees + 1 ];
 
-		var error = 0.0;
+		features[ 0 ] = 1.0;
 
-		for ( var angleIndex = 0; angleIndex < _cobylaAngles.Length; angleIndex++ )
+		for ( var d = 1; d <= PolynomialDegrees; d++ )
 		{
-			double angle = _cobylaAngles[ angleIndex ];
-			double prediction = Math.Log( a ) - Math.Log( angle + b ); // log-space model converges better
-			double residual = prediction - _cobylaValues[ angleIndex ];
-
-			error += residual * residual;
+			features[ d ] = features[ d - 1 ] * x;
 		}
 
-		return error;
+		return features;
+	}
+
+	public static double[][] ExpandPolynomialFeaturesFast( double[] xValues )
+	{
+		var features = new double[ xValues.Length ][];
+
+		for ( int i = 0; i < xValues.Length; i++ )
+		{
+			features[ i ] = ExpandPolynomialFeaturesFast( xValues[ i ] );
+		}
+
+		return features;
+	}
+
+	private void CleanUpYawRateSpikes()
+	{
+		// go through each steering wheel angle
+
+		for ( var angleIndex = 0; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
+		{
+			// remove a max of 10 yaw rate spikes
+
+			for ( var spikeCount = 0; spikeCount < 10; spikeCount++ )
+			{
+				var biggestSpikeAbsYawRateDelta = 0f;
+				var biggestSpikeSpeedInKPH = 0;
+
+				// find the biggest yaw rate spike
+
+				for ( var speedInKPH = 2; speedInKPH <= MaxSpeedInKPH - 2; speedInKPH++ )
+				{
+					var cubicInterpolatedYawRate = GetCubicInterpolatedYawRate( angleIndex, speedInKPH );
+
+					if ( cubicInterpolatedYawRate != 0f )
+					{
+						var sampledYawRate = _yawRateDataInDegrees[ angleIndex, speedInKPH ];
+
+						var absYawRateDelta = MathF.Abs( sampledYawRate - cubicInterpolatedYawRate );
+
+						if ( absYawRateDelta > biggestSpikeAbsYawRateDelta )
+						{
+							biggestSpikeAbsYawRateDelta = absYawRateDelta;
+							biggestSpikeSpeedInKPH = speedInKPH;
+						}
+					}
+				}
+
+				if ( biggestSpikeAbsYawRateDelta > AbsYawRateSpikeThreshold )
+				{
+					_yawRateDataInDegrees[ angleIndex, biggestSpikeSpeedInKPH ] = GetCubicInterpolatedYawRate( angleIndex, biggestSpikeSpeedInKPH );
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		// open debug file
+
+		var filePath = Path.Combine( CalibrationDirectory, $"debug_cleaned_up_yaw_rate_spikes.csv" );
+
+		using var writer = new StreamWriter( filePath );
+
+		// write header row
+
+		var headerString = "Speed (KPH)";
+
+		for ( var angleIndex = 0; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
+		{
+			headerString += $",{_steeringWheelAnglesInDegrees[ angleIndex ]}";
+		}
+
+		writer.WriteLine( headerString );
+
+		// write data rows
+
+		for ( var speed = 0; speed <= MaxSpeedInKPH; speed++ )
+		{
+			var dataString = $"{speed}";
+
+			for ( var angleIndex = 0; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
+			{
+				if ( _yawRateDataInDegrees[ angleIndex, speed ] == 0f )
+				{
+					dataString += $",";
+				}
+				else
+				{
+					dataString += "," + _yawRateDataInDegrees[ angleIndex, speed ].ToString( "F6", CultureInfo.InvariantCulture );
+				}
+			}
+
+			writer.WriteLine( dataString );
+		}
+	}
+
+	private float GetCubicInterpolatedYawRate( int angleIndex, int speedInKPH )
+	{
+		var prev2 = _yawRateDataInDegrees[ angleIndex, speedInKPH - 2 ];
+		var prev1 = _yawRateDataInDegrees[ angleIndex, speedInKPH - 1 ];
+		var next1 = _yawRateDataInDegrees[ angleIndex, speedInKPH + 1 ];
+		var next2 = _yawRateDataInDegrees[ angleIndex, speedInKPH + 2 ];
+
+		if ( prev2 != 0f && prev1 != 0f && next1 != 0f && next2 != 0f )
+		{
+			return CubicInterpolate( prev2, prev1, next1, next2, 0.5f );
+		}
+		else
+		{
+			return 0f;
+		}
+	}
+
+	private static float CubicInterpolate( float y0, float y1, float y2, float y3, float mu )
+	{
+		var a0 = y3 - y2 - y0 + y1;
+		var a1 = y0 - y1 - a0;
+		var a2 = y2 - y0;
+		var a3 = y1;
+
+		return a0 * mu * mu * mu + a1 * mu * mu + a2 * mu + a3;
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
 	private float Predict( float steeringWheelAngle )
 	{
-		if ( _coefficients != null )
-		{
-			var absSteeringWheelAngle = MathF.Abs( steeringWheelAngle );
+		double[] features = ExpandPolynomialFeaturesFast( steeringWheelAngle );
 
-			var denominator = absSteeringWheelAngle + _coefficients[ 1 ];
-
-			return MathF.Log( _coefficients[ 0 ] ) - MathF.Log( denominator );
-		}
-
-		return 0f;
+		return (float) _multipleLinearRegression!.Transform( features );
 	}
 
 	public void Tick( App app )
