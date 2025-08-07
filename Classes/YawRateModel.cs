@@ -14,7 +14,7 @@ public class YawRateModel( int[] steeringWheelAnglesInDegrees, float[,] yawRateD
 	private readonly float[,] _yawRateDataInDegrees = yawRateDataInDegrees;
 	private readonly int _maxSpeed = maxSpeed;
 
-	public (Func<float, float> yawRatePredictor, Func<float, float> speedPredictor, int lowestSteeringWheelAngle) FitWithProgressiveRefinement()
+	public (Func<float, float> yawRatePredictor, Func<float, float> speedPredictor, int shallowestSteeringWheelAngle) FitWithProgressiveRefinement()
 	{
 		var usedAngles = new List<float>();
 		var usedMaxYawRates = new List<float>();

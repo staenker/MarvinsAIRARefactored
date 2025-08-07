@@ -1,5 +1,4 @@
 ﻿
-
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -235,7 +234,7 @@ public class SteeringEffects
 					}
 				}
 			}
-			
+
 			if ( clearUndersteerEffect )
 			{
 				CurrentGrip = 0f;
@@ -970,11 +969,11 @@ public class SteeringEffects
 
 				CleanUpYawRateSpikes();
 
-				// find the best coefficients to use for predicting the peak yaw rates and corresponding speeds
+				// create predictor functions for predicting the peak yaw rates and corresponding speeds
 
 				var yawRateModel = new YawRateModel( _steeringWheelAnglesInDegrees, _yawRateDataInDegrees, MaxSpeedInKPH );
 
-				var (yawRatePredictor, speedPredictor, lowestSteeringWheelAngle) = yawRateModel.FitWithProgressiveRefinement();
+				var (yawRatePredictor, speedPredictor, shallowestSteeringWheelAngle) = yawRateModel.FitWithProgressiveRefinement();
 
 				// write to debug file
 
@@ -984,7 +983,7 @@ public class SteeringEffects
 
 				writer.WriteLine( "Steering Wheel Angle,Max Yaw Rate,Corresponding Speed" );
 
-				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= lowestSteeringWheelAngle; steeringWheelAngle++ )
+				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= shallowestSteeringWheelAngle; steeringWheelAngle++ )
 				{
 					var predictedMaxYawRate = yawRatePredictor( steeringWheelAngle );
 					var predictedCorrespondingSpeed = speedPredictor( steeringWheelAngle );
@@ -996,7 +995,7 @@ public class SteeringEffects
 
 				steeringWheelAngle = -MaxSteeringWheelAngleInDegrees;
 
-				var numAngles = MaxSteeringWheelAngleInDegrees - Math.Abs( lowestSteeringWheelAngle ) + 1;
+				var numAngles = MaxSteeringWheelAngleInDegrees - Math.Abs( shallowestSteeringWheelAngle ) + 1;
 
 				var angles = new double[ numAngles ];
 				var values = new double[ numAngles ];
@@ -1206,9 +1205,24 @@ public class SteeringEffects
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
 	private float Predict( float steeringWheelAngle )
 	{
+		steeringWheelAngle = MathF.Max( -180f, steeringWheelAngle );
+
 		double[] features = ExpandPolynomialFeaturesFast( steeringWheelAngle );
 
-		return (float) _multipleLinearRegression!.Transform( features );
+		var prediction = (float) _multipleLinearRegression!.Transform( features );
+
+		if ( steeringWheelAngle > -20f )
+		{
+			var t = 1f + ( steeringWheelAngle / 20f );
+
+			var lerpFactor = MathF.Pow( t, 5f );
+
+			var maxValue = MathF.Log( MaxSpeedInKPH );
+
+			prediction = Misc.Lerp( prediction, maxValue, lerpFactor );
+		}
+
+		return prediction;
 	}
 
 	public void Tick( App app )
