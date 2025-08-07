@@ -54,7 +54,7 @@ public class SteeringEffects
 	private const float MapScale = 1.225f;
 
 	private const float CarHomePositionX = 0f;
-	private const float CarHomePositionY = -5.5f;
+	private const float CarHomePositionY = -5.6f;
 
 	private const float WarmUpTiresDrivingRadius = 190f;
 	private const int WarmUpLaps = 10;
@@ -371,7 +371,7 @@ public class SteeringEffects
 							_robotGearMode = RobotGearMode.Decelerating;
 						}
 					}
-					else if ( ( app.Simulator.Gear > 1 ) && ( app.Simulator.RPM < ( app.Simulator.ShiftLightsShiftRPM * 0.5f ) ) )
+					else if ( ( app.Simulator.Gear > 1 ) && ( app.Simulator.RPM < ( app.Simulator.ShiftLightsShiftRPM * 0.3f ) ) )
 					{
 						_robotGearMode = RobotGearMode.CoolingDown;
 						_robotGearShiftCoolDownTimer = 1f;
@@ -386,7 +386,7 @@ public class SteeringEffects
 				{
 					_targetAccelerationInKPH = -1;
 
-					if ( ( app.Simulator.VelocityX * MPSToKPH ) <= ( _targetVelocityInKPH - 10 ) )
+					if ( ( app.Simulator.VelocityX * MPSToKPH ) <= ( _targetVelocityInKPH - 8 ) )
 					{
 						app.VirtualJoystick.ShiftUp = true;
 
