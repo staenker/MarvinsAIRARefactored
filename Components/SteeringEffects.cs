@@ -17,7 +17,9 @@ public class SteeringEffects
 
 	public bool IsUndersteering { get; private set; } = false;
 	public float UndersteerEffectIntensity { get; private set; } = 0f;
-	public float MaximumGrip { get; private set; } = 0f; // if == 0 then there is no max grip
+
+	public float MaximumGrip { get; private set; } = 0f;
+	public float WarningGrip { get; private set; } = 0f;
 	public float CurrentGrip { get; private set; } = 0f;
 
 	private enum CalibrationPhase
@@ -112,8 +114,8 @@ public class SteeringEffects
 
 	private MultipleLinearRegression? _multipleLinearRegression = null;
 
-	private float _scaleTop = 0f;
-	private float _scaleBottom = 0f;
+	private float _maximumPredictedLogYawRateFactor = 0f;
+	private float _minimumPredictedLogYawRateFactor = 0f;
 
 	public void SetMairaComboBoxItemsSource()
 	{
@@ -190,52 +192,51 @@ public class SteeringEffects
 	{
 		if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 		{
-			var clearUndersteerEffect = true;
-
 			if ( _calibrationIsValid )
 			{
 				var settings = DataContext.DataContext.Instance.Settings;
 
 				var absSteeringWheelAngleInDegrees = Math.Min( MaxSteeringWheelAngleInDegrees, MathF.Abs( app.Simulator.SteeringWheelAngle * RadiansToDegrees ) );
 
-				var prediction = Predict( -absSteeringWheelAngleInDegrees );
+				var predictedYawRateFactor = PredictLogYawRateFactor( -absSteeringWheelAngleInDegrees );
 
-				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, settings.SteeringEffectsUndersteerThreshold * ( prediction - _scaleBottom ) / ( _scaleTop - _scaleBottom ) );
+				var peak = predictedYawRateFactor * settings.SteeringEffectsUndersteerThreshold;
+				var warn = predictedYawRateFactor * settings.SteeringEffectsUndersteerWarningThreshold;
 
-				if ( ( absSteeringWheelAngleInDegrees >= 5f ) && ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) ) )
+				var speedInKPH = MathF.Max( app.Simulator.VelocityX * MPSToKPH, 0f );
+				var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
+				var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
+				var current = MathF.Log( ( speedInKPH + 1f ) / ( absYawRateInDegrees + 1f ) );
+
+				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, settings.SteeringEffectsUndersteerThreshold * ( ( predictedYawRateFactor - _minimumPredictedLogYawRateFactor ) / ( _maximumPredictedLogYawRateFactor - _minimumPredictedLogYawRateFactor ) ) );
+				WarningGrip = ( warn / peak ) * MaximumGrip;
+				CurrentGrip = ( current / peak ) * MaximumGrip;
+
+				if ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) )
 				{
-					var peak = prediction * settings.SteeringEffectsUndersteerThreshold;
-					var warn = prediction * settings.SteeringEffectsUndersteerWarningThreshold;
+					IsUndersteering = ( current > peak );
 
-					var speedInKPH = app.Simulator.VelocityX * MPSToKPH;
-					var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
-					var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
-					var current = MathF.Log( speedInKPH / ( absYawRateInDegrees + 1f ) );
+					var range = peak - warn;
 
-					if ( peak > 0f )
+					if ( range > 0f )
 					{
-						clearUndersteerEffect = false;
+						var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
 
-						CurrentGrip = ( current / peak ) * MaximumGrip;
-						IsUndersteering = ( current > peak );
-
-						var range = peak - warn;
-
-						if ( range > 0f )
-						{
-							var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
-
-							UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerCurve ) );
-						}
-						else
-						{
-							UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
-						}
+						UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerCurve ) );
+					}
+					else
+					{
+						UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
 					}
 				}
-			}
 
-			if ( clearUndersteerEffect )
+				// debug
+
+				app.Debug.Label_1 = $"MaximumGrip: {MaximumGrip * 100f:F0}";
+				app.Debug.Label_2 = $"WarningGrip: {WarningGrip * 100f:F0}";
+				app.Debug.Label_3 = $"CurrentGrip: {CurrentGrip * 100f:F0}";
+			}
+			else
 			{
 				CurrentGrip = 0f;
 				IsUndersteering = false;
@@ -498,18 +499,6 @@ public class SteeringEffects
 		app.VirtualJoystick.Steering = _robotSteeringWheelAngleInDegrees / 450f;
 		app.VirtualJoystick.Brake = _robotBrake;
 		app.VirtualJoystick.Throttle = _robotThrottle;
-
-		// debug
-
-		app.Debug.Label_1 = $"deltaSeconds: {deltaSeconds:F6}";
-
-		app.Debug.Label_3 = $"velocityX: {app.Simulator.VelocityX * MPSToKPH:F2}";
-		app.Debug.Label_4 = $"robotLastFrameVelocityX: {_robotLastFrameVelocityX * MPSToKPH:F2}";
-
-		app.Debug.Label_6 = $"currentAcceleration: {currentAccelerationInMPS * MPSToKPH:F3}";
-
-		app.Debug.Label_8 = $"robotThrottle: {_robotThrottle * 100f:F0}%";
-		app.Debug.Label_9 = $"robotBrake: {_robotBrake * 100f:F0}%";
 	}
 
 	private void DoResetCalibration( App app, float deltaSeconds )
@@ -854,8 +843,8 @@ public class SteeringEffects
 
 			_multipleLinearRegression = null;
 
-			_scaleTop = 0f;
-			_scaleBottom = 0f;
+			_maximumPredictedLogYawRateFactor = 0f;
+			_minimumPredictedLogYawRateFactor = 0f;
 
 			// keep track of whether the file load was good or not
 
@@ -973,11 +962,11 @@ public class SteeringEffects
 
 				var yawRateModel = new YawRateModel( _steeringWheelAnglesInDegrees, _yawRateDataInDegrees, MaxSpeedInKPH );
 
-				var (yawRatePredictor, speedPredictor, shallowestSteeringWheelAngle) = yawRateModel.FitWithProgressiveRefinement();
+				var (yawRateInterpolator, speedInterpolator, shallowestSteeringWheelAngle) = yawRateModel.FitWithProgressiveRefinement();
 
 				// write to debug file
 
-				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_fitted_yaw_rates.csv" );
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_fitted_max_yaw_rates.csv" );
 
 				using var writer = new StreamWriter( filePath );
 
@@ -985,8 +974,8 @@ public class SteeringEffects
 
 				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= shallowestSteeringWheelAngle; steeringWheelAngle++ )
 				{
-					var predictedMaxYawRate = yawRatePredictor( steeringWheelAngle );
-					var predictedCorrespondingSpeed = speedPredictor( steeringWheelAngle );
+					var predictedMaxYawRate = yawRateInterpolator( steeringWheelAngle );
+					var predictedCorrespondingSpeed = speedInterpolator( steeringWheelAngle );
 
 					writer.WriteLine( $"{steeringWheelAngle:F0},{predictedMaxYawRate:F6},{predictedCorrespondingSpeed:F1}" );
 				}
@@ -1006,21 +995,21 @@ public class SteeringEffects
 				{
 					angles[ angleIndex ] = steeringWheelAngle;
 
-					var predictedMaxYawRate = yawRatePredictor( steeringWheelAngle );
-					var predictedCorrespondingSpeed = speedPredictor( steeringWheelAngle );
+					var interpolatedMaxYawRate = yawRateInterpolator( steeringWheelAngle );
+					var interpolatedCorrespondingSpeed = speedInterpolator( steeringWheelAngle );
 
-					values[ angleIndex ] = MathF.Log( predictedCorrespondingSpeed / ( predictedMaxYawRate + 1f ) );
+					values[ angleIndex ] = MathF.Log( ( interpolatedCorrespondingSpeed + 1f ) / ( interpolatedMaxYawRate + 1f ) );
 
 					steeringWheelAngle++;
 				}
 
 				// write to debug file
 
-				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_source_yaw_rate_factors.csv" );
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_interpolated_log_yaw_rate_factors.csv" );
 
 				using var writer2 = new StreamWriter( filePath );
 
-				writer2.WriteLine( "Steering Wheel Angle,Yaw Rate Factor" );
+				writer2.WriteLine( "Steering Wheel Angle,Interpolated Log Yaw Rate Factor" );
 
 				for ( var angleIndex = 0; angleIndex < numAngles; angleIndex++ )
 				{
@@ -1035,10 +1024,10 @@ public class SteeringEffects
 
 				_multipleLinearRegression = ols.Learn( inputs, values );
 
-				// figure out a good scale to use
+				// figure out the range of the grip-o-meter
 
-				_scaleTop = Predict( 0f );
-				_scaleBottom = Predict( -MaxSteeringWheelAngleInDegrees );
+				_maximumPredictedLogYawRateFactor = PredictLogYawRateFactor( 0f );
+				_minimumPredictedLogYawRateFactor = PredictLogYawRateFactor( -MaxSteeringWheelAngleInDegrees );
 
 				// all good to go!
 
@@ -1046,17 +1035,17 @@ public class SteeringEffects
 
 				// write to debug file
 
-				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_predicted_yaw_rate_factors.csv" );
+				filePath = Path.Combine( SteeringEffects.CalibrationDirectory, $"debug_predicted_log_yaw_rate_factors.csv" );
 
 				using var writer3 = new StreamWriter( filePath );
 
-				writer3.WriteLine( "Steering Wheel Angle,Yaw Rate Factor" );
+				writer3.WriteLine( "Steering Wheel Angle,Predicted Log Yaw Rate Factor" );
 
 				for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= 0; steeringWheelAngle++ )
 				{
-					float prediction = Predict( steeringWheelAngle );
+					var predictedLogYawRateFactor = PredictLogYawRateFactor( steeringWheelAngle );
 
-					writer3.WriteLine( $"{steeringWheelAngle:F1},{prediction:F6}" );
+					writer3.WriteLine( $"{steeringWheelAngle:F1},{predictedLogYawRateFactor:F6}" );
 				}
 			}
 		}
@@ -1203,13 +1192,13 @@ public class SteeringEffects
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private float Predict( float steeringWheelAngle )
+	private float PredictLogYawRateFactor( float steeringWheelAngle )
 	{
 		steeringWheelAngle = MathF.Max( -180f, steeringWheelAngle );
 
 		double[] features = ExpandPolynomialFeaturesFast( steeringWheelAngle );
 
-		var prediction = (float) _multipleLinearRegression!.Transform( features );
+		var predictedLogYawRateFactor = (float) _multipleLinearRegression!.Transform( features );
 
 		if ( steeringWheelAngle > -20f )
 		{
@@ -1217,12 +1206,12 @@ public class SteeringEffects
 
 			var lerpFactor = MathF.Pow( t, 5f );
 
-			var maxValue = MathF.Log( MaxSpeedInKPH );
+			var maxValue = MathF.Log( ( MaxSpeedInKPH + 1f ) );
 
-			prediction = Misc.Lerp( prediction, maxValue, lerpFactor );
+			predictedLogYawRateFactor = Misc.Lerp( predictedLogYawRateFactor, maxValue, lerpFactor );
 		}
 
-		return prediction;
+		return predictedLogYawRateFactor;
 	}
 
 	public void Tick( App app )
