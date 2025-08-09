@@ -123,30 +123,33 @@ public class SteeringEffects
 
 		app.Logger.WriteLine( "[SteeringEffects] SetMairaComboBoxItemsSource >>>" );
 
-		var localization = DataContext.DataContext.Instance.Localization;
-
-		var dictionary = new Dictionary<string, string>()
+		if ( app.Simulator.CarScreenName != string.Empty )
 		{
-			{ string.Empty, localization["CalibrationFileNotSelected"] }
-		};
+			var localization = DataContext.DataContext.Instance.Localization;
 
-		foreach ( var filePath in Directory.GetFiles( CalibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
-		{
-			var option = Path.GetFileNameWithoutExtension( filePath );
+			var dictionary = new Dictionary<string, string>()
+			{
+				{ string.Empty, localization["CalibrationFileNotSelected"] }
+			};
 
-			dictionary.Add( option, option );
+			foreach ( var filePath in Directory.GetFiles( CalibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
+			{
+				var option = Path.GetFileNameWithoutExtension( filePath );
+
+				dictionary.Add( option, option );
+			}
+
+			if ( !dictionary.ContainsKey( DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile ) )
+			{
+				DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile = string.Empty;
+			}
+
+			app.Dispatcher.BeginInvoke( () =>
+			{
+				app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.ItemsSource = dictionary;
+				app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.SelectedValue = DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile;
+			} );
 		}
-
-		if ( !dictionary.ContainsKey( DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile ) )
-		{
-			DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile = string.Empty;
-		}
-
-		app.Dispatcher.BeginInvoke( () =>
-		{
-			app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.ItemsSource = dictionary;
-			app.MainWindow.SteeringEffects_UndersteerCalibrationFile_ComboBox.SelectedValue = DataContext.DataContext.Instance.Settings.SteeringEffectsUndersteerCalibrationFile;
-		} );
 
 		app.Logger.WriteLine( "[SteeringEffects] <<< SetMairaComboBoxItemsSource" );
 	}
