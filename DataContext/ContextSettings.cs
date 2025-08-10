@@ -44,10 +44,19 @@ public class ContextSettings
 	public string SteeringEffectsUndersteerCalibrationFileName3 { get; set; } = string.Empty;
 	public float SteeringEffectsUndersteerWarningThreshold { get; set; }
 	public float SteeringEffectsUndersteerThreshold { get; set; }
-	public float SteeringEffectsUndersteerWheelVibrationStrength { get; set; }
-	public float SteeringEffectsUndersteerWheelVibrationCurve { get; set; }
 	public float SteeringEffectsUndersteerWheelVibrationWarningFrequency { get; set; }
 	public float SteeringEffectsUndersteerWheelVibrationFrequency { get; set; }
+	public float SteeringEffectsUndersteerWheelVibrationCurve { get; set; }
+	public float SteeringEffectsUndersteerWheelVibrationStrength { get; set; }
+	public float SteeringEffectsUndersteerPedalVibrationWarningFrequency { get; set; }
+	public float SteeringEffectsUndersteerPedalVibrationFrequency { get; set; }
+	public float SteeringEffectsUndersteerPedalVibrationCurve { get; set; }
+	public float PedalsMinimumFrequency { get; set; }
+	public float PedalsMaximumFrequency { get; set; }
+	public float PedalsFrequencyCurve { get; set; }
+	public float PedalsMinimumAmplitude { get; set; }
+	public float PedalsMaximumAmplitude { get; set; }
+	public float PedalsAmplitudeCurve { get; set; }
 	public Pedals.Effect PedalsClutchEffect1 { get; set; }
 	public float PedalsClutchStrength1 { get; set; }
 	public Pedals.Effect PedalsClutchEffect2 { get; set; }
@@ -87,11 +96,5 @@ public class ContextSettings
 	public float PedalsClutchSlipStart { get; set; }
 	public float PedalsClutchSlipEnd { get; set; }
 	public float PedalsClutchSlipFrequency { get; set; }
-	public float PedalsMinimumFrequency { get; set; }
-	public float PedalsMaximumFrequency { get; set; }
-	public float PedalsFrequencyCurve { get; set; }
-	public float PedalsMinimumAmplitude { get; set; }
-	public float PedalsMaximumAmplitude { get; set; }
-	public float PedalsAmplitudeCurve { get; set; }
 	public float PedalsNoiseDamper { get; set; }
 }

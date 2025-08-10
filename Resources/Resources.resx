@@ -1125,4 +1125,8 @@
     <value>Current Tire Compound:</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="UndersteerPedalVibrationEffect" xml:space="preserve">
+    <value>Understeer Pedal Vibration Effect</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>

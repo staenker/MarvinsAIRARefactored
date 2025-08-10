@@ -1,13 +1,15 @@
 ﻿
-using Accord.Statistics.Models.Regression.Linear;
-using MarvinsAIRARefactored.Classes;
-using MarvinsAIRARefactored.Controls;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
+
+using Accord.Statistics.Models.Regression.Linear;
+
+using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.Controls;
+
 using Label = System.Windows.Controls.Label;
 
 namespace MarvinsAIRARefactored.Components;
@@ -17,7 +19,7 @@ public class SteeringEffects
 	public static string CalibrationDirectory { get; private set; } = Path.Combine( App.DocumentsFolder, "Calibration" );
 
 	public bool IsUndersteering { get; private set; } = false;
-	public float UndersteerEffectIntensity { get; private set; } = 0f;
+	public float UndersteerEffectFactor { get; private set; } = 0f;
 
 	public float MaximumGrip { get; private set; } = 0f;
 	public float WarningGrip { get; private set; } = 0f;
@@ -115,8 +117,8 @@ public class SteeringEffects
 
 	private MultipleLinearRegression? _multipleLinearRegression = null;
 
-	private float _maximumPredictedLogYawRateFactor = 0f;
-	private float _minimumPredictedLogYawRateFactor = 0f;
+	private float _maximumPredictedLogMaxYawRateFactor = 0f;
+	private float _minimumPredictedLogMaxYawRateFactor = 0f;
 
 	private string? _currentlyActiveCarScreenName = null;
 	private string _currentlyActiveCalibrationFileName = string.Empty;
@@ -268,35 +270,47 @@ public class SteeringEffects
 
 				var absSteeringWheelAngleInDegrees = Math.Min( MaxSteeringWheelAngleInDegrees, MathF.Abs( app.Simulator.SteeringWheelAngle * RadiansToDegrees ) );
 
-				var predictedYawRateFactor = PredictLogYawRateFactor( -absSteeringWheelAngleInDegrees );
+				// predicted log max yaw rate factor (approx -0.2 to exactly 5.525)
+				var predictedLogMaxYawRateFactor = PredictLogMaxYawRateFactor( -absSteeringWheelAngleInDegrees );
 
-				var peak = predictedYawRateFactor * settings.SteeringEffectsUndersteerThreshold;
-				var warn = predictedYawRateFactor * settings.SteeringEffectsUndersteerWarningThreshold;
+				// apply minimum and offset (exactly 1 to approx 6.725)
+				predictedLogMaxYawRateFactor = ( 1f + predictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor );
+				
+				// scale according to understeer threshold
+				predictedLogMaxYawRateFactor *= settings.SteeringEffectsUndersteerThreshold;
 
+				// determine peak and warning log yaw rate factors
+				var peakLogYawRateFactor = predictedLogMaxYawRateFactor * settings.SteeringEffectsUndersteerThreshold;
+				var warnLogYawRateFactor = predictedLogMaxYawRateFactor * settings.SteeringEffectsUndersteerWarningThreshold;
+
+				// determine our current log yaw rate factor
 				var speedInKPH = MathF.Max( app.Simulator.VelocityX * MPSToKPH, 0f );
 				var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
 				var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
-				var current = MathF.Log( ( speedInKPH + 1f ) / ( absYawRateInDegrees + 1f ) );
+				var currentLogYawRateFactor = MathF.Log( ( speedInKPH + 1f ) / ( absYawRateInDegrees + 1f ) );
 
-				MaximumGrip = Misc.Lerp( 0.5f, 1.0f, settings.SteeringEffectsUndersteerThreshold * ( ( predictedYawRateFactor - _minimumPredictedLogYawRateFactor ) / ( _maximumPredictedLogYawRateFactor - _minimumPredictedLogYawRateFactor ) ) );
-				WarningGrip = ( warn / peak ) * MaximumGrip;
-				CurrentGrip = ( current / peak ) * MaximumGrip;
+				// apply minimum and offset
+				currentLogYawRateFactor = ( 1f + currentLogYawRateFactor - _minimumPredictedLogMaxYawRateFactor );
 
+				// update grip-o-meter properties
+				MaximumGrip = Misc.Lerp( 0.5f, 1f, settings.SteeringEffectsUndersteerThreshold * ( ( predictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor ) / ( _maximumPredictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor ) ) );
+				WarningGrip = ( warnLogYawRateFactor / peakLogYawRateFactor ) * MaximumGrip;
+				CurrentGrip = ( currentLogYawRateFactor / peakLogYawRateFactor ) * MaximumGrip;
+
+				// make sure steering direction and turning direction are the same
 				if ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) )
 				{
-					IsUndersteering = ( current > peak );
+					IsUndersteering = ( currentLogYawRateFactor > peakLogYawRateFactor );
 
-					var range = peak - warn;
+					var logYawRateFactorRange = peakLogYawRateFactor - warnLogYawRateFactor;
 
-					if ( range > 0f )
+					if ( logYawRateFactorRange > 0f )
 					{
-						var intensity = Math.Clamp( ( current - warn ) / range, 0f, 1f );
-
-						UndersteerEffectIntensity = MathF.Pow( intensity, Misc.CurveToPower( settings.SteeringEffectsUndersteerWheelVibrationCurve ) );
+						UndersteerEffectFactor = Math.Clamp( ( currentLogYawRateFactor - warnLogYawRateFactor ) / logYawRateFactorRange, 0f, 1f );
 					}
 					else
 					{
-						UndersteerEffectIntensity = IsUndersteering ? 1f : 0f;
+						UndersteerEffectFactor = IsUndersteering ? 1f : 0f;
 					}
 				}
 
@@ -310,7 +324,7 @@ public class SteeringEffects
 			{
 				CurrentGrip = 0f;
 				IsUndersteering = false;
-				UndersteerEffectIntensity = 0f;
+				UndersteerEffectFactor = 0f;
 			}
 		}
 		else
@@ -350,7 +364,7 @@ public class SteeringEffects
 
 			CurrentGrip = 0f;
 			IsUndersteering = false;
-			UndersteerEffectIntensity = 0f;
+			UndersteerEffectFactor = 0f;
 		}
 	}
 
@@ -837,8 +851,8 @@ public class SteeringEffects
 
 		_multipleLinearRegression = null;
 
-		_maximumPredictedLogYawRateFactor = 0f;
-		_minimumPredictedLogYawRateFactor = 0f;
+		_maximumPredictedLogMaxYawRateFactor = 0f;
+		_minimumPredictedLogMaxYawRateFactor = 0f;
 
 		// reset the currently active calibration file name
 
@@ -1157,8 +1171,8 @@ public class SteeringEffects
 
 							// figure out the range of the grip-o-meter
 
-							_maximumPredictedLogYawRateFactor = PredictLogYawRateFactor( 0f );
-							_minimumPredictedLogYawRateFactor = PredictLogYawRateFactor( -MaxSteeringWheelAngleInDegrees );
+							_maximumPredictedLogMaxYawRateFactor = PredictLogMaxYawRateFactor( 0f );
+							_minimumPredictedLogMaxYawRateFactor = PredictLogMaxYawRateFactor( -MaxSteeringWheelAngleInDegrees );
 
 							// all good to go!
 
@@ -1172,13 +1186,13 @@ public class SteeringEffects
 
 							using var writer3 = new StreamWriter( filePath );
 
-							writer3.WriteLine( "Steering Wheel Angle,Predicted Log Yaw Rate Factor" );
+							writer3.WriteLine( "Steering Wheel Angle,Predicted Log Max Yaw Rate Factor" );
 
 							for ( steeringWheelAngle = -MaxSteeringWheelAngleInDegrees; steeringWheelAngle <= 0; steeringWheelAngle++ )
 							{
-								var predictedLogYawRateFactor = PredictLogYawRateFactor( steeringWheelAngle );
+								var predictedLogMaxYawRateFactor = PredictLogMaxYawRateFactor( steeringWheelAngle );
 
-								writer3.WriteLine( $"{steeringWheelAngle:F1},{predictedLogYawRateFactor:F6}" );
+								writer3.WriteLine( $"{steeringWheelAngle:F1},{predictedLogMaxYawRateFactor:F6}" );
 							}
 						}
 					}
@@ -1328,13 +1342,13 @@ public class SteeringEffects
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private float PredictLogYawRateFactor( float steeringWheelAngle )
+	private float PredictLogMaxYawRateFactor( float steeringWheelAngle )
 	{
 		steeringWheelAngle = MathF.Max( -180f, steeringWheelAngle );
 
 		double[] features = ExpandPolynomialFeaturesFast( steeringWheelAngle );
 
-		var predictedLogYawRateFactor = (float) _multipleLinearRegression!.Transform( features );
+		var predictedLogMaxYawRateFactor = (float) _multipleLinearRegression!.Transform( features );
 
 		if ( steeringWheelAngle > -20f )
 		{
@@ -1344,10 +1358,10 @@ public class SteeringEffects
 
 			var maxValue = MathF.Log( ( MaxSpeedInKPH + 1f ) );
 
-			predictedLogYawRateFactor = Misc.Lerp( predictedLogYawRateFactor, maxValue, lerpFactor );
+			predictedLogMaxYawRateFactor = Misc.Lerp( predictedLogMaxYawRateFactor, maxValue, lerpFactor );
 		}
 
-		return predictedLogYawRateFactor;
+		return predictedLogMaxYawRateFactor;
 	}
 
 	public void Tick( App app )
