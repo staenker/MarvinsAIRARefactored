@@ -2177,7 +2177,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Understeer warning threshold
 
-	private float _steeringEffectsUndersteerWarningThreshold = 0.9f;
+	private float _steeringEffectsUndersteerWarningThreshold = 1f;
 
 	public float SteeringEffectsUndersteerWarningThreshold
 	{
