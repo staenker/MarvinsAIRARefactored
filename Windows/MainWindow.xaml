@@ -49,18 +49,15 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" x:Name="Status_Car_Label" Content="" d:Content="Car Label" HorizontalAlignment="Center"/>
-                <Label Grid.Column="2" x:Name="Status_Track_Label" Content="" d:Content="Track Label" HorizontalAlignment="Center"/>
-                <Label Grid.Column="4" x:Name="Status_TrackConfiguration_Label" Content="" d:Content="Track Configuration Label" HorizontalAlignment="Center"/>
-                <Label Grid.Column="6" x:Name="Status_WetDry_Label" Content="" d:Content="Dry" HorizontalAlignment="Center"/>
+                <Label Grid.Column="0" x:Name="Status_Panel1_Label" Content="" d:Content="Car Label" HorizontalAlignment="Center" Margin="20,0"/>
+                <Label Grid.Column="1" x:Name="Status_Panel2_Label" Content="" d:Content="Track Label" HorizontalAlignment="Center" Margin="20,0"/>
+                <Label Grid.Column="2" x:Name="Status_Panel3_Label" Content="" d:Content="Track Configuration Label" HorizontalAlignment="Center" Margin="20,0"/>
+                <Label Grid.Column="3" x:Name="Status_Panel4_Label" Content="" d:Content="Dry" HorizontalAlignment="Center" Margin="20,0"/>
 
             </Grid>
 
