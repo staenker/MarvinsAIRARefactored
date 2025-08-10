@@ -271,36 +271,51 @@ public class SteeringEffects
 				var absSteeringWheelAngleInDegrees = Math.Min( MaxSteeringWheelAngleInDegrees, MathF.Abs( app.Simulator.SteeringWheelAngle * RadiansToDegrees ) );
 
 				// predicted log max yaw rate factor (approx -0.2 to exactly 5.525)
+
 				var predictedLogMaxYawRateFactor = PredictLogMaxYawRateFactor( -absSteeringWheelAngleInDegrees );
 
 				// apply minimum and offset (exactly 1 to approx 6.725)
+
 				predictedLogMaxYawRateFactor = ( 1f + predictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor );
-				
-				// scale according to understeer threshold
-				predictedLogMaxYawRateFactor *= settings.SteeringEffectsUndersteerThreshold;
 
 				// determine peak and warning log yaw rate factors
+
 				var peakLogYawRateFactor = predictedLogMaxYawRateFactor * settings.SteeringEffectsUndersteerThreshold;
 				var warnLogYawRateFactor = predictedLogMaxYawRateFactor * settings.SteeringEffectsUndersteerWarningThreshold;
 
 				// determine our current log yaw rate factor
+
 				var speedInKPH = MathF.Max( app.Simulator.VelocityX * MPSToKPH, 0f );
 				var yawRateInDegrees = app.Simulator.YawRate * RadiansToDegrees;
 				var absYawRateInDegrees = MathF.Abs( yawRateInDegrees );
 				var currentLogYawRateFactor = MathF.Log( ( speedInKPH + 1f ) / ( absYawRateInDegrees + 1f ) );
 
 				// apply minimum and offset
+
 				currentLogYawRateFactor = ( 1f + currentLogYawRateFactor - _minimumPredictedLogMaxYawRateFactor );
 
+				// override current log yaw rate factor if we are parked
+
+				if ( app.Simulator.VelocityX < 2.2352f )
+				{
+					currentLogYawRateFactor = 0f;
+				}
+
 				// update grip-o-meter properties
+
 				MaximumGrip = Misc.Lerp( 0.5f, 1f, settings.SteeringEffectsUndersteerThreshold * ( ( predictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor ) / ( _maximumPredictedLogMaxYawRateFactor - _minimumPredictedLogMaxYawRateFactor ) ) );
 				WarningGrip = ( warnLogYawRateFactor / peakLogYawRateFactor ) * MaximumGrip;
 				CurrentGrip = ( currentLogYawRateFactor / peakLogYawRateFactor ) * MaximumGrip;
 
-				// make sure steering direction and turning direction are the same
+				// don't do the understeer effect if we aren't turning in the same direction as the wheel
+
 				if ( MathF.Sign( app.Simulator.SteeringWheelAngle ) == MathF.Sign( app.Simulator.YawRate ) )
 				{
+					// are we understeering?
+
 					IsUndersteering = ( currentLogYawRateFactor > peakLogYawRateFactor );
+
+					// calculate understeer effect factor
 
 					var logYawRateFactorRange = peakLogYawRateFactor - warnLogYawRateFactor;
 
@@ -313,12 +328,18 @@ public class SteeringEffects
 						UndersteerEffectFactor = IsUndersteering ? 1f : 0f;
 					}
 				}
+				else
+				{
+					IsUndersteering = false;
+					UndersteerEffectFactor = 0f;
+				}
 
 				// debug
 
 				app.Debug.Label_1 = $"MaximumGrip: {MaximumGrip * 100f:F0}";
 				app.Debug.Label_2 = $"WarningGrip: {WarningGrip * 100f:F0}";
 				app.Debug.Label_3 = $"CurrentGrip: {CurrentGrip * 100f:F0}";
+				app.Debug.Label_5 = $"UndersteerEffectFactor: {UndersteerEffectFactor * 100f:F0}";
 			}
 			else
 			{
