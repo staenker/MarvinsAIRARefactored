@@ -1258,7 +1258,7 @@ public class SteeringEffects
 	{
 		var features = new double[ xValues.Length ][];
 
-		for ( int i = 0; i < xValues.Length; i++ )
+		for ( var i = 0; i < xValues.Length; i++ )
 		{
 			features[ i ] = ExpandPolynomialFeaturesFast( xValues[ i ] );
 		}
