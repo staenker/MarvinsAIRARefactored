@@ -1145,4 +1145,16 @@
     <value>An exception has been thrown</value>
     <comment>Error messages</comment>
   </data>
+  <data name="WarmUpSpeed" xml:space="preserve">
+    <value>Warm Up Speed</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarmUpLapCount" xml:space="preserve">
+    <value>Warm Up Lap Count</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="KPHUnits" xml:space="preserve">
+    <value> KPH</value>
+    <comment>Abbreviation for Kilometers per Hour</comment>
+  </data>
 </root>

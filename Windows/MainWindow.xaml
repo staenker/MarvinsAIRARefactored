@@ -618,39 +618,52 @@
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <StackPanel Grid.Column="0">
-                                        <controls:MairaButton x:Name="SteeringEffects_RunCalibration_MairaButton" Title="{Binding Localization[RunCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_record_on.png" Click="SteeringEffects_RunCalibration_MairaButton_Click"/>
-                                        <controls:MairaButton x:Name="SteeringEffects_StopCalibration_MairaButton" Title="{Binding Localization[StopCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_cancel.png" Click="SteeringEffects_StopCalibration_MairaButton_Click"/>
-                                    </StackPanel>
+                                    <Grid Grid.Column="0">
 
-                                    <Image Grid.Column="1" Grid.ColumnSpan="3" Source="/MarvinsAIRARefactored;component/Artwork/Misc/centripetal_circuit.png" Width="640" Height="512" HorizontalAlignment="Center"/>
-                                    <Image Grid.Column="1" Grid.ColumnSpan="3" x:Name="SteeringEffects_RaceCar_Image" Source="/MarvinsAIRARefactored;component/Artwork/Misc/race_car.png" Width="8" Height="22" RenderTransformOrigin="0.5,0.5"/>
-                                    <Image Grid.Column="1" Grid.ColumnSpan="3" x:Name="SteeringEffects_TargetPosition_Image" Source="/MarvinsAIRARefactored;component/Artwork/Misc/target_position.png" Width="8" Height="8" RenderTransformOrigin="0.5,0.5" Visibility="Hidden"/>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <controls:MairaButton Grid.Row="0" x:Name="SteeringEffects_RunCalibration_MairaButton" Title="{Binding Localization[RunCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_record_on.png" Click="SteeringEffects_RunCalibration_MairaButton_Click"/>
+                                        <controls:MairaButton Grid.Row="1" x:Name="SteeringEffects_StopCalibration_MairaButton" Title="{Binding Localization[StopCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_cancel.png" Click="SteeringEffects_StopCalibration_MairaButton_Click"/>
+                                        <controls:MairaKnob Grid.Row="3" Margin="0,20,0,0" Title="{Binding Localization[WarmUpSpeed]}" Value="{Binding Settings.SteeringEffectsWarmUpSpeed, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsWarmUpSpeedString}" SmallValueChangeStep="0.1" LargeValueChangeStep="1" RotationMultiplier="0.1" DefaultValue="120"/>
+                                        <controls:MairaKnob Grid.Row="4" Margin="0,20,0,0" Title="{Binding Localization[WarmUpLapCount]}" Value="{Binding Settings.SteeringEffectsWarmUpLapCount, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsWarmUpLapCountString}" SmallValueChangeStep="0.1" LargeValueChangeStep="1" RotationMultiplier="0.1" DefaultValue="10"/>
+                                        
+                                    </Grid>
 
-                                    <StackPanel Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Image Grid.Column="2" Grid.ColumnSpan="3" Source="/MarvinsAIRARefactored;component/Artwork/Misc/centripetal_circuit.png" Width="640" Height="512" HorizontalAlignment="Center"/>
+                                    <Image Grid.Column="2" Grid.ColumnSpan="3" x:Name="SteeringEffects_RaceCar_Image" Source="/MarvinsAIRARefactored;component/Artwork/Misc/race_car.png" Width="8" Height="22" RenderTransformOrigin="0.5,0.5"/>
+                                    <Image Grid.Column="2" Grid.ColumnSpan="3" x:Name="SteeringEffects_TargetPosition_Image" Source="/MarvinsAIRARefactored;component/Artwork/Misc/target_position.png" Width="8" Height="8" RenderTransformOrigin="0.5,0.5" Visibility="Hidden"/>
+
+                                    <StackPanel Grid.Column="2" Grid.ColumnSpan="3">
                                         <Label x:Name="SteeringEffects_Calibration_Phase_Label" FontSize="18" Padding="0" Content="Phase: " FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_Progress_Label" FontSize="18" Padding="0" Content="Progress: " FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+                                    <StackPanel Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
                                         <Label x:Name="SteeringEffects_Calibration_RPM_Label" FontSize="18" Padding="0" Content="RPM: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_Brake_Label" FontSize="18" Padding="0" Content="Brake: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_Throttle_Label" FontSize="18" Padding="0" Content="Throttle: 100%" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_SteeringWheel_Label" FontSize="18" Padding="0" Content="Steering Wheel: 0°" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+                                    <StackPanel Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right">
                                         <Label x:Name="SteeringEffects_Calibration_YawRate_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="Yaw Rate:    0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue" Margin="0,0,0,20"/>
                                         <Label x:Name="SteeringEffects_Calibration_CarPositionX_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="Car X:    0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_CarPositionY_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="Car Y:    0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                    <StackPanel Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                         <Label x:Name="SteeringEffects_Calibration_Heading_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="Heading:   0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue" Margin="0,0,0,20"/>
                                         <Label x:Name="SteeringEffects_Calibration_VelocityX_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="VX:   0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>
                                         <Label x:Name="SteeringEffects_Calibration_VelocityY_Label" HorizontalContentAlignment="Right" FontSize="18" Padding="0" Content="VY:   0.0" FontFamily="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Fira Code" Foreground="SkyBlue"/>

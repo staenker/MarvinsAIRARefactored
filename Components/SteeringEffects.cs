@@ -61,8 +61,6 @@ public class SteeringEffects
 	private const float CarHomePositionY = -5.6f;
 
 	private const float WarmUpTiresDrivingRadius = 190f;
-	private const int WarmUpLaps = 10;
-	private const int WarmUpTiresSpeedInKPH = 120;
 
 	private const float ActiveResetSavePointX = 0f;
 	private const float ActiveResetSavePointY = 100f;
@@ -70,7 +68,7 @@ public class SteeringEffects
 	private const int MaxSpeedInKPH = 250;
 	private const int MaxSteeringWheelAngleInDegrees = 180;
 	private const int MaxNumSteeringWheelAngles = 17;
-	private const int MaxCalibrationProgress = 1 + WarmUpLaps + 1 + MaxNumSteeringWheelAngles;
+	private const int MaxCalibrationProgress = 2 + MaxNumSteeringWheelAngles; // not including warm up lap count
 
 	private const float AbsYawRateSpikeThreshold = 0.025f;
 
@@ -586,7 +584,7 @@ public class SteeringEffects
 			{
 				var deltaTargetVelocityInKPH = _targetVelocityInKPH - app.Simulator.VelocityX * MPSToKPH;
 
-				var targetAccelerationInKPH = Math.Clamp( deltaTargetVelocityInKPH, -0.5f, 2f ); // 2 KPH/s is the target acceleration in this mode
+				var targetAccelerationInKPH = Math.Clamp( deltaTargetVelocityInKPH, -3f, 2f ); // -3 to +2 KPH/s is the target acceleration in this mode
 
 				var deltaAccelerationInKPH = targetAccelerationInKPH - currentAccelerationInMPS * MPSToKPH;
 
@@ -663,6 +661,22 @@ public class SteeringEffects
 
 	private void DoWarmUpTires( App app, float deltaSeconds )
 	{
+		// shortcut to settings
+
+		var settings = DataContext.DataContext.Instance.Settings;
+
+		// get warm up speed and lap count
+
+		var warmUpSpeed = (int) MathF.Round( settings.SteeringEffectsWarmUpSpeed );
+		var warmUpLapCount = (int) MathF.Round( settings.SteeringEffectsWarmUpLapCount );
+
+		// if we are on the last warm up lap, override warm up speed to 120 kph
+
+		if ( _currentWarmUpLapNumber == ( warmUpLapCount - 1 ) )
+		{
+			warmUpSpeed = 120;
+		}
+
 		// remember our original target position
 
 		var originalTargetPositionY = _targetPositionY;
@@ -685,7 +699,7 @@ public class SteeringEffects
 		_targetPositionX = rotatedX;
 		_targetPositionY = rotatedY;
 
-		_targetVelocityInKPH = WarmUpTiresSpeedInKPH;
+		_targetVelocityInKPH = warmUpSpeed;
 		_targetAccelerationInKPH = 0;
 		_targetDistanceToStop = 0f;
 
@@ -698,7 +712,7 @@ public class SteeringEffects
 				_calibrationProgress++;
 				_currentWarmUpLapNumber++;
 
-				if ( _currentWarmUpLapNumber >= WarmUpLaps )
+				if ( _currentWarmUpLapNumber >= warmUpLapCount )
 				{
 					_calibrationPhase = CalibrationPhase.DriveToActiveResetPoint;
 				}
@@ -1387,12 +1401,15 @@ public class SteeringEffects
 
 	public void Tick( App app )
 	{
-		var localization = DataContext.DataContext.Instance.Localization;
-
 		if ( app.MainWindow.SteeringEffectsTabItemIsVisible )
 		{
+			var settings = DataContext.DataContext.Instance.Settings;
+			var localization = DataContext.DataContext.Instance.Localization;
+
+			var maxCalibrationProgress = MaxCalibrationProgress + (int) settings.SteeringEffectsWarmUpLapCount;
+
 			app.MainWindow.SteeringEffects_Calibration_Phase_Label.Content = $"{localization[ "Phase:" ]} {localization[ _calibrationPhase.ToString() ]}";
-			app.MainWindow.SteeringEffects_Calibration_Progress_Label.Content = $"{localization[ "Progress:" ]} {_calibrationProgress * 100f / MaxCalibrationProgress:F0}{localization[ "Percent" ]}";
+			app.MainWindow.SteeringEffects_Calibration_Progress_Label.Content = $"{localization[ "Progress:" ]} {_calibrationProgress * 100f / maxCalibrationProgress:F0}{localization[ "Percent" ]}";
 
 			app.MainWindow.SteeringEffects_Calibration_RPM_Label.Content = $"{localization[ "RPM:" ]} {app.Simulator.RPM / app.Simulator.ShiftLightsShiftRPM * 100f:F0}{localization[ "Percent" ]}";
 			app.MainWindow.SteeringEffects_Calibration_Brake_Label.Content = $"{localization[ "Brake:" ]} {_robotBrake * 100f:F0}{localization[ "Percent" ]}";

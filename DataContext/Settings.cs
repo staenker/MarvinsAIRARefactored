@@ -2737,6 +2737,92 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Steering effects - Warm up speed
+
+	private float _steeringEffectsWarmUpSpeed = 120f;
+
+	public float SteeringEffectsWarmUpSpeed
+	{
+		get => _steeringEffectsWarmUpSpeed;
+
+		set
+		{
+			value = Math.Clamp( value, 50f, 250f );
+
+			if ( value != _steeringEffectsWarmUpSpeed )
+			{
+				_steeringEffectsWarmUpSpeed = value;
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsWarmUpSpeedString = $"{_steeringEffectsWarmUpSpeed:F0}{DataContext.Instance.Localization[ "KPHUnits" ]}";
+		}
+	}
+
+	private string _steeringEffectsWarmUpSpeedString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsWarmUpSpeedString
+	{
+		get => _steeringEffectsWarmUpSpeedString;
+
+		set
+		{
+			if ( value != _steeringEffectsWarmUpSpeedString )
+			{
+				_steeringEffectsWarmUpSpeedString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Steering effects - Warm up lap count
+
+	private float _steeringEffectsWarmUpLapCount = 10;
+
+	public float SteeringEffectsWarmUpLapCount
+	{
+		get => _steeringEffectsWarmUpLapCount;
+
+		set
+		{
+			value = Math.Clamp( value, 1f, 50f );
+
+			if ( value != _steeringEffectsWarmUpLapCount )
+			{
+				_steeringEffectsWarmUpLapCount = value;
+
+				OnPropertyChanged();
+			}
+
+			SteeringEffectsWarmUpLapCountString = $"{_steeringEffectsWarmUpLapCount:F0}";
+		}
+	}
+
+	private string _steeringEffectsWarmUpLapCountString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsWarmUpLapCountString
+	{
+		get => _steeringEffectsWarmUpLapCountString;
+
+		set
+		{
+			if ( value != _steeringEffectsWarmUpLapCountString )
+			{
+				_steeringEffectsWarmUpLapCountString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
 	#region Pedals - Enabled
 
 	private bool _pedalsEnabled = false;
