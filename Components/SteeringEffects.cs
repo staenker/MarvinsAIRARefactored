@@ -277,14 +277,6 @@ public class SteeringEffects
 			// save the calibration data
 
 			SaveCalibration();
-
-			// clear the calibration data
-
-			ClearCalibration();
-
-			// reload the calibration data
-
-			LoadCalibration();
 		}
 
 		app.Logger.WriteLine( "[SteeringEffects] <<< StopCalibration" );
@@ -496,15 +488,31 @@ public class SteeringEffects
 
 	private void DoStop( App app, float deltaSeconds )
 	{
+		// apply max brake
+
 		app.VirtualJoystick.Steering = 0f;
 		app.VirtualJoystick.Throttle = 0f;
 		app.VirtualJoystick.Brake = 1f;
 
+		// wait for car to come to a complete stop
+
 		if ( app.Simulator.Speed <= 0.005f )
 		{
+			// release the brake
+
 			app.VirtualJoystick.Brake = 0f;
 
+			// we are done calibrating
+
 			_calibrationPhase = CalibrationPhase.NotCalibrating;
+
+			// clear the calibration data
+
+			ClearCalibration();
+
+			// reload the calibration data
+
+			LoadCalibration();
 		}
 	}
 
@@ -696,29 +704,17 @@ public class SteeringEffects
 
 		writer.Close();
 
-		// update setting to use this calibration file
-
-		DataContext.DataContext.Instance.Settings.SteeringEffectsCalibrationFileName = Path.GetFileNameWithoutExtension( filePath );
-
 		// update the combo box options
 
 		SetMairaComboBoxItemsSource( true );
 
+		// update setting to use this calibration file
+
+		DataContext.DataContext.Instance.Settings.SteeringEffectsCalibrationFileName = Path.GetFileNameWithoutExtension( filePath );
+
 		//
 
 		app.Logger.WriteLine( "[SteeringEffects] <<< SaveCalibration" );
-	}
-
-	private static float FilterWeight( float angleDeg, float innerDeg, float outerDeg )
-	{
-		var absAngle = MathF.Abs( angleDeg );
-
-		if ( absAngle <= innerDeg ) return 0f;
-		if ( absAngle >= outerDeg ) return 1f;
-
-		var t = ( absAngle - innerDeg ) / ( outerDeg - innerDeg );
-
-		return MathZ.Smoothstep( 0f, 1f, t );
 	}
 
 	public void ClearCalibration()
@@ -839,7 +835,7 @@ public class SteeringEffects
 
 						// Find exact or insertion index in the calibration angles
 
-						var foundOrInsertion = Array.BinarySearch( _steeringWheelAnglesInDegrees, steeringWheelAngleInDegrees, descComparer );
+						var foundOrInsertion = Array.BinarySearch( _steeringWheelAnglesInDegrees, 0, _numSteeringWheelAnglesRecorded, steeringWheelAngleInDegrees, descComparer );
 
 						if ( foundOrInsertion >= 0 )
 						{
@@ -859,7 +855,7 @@ public class SteeringEffects
 							{
 								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateDataInDegreesPerSecond[ 0 ];
 							}
-							else if ( nextIndex >= _steeringWheelAnglesInDegrees.Length )
+							else if ( nextIndex >= _numSteeringWheelAnglesRecorded )
 							{
 								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ];
 							}
@@ -875,34 +871,55 @@ public class SteeringEffects
 								var y0 = _yawRateDataInDegreesPerSecond[ prevIndex ];
 								var y1 = _yawRateDataInDegreesPerSecond[ nextIndex ];
 
-								// Guard against duplicate x’s
+								var t = ( steeringWheelAngleInDegrees - x0 ) / ( x1 - x0 );
 
-								if ( x1 == x0 )
-								{
-									_expectedYawRateInDegreesPerSecond[ angleIndex ] = y0;
-								}
-								else
-								{
-									var t = ( steeringWheelAngleInDegrees - x0 ) / ( x1 - x0 );
-
-									_expectedYawRateInDegreesPerSecond[ angleIndex ] = y0 + t * ( y1 - y0 );
-								}
+								_expectedYawRateInDegreesPerSecond[ angleIndex ] = y0 + t * ( y1 - y0 );
 							}
 						}
 					}
 
-					// apply zero-phase low-pass butterworth filter to get rid of suspension / steering noise pollution
+					// find min and max steering wheel angles
 
-					var filteredExpectedYawRateInDegreesPerSecond = Butterworth.FiltfiltLowpass( _expectedYawRateInDegreesPerSecond, 3, 0.07f );
+					var maxSteeringWheelAngle = _steeringWheelAnglesInDegrees[ 0 ];
+					var minSteeringWheelAngle = _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 1 ];
 
-					// blending - full raw inside ±20°, fade to full filtered by ±40°
+					// apply averaging filter to remove suspension and steering noise
+
+					var averagedExpectedYawRateInDegreesPerSecond = new float[ _expectedYawRateInDegreesPerSecond.Length ];
+
+					const int averagingWindowSize = 20;
 
 					for ( var angleIndex = 0; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
 					{
-						var weightFiltered = FilterWeight( angleIndex - MaxSteeringWheelAngleInDegrees, 20f, 40f );
-						var weightRaw = 1f - weightFiltered;
+						var averageValue = 0.0f;
+						var averageCount = 0;
 
-						_expectedYawRateInDegreesPerSecond[ angleIndex ] = ( weightRaw * _expectedYawRateInDegreesPerSecond[ angleIndex ] ) + ( weightFiltered * filteredExpectedYawRateInDegreesPerSecond[ angleIndex ] );
+						for ( var angleOffset = 0; angleOffset < averagingWindowSize; angleOffset++ )
+						{
+							var averagingAngleIndex = angleIndex + angleOffset - averagingWindowSize / 2;
+
+							if ( ( averagingAngleIndex >= 0 ) && ( averagingAngleIndex < _expectedYawRateInDegreesPerSecond.Length ) )
+							{
+								averageValue += _expectedYawRateInDegreesPerSecond[ averagingAngleIndex ];
+
+								averageCount++;
+							}
+						}
+
+						averagedExpectedYawRateInDegreesPerSecond[ angleIndex ] = averageValue / averageCount;
+					}
+
+					const float fadeWindowSize = 20f;
+
+					for ( var angleIndex = 0; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						var angle = angleIndex - MaxSteeringWheelAngleInDegrees;
+
+						var leftFade = MathZ.Saturate( MathF.Min( angleIndex / fadeWindowSize, ( angle - minSteeringWheelAngle ) / fadeWindowSize ) );
+						var rightFade = MathZ.Saturate( MathF.Min( ( _expectedYawRateInDegreesPerSecond.Length - angleIndex - 1f ) / 20f, ( maxSteeringWheelAngle - angle ) / fadeWindowSize ) );
+						var centerFade = MathZ.Saturate( Math.Abs( MaxSteeringWheelAngleInDegrees - angleIndex ) / 20f );
+
+						_expectedYawRateInDegreesPerSecond[ angleIndex ] = MathZ.Lerp( _expectedYawRateInDegreesPerSecond[ angleIndex ], averagedExpectedYawRateInDegreesPerSecond[ angleIndex ], leftFade * centerFade * rightFade );
 					}
 
 					// calibration is valid
@@ -944,22 +961,39 @@ public class SteeringEffects
 		{
 			var localization = DataContext.DataContext.Instance.Localization;
 
-			app.MainWindow.SteeringEffects_CalibrationProgress_Label.Text = $"{localization[ "Progress" ]} {_calibrationProgress * 100f:F0}{localization[ "Percent" ]}";
-			app.MainWindow.SteeringEffects_CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
-
-			var disableButtons = ( app.Simulator.TrackDisplayName != "Centripetal Circuit" );
-
-			app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = disableButtons ? Visibility.Visible : Visibility.Collapsed;
-
 			if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 			{
-				app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = false;
-				app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = !disableButtons;
+				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Hidden;
 			}
 			else
 			{
-				app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = !disableButtons;
-				app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = false;
+				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Text = $"{localization[ "Progress" ]} {_calibrationProgress * 100f:F0}{localization[ "Percent" ]}";
+				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Visible;
+			}
+
+			app.MainWindow.SteeringEffects_CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
+
+			if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
+			{
+				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Collapsed;
+
+				app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = true;
+				app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = true;
+			}
+			else
+			{
+				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Visible;
+
+				if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
+				{
+					app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = false;
+					app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = true;
+				}
+				else
+				{
+					app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = true;
+					app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = false;
+				}
 			}
 		}
 	}
