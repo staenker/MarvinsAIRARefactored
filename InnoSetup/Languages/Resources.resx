@@ -893,14 +893,6 @@
     <value>Enable input mapped setting update messages</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="UndersteerEffect" xml:space="preserve">
-    <value>Understeer Effect</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerEffectCalibration" xml:space="preserve">
-    <value>Understeer Effect Calibration</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
     <value>You are not on the Centripetal Circuit track</value>
     <comment>Steering effects</comment>
@@ -953,84 +945,12 @@
     <value>Maximum Brake</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="ActiveResetSave" xml:space="preserve">
-    <value>Active Reset Save</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="ActiveResetRun" xml:space="preserve">
-    <value>Active Reset Run</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Phase:" xml:space="preserve">
-    <value>Phase:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="SteeringWheel:" xml:space="preserve">
-    <value>Steering Wheel:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="YawRate:" xml:space="preserve">
-    <value>Yaw Rate:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionX:" xml:space="preserve">
-    <value>Car X:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionY:" xml:space="preserve">
-    <value>Car Y:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityX:" xml:space="preserve">
-    <value>Velocity X:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityY:" xml:space="preserve">
-    <value>Velocity Y:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Heading:" xml:space="preserve">
-    <value>Heading:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Throttle:" xml:space="preserve">
-    <value>Throttle:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Brake:" xml:space="preserve">
-    <value>Brake:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotCalibrating" xml:space="preserve">
     <value>Not Calibrating</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetCalibration" xml:space="preserve">
     <value>Reset Calibration</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToWallEdge" xml:space="preserve">
-    <value>Drive to Wall Edge</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarmUpTires" xml:space="preserve">
-    <value>Warm Up Tires</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToActiveResetPoint" xml:space="preserve">
-    <value>Drive to Active Reset Point</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="TurningPasses" xml:space="preserve">
-    <value>Turning Passes</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UTurn" xml:space="preserve">
-    <value>U-Turn</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Stop" xml:space="preserve">
-    <value>Stopping</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShowGripOMeter" xml:space="preserve">
@@ -1057,36 +977,12 @@
     <value>Understeer Wheel Vibration Effect</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="WarningThreshold" xml:space="preserve">
-    <value>Warning Threshold</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerThreshold" xml:space="preserve">
-    <value>Understeer Threshold</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarningFrequency" xml:space="preserve">
-    <value>Warning Frequency</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerFrequency" xml:space="preserve">
-    <value>Understeer Frequency</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="Progress:" xml:space="preserve">
     <value>Progress:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="UndersteerCalibrationFiles" xml:space="preserve">
-    <value>Understeer Calibration Files</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="CalibrationFileNotSelected" xml:space="preserve">
     <value>[Calibration File Not Selected]</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="RPM:" xml:space="preserve">
-    <value>RPM:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ParkedEffects" xml:space="preserve">
@@ -1145,14 +1041,6 @@
     <value>An exception has been thrown</value>
     <comment>Error messages</comment>
   </data>
-  <data name="WarmUpSpeed" xml:space="preserve">
-    <value>Warm Up Speed</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarmUpLapCount" xml:space="preserve">
-    <value>Warm Up Lap Count</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="KPHUnits" xml:space="preserve">
     <value> KPH</value>
     <comment>Abbreviation for kilometers per hour</comment>
@@ -1169,12 +1057,36 @@
     <value>°/s</value>
     <comment>Abbreviation for degrees per second</comment>
   </data>
-  <data name="ParkedStrength" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
+  <data name="CalibrationFile" xml:space="preserve">
+    <value>Calibration File</value>
+    <comment>Steering effects</comment>
   </data>
-  <data name="Friction" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
+  <data name="Understeer" xml:space="preserve">
+    <value>Understeer</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Oversteer" xml:space="preserve">
+    <value>Oversteer</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinimumThreshold" xml:space="preserve">
+    <value>Minimum Threshold</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaximumThreshold" xml:space="preserve">
+    <value>Maximum Threshold</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinimumFrequency" xml:space="preserve">
+    <value>Minimum Frequency</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaximumFrequency" xml:space="preserve">
+    <value>Maximum Frequency</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Calibration" xml:space="preserve">
+    <value>Calibration</value>
+    <comment>Steering effects</comment>
   </data>
 </root>

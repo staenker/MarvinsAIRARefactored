@@ -59,10 +59,7 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root"
-    xmlns=""
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -896,14 +893,6 @@
     <value>Habilitar mensagens de atualizações de configurações</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="UndersteerEffect" xml:space="preserve">
-    <value>Subesterço</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerEffectCalibration" xml:space="preserve">
-    <value>Calibração de Subesterço</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
     <value>Você não está no Centripetal Circuit</value>
     <comment>Steering effects</comment>
@@ -956,84 +945,12 @@
     <value>Frenagem Máxima</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="ActiveResetSave" xml:space="preserve">
-    <value>Salvar Active Reset</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="ActiveResetRun" xml:space="preserve">
-    <value>Executar Active Reset</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Phase:" xml:space="preserve">
-    <value>Fase:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="SteeringWheel:" xml:space="preserve">
-    <value>Volante:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="YawRate:" xml:space="preserve">
-    <value>Taxa de Guinada</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionX:" xml:space="preserve">
-    <value>Carro X:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionY:" xml:space="preserve">
-    <value>Carro Y:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityX:" xml:space="preserve">
-    <value>Velocidade X:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityY:" xml:space="preserve">
-    <value>Velocidade Y:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Heading:" xml:space="preserve">
-    <value>Direção:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Throttle:" xml:space="preserve">
-    <value>Acelerador:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Brake:" xml:space="preserve">
-    <value>Freio:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotCalibrating" xml:space="preserve">
     <value>Não está Calibrando</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetCalibration" xml:space="preserve">
     <value>Resetar Calibração</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToWallEdge" xml:space="preserve">
-    <value>Dirigir até a Extremidade da Parede</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarmUpTires" xml:space="preserve">
-    <value>Aquecer os Pneus</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToActiveResetPoint" xml:space="preserve">
-    <value>Dirigir até o Ponto de Active Reset</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="TurningPasses" xml:space="preserve">
-    <value>Manobras de Curva</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UTurn" xml:space="preserve">
-    <value>Curva em U</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Stop" xml:space="preserve">
-    <value>Parar</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShowGripOMeter" xml:space="preserve">
@@ -1060,36 +977,12 @@
     <value>Efeito de Vibração de Subesterço</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="WarningThreshold" xml:space="preserve">
-    <value>Limite de Alerta</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerThreshold" xml:space="preserve">
-    <value>Limite de Subesterço</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarningFrequency" xml:space="preserve">
-    <value>Frequência de Alerta</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerFrequency" xml:space="preserve">
-    <value>Frequência de Subesterço</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="Progress:" xml:space="preserve">
     <value>Progresso:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="UndersteerCalibrationFiles" xml:space="preserve">
-    <value>Arquivos de Calibração de Subesterço</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="CalibrationFileNotSelected" xml:space="preserve">
     <value>[Nenhum Arquivo de Calibração Selecionado]</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="RPM:" xml:space="preserve">
-    <value>RPM:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ParkedEffects" xml:space="preserve">
