@@ -963,7 +963,7 @@ public class SteeringEffects
 
 			if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 			{
-				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Hidden;
+				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Collapsed;
 			}
 			else
 			{
@@ -975,14 +975,14 @@ public class SteeringEffects
 
 			if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
 			{
-				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Collapsed;
+				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Visible;
 
 				app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = true;
 				app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = true;
 			}
 			else
 			{
-				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Visible;
+				app.MainWindow.SteeringEffects_NotOnCentripetalCircuitTrack_TextBlock.Visibility = Visibility.Collapsed;
 
 				if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 				{
