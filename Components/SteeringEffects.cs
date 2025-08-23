@@ -39,7 +39,7 @@ public class SteeringEffects
 	private const float CalibrationSpeedInKPH = 15f;
 
 	private const int CalibrationGraphWidth = MaxSteeringWheelAngleInDegrees * 2;
-	private const int CalibrationGraphHeight = 300;
+	private const int CalibrationGraphHeight = 400;
 
 	private CalibrationPhase _calibrationPhase = CalibrationPhase.NotCalibrating;
 	private float _calibrationProgress = 0f;
@@ -98,7 +98,7 @@ public class SteeringEffects
 
 			var dictionary = new Dictionary<string, string>()
 			{
-				{ string.Empty, localization["CalibrationFileNotSelected"] }
+				{ string.Empty, localization[ "CalibrationFileNotSelected" ] }
 			};
 
 			foreach ( var filePath in Directory.GetFiles( CalibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
@@ -108,7 +108,7 @@ public class SteeringEffects
 				dictionary.Add( option, option );
 			}
 
-			if ( !dictionary.ContainsKey( settings.SteeringEffectsCalibrationFileName ) )
+			if ( ( settings.SteeringEffectsCalibrationFileName == null ) || !dictionary.ContainsKey( settings.SteeringEffectsCalibrationFileName ) )
 			{
 				settings.SteeringEffectsCalibrationFileName = string.Empty;
 			}
@@ -917,7 +917,7 @@ public class SteeringEffects
 
 						var leftFade = MathZ.Saturate( MathF.Min( angleIndex / fadeWindowSize, ( angle - minSteeringWheelAngle ) / fadeWindowSize ) );
 						var rightFade = MathZ.Saturate( MathF.Min( ( _expectedYawRateInDegreesPerSecond.Length - angleIndex - 1f ) / 20f, ( maxSteeringWheelAngle - angle ) / fadeWindowSize ) );
-						var centerFade = MathZ.Saturate( Math.Abs( MaxSteeringWheelAngleInDegrees - angleIndex ) / 20f );
+						var centerFade = MathZ.Saturate( _expectedYawRateInDegreesPerSecond[ angleIndex ] / 0.25f );
 
 						_expectedYawRateInDegreesPerSecond[ angleIndex ] = MathZ.Lerp( _expectedYawRateInDegreesPerSecond[ angleIndex ], averagedExpectedYawRateInDegreesPerSecond[ angleIndex ], leftFade * centerFade * rightFade );
 					}

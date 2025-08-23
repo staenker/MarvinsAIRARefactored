@@ -2413,7 +2413,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Understeer wheel vibration curve
 
-	private float _steeringEffectsUndersteerWheelVibrationCurve = 0f;
+	private float _steeringEffectsUndersteerWheelVibrationCurve = 0.25f;
 
 	public float SteeringEffectsUndersteerWheelVibrationCurve
 	{
