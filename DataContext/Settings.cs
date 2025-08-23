@@ -2769,7 +2769,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer wheel vibration pattern
 
-	private RacingWheel.VibrationPattern _steeringEffectsOversteerWheelVibrationPattern = RacingWheel.VibrationPattern.SineWave;
+	private RacingWheel.VibrationPattern _steeringEffectsOversteerWheelVibrationPattern = RacingWheel.VibrationPattern.None;
 
 	public RacingWheel.VibrationPattern SteeringEffectsOversteerWheelVibrationPattern
 	{
@@ -2994,7 +2994,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer wheel constant force direction
 
-	private RacingWheel.ConstantForceDirection _steeringEffectsOversteerWheelConstantForceDirection = RacingWheel.ConstantForceDirection.None;
+	private RacingWheel.ConstantForceDirection _steeringEffectsOversteerWheelConstantForceDirection = RacingWheel.ConstantForceDirection.IncreaseForce;
 
 	public RacingWheel.ConstantForceDirection SteeringEffectsOversteerWheelConstantForceDirection
 	{
@@ -3017,7 +3017,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer wheel constant force strength
 
-	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.1f;
+	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.25f;
 
 	public float SteeringEffectsOversteerWheelConstantForceStrength
 	{
@@ -3817,7 +3817,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Pedals - Clutch effect 3
 
-	private Pedals.Effect _pedalsClutchEffect3 = Pedals.Effect.UndersteerEffect;
+	private Pedals.Effect _pedalsClutchEffect3 = Pedals.Effect.None;
 
 	public Pedals.Effect PedalsClutchEffect3
 	{
@@ -4273,7 +4273,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Pedals - Throttle effect 3
 
-	private Pedals.Effect _pedalsThrottleEffect3 = Pedals.Effect.UndersteerEffect;
+	private Pedals.Effect _pedalsThrottleEffect3 = Pedals.Effect.OversteerEffect;
 
 	public Pedals.Effect PedalsThrottleEffect3
 	{

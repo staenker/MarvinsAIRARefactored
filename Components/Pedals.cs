@@ -1,8 +1,8 @@
 ﻿
+using Simagic;
+
 using MarvinsAIRARefactored.Classes;
 using MarvinsAIRARefactored.Controls;
-using Simagic;
-using System.Runtime.Intrinsics.Arm;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -15,6 +15,7 @@ public class Pedals
 		ABSEngaged,
 		RPM,
 		UndersteerEffect,
+		OversteerEffect,
 		WheelLock,
 		WheelSpin,
 		ClutchSlip
@@ -85,6 +86,7 @@ public class Pedals
 			{ Effect.ABSEngaged, DataContext.DataContext.Instance.Localization[ "ABSEngaged" ] },
 			{ Effect.RPM, DataContext.DataContext.Instance.Localization[ "RPM" ] },
 			{ Effect.UndersteerEffect, DataContext.DataContext.Instance.Localization[ "UndersteerEffect" ] },
+			{ Effect.OversteerEffect, DataContext.DataContext.Instance.Localization[ "OversteerEffect" ] },
 			{ Effect.WheelLock, DataContext.DataContext.Instance.Localization[ "WheelLock" ] },
 			{ Effect.WheelSpin, DataContext.DataContext.Instance.Localization[ "WheelSpin" ] },
 			{ Effect.ClutchSlip, DataContext.DataContext.Instance.Localization[ "ClutchSlip" ] },
@@ -282,6 +284,7 @@ public class Pedals
 			Effect.ABSEngaged => DoABSEngagedEffect( app, amplitude ),
 			Effect.RPM => DoRPMEffect( app, amplitude ),
 			Effect.UndersteerEffect => DoUndersteerEffect( app, amplitude ),
+			Effect.OversteerEffect => DoOversteerEffect( app, amplitude ),
 			Effect.WheelLock => DoWheelLockEffect( app, amplitude ),
 			Effect.WheelSpin => DoWheelSpinEffect( app, amplitude ),
 			Effect.ClutchSlip => DoClutchSlipEffect( app, amplitude ),
@@ -314,7 +317,7 @@ public class Pedals
 				amplitude *= app.Simulator.Brake;
 			}
 
-			amplitude = MathZ.Saturate(amplitude );
+			amplitude = MathZ.Saturate( amplitude );
 			amplitude = MathZ.Lerp( settings.PedalsMinimumAmplitude, settings.PedalsMaximumAmplitude, MathF.Pow( amplitude, MathZ.CurveToPower( settings.PedalsAmplitudeCurve ) ) );
 
 			return (true, frequency, amplitude);
@@ -366,8 +369,8 @@ public class Pedals
 	private (bool, float, float) DoUndersteerEffect( App app, float amplitude )
 	{
 		var settings = DataContext.DataContext.Instance.Settings;
-		/*
-		var factor = app.SteeringEffects.UndersteerEffectFactor;
+
+		var factor = app.SteeringEffects.UndersteerEffect;
 
 		if ( _testing || ( factor > 0f ) )
 		{
@@ -386,7 +389,34 @@ public class Pedals
 
 			return (true, frequency, amplitude);
 		}
-		*/
+
+		return (false, 0f, 0f);
+	}
+
+	private (bool, float, float) DoOversteerEffect( App app, float amplitude )
+	{
+		var settings = DataContext.DataContext.Instance.Settings;
+
+		var factor = app.SteeringEffects.OversteerEffect;
+
+		if ( _testing || ( factor > 0f ) )
+		{
+			if ( _testing )
+			{
+				factor = _testTimer / TestDuration;
+			}
+
+			factor = MathF.Pow( factor, MathZ.CurveToPower( settings.SteeringEffectsOversteerPedalVibrationCurve ) );
+
+			var frequency = MathZ.Lerp( settings.PedalsMinimumFrequency, settings.PedalsMaximumFrequency, MathF.Pow( factor, MathZ.CurveToPower( settings.PedalsFrequencyCurve ) ) );
+
+			amplitude = MathZ.Saturate( amplitude );
+			amplitude = MathZ.Lerp( settings.PedalsMinimumAmplitude, settings.PedalsMaximumAmplitude, MathF.Pow( amplitude, MathZ.CurveToPower( settings.PedalsAmplitudeCurve ) ) );
+			amplitude *= MathF.Pow( frequency / 50f, MathZ.CurveToPower( settings.PedalsNoiseDamper ) );
+
+			return (true, frequency, amplitude);
+		}
+
 		return (false, 0f, 0f);
 	}
 
