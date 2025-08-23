@@ -9,7 +9,9 @@ public class Sounds
 	{
 		ABSEngaged,
 		WheelLock,
-		WheelSpin
+		WheelSpin,
+		Understeer,
+		Oversteer
 	}
 
 	public class SoundEffect( string SoundKey, Func<float> volumeProvider, Func<float> frequencyRatioProvider )
@@ -25,7 +27,9 @@ public class Sounds
 	private readonly Dictionary<SoundEffectType, SoundEffect> _soundEffects = new() {
 		{ SoundEffectType.ABSEngaged, new SoundEffect( "abs_engaged", () => DataContext.DataContext.Instance.Settings.SoundsABSEngagedVolume, () => DataContext.DataContext.Instance.Settings.SoundsABSEngagedFrequencyRatio ) },
 		{ SoundEffectType.WheelLock, new SoundEffect( "wheel_lock", () => DataContext.DataContext.Instance.Settings.SoundsWheelLockVolume, () => DataContext.DataContext.Instance.Settings.SoundsWheelLockFrequencyRatio ) },
-		{ SoundEffectType.WheelSpin, new SoundEffect( "wheel_spin", () => DataContext.DataContext.Instance.Settings.SoundsWheelSpinVolume, () => DataContext.DataContext.Instance.Settings.SoundsWheelSpinFrequencyRatio ) }
+		{ SoundEffectType.WheelSpin, new SoundEffect( "wheel_spin", () => DataContext.DataContext.Instance.Settings.SoundsWheelSpinVolume, () => DataContext.DataContext.Instance.Settings.SoundsWheelSpinFrequencyRatio ) },
+		{ SoundEffectType.Understeer, new SoundEffect( "understeer", () => DataContext.DataContext.Instance.Settings.SoundsUndersteerVolume, () => DataContext.DataContext.Instance.Settings.SoundsUndersteerFrequencyRatio ) },
+		{ SoundEffectType.Oversteer, new SoundEffect( "oversteer", () => DataContext.DataContext.Instance.Settings.SoundsOversteerVolume, () => DataContext.DataContext.Instance.Settings.SoundsOversteerFrequencyRatio ) }
 	};
 
 	private SoundEffectType? _testSoundEffectType = null;
@@ -115,6 +119,28 @@ public class Sounds
 						_soundEffects[ SoundEffectType.WheelSpin ].ShouldBePlaying = true;
 						_soundEffects[ SoundEffectType.WheelSpin ].Volume = settings.SoundsMasterVolume * MathZ.Saturate( differencePct / 0.03f ) * ( ( settings.SoundsWheelSpinFadeWithThrottle ) ? ( app.Simulator.Throttle * 0.9f + 0.1f ) : 1f );
 					}
+				}
+			}
+
+			// understeer
+
+			if ( settings.SoundsUndersteerEnabled )
+			{
+				if ( app.SteeringEffects.UndersteerEffect > 0f )
+				{
+					_soundEffects[ SoundEffectType.Understeer ].ShouldBePlaying = true;
+					_soundEffects[ SoundEffectType.Understeer ].Volume = settings.SoundsMasterVolume * app.SteeringEffects.UndersteerEffect;
+				}
+			}
+
+			// oversteer
+
+			if ( settings.SoundsOversteerEnabled )
+			{
+				if ( app.SteeringEffects.OversteerEffect > 0f )
+				{
+					_soundEffects[ SoundEffectType.Oversteer ].ShouldBePlaying = true;
+					_soundEffects[ SoundEffectType.Oversteer ].Volume = settings.SoundsMasterVolume * app.SteeringEffects.OversteerEffect;
 				}
 			}
 		}

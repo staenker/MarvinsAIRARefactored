@@ -2671,7 +2671,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer minimum threshold
 
-	private float _steeringEffectsOversteerMinimumThreshold = 0.05f;
+	private float _steeringEffectsOversteerMinimumThreshold = 0.01f;
 
 	public float SteeringEffectsOversteerMinimumThreshold
 	{
@@ -2720,7 +2720,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer maximum threshold
 
-	private float _steeringEffectsOversteerMaximumThreshold = 0.13f;
+	private float _steeringEffectsOversteerMaximumThreshold = 0.5f;
 
 	public float SteeringEffectsOversteerMaximumThreshold
 	{
@@ -3017,7 +3017,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer wheel constant force strength
 
-	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.25f;
+	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.5f;
 
 	public float SteeringEffectsOversteerWheelConstantForceStrength
 	{
@@ -5830,6 +5830,232 @@ public class Settings : INotifyPropertyChanged
 			}
 		}
 	}
+
+	#endregion
+
+	#region Sounds - Understeer enabled
+
+	private bool _soundsUndersteerEnabled = false;
+
+	public bool SoundsUndersteerEnabled
+	{
+		get => _soundsUndersteerEnabled;
+
+		set
+		{
+			if ( value != _soundsUndersteerEnabled )
+			{
+				_soundsUndersteerEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Understeer volume
+
+	private float _soundsUndersteerVolume = 0.75f;
+
+	public float SoundsUndersteerVolume
+	{
+		get => _soundsUndersteerVolume;
+
+		set
+		{
+			value = MathZ.Saturate( value );
+
+			if ( value != _soundsUndersteerVolume )
+			{
+				_soundsUndersteerVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsUndersteerVolumeString = $"{_soundsUndersteerVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsUndersteerVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsUndersteerVolumeString
+	{
+		get => _soundsUndersteerVolumeString;
+
+		set
+		{
+			if ( value != _soundsUndersteerVolumeString )
+			{
+				_soundsUndersteerVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsUndersteerVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsUndersteerVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Understeer frequency ratio
+
+	private float _soundsUndersteerFrequencyRatio = 1f;
+
+	public float SoundsUndersteerFrequencyRatio
+	{
+		get => _soundsUndersteerFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsUndersteerFrequencyRatio )
+			{
+				_soundsUndersteerFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsUndersteerFrequencyRatioString = $"{_soundsUndersteerFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsUndersteerFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsUndersteerFrequencyRatioString
+	{
+		get => _soundsUndersteerFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsUndersteerFrequencyRatioString )
+			{
+				_soundsUndersteerFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsUndersteerFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsUndersteerFrequencyRatioMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Oversteer enabled
+
+	private bool _soundsOversteerEnabled = false;
+
+	public bool SoundsOversteerEnabled
+	{
+		get => _soundsOversteerEnabled;
+
+		set
+		{
+			if ( value != _soundsOversteerEnabled )
+			{
+				_soundsOversteerEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Oversteer volume
+
+	private float _soundsOversteerVolume = 0.75f;
+
+	public float SoundsOversteerVolume
+	{
+		get => _soundsOversteerVolume;
+
+		set
+		{
+			value = MathZ.Saturate( value );
+
+			if ( value != _soundsOversteerVolume )
+			{
+				_soundsOversteerVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsOversteerVolumeString = $"{_soundsOversteerVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsOversteerVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsOversteerVolumeString
+	{
+		get => _soundsOversteerVolumeString;
+
+		set
+		{
+			if ( value != _soundsOversteerVolumeString )
+			{
+				_soundsOversteerVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsOversteerVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsOversteerVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Oversteer frequency ratio
+
+	private float _soundsOversteerFrequencyRatio = 1f;
+
+	public float SoundsOversteerFrequencyRatio
+	{
+		get => _soundsOversteerFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsOversteerFrequencyRatio )
+			{
+				_soundsOversteerFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsOversteerFrequencyRatioString = $"{_soundsOversteerFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsOversteerFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsOversteerFrequencyRatioString
+	{
+		get => _soundsOversteerFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsOversteerFrequencyRatioString )
+			{
+				_soundsOversteerFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsOversteerFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsOversteerFrequencyRatioMinusButtonMappings { get; set; } = new();
 
 	#endregion
 

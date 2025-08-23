@@ -861,6 +861,20 @@ public partial class MainWindow : Window
 		app.Sounds.Test( Sounds.SoundEffectType.WheelSpin );
 	}
 
+	private void Sounds_Understeer_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.Understeer );
+	}
+
+	private void Sounds_Oversteer_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.Oversteer );
+	}
+
 	private void AdminBoxx_ConnectToAdminBoxx_MairaSwitch_Toggled( object sender, EventArgs e )
 	{
 		var app = App.Instance!;

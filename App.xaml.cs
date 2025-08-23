@@ -1754,6 +1754,54 @@ public partial class App : Application
 				settings.SoundsWheelSpinSensitivity -= 0.01f;
 			}
 
+			// sounds understeer volume
+
+			if ( CheckMappedButtons( settings.SoundsUndersteerVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsUndersteerVolume += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsUndersteerVolumeMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsUndersteerVolume -= 0.01f;
+			}
+
+			// sounds understeer frequency ratio
+
+			if ( CheckMappedButtons( settings.SoundsUndersteerFrequencyRatioPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsUndersteerFrequencyRatio += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsUndersteerFrequencyRatioMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsUndersteerFrequencyRatio -= 0.01f;
+			}
+
+			// sounds oversteer volume
+
+			if ( CheckMappedButtons( settings.SoundsOversteerVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsOversteerVolume += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsOversteerVolumeMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsOversteerVolume -= 0.01f;
+			}
+
+			// sounds oversteer frequency ratio
+
+			if ( CheckMappedButtons( settings.SoundsOversteerFrequencyRatioPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsOversteerFrequencyRatio += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsOversteerFrequencyRatioMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsOversteerFrequencyRatio -= 0.01f;
+			}
+
 			// adminboxx brightness knob
 
 			if ( CheckMappedButtons( settings.AdminBoxxBrightnessPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
