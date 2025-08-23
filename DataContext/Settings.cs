@@ -2358,7 +2358,7 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
-	public ContextSwitches SteeringEffectsUndersteerWheelVibrationMinimumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ContextSwitches SteeringEffectsUndersteerWheelVibrationMinimumFrequencyContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationMinimumFrequencyPlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationMinimumFrequencyMinusButtonMappings { get; set; } = new();
 
@@ -2405,7 +2405,7 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
-	public ContextSwitches SteeringEffectsUndersteerWheelVibrationMaximumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ContextSwitches SteeringEffectsUndersteerWheelVibrationMaximumFrequencyContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationMaximumFrequencyPlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationMaximumFrequencyMinusButtonMappings { get; set; } = new();
 
@@ -2459,9 +2459,32 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
-	public ContextSwitches SteeringEffectsUndersteerWheelVibrationCurveContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ContextSwitches SteeringEffectsUndersteerWheelVibrationCurveContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationCurvePlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationCurveMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Understeer wheel vibration pattern
+
+	private RacingWheel.VibrationPattern _steeringEffectsUndersteerWheelVibrationPattern = RacingWheel.VibrationPattern.SineWave;
+
+	public RacingWheel.VibrationPattern SteeringEffectsUndersteerWheelVibrationPattern
+	{
+		get => _steeringEffectsUndersteerWheelVibrationPattern;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerWheelVibrationPattern )
+			{
+				_steeringEffectsUndersteerWheelVibrationPattern = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerWheelVibrationPatternContextSwitches { get; set; } = new( false, false, false, false, false );
 
 	#endregion
 
@@ -2513,7 +2536,7 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
-	public ContextSwitches SteeringEffectsUndersteerWheelVibrationStrengthContextSwitches { get; set; } = new( true, true, false, false, false );
+	public ContextSwitches SteeringEffectsUndersteerWheelVibrationStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationStrengthPlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsUndersteerWheelVibrationStrengthMinusButtonMappings { get; set; } = new();
 

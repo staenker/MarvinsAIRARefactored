@@ -262,7 +262,7 @@ public partial class Simulator
 
 		app.AdminBoxx.SimulatorDisconnected();
 		app.MainWindow.UpdateStatus();
-		app.SteeringEffects.SetMairaComboBoxItemsSource();
+		app.SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
 		app.SteeringEffects.ClearCalibration();
 
 		app.Logger.WriteLine( "[Simulator] <<< OnDisconnected" );
@@ -327,7 +327,7 @@ public partial class Simulator
 
 		app.MainWindow.UpdateStatus();
 
-		app.SteeringEffects.SetMairaComboBoxItemsSource();
+		app.SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
 
 #if DEBUG
 

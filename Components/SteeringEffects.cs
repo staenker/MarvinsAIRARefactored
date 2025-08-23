@@ -1,17 +1,16 @@
 ﻿
+using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.Controls;
 using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 using FlowDirection = System.Windows.FlowDirection;
 using Pen = System.Windows.Media.Pen;
 using Point = System.Windows.Point;
-
-using MarvinsAIRARefactored.Classes;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -54,13 +53,14 @@ public class SteeringEffects
 	private float _robotSettleTimer = 0f;
 	private float _robotThrottle = 0f;
 
-	private int _yawRateInDPSRunningAverageCount = 0;
-	private float _yawRateInDPSRunningAverage = 0f;
+	private int _calibrationSamplesTaken = 0;
+	private float _steeringWheelAngleInDegreesRunningAverage = 0f;
+	private float _yawRateInDegreesPerSecondRunningAverage = 0f;
 
 	private int _numSteeringWheelAnglesRecorded = 0;
 
 	private readonly float[] _steeringWheelAnglesInDegrees = new float[ MaxNumSteeringWheelAngles ];
-	private readonly float[] _yawRateDataInDegreesPerSecond = new float[ MaxNumSteeringWheelAngles ];
+	private readonly float[] _yawRateInDegreesPerSecond = new float[ MaxNumSteeringWheelAngles ];
 
 	private string? _currentlyActiveCarScreenName = null;
 	private string _currentlyActiveCalibrationFileName = string.Empty;
@@ -81,13 +81,13 @@ public class SteeringEffects
 		_calibrationGraphPen.Freeze();
 	}
 
-	public void SetMairaComboBoxItemsSource( bool forceRefresh = false )
+	public void SetCalibrationFileNameMairaComboBoxItemsSource( bool forceRefresh = false )
 	{
 #if !ADMINBOXX
 
 		var app = App.Instance!;
 
-		app.Logger.WriteLine( "[SteeringEffects] SetMairaComboBoxItemsSource >>>" );
+		app.Logger.WriteLine( "[SteeringEffects] SetCalibrationFileNameMairaComboBoxItemsSource >>>" );
 
 		if ( forceRefresh || ( _currentlyActiveCarScreenName == null ) || ( app.Simulator.CarScreenName != _currentlyActiveCarScreenName ) )
 		{
@@ -121,9 +121,41 @@ public class SteeringEffects
 			} );
 		}
 
-		app.Logger.WriteLine( "[SteeringEffects] <<< SetMairaComboBoxItemsSource" );
+		app.Logger.WriteLine( "[SteeringEffects] <<< SetCalibrationFileNameMairaComboBoxItemsSource" );
 
 #endif
+	}
+
+	public static void SetMairaComboBoxItemsSource( MairaComboBox mairaComboBox )
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[SteeringEffects] SetMairaComboBoxItemsSource >>>" );
+
+		var selectedEffect = mairaComboBox.SelectedValue as RacingWheel.VibrationPattern?;
+
+		var dictionary = new Dictionary<RacingWheel.VibrationPattern, string>
+		{
+			{ RacingWheel.VibrationPattern.None, DataContext.DataContext.Instance.Localization[ "None" ] },
+			{ RacingWheel.VibrationPattern.SineWave, DataContext.DataContext.Instance.Localization[ "SineWave" ] },
+			{ RacingWheel.VibrationPattern.SquareWave, DataContext.DataContext.Instance.Localization[ "SquareWave" ] },
+			{ RacingWheel.VibrationPattern.TriangleWave, DataContext.DataContext.Instance.Localization[ "TriangleWave" ] },
+			{ RacingWheel.VibrationPattern.SawtoothWaveIn, DataContext.DataContext.Instance.Localization[ "SawtoothWaveIn" ] },
+			{ RacingWheel.VibrationPattern.SawtoothWaveOut, DataContext.DataContext.Instance.Localization[ "SawtoothWaveOut" ] },
+		};
+
+		mairaComboBox.ItemsSource = dictionary;
+
+		if ( selectedEffect != null )
+		{
+			mairaComboBox.SelectedValue = selectedEffect;
+		}
+		else
+		{
+			mairaComboBox.SelectedValue = RacingWheel.VibrationPattern.None;
+		}
+
+		app.Logger.WriteLine( "[SteeringEffects] <<< SetMairaComboBoxItemsSource" );
 	}
 
 	public void Update( App app, float deltaSeconds )
@@ -362,17 +394,18 @@ public class SteeringEffects
 		_robotSettleTimer = 1f;
 		_robotThrottle = 0f;
 
-		// reset yaw rate running average
+		// reset running averages
 
-		_yawRateInDPSRunningAverageCount = 0;
-		_yawRateInDPSRunningAverage = 0f;
+		_calibrationSamplesTaken = 0;
+		_steeringWheelAngleInDegreesRunningAverage = 0f;
+		_yawRateInDegreesPerSecondRunningAverage = 0f;
 
 		// clear out our old calibration data
 
 		_numSteeringWheelAnglesRecorded = 0;
 
 		Array.Clear( _steeringWheelAnglesInDegrees );
-		Array.Clear( _yawRateDataInDegreesPerSecond );
+		Array.Clear( _yawRateInDegreesPerSecond );
 
 		// next phase
 
@@ -408,29 +441,32 @@ public class SteeringEffects
 			return;
 		}
 
-		// update the yaw rate running average
+		// update running averages
 
-		var yawRateInDPS = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / ( app.Simulator.Speed * MathZ.MPSToKPH );
+		var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees;
+		var yawRateInDegreesPerSecond = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / ( app.Simulator.Speed * MathZ.MPSToKPH );
 
-		if ( _yawRateInDPSRunningAverageCount == 0 )
+		if ( _calibrationSamplesTaken == 0 )
 		{
-			_yawRateInDPSRunningAverage = yawRateInDPS;
+			_steeringWheelAngleInDegreesRunningAverage = steeringWheelAngleInDegrees;
+			_yawRateInDegreesPerSecondRunningAverage = yawRateInDegreesPerSecond;
 		}
 		else
 		{
-			_yawRateInDPSRunningAverage = MathZ.Lerp( _yawRateInDPSRunningAverage, yawRateInDPS, 0.2f );
+			_steeringWheelAngleInDegreesRunningAverage = MathZ.Lerp( _steeringWheelAngleInDegreesRunningAverage, steeringWheelAngleInDegrees, 0.2f );
+			_yawRateInDegreesPerSecondRunningAverage = MathZ.Lerp( _yawRateInDegreesPerSecondRunningAverage, yawRateInDegreesPerSecond, 0.2f );
 		}
 
-		_yawRateInDPSRunningAverageCount++;
+		_calibrationSamplesTaken++;
 
 		// stop when we have averaged the yaw rate over 1/6 of a second (10 frames)
 
-		if ( _yawRateInDPSRunningAverageCount == 10 )
+		if ( _calibrationSamplesTaken == 10 )
 		{
 			// save the yaw rate
 
-			_steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded ] = app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees + app.Simulator.SteeringOffset;
-			_yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded ] = _yawRateInDPSRunningAverage;
+			_steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded ] = _steeringWheelAngleInDegreesRunningAverage;
+			_yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded ] = _yawRateInDegreesPerSecondRunningAverage;
 
 			// update calibration graph
 
@@ -442,8 +478,8 @@ public class SteeringEffects
 
 					using var drawingContext = drawingVisual.RenderOpen();
 
-					var p1 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 1 ] + 0.5, CalibrationGraphHeight - _yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ] * 100.0 + 0.5 );
-					var p2 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 0 ] + 0.5, CalibrationGraphHeight - _yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 0 ] * 100.0 + 0.5 );
+					var p1 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 1 ] + 0.5, CalibrationGraphHeight - _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ] * 100.0 + 0.5 );
+					var p2 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 0 ] + 0.5, CalibrationGraphHeight - _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 0 ] * 100.0 + 0.5 );
 
 					drawingContext.DrawLine( _calibrationGraphPen, p1, p2 );
 					drawingContext.Close();
@@ -456,10 +492,11 @@ public class SteeringEffects
 
 			_numSteeringWheelAnglesRecorded++;
 
-			// reset the yaw rate running average
+			// reset running averages
 
-			_yawRateInDPSRunningAverageCount = 0;
-			_yawRateInDPSRunningAverage = 0f;
+			_calibrationSamplesTaken = 0;
+			_steeringWheelAngleInDegreesRunningAverage = 0f;
+			_yawRateInDegreesPerSecondRunningAverage = 0f;
 
 			// move to the next target steering wheel angle
 
@@ -681,13 +718,13 @@ public class SteeringEffects
 
 		// open file
 
-		var filePath = Path.Combine( CalibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupName} - {app.Simulator.CurrentTireCompoundType}.csv" );
+		var filePath = Path.Combine( CalibrationDirectory, $"{app.Simulator.CarScreenName} - {app.Simulator.CarSetupName}.csv" );
 
 		using var writer = new StreamWriter( filePath );
 
 		// write version, car name, car setup, and tire compound type
 
-		writer.WriteLine( $"{CalibrationFileVersion},{app.Simulator.CarScreenName},{app.Simulator.CarSetupName},{app.Simulator.CurrentTireCompoundType}" );
+		writer.WriteLine( $"{CalibrationFileVersion},{app.Simulator.CarScreenName},{app.Simulator.CarSetupName}" );
 
 		// write header row
 
@@ -697,7 +734,7 @@ public class SteeringEffects
 
 		for ( var angleIndex = 0; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
 		{
-			writer.WriteLine( $"{_steeringWheelAnglesInDegrees[ angleIndex ]:F6},{_yawRateDataInDegreesPerSecond[ angleIndex ]:F6}" );
+			writer.WriteLine( $"{_steeringWheelAnglesInDegrees[ angleIndex ]:F6},{_yawRateInDegreesPerSecond[ angleIndex ]:F6}" );
 		}
 
 		// close the file
@@ -706,7 +743,7 @@ public class SteeringEffects
 
 		// update the combo box options
 
-		SetMairaComboBoxItemsSource( true );
+		SetCalibrationFileNameMairaComboBoxItemsSource( true );
 
 		// update setting to use this calibration file
 
@@ -726,7 +763,7 @@ public class SteeringEffects
 		_numSteeringWheelAnglesRecorded = 0;
 
 		Array.Clear( _steeringWheelAnglesInDegrees );
-		Array.Clear( _yawRateDataInDegreesPerSecond );
+		Array.Clear( _yawRateInDegreesPerSecond );
 		Array.Clear( _expectedYawRateInDegreesPerSecond );
 
 		// clear out calibration
@@ -819,7 +856,7 @@ public class SteeringEffects
 						if ( !float.TryParse( parts[ 1 ], NumberStyles.Float, CultureInfo.InvariantCulture, out var yawRateInDegreesPerSecond ) ) continue;
 
 						_steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded ] = steeringWheelAngleInDegrees;
-						_yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded ] = yawRateInDegreesPerSecond;
+						_yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded ] = yawRateInDegreesPerSecond;
 
 						_numSteeringWheelAnglesRecorded++;
 					}
@@ -843,7 +880,7 @@ public class SteeringEffects
 						{
 							// Exact hit on a calibration angle
 
-							_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateDataInDegreesPerSecond[ foundOrInsertion ];
+							_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateInDegreesPerSecond[ foundOrInsertion ];
 						}
 						else
 						{
@@ -855,11 +892,11 @@ public class SteeringEffects
 
 							if ( nextIndex <= 0 )
 							{
-								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateDataInDegreesPerSecond[ 0 ];
+								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateInDegreesPerSecond[ 0 ];
 							}
 							else if ( nextIndex >= _numSteeringWheelAnglesRecorded )
 							{
-								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateDataInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ];
+								_expectedYawRateInDegreesPerSecond[ angleIndex ] = _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ];
 							}
 							else
 							{
@@ -870,8 +907,8 @@ public class SteeringEffects
 								var x0 = _steeringWheelAnglesInDegrees[ prevIndex ];
 								var x1 = _steeringWheelAnglesInDegrees[ nextIndex ];
 
-								var y0 = _yawRateDataInDegreesPerSecond[ prevIndex ];
-								var y1 = _yawRateDataInDegreesPerSecond[ nextIndex ];
+								var y0 = _yawRateInDegreesPerSecond[ prevIndex ];
+								var y1 = _yawRateInDegreesPerSecond[ nextIndex ];
 
 								var t = ( steeringWheelAngleInDegrees - x0 ) / ( x1 - x0 );
 
@@ -963,6 +1000,16 @@ public class SteeringEffects
 		{
 			var localization = DataContext.DataContext.Instance.Localization;
 
+			if ( app.Simulator.CarSetupName == string.Empty )
+			{
+				app.MainWindow.SteeringEffects_Status_Border.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				app.MainWindow.SteeringEffects_CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
+				app.MainWindow.SteeringEffects_Status_Border.Visibility = Visibility.Visible;
+			}
+
 			if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 			{
 				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Collapsed;
@@ -972,8 +1019,6 @@ public class SteeringEffects
 				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Text = $"{localization[ "Progress:" ]} {_calibrationProgress * 100f:F0}{localization[ "Percent" ]}";
 				app.MainWindow.SteeringEffects_CalibrationProgress_Label.Visibility = Visibility.Visible;
 			}
-
-			app.MainWindow.SteeringEffects_CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
 
 			if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
 			{

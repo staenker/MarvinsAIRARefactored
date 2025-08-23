@@ -47,6 +47,7 @@ public class ContextSettings
 	public float SteeringEffectsUndersteerWheelVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsUndersteerWheelVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsUndersteerWheelVibrationCurve { get; set; }
+	public RacingWheel.VibrationPattern SteeringEffectsUndersteerWheelVibrationPattern { get; set; }
 	public float SteeringEffectsUndersteerWheelVibrationStrength { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationMaximumFrequency { get; set; }

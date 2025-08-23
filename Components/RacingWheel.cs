@@ -19,6 +19,16 @@ public class RacingWheel
 		ZeAlanLeTwist,
 	};
 
+	public enum VibrationPattern
+	{
+		None,
+		SineWave,
+		SquareWave,
+		TriangleWave,
+		SawtoothWaveIn,
+		SawtoothWaveOut
+	};
+
 	private const int UpdateInterval = 6;
 	private const int MaxSteeringWheelTorque360HzIndex = Simulator.SamplesPerFrame360Hz + 1;
 
@@ -336,18 +346,64 @@ public class RacingWheel
 
 			if ( app.SteeringEffects.UndersteerEffect > 0f )
 			{
-				var freq = ( app.SteeringEffects.UndersteerEffect == 1f ) ? settings.SteeringEffectsUndersteerWheelVibrationMaximumFrequency : settings.SteeringEffectsUndersteerWheelVibrationMinimumFrequency;
+				var isUndersteering = ( app.SteeringEffects.UndersteerEffect == 1f );
 
-				var understeerEffectTorque = MathF.Cos( _understeerEffectTimerMS * MathF.Tau * freq ) * settings.SteeringEffectsUndersteerWheelVibrationStrength;
+				var frequency = isUndersteering ? settings.SteeringEffectsUndersteerWheelVibrationMaximumFrequency : settings.SteeringEffectsUndersteerWheelVibrationMinimumFrequency;
 
-				_understeerEffectTimerMS -= deltaMilliseconds * 0.001f;
+				frequency = MathF.Max( 0.01f, frequency );
 
-				if ( _understeerEffectTimerMS < 0f )
+				var timeInSeconds = _understeerEffectTimerMS * 0.001f;
+
+				var understeerEffectTorque = 0f;
+
+				switch ( settings.SteeringEffectsUndersteerWheelVibrationPattern )
 				{
-					_understeerEffectTimerMS += 1f;
+					case VibrationPattern.SineWave:
+					{
+						var sine = MathF.Sin( timeInSeconds * MathF.Tau * frequency );
+						understeerEffectTorque = sine;
+						break;
+					}
+
+					case VibrationPattern.SquareWave:
+					{
+						var sine = MathF.Sin( timeInSeconds * MathF.Tau * frequency );
+						understeerEffectTorque = ( sine >= 0f ) ? 1f : -1f;
+						break;
+					}
+
+					case VibrationPattern.TriangleWave:
+					{
+						var phase = ( timeInSeconds * frequency ) % 1f;
+						understeerEffectTorque = 4f * MathF.Abs( phase - 0.5f ) - 1f;
+						break;
+					}
+
+					case VibrationPattern.SawtoothWaveIn:
+					{
+						var phase = ( timeInSeconds * frequency ) % 1f;
+						understeerEffectTorque = ( phase - 1f ) * MathF.Sign( app.Simulator.SteeringWheelAngle );
+						break;
+					}
+
+					case VibrationPattern.SawtoothWaveOut:
+					{
+						var phase = ( timeInSeconds * frequency ) % 1f;
+						understeerEffectTorque = ( 1f - phase ) * MathF.Sign( app.Simulator.SteeringWheelAngle );
+						break;
+					}
 				}
 
-				vibrationTorque += understeerEffectTorque * MathF.Pow( app.SteeringEffects.UndersteerEffect, MathZ.CurveToPower( settings.SteeringEffectsUndersteerWheelVibrationCurve ) );
+				_understeerEffectTimerMS += deltaMilliseconds;
+
+				var periodMS = 1000f / frequency;
+
+				if ( _understeerEffectTimerMS >= periodMS )
+				{
+					_understeerEffectTimerMS -= periodMS * MathF.Floor( _understeerEffectTimerMS / periodMS );
+				}
+
+				vibrationTorque += understeerEffectTorque * settings.SteeringEffectsUndersteerWheelVibrationStrength * MathF.Pow( app.SteeringEffects.UndersteerEffect, MathZ.CurveToPower( settings.SteeringEffectsUndersteerWheelVibrationCurve ) );
 			}
 
 			// check if we want to suspend or unsuspend force feedback

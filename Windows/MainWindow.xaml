@@ -531,7 +531,8 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <controls:MairaKnob Grid.Column="0" Title="{Binding Localization[Strength]}" Value="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrength, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthMinusButtonMappings}" DefaultValue="0.1"/>
+                                    <controls:MairaComboBox Grid.Column="0" x:Name="SteeringEffects_UndersteerWheelVibrationPattern_ComboBox" Title="{Binding Localization[VibrationPattern]}" SelectedValue="{Binding Settings.SteeringEffectsUndersteerWheelVibrationPattern, Mode=TwoWay}" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWheelVibrationPatternContextSwitches}"/>
+                                    <controls:MairaKnob Grid.Column="2" Title="{Binding Localization[Strength]}" Value="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrength, Mode=TwoWay}" ValueString="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthString}" SmallValueChangeStep="0.001" LargeValueChangeStep="0.01" RotationMultiplier="10" ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthContextSwitches}" PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthPlusButtonMappings}" MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelVibrationStrengthMinusButtonMappings}" DefaultValue="0.1"/>
 
                                 </Grid>
 
@@ -608,22 +609,20 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
                                     <controls:MairaButton Grid.Row="0" Grid.Column="1" x:Name="SteeringEffects_RunCalibration_MairaButton" Title="{Binding Localization[RunCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_record_on.png" Click="SteeringEffects_RunCalibration_MairaButton_Click"/>
                                     <controls:MairaButton Grid.Row="0" Grid.Column="3" x:Name="SteeringEffects_StopCalibration_MairaButton" Title="{Binding Localization[StopCalibration]}" ButtonIcon="/MarvinsAIRARefactored;component/Artwork/ButtonIcons/button_icon_cancel.png" Click="SteeringEffects_StopCalibration_MairaButton_Click"/>
+                                    
+                                </Grid>
 
-                                    <Border Grid.Row="2" Grid.ColumnSpan="5" BorderThickness="2" BorderBrush="#FFF" Background="#80000000" CornerRadius="5" Padding="0,0,0,6">
+                                <Grid Margin="0,20,0,0">
+
+                                    <Border BorderThickness="2" BorderBrush="#FFF" Background="#80000000" CornerRadius="5" Padding="0,20,0,20">
                                         <ScrollViewer x:Name="SteeringEffects_Calibration_ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=GroupBox}}" PreviewMouseWheel="RacingWheel_Preview_ScrollViewer_PreviewMouseWheel">
                                             <Image x:Name="SteeringEffects_Calibration_Image" Height="400" Width="900" RenderOptions.BitmapScalingMode="HighQuality"/>
                                         </ScrollViewer>
                                     </Border>
 
-                                    <TextBlock Grid.Row="2" Grid.ColumnSpan="5" x:Name="SteeringEffects_CalibrationProgress_Label" Text="Progress: 100%" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,0,0" Foreground="White" Background="Black" Padding="20,2,20,6"/>
+                                    <TextBlock x:Name="SteeringEffects_CalibrationProgress_Label" Text="Progress: 100%" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,82,0,0" Foreground="White" Background="Black" Padding="20,2,20,6"/>
 
                                 </Grid>
 
