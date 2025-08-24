@@ -906,6 +906,14 @@ public class RacingWheel
 			app.Graph.UpdateLayer( Graph.LayerIndex.InputLFE, inputLFEMagnitude, inputLFEMagnitude );
 			app.Graph.UpdateLayer( Graph.LayerIndex.OutputTorque, outputTorque, outputTorque );
 
+			// update telemetry
+
+			app.Telemetry.Data.racingWheelOutputTorque = outputTorque;
+			app.Telemetry.Data.racingWheelOutputTorqueIsClipping = ( outputTorque < -1f ) || ( outputTorque > 1f );
+			app.Telemetry.Data.racingWheelCrashProtectionIsActive = ( _crashProtectionTimerMS > 0 );
+			app.Telemetry.Data.racingWheelCurbProtectionIsActive = ( _curbProtectionTimerMS > 0 );
+			app.Telemetry.Data.racingWheelIsFading = ( _fadeTimerMS > 0 );
+
 			// update recording data
 
 			app.RecordingManager.AddRecordingData( steeringWheelTorque60Hz, steeringWheelTorque500Hz );

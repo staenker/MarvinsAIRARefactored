@@ -218,9 +218,19 @@ public class SteeringEffects
 			{
 				UpdateEffects( app );
 			}
+			else
+			{
+				UndersteerEffect = 0f;
+				OversteerEffect = 0f;
+				SkidSlip = 0f;
+			}
 		}
 		else
 		{
+			UndersteerEffect = 0f;
+			OversteerEffect = 0f;
+			SkidSlip = 0f;
+
 			switch ( _calibrationPhase )
 			{
 				case CalibrationPhase.ResetCalibration:
@@ -236,6 +246,12 @@ public class SteeringEffects
 					break;
 			}
 		}
+
+		// update telemetery
+
+		app.Telemetry.Data.steeringEffectsUndersteerEffect = UndersteerEffect;
+		app.Telemetry.Data.steeringEffectsOversteerEffect = OversteerEffect;
+		app.Telemetry.Data.steeringEffectsSkidSlip = SkidSlip;
 	}
 
 	private void UpdateEffects( App app )

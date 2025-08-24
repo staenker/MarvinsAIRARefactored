@@ -167,17 +167,23 @@ public class Pedals
 				_hpr.VibratePedal( HPR.Channel.Brake, HPR.State.Off, 0, 0 );
 				_hpr.VibratePedal( HPR.Channel.Throttle, HPR.State.Off, 0, 0 );
 
-				_frequency[ 0 ] = 0f;
-				_frequency[ 1 ] = 0f;
-				_frequency[ 2 ] = 0f;
+				for ( var pedalIndex = 0; pedalIndex < 3; pedalIndex++ )
+				{
+					_frequency[ pedalIndex ] = 0f;
+					_amplitude[ pedalIndex ] = 0f;
+					_cycles[ pedalIndex ] = 0f;
+				}
 
-				_amplitude[ 0 ] = 0f;
-				_amplitude[ 1 ] = 0f;
-				_amplitude[ 2 ] = 0f;
+				// update telemetry
 
-				_cycles[ 0 ] = 0f;
-				_cycles[ 1 ] = 0f;
-				_cycles[ 2 ] = 0f;
+				app.Telemetry.Data.pedalsClutchFrequency = 0f;
+				app.Telemetry.Data.pedalsClutchAmplitude = 0f;
+
+				app.Telemetry.Data.pedalsBrakeFrequency = 0f;
+				app.Telemetry.Data.pedalsBrakeAmplitude = 0f;
+
+				app.Telemetry.Data.pedalsThrottleFrequency = 0f;
+				app.Telemetry.Data.pedalsThrottleAmplitude = 0f;
 
 				return;
 			}
@@ -270,6 +276,17 @@ public class Pedals
 				_cycles[ pedalIndex ] = 0f;
 			}
 		}
+
+		// update telemetry
+
+		app.Telemetry.Data.pedalsClutchFrequency = _frequency[ (int) HPR.Channel.Clutch ];
+		app.Telemetry.Data.pedalsClutchAmplitude = _amplitude[ (int) HPR.Channel.Clutch ];
+
+		app.Telemetry.Data.pedalsBrakeFrequency = _frequency[ (int) HPR.Channel.Brake ];
+		app.Telemetry.Data.pedalsBrakeAmplitude = _amplitude[ (int) HPR.Channel.Brake ];
+
+		app.Telemetry.Data.pedalsThrottleFrequency = _frequency[ (int) HPR.Channel.Throttle ];
+		app.Telemetry.Data.pedalsThrottleAmplitude = _amplitude[ (int) HPR.Channel.Throttle ];
 
 		// update test just started
 

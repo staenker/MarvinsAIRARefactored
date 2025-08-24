@@ -49,6 +49,7 @@ public partial class App : Application
 	public SteeringEffects SteeringEffects { get; private set; }
 	public VirtualJoystick VirtualJoystick { get; private set; }
 	public GripOMeter GripOMeter { get; private set; }
+	public Telemetry Telemetry { get; private set; }
 
 	public const int TimerPeriodInMilliseconds = 17;
 	public const int TimerTicksPerSecond = 1000 / TimerPeriodInMilliseconds;
@@ -93,6 +94,7 @@ public partial class App : Application
 		SteeringEffects = new();
 		VirtualJoystick = new();
 		GripOMeter = new();
+		Telemetry = new();
 
 		_timer.Elapsed += OnTimer;
 	}
@@ -214,6 +216,7 @@ public partial class App : Application
 				RecordingManager.Initialize();
 				VirtualJoystick.Initialize();
 				GripOMeter.Initialize();
+				Telemetry.Initialize();
 
 #endif
 
@@ -281,6 +284,7 @@ public partial class App : Application
 
 		GripOMeter.Close();
 
+		Telemetry.Shutdown();
 		Simulator.Shutdown();
 		MultimediaTimer.Shutdown();
 		AdminBoxx.Shutdown();
@@ -1911,6 +1915,7 @@ public partial class App : Application
 						app.SteeringEffects.Tick( app );
 						app.VirtualJoystick.Tick( app );
 						app.GripOMeter.Tick( app );
+						app.Telemetry.Tick( app );
 
 						app._tickMutex = 0;
 					} );
