@@ -59,7 +59,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -258,7 +261,7 @@
     <comment>Window title</comment>
   </data>
   <data name="PressTheRecordButton" xml:space="preserve">
-    <value>[Нажмите кнопку "запись"]</value>
+    <value>[Нажмите кнопку &quot;запись&quot;]</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Button" xml:space="preserve">
@@ -486,11 +489,11 @@
     <comment>Save conditions</comment>
   </data>
   <data name="Wet" xml:space="preserve">
-    <value>Влажный</value>
+    <value>Влажно</value>
     <comment>Status</comment>
   </data>
   <data name="Dry" xml:space="preserve">
-    <value>Сухой</value>
+    <value>Сухо</value>
     <comment>Status</comment>
   </data>
   <data name="Default" xml:space="preserve">
@@ -830,7 +833,7 @@
     <comment>AdminBoxx</comment>
   </data>
   <data name="AllowSuperStrength" xml:space="preserve">
-    <value>Увеличить максимальную силу до 200% (будьте аккуратны- может быть опасно)</value>
+    <value>Увеличить максимальную силу до 200% (будьте аккуратны - может быть опасно)</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ON" xml:space="preserve">
@@ -892,5 +895,277 @@
   <data name="InputMappedSettingUpdateEnabled" xml:space="preserve">
     <value>Включить сообщения об обновлении настроек ввода</value>
     <comment>Racing wheel</comment>
+  </data>
+  <data name="UndersteerEffect" xml:space="preserve">
+    <value>Эффект андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerEffectCalibration" xml:space="preserve">
+    <value>Калибровка эффекта андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
+    <value>Вы не находитесь на треке 'Centripetal Circuit'</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="RunCalibration" xml:space="preserve">
+    <value>Запустить калибровку</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="StopCalibration" xml:space="preserve">
+    <value>Остановить калибровку</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelLeft" xml:space="preserve">
+    <value>Руль влево</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelCenter" xml:space="preserve">
+    <value>Руль по центру</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelRight" xml:space="preserve">
+    <value>Руль вправо</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheel90Left" xml:space="preserve">
+    <value>Руль на 90° влево</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinThrottle" xml:space="preserve">
+    <value>Минимальный газ</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaxThrottle" xml:space="preserve">
+    <value>Максимальный газ</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShiftUp" xml:space="preserve">
+    <value>Повышение передачи</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShiftDown" xml:space="preserve">
+    <value>Понижение передачи</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinBrake" xml:space="preserve">
+    <value>Минимальный тормоз</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaxBrake" xml:space="preserve">
+    <value>Максимальный тормоз</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ActiveResetSave" xml:space="preserve">
+    <value>Сохранить 'Active Reset'</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ActiveResetRun" xml:space="preserve">
+    <value>Запустить 'Active Reset'</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Phase:" xml:space="preserve">
+    <value>Текущая стадия:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheel:" xml:space="preserve">
+    <value>Рулевое колесо</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="YawRate:" xml:space="preserve">
+    <value>Скорость рыскания:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CarPositionX:" xml:space="preserve">
+    <value>Машина X:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CarPositionY:" xml:space="preserve">
+    <value>Машина Y:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="VelocityX:" xml:space="preserve">
+    <value>Скорость X:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="VelocityY:" xml:space="preserve">
+    <value>Скорость Y:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Heading:" xml:space="preserve">
+    <value>Направление:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Throttle:" xml:space="preserve">
+    <value>Газ:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Brake:" xml:space="preserve">
+    <value>Тормоз:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="NotCalibrating" xml:space="preserve">
+    <value>Не калибруется</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ResetCalibration" xml:space="preserve">
+    <value>Сбросить калибровку</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="DriveToWallEdge" xml:space="preserve">
+    <value>Подъехать к стене</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarmUpTires" xml:space="preserve">
+    <value>Разогрев шин</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="DriveToActiveResetPoint" xml:space="preserve">
+    <value>Подъехать к точке Active Reset</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="TurningPasses" xml:space="preserve">
+    <value></value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UTurn" xml:space="preserve">
+    <value>Разворот</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Остановка</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShowGripOMeter" xml:space="preserve">
+    <value>Показать окно Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MakeGripOMeterDraggable" xml:space="preserve">
+    <value>Разрешить перетаскивания окна Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="GripOMeterScale" xml:space="preserve">
+    <value>Grip-O-Meter размер</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ResetGripOMeter" xml:space="preserve">
+    <value>Сбросить положение окна Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerWheelVibrationEffect" xml:space="preserve">
+    <value>Эффект вибрации андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarningThreshold" xml:space="preserve">
+    <value>Порог для предупреждения</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerThreshold" xml:space="preserve">
+    <value>Порог андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarningFrequency" xml:space="preserve">
+    <value>Частота для предупреждения</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerFrequency" xml:space="preserve">
+    <value>Частота андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Progress:" xml:space="preserve">
+    <value>Прогресс:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerCalibrationFiles" xml:space="preserve">
+    <value>Файлы калибровки андерстира</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CalibrationFileNotSelected" xml:space="preserve">
+    <value>[Файл калибровки не выбран]</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="RPM:" xml:space="preserve">
+    <value>RPM:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ParkedEffects" xml:space="preserve">
+    <value>Эффект на парковке</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ForceFeedbackStrength" xml:space="preserve">
+    <value>Сила фидбека</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="WheelCenteringStrength" xml:space="preserve">
+    <value>Сила центровки руля</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileRacing" xml:space="preserve">
+    <value>Центровать руль при езде</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileParked" xml:space="preserve">
+    <value>Центровать руль на парковке</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedFriction" xml:space="preserve">
+    <value>Трение на паркове</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
+    <value>Сила центровки на парковке</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurrentCarSetup" xml:space="preserve">
+    <value>Текущие настройки автомобиля:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CurrentTireCompound" xml:space="preserve">
+    <value>Текущий состав резины:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerPedalVibrationEffect" xml:space="preserve">
+    <value>Эффект андерстира педали</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Что-то пошло не так</value>
+    <comment>Error window</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Подробнее</value>
+    <comment>Error window</comment>
+  </data>
+  <data name="ClassicMAIRAIsRunning" xml:space="preserve">
+    <value>Запущена классическая MAIRA - пожалуйста, закройте её прежде чем запускать эту версию.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ExceptionThrown" xml:space="preserve">
+    <value>Возникло исключение</value>
+    <comment>Error messages</comment>
+  </data>
+  <data name="WarmUpSpeed" xml:space="preserve">
+    <value>Скорость разогрева</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="WarmUpLapCount" xml:space="preserve">
+    <value>Количество кругов разогрева</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="KPHUnits" xml:space="preserve">
+    <value>К/МЧ</value>
+    <comment>Abbreviation for Kilometers per Hour</comment>
+  </data>
+  <data name="CalibrationFileContributors" xml:space="preserve">
+    <value>Создатели файлов калибровки</value>
+    <comment>Contribute</comment>
+  </data>
+  <data name="CalibrationFilesText" xml:space="preserve">
+    <value>Эти люди великодушно уделили своё время для проведения тестов, создания и загрузки файлов калибровки для их любимых машин.</value>
+    <comment>Contribute</comment>
   </data>
 </root>
