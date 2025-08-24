@@ -1149,4 +1149,8 @@
     <value>Oversteer Effect</value>
     <comment>Pedals</comment>
   </data>
+  <data name="ConfigurationFileIsInvalid" xml:space="preserve">
+    <value>Configuration File Is Invalid!</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>

@@ -443,11 +443,21 @@
 
                             <StackPanel>
 
-                                <Border x:Name="SteeringEffects_Status_Border" Background="SkyBlue" Padding="0,2,0,4" Margin="-20,-18,-20,20">
+                                <Grid Margin="-20,-18,-20,20">
 
-                                    <TextBlock x:Name="SteeringEffects_CarSetupName_TextBlock" Text="" d:Text="Current Setup: baseline" Foreground="#000000" HorizontalAlignment="Center"/>
+                                    <Border x:Name="SteeringEffects_Status_Border" Background="SkyBlue" Padding="0,2,0,4">
 
-                                </Border>
+                                        <TextBlock x:Name="SteeringEffects_CarSetupName_TextBlock" Text="" d:Text="Current Setup: baseline" Foreground="#000000" HorizontalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <Border x:Name="SteeringEffects_InvalidConfigurationFile_Border" Background="#FF4C00" Padding="0,2,0,4" Visibility="Collapsed">
+
+                                        <TextBlock Text="{Binding Localization[ConfigurationFileIsInvalid]}" Foreground="#FFFFFFFF" HorizontalAlignment="Center"/>
+
+                                    </Border>
+
+                                </Grid>
 
                                 <controls:MairaComboBox x:Name="SteeringEffects_CalibrationFileName_ComboBox" Title="" SelectedValue="{Binding Settings.SteeringEffectsCalibrationFileName, Mode=TwoWay}" VerticalContentAlignment="Center"/>
 

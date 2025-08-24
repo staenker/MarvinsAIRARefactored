@@ -843,7 +843,7 @@ public class SteeringEffects
 			}
 			else if ( settings.SteeringEffectsCalibrationFileName == string.Empty )
 			{
-				app.Logger.WriteLine( $"[SteeringEffects] No calibration file selected for this tire compound" );
+				app.Logger.WriteLine( $"[SteeringEffects] No calibration file selected" );
 
 				ClearCalibration();
 			}
@@ -1076,6 +1076,11 @@ public class SteeringEffects
 					} );
 				}
 			}
+
+			app.Dispatcher.Invoke( () =>
+			{
+				app.MainWindow.SteeringEffects_InvalidConfigurationFile_Border.Visibility = ( ( settings.SteeringEffectsCalibrationFileName == string.Empty ) || _calibrationIsValid ) ? Visibility.Collapsed : Visibility.Visible;
+			} );
 		}
 
 		//
