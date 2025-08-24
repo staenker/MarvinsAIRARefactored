@@ -1,18 +1,19 @@
 ﻿
+using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.Components;
 using System.ComponentModel;
+using System.Configuration;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
-
-using MarvinsAIRARefactored.Classes;
-using MarvinsAIRARefactored.Components;
 
 namespace MarvinsAIRARefactored.DataContext;
 
 public class Settings : INotifyPropertyChanged
 {
+	public static bool SuppressUpdatingOfContextSettings { private get; set; } = false;
+
 	private bool _updatingRacingWheelRelatedSettings = false;
-	private bool _suppressUpdatingOfContextSettings = false;
 
 	#region INotifyProperty stuff
 
@@ -30,9 +31,11 @@ public class Settings : INotifyPropertyChanged
 			{
 				var value = property.GetValue( this );
 
-				app.Logger.WriteLine( $"[Settings] Updating base setting {propertyName} to {value}" );
+				var valueType = value?.GetType().Name ?? "null";
 
-				if ( !_suppressUpdatingOfContextSettings )
+				app.Logger.WriteLine( $"[Settings] Updating base setting {propertyName} to ({valueType}) {value}" );
+
+				if ( !SuppressUpdatingOfContextSettings )
 				{
 					UpdateSettings( true );
 				}
@@ -83,7 +86,7 @@ public class Settings : INotifyPropertyChanged
 	{
 		var app = App.Instance!;
 
-		_suppressUpdatingOfContextSettings = !updateContextSettings;
+		SuppressUpdatingOfContextSettings = !updateContextSettings;
 
 		var settingsProperties = typeof( Settings ).GetProperties( BindingFlags.Public | BindingFlags.Instance );
 
@@ -116,13 +119,17 @@ public class Settings : INotifyPropertyChanged
 							{
 								if ( updateContextSettings )
 								{
-									app.Logger.WriteLine( $"[Settings] Updating context setting {contextSettingsProperty.Name} to {settingsPropertyValue} from setting ({context.WheelbaseGuid}|{context.CarName}|{context.TrackName}|{context.TrackConfigurationName}|{context.WetDryName})" );
+									var valueType = settingsPropertyValue?.GetType().Name ?? "null";
+
+									app.Logger.WriteLine( $"[Settings] Updating context setting {contextSettingsProperty.Name} to ({valueType}) {settingsPropertyValue} from setting ({context.WheelbaseGuid}|{context.CarName}|{context.TrackName}|{context.TrackConfigurationName}|{context.WetDryName})" );
 
 									contextSettingsProperty.SetValue( contextSettings, settingsPropertyValue );
 								}
 								else
 								{
-									app.Logger.WriteLine( $"[Settings] Updating setting {settingsProperty.Name} to {contextSettingsPropertyValue} from context setting ({context.WheelbaseGuid}|{context.CarName}|{context.TrackName}|{context.TrackConfigurationName}|{context.WetDryName})" );
+									var valueType = contextSettingsPropertyValue?.GetType().Name ?? "null";
+
+									app.Logger.WriteLine( $"[Settings] Updating setting {settingsProperty.Name} to ({valueType}) {contextSettingsPropertyValue} from context setting ({context.WheelbaseGuid}|{context.CarName}|{context.TrackName}|{context.TrackConfigurationName}|{context.WetDryName})" );
 
 									settingsProperty.SetValue( this, contextSettingsPropertyValue );
 								}
@@ -133,7 +140,7 @@ public class Settings : INotifyPropertyChanged
 			}
 		}
 
-		_suppressUpdatingOfContextSettings = false;
+		SuppressUpdatingOfContextSettings = false;
 	}
 
 	#endregion
@@ -2104,16 +2111,24 @@ public class Settings : INotifyPropertyChanged
 
 		set
 		{
-			if ( value != _steeringEffectsCalibrationFileName )
-			{
-				_steeringEffectsCalibrationFileName = value;
-
-				OnPropertyChanged();
-			}
-
 			var app = App.Instance!;
 
-			app.SteeringEffects.LoadCalibration();
+			if ( !app.SettingsFile.PauseSerialization )
+			{
+				if ( value == null )
+				{
+					value = string.Empty;
+				}
+
+				if ( value != _steeringEffectsCalibrationFileName )
+				{
+					_steeringEffectsCalibrationFileName = value;
+
+					OnPropertyChanged();
+
+					app.SteeringEffects.LoadCalibration();
+				}
+			}
 		}
 	}
 
@@ -2140,6 +2155,8 @@ public class Settings : INotifyPropertyChanged
 				SteeringEffectsUndersteerMaximumThreshold = MathF.Max( SteeringEffectsUndersteerMaximumThreshold, _steeringEffectsUndersteerMinimumThreshold );
 
 				OnPropertyChanged();
+
+				App.Instance!.SteeringEffects.RedrawCalibrationGraph = true;
 			}
 
 			SteeringEffectsUndersteerMinimumThresholdString = $"{_steeringEffectsUndersteerMinimumThreshold:F2}{DataContext.Instance.Localization[ "DegreesPerSecond" ]}";
@@ -2189,6 +2206,8 @@ public class Settings : INotifyPropertyChanged
 				SteeringEffectsUndersteerMinimumThreshold = MathF.Min( SteeringEffectsUndersteerMinimumThreshold, _steeringEffectsUndersteerMaximumThreshold );
 
 				OnPropertyChanged();
+
+				App.Instance!.SteeringEffects.RedrawCalibrationGraph = true;
 			}
 
 			SteeringEffectsUndersteerMaximumThresholdString = $"{_steeringEffectsUndersteerMaximumThreshold:F2}{DataContext.Instance.Localization[ "DegreesPerSecond" ]}";
@@ -2688,6 +2707,8 @@ public class Settings : INotifyPropertyChanged
 				SteeringEffectsOversteerMaximumThreshold = MathF.Max( SteeringEffectsOversteerMaximumThreshold, _steeringEffectsOversteerMinimumThreshold );
 
 				OnPropertyChanged();
+
+				App.Instance!.SteeringEffects.RedrawCalibrationGraph = true;
 			}
 
 			SteeringEffectsOversteerMinimumThresholdString = $"{_steeringEffectsOversteerMinimumThreshold:F2}{DataContext.Instance.Localization[ "DegreesPerSecond" ]}";
@@ -2737,6 +2758,8 @@ public class Settings : INotifyPropertyChanged
 				SteeringEffectsOversteerMinimumThreshold = MathF.Min( SteeringEffectsOversteerMinimumThreshold, _steeringEffectsOversteerMaximumThreshold );
 
 				OnPropertyChanged();
+
+				App.Instance!.SteeringEffects.RedrawCalibrationGraph = true;
 			}
 
 			SteeringEffectsOversteerMaximumThresholdString = $"{_steeringEffectsOversteerMaximumThreshold:F2}{DataContext.Instance.Localization[ "DegreesPerSecond" ]}";

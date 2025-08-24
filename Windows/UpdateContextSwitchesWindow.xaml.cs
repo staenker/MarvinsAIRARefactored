@@ -1,7 +1,7 @@
 ﻿
-using MarvinsAIRARefactored.DataContext;
-using System.Diagnostics;
 using System.Windows;
+
+using MarvinsAIRARefactored.DataContext;
 
 namespace MarvinsAIRARefactored.Windows;
 

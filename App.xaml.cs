@@ -1895,7 +1895,7 @@ public partial class App : Application
 
 				if ( Interlocked.Exchange( ref app._tickMutex, 1 ) == 0 )
 				{
-					app.Dispatcher.BeginInvoke( () =>
+					app.Dispatcher.Invoke( () =>
 					{
 						app.RacingWheel.Tick( app );
 						app.SettingsFile.Tick( app );

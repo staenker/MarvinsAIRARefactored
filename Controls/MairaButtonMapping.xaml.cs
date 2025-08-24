@@ -58,7 +58,7 @@ public partial class MairaButtonMapping : UserControl
 
 			app.DirectInput.OnInput += OnInput;
 
-			Dispatcher.BeginInvoke( () =>
+			Dispatcher.Invoke( () =>
 			{
 				Record_MairaButton.Blink = true;
 				Record_MairaButton.ButtonIcon_Image.Visibility = Visibility.Visible;
@@ -78,7 +78,7 @@ public partial class MairaButtonMapping : UserControl
 
 			app.DirectInput.OnInput -= OnInput;
 
-			Dispatcher.BeginInvoke( () =>
+			Dispatcher.Invoke( () =>
 			{
 				Record_MairaButton.Blink = false;
 				Record_MairaButton.ButtonIcon_Image.Visibility = Visibility.Hidden;
@@ -90,7 +90,7 @@ public partial class MairaButtonMapping : UserControl
 
 	private void UpdateLabels()
 	{
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			if ( _isRecording )
 			{

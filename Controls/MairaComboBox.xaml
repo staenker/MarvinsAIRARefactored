@@ -16,7 +16,7 @@
 
         <Label Grid.Row="0" x:Name="Label" Content="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" PreviewMouseRightButtonDown="Label_PreviewMouseRightButtonDown"/>
 
-        <ComboBox Grid.Row="1" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center"/>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center" IsEditable="False"/>
 
     </Grid>
 

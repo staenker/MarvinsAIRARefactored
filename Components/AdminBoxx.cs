@@ -225,7 +225,7 @@ public partial class AdminBoxx
 			RequestVersionNumber();
 		}
 
-		app.Dispatcher.BeginInvoke( () =>
+		app.Dispatcher.Invoke( () =>
 		{
 			app.MainWindow.AdminBoxx_ConnectToAdminBoxx_MairaSwitch.IsOn = IsConnected;
 		} );
@@ -241,7 +241,7 @@ public partial class AdminBoxx
 
 		_usbSerialPortHelper.Close();
 
-		app.Dispatcher.BeginInvoke( () =>
+		app.Dispatcher.Invoke( () =>
 		{
 			app.MainWindow.AdminBoxx_ConnectToAdminBoxx_MairaSwitch.IsOn = false;
 		} );

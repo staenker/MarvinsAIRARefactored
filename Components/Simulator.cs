@@ -58,7 +58,7 @@ public partial class Simulator
 	public string SimMode { get; private set; } = string.Empty;
 	public float Speed { get; private set; } = 0f;
 	public bool SteeringFFBEnabled { get; private set; } = false;
-	public float SteeringOffset { get; private set; } = 0f;
+	public float SteeringOffsetInDegrees { get; private set; } = 0f;
 	public float SteeringWheelAngle { get; private set; } = 0f;
 	public float SteeringWheelAngleMax { get; private set; } = 0f;
 	public float[] SteeringWheelTorque_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
@@ -76,7 +76,6 @@ public partial class Simulator
 
 	private bool _telemetryDataInitialized = false;
 	private bool _waitingForFirstSessionInfo = false;
-	public bool _carSettingsMightHaveChanged = false;
 
 	private int? _tickCountLastFrame = null;
 	private float? _velocityLastFrame = null;
@@ -195,6 +194,8 @@ public partial class Simulator
 
 		app.Logger.WriteLine( "[Simulator] OnDisconnected >>>" );
 
+		app.RacingWheel.UseSteeringWheelTorqueData = false;
+
 		WindowHandle = null;
 
 		_telemetryDataInitialized = false;
@@ -232,7 +233,7 @@ public partial class Simulator
 		ShiftLightsShiftRPM = 0f;
 		SimMode = string.Empty;
 		SteeringFFBEnabled = false;
-		SteeringOffset = 0f;
+		SteeringOffsetInDegrees = 0f;
 		SteeringWheelAngle = 0f;
 		SteeringWheelAngleMax = 0f;
 		Throttle = 0f;
@@ -256,14 +257,13 @@ public partial class Simulator
 		Array.Clear( RRShockVel_ST );
 		Array.Clear( SteeringWheelTorque_ST );
 
-		app.RacingWheel.UseSteeringWheelTorqueData = false;
+		app.AdminBoxx.SimulatorDisconnected();
+		app.SteeringEffects.SimulatorDisconnected();
+
 		app.RacingWheel.SuspendForceFeedback = true;
 		app.MultimediaTimer.Suspend = true;
 
-		app.AdminBoxx.SimulatorDisconnected();
 		app.MainWindow.UpdateStatus();
-		app.SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
-		app.SteeringEffects.ClearCalibration();
 
 		app.Logger.WriteLine( "[Simulator] <<< OnDisconnected" );
 	}
@@ -302,32 +302,30 @@ public partial class Simulator
 
 			if ( float.TryParse( numericPart, NumberStyles.Float | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var result ) )
 			{
-				SteeringOffset = result;
+				SteeringOffsetInDegrees = result;
 			}
 			else
 			{
-				SteeringOffset = 0f;
+				SteeringOffsetInDegrees = 0f;
 			}
 		}
 		else
 		{
-			SteeringOffset = 0f;
+			SteeringOffsetInDegrees = 0f;
 		}
+
+		app.MainWindow.UpdateStatus();
 
 		if ( _waitingForFirstSessionInfo )
 		{
 			UpdateTireProperties();
 
+			SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
+
 			DataContext.DataContext.Instance.Settings.UpdateSettings( false );
 
 			_waitingForFirstSessionInfo = false;
 		}
-
-		_carSettingsMightHaveChanged = true;
-
-		app.MainWindow.UpdateStatus();
-
-		app.SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
 
 #if DEBUG
 
@@ -544,8 +542,6 @@ public partial class Simulator
 				if ( CurrentTireIndex != _currentTireIndexLastFrame )
 				{
 					UpdateTireProperties();
-
-					_carSettingsMightHaveChanged = true;
 				}
 			}
 
@@ -738,13 +734,6 @@ public partial class Simulator
 			_updateCounter = UpdateInterval;
 
 			app.MainWindow.RacingWheel_CurrentForce_Label.Content = $"{MathF.Abs( SteeringWheelTorque_ST[ 5 ] ):F1}{DataContext.DataContext.Instance.Localization[ "TorqueUnits" ]}";
-		}
-
-		if ( _carSettingsMightHaveChanged )
-		{
-			_carSettingsMightHaveChanged = false;
-
-			app.SteeringEffects.LoadCalibration();
 		}
 	}
 

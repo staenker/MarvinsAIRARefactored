@@ -130,7 +130,7 @@ public partial class MainWindow : Window
 
 	public void RefreshWindow()
 	{
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var app = App.Instance!;
 
@@ -162,7 +162,7 @@ public partial class MainWindow : Window
 			Pedals.SetMairaComboBoxItemsSource( Pedals_ThrottleEffect2_ComboBox );
 			Pedals.SetMairaComboBoxItemsSource( Pedals_ThrottleEffect3_ComboBox );
 
-			app.SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
+			SteeringEffects.SetCalibrationFileNameMairaComboBoxItemsSource();
 
 			SteeringEffects.SetVibrationPatternMairaComboBoxItemsSource( SteeringEffects_UndersteerWheelVibrationPattern_ComboBox );
 			SteeringEffects.SetVibrationPatternMairaComboBoxItemsSource( SteeringEffects_OversteerWheelVibrationPattern_ComboBox );
@@ -180,7 +180,7 @@ public partial class MainWindow : Window
 
 	public void UpdateStatus()
 	{
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var app = App.Instance!;
 
@@ -275,7 +275,7 @@ public partial class MainWindow : Window
 	{
 		var app = App.Instance!;
 
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			RacingWheel_Power_MairaMappableButton.Blink = false;
 
@@ -312,7 +312,7 @@ public partial class MainWindow : Window
 	{
 		var app = App.Instance!;
 
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var disableButtons = !app.DirectInput.ForceFeedbackInitialized;
 
@@ -325,7 +325,7 @@ public partial class MainWindow : Window
 
 	public void UpdateRacingWheelAlgorithmControls()
 	{
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var racingWheelDetailBoostKnobControlVisibility = Visibility.Hidden;
 			var racingWheelDeltaLimitKnobControlVisibility = Visibility.Hidden;
@@ -382,7 +382,7 @@ public partial class MainWindow : Window
 
 	public void UpdateRacingWheelSimpleMode()
 	{
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
@@ -394,7 +394,7 @@ public partial class MainWindow : Window
 	{
 		var app = App.Instance!;
 
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
 
@@ -419,7 +419,7 @@ public partial class MainWindow : Window
 	{
 		var app = App.Instance!;
 
-		Dispatcher.BeginInvoke( () =>
+		Dispatcher.Invoke( () =>
 		{
 			var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
 

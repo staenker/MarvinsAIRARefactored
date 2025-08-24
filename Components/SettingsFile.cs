@@ -62,12 +62,16 @@ public class SettingsFile
 
 		PauseSerialization = true;
 
+		Settings.SuppressUpdatingOfContextSettings = true;
+
 		var settings = (Settings?) Serializer.Load( SettingsFilePath, typeof( Settings ) );
 
 		if ( settings != null )
 		{
 			DataContext.DataContext.Instance.Settings = settings;
 		}
+
+		Settings.SuppressUpdatingOfContextSettings = false;
 
 		PauseSerialization = false;
 

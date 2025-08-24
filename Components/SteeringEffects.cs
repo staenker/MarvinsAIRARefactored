@@ -24,6 +24,8 @@ public class SteeringEffects
 	public float OversteerEffect { get; private set; } = 0f;
 	public float SkidSlip { get; private set; } = 0f;
 
+	public bool RedrawCalibrationGraph { private get; set; } = false;
+
 	private enum CalibrationPhase
 	{
 		NotCalibrating,
@@ -64,10 +66,8 @@ public class SteeringEffects
 	private readonly float[] _steeringWheelAnglesInDegrees = new float[ MaxNumSteeringWheelAngles ];
 	private readonly float[] _yawRateInDegreesPerSecond = new float[ MaxNumSteeringWheelAngles ];
 
-	private string? _currentlyActiveCarScreenName = null;
-	private string _currentlyActiveCalibrationFileName = string.Empty;
-
 	private readonly float[] _expectedYawRateInDegreesPerSecond = new float[ MaxNumSteeringWheelAngles ];
+	private float _steeringWheelAngleAtMinimumExpectedYawRate = 0f;
 	private bool _calibrationIsValid = false;
 
 	private readonly RenderTargetBitmap _calibrationGraphRenderTargetBitmap = new( CalibrationGraphWidth, CalibrationGraphHeight, 96.0, 96.0, PixelFormats.Pbgra32 );
@@ -77,8 +77,17 @@ public class SteeringEffects
 		StartLineCap = PenLineCap.Round,
 		EndLineCap = PenLineCap.Round
 	};
-
 	private readonly Pen _calibrationGraphSmoothedDataPen = new( Brushes.SkyBlue, 2.0 )
+	{
+		StartLineCap = PenLineCap.Round,
+		EndLineCap = PenLineCap.Round
+	};
+	private readonly Pen _calibrationGraphMinimumThresholdPen = new( Brushes.Yellow, 1.0 )
+	{
+		StartLineCap = PenLineCap.Round,
+		EndLineCap = PenLineCap.Round
+	};
+	private readonly Pen _calibrationGraphMaximumThresholdPen = new( Brushes.Red, 1.0 )
 	{
 		StartLineCap = PenLineCap.Round,
 		EndLineCap = PenLineCap.Round
@@ -88,9 +97,11 @@ public class SteeringEffects
 	{
 		_calibrationGraphRawDataPen.Freeze();
 		_calibrationGraphSmoothedDataPen.Freeze();
+		_calibrationGraphMinimumThresholdPen.Freeze();
+		_calibrationGraphMaximumThresholdPen.Freeze();
 	}
 
-	public void SetCalibrationFileNameMairaComboBoxItemsSource( bool forceRefresh = false )
+	public static void SetCalibrationFileNameMairaComboBoxItemsSource()
 	{
 #if !ADMINBOXX
 
@@ -98,37 +109,32 @@ public class SteeringEffects
 
 		app.Logger.WriteLine( "[SteeringEffects] SetCalibrationFileNameMairaComboBoxItemsSource >>>" );
 
-		if ( forceRefresh || ( _currentlyActiveCarScreenName == null ) || ( app.Simulator.CarScreenName != _currentlyActiveCarScreenName ) )
+		app.Logger.WriteLine( "[SteeringEffects] Rebuilding option list" );
+
+		var localization = DataContext.DataContext.Instance.Localization;
+
+		var dictionary = new Dictionary<string, string>()
 		{
-			_currentlyActiveCarScreenName = app.Simulator.CarScreenName;
+			{ string.Empty, localization[ "CalibrationFileNotSelected" ] }
+		};
 
-			var settings = DataContext.DataContext.Instance.Settings;
-			var localization = DataContext.DataContext.Instance.Localization;
-
-			var dictionary = new Dictionary<string, string>()
-			{
-				{ string.Empty, localization[ "CalibrationFileNotSelected" ] }
-			};
-
+		if ( app.Simulator.CarScreenName != string.Empty )
+		{
 			foreach ( var filePath in Directory.GetFiles( CalibrationDirectory, $"{app.Simulator.CarScreenName} - *.csv" ) )
 			{
 				var option = Path.GetFileNameWithoutExtension( filePath );
 
 				dictionary.Add( option, option );
 			}
-
-			if ( ( settings.SteeringEffectsCalibrationFileName == null ) || !dictionary.ContainsKey( settings.SteeringEffectsCalibrationFileName ) )
-			{
-				settings.SteeringEffectsCalibrationFileName = string.Empty;
-			}
-
-			app.Dispatcher.BeginInvoke( () =>
-			{
-				app.MainWindow.SteeringEffects_CalibrationFileName_ComboBox.ItemsSource = dictionary;
-				app.MainWindow.SteeringEffects_CalibrationFileName_ComboBox.SelectedValue = settings.SteeringEffectsCalibrationFileName ?? string.Empty;
-				app.MainWindow.SteeringEffects_CalibrationFileName_ComboBox.Visibility = Visibility.Visible;
-			} );
 		}
+
+		app.Dispatcher.Invoke( () =>
+		{
+			app.Logger.WriteLine( "[SteeringEffects] Setting new option list" );
+
+			app.MainWindow.SteeringEffects_CalibrationFileName_ComboBox.ItemsSource = dictionary;
+			app.MainWindow.SteeringEffects_CalibrationFileName_ComboBox.SelectedValue = string.Empty;
+		} );
 
 		app.Logger.WriteLine( "[SteeringEffects] <<< SetCalibrationFileNameMairaComboBoxItemsSource" );
 
@@ -196,6 +202,14 @@ public class SteeringEffects
 		app.Logger.WriteLine( "[SteeringEffects] <<< SetConstantForceDirectionMairaComboBoxItemsSource" );
 	}
 
+	public void SimulatorDisconnected()
+	{
+		DataContext.DataContext.Instance.Settings.SteeringEffectsCalibrationFileName = string.Empty;
+
+		ClearCalibration();
+		SetCalibrationFileNameMairaComboBoxItemsSource();
+	}
+
 	public void Update( App app, float deltaSeconds )
 	{
 		if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
@@ -230,7 +244,7 @@ public class SteeringEffects
 
 		// get current steering wheel angle in degrees
 
-		var steeringWheelAngleInDegrees = app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees;
+		var steeringWheelAngleInDegrees = ( app.Simulator.SteeringWheelAngle ) * MathZ.RadiansToDegrees - app.Simulator.SteeringOffsetInDegrees;
 
 		// get current speed (minimum 1 kph to avoid divide by 0)
 
@@ -311,7 +325,12 @@ public class SteeringEffects
 			skidSlip = MathZ.Saturate( MathZ.InverseLerp( 0f, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation ) );
 		}
 
-		skidSlip = speedFade * skidSlip * -MathF.Sign( steeringWheelAngleInDegrees );
+		skidSlip = speedFade * skidSlip;
+		
+		if ( steeringWheelAngleInDegrees > _steeringWheelAngleAtMinimumExpectedYawRate )
+		{
+			skidSlip *= -1;
+		}
 
 		SkidSlip = Math.Clamp( skidSlip, -1f, 1f );
 	}
@@ -402,7 +421,7 @@ public class SteeringEffects
 
 		// update virtual joystick
 
-		app.VirtualJoystick.Steering = ( _targetSteeringWheelAngleInDegrees + app.Simulator.SteeringOffset ) / 450f;
+		app.VirtualJoystick.Steering = ( _targetSteeringWheelAngleInDegrees + app.Simulator.SteeringOffsetInDegrees ) / 450f;
 		app.VirtualJoystick.Brake = 0f;
 		app.VirtualJoystick.Throttle = _robotThrottle;
 
@@ -741,6 +760,121 @@ public class SteeringEffects
 		} );
 	}
 
+	private void DrawCalibrationGraphData()
+	{
+		if ( _calibrationIsValid )
+		{
+			App.Instance!.Dispatcher.Invoke( () =>
+			{
+				var settings = DataContext.DataContext.Instance.Settings;
+
+				var drawingVisual = new DrawingVisual();
+
+				using var drawingContext = drawingVisual.RenderOpen();
+
+				// draw raw calibration data
+
+				for ( var angleIndex = 1; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
+				{
+					var a1 = _steeringWheelAnglesInDegrees[ angleIndex - 1 ] + MaxSteeringWheelAngleInDegrees;
+					var a2 = _steeringWheelAnglesInDegrees[ angleIndex - 0 ] + MaxSteeringWheelAngleInDegrees;
+
+					var y1 = _yawRateInDegreesPerSecond[ angleIndex - 1 ];
+					var y2 = _yawRateInDegreesPerSecond[ angleIndex - 0 ];
+
+					var p1 = new Point( a1 - 0.5, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2 + 0.5, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphRawDataPen, p1, p2 );
+				}
+
+				// draw understeer minimum threshold lines
+
+				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				{
+					var a1 = angleIndex - 0.5;
+					var a2 = angleIndex + 0.5;
+
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMinimumThreshold;
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMinimumThreshold;
+
+					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
+				}
+
+				// draw understeer maximum threshold lines
+
+				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				{
+					var a1 = angleIndex - 0.5;
+					var a2 = angleIndex + 0.5;
+
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMaximumThreshold;
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMaximumThreshold;
+
+					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
+				}
+
+				// draw oversteer minimum threshold lines
+
+				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				{
+					var a1 = angleIndex - 0.5;
+					var a2 = angleIndex + 0.5;
+
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMinimumThreshold;
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMinimumThreshold;
+
+					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
+				}
+
+				// draw oversteer maximum threshold lines
+
+				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				{
+					var a1 = angleIndex - 0.5;
+					var a2 = angleIndex + 0.5;
+
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMaximumThreshold;
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMaximumThreshold;
+
+					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
+				}
+
+				// draw expected yaw rate line
+
+				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				{
+					var a1 = angleIndex - 0.5;
+					var a2 = angleIndex + 0.5;
+
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ];
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ];
+
+					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+					drawingContext.DrawLine( _calibrationGraphSmoothedDataPen, p1, p2 );
+				}
+
+				drawingContext.Close();
+
+				_calibrationGraphRenderTargetBitmap.Render( drawingVisual );
+			} );
+		}
+	}
+
 	private void SaveCalibration()
 	{
 		var app = App.Instance!;
@@ -781,7 +915,7 @@ public class SteeringEffects
 
 		// update the combo box options
 
-		SetCalibrationFileNameMairaComboBoxItemsSource( true );
+		SetCalibrationFileNameMairaComboBoxItemsSource();
 
 		// update setting to use this calibration file
 
@@ -796,6 +930,14 @@ public class SteeringEffects
 
 	public void ClearCalibration()
 	{
+		// clear out calibration
+
+		_calibrationIsValid = false;
+
+		// clear the graph
+
+		RedrawCalibrationGraph = true;
+
 		// clear out the data tables
 
 		_numSteeringWheelAnglesRecorded = 0;
@@ -803,18 +945,6 @@ public class SteeringEffects
 		Array.Clear( _steeringWheelAnglesInDegrees );
 		Array.Clear( _yawRateInDegreesPerSecond );
 		Array.Clear( _expectedYawRateInDegreesPerSecond );
-
-		// clear out calibration
-
-		_calibrationIsValid = false;
-
-		// reset the currently active calibration file name
-
-		_currentlyActiveCalibrationFileName = string.Empty;
-
-		// clear the graph
-
-		DrawCalibrationGraphGrid();
 	}
 
 	public void LoadCalibration()
@@ -846,10 +976,6 @@ public class SteeringEffects
 				app.Logger.WriteLine( $"[SteeringEffects] No calibration file selected" );
 
 				ClearCalibration();
-			}
-			else if ( settings.SteeringEffectsCalibrationFileName == _currentlyActiveCalibrationFileName )
-			{
-				app.Logger.WriteLine( $"[SteeringEffects] Calibration file is already loaded" );
 			}
 			else
 			{
@@ -923,6 +1049,10 @@ public class SteeringEffects
 
 										_numSteeringWheelAnglesRecorded++;
 									}
+
+									// done loading
+
+									app.Logger.WriteLine( "[SteeringEffects] Calibration data seems good" );
 
 									calibrationDataSeemsGood = true;
 								}
@@ -1030,50 +1160,27 @@ public class SteeringEffects
 						_expectedYawRateInDegreesPerSecond[ angleIndex ] = MathZ.Lerp( _expectedYawRateInDegreesPerSecond[ angleIndex ], averagedExpectedYawRateInDegreesPerSecond[ angleIndex ], leftFade * centerFade * rightFade );
 					}
 
+					// find steering wheel angle at minimum expected yaw rate
+
+					var minimumExpectedYawRate = float.MaxValue;
+
+					for ( var angleIndex = 0; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						if ( _expectedYawRateInDegreesPerSecond [ angleIndex ] < minimumExpectedYawRate )
+						{
+							minimumExpectedYawRate = _expectedYawRateInDegreesPerSecond[ angleIndex ];
+
+							_steeringWheelAngleAtMinimumExpectedYawRate = angleIndex - MaxSteeringWheelAngleInDegrees;
+						}
+					}
+
 					// calibration is valid
 
 					_calibrationIsValid = true;
 
 					// update the graph
 
-					app.Dispatcher.Invoke( () =>
-					{
-						var drawingVisual = new DrawingVisual();
-
-						using var drawingContext = drawingVisual.RenderOpen();
-
-						for ( var angleIndex = 1; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
-						{
-							var a1 = _steeringWheelAnglesInDegrees[ angleIndex - 1 ] + MaxSteeringWheelAngleInDegrees;
-							var a2 = _steeringWheelAnglesInDegrees[ angleIndex - 0 ] + MaxSteeringWheelAngleInDegrees;
-
-							var y1 = _yawRateInDegreesPerSecond[ angleIndex - 1 ];
-							var y2 = _yawRateInDegreesPerSecond[ angleIndex - 0 ];
-
-							var p1 = new Point( a1 - 0.5, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-							var p2 = new Point( a2 + 0.5, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
-
-							drawingContext.DrawLine( _calibrationGraphRawDataPen, p1, p2 );
-						}
-
-						for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
-						{
-							var a1 = angleIndex - 0.5;
-							var a2 = angleIndex + 0.5;
-
-							var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ];
-							var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ];
-
-							var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-							var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
-
-							drawingContext.DrawLine( _calibrationGraphSmoothedDataPen, p1, p2 );
-						}
-
-						drawingContext.Close();
-
-						_calibrationGraphRenderTargetBitmap.Render( drawingVisual );
-					} );
+					RedrawCalibrationGraph = true;
 				}
 			}
 
@@ -1135,6 +1242,14 @@ public class SteeringEffects
 					app.MainWindow.SteeringEffects_RunCalibration_MairaButton.Disabled = true;
 					app.MainWindow.SteeringEffects_StopCalibration_MairaButton.Disabled = false;
 				}
+			}
+
+			if ( RedrawCalibrationGraph )
+			{
+				DrawCalibrationGraphGrid();
+				DrawCalibrationGraphData();
+
+				RedrawCalibrationGraph = false;
 			}
 		}
 	}
