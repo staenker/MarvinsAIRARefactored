@@ -59,7 +59,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -347,7 +350,7 @@
   </data>
   <data name="GForceUnits" xml:space="preserve">
     <value> g</value>
-    <comment>Abbreviation for G-Force</comment>
+    <comment>Abbreviation for g-force</comment>
   </data>
   <data name="GForce" xml:space="preserve">
     <value>G-síly</value>
@@ -447,7 +450,7 @@
   </data>
   <data name="SteeringEffects" xml:space="preserve">
     <value>Efekty FFB</value>
-    <comment>Pedal effects list</comment>
+    <comment>Tab item, Pedal effects list</comment>
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Zablokování kola</value>
@@ -860,5 +863,293 @@
   <data name="EnableLogitechRPMLights" xml:space="preserve">
     <value>Povolit Logitech RPM světla</value>
     <comment>Racing wheel</comment>
+  </data>
+  <data name="Degrees" xml:space="preserve">
+    <value>°</value>
+    <comment>Abbreviation for degrees</comment>
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value></value>
+    <comment>Sounds</comment>
+  </data>
+  <data name="CrashProtectionActivated" xml:space="preserve">
+    <value>Ochrana při nehodě aktivována!</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurbProtectionActivated" xml:space="preserve">
+    <value>Ochrana při přejetí obrubníku aktivována!</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="PrivateMessages" xml:space="preserve">
+    <value>Soukromé zprávy</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurbProtectionMessagesEnabled" xml:space="preserve">
+    <value>Povolit hlášení o aktivované ochraně při přejetí obrníku</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CrashProtectionMessagesEnabled" xml:space="preserve">
+    <value>Povolit hlášení o aktivované ochraně při nehodě</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="InputMappedSettingUpdateEnabled" xml:space="preserve">
+    <value>Povolit </value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
+    <value>Nejsi na Centripetal okruhu.</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="RunCalibration" xml:space="preserve">
+    <value>Spustit kalibraci</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="StopCalibration" xml:space="preserve">
+    <value>Ukončit kalibraci</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelLeft" xml:space="preserve">
+    <value>Otočit volant vlevo</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelCenter" xml:space="preserve">
+    <value>Otočit volant do středu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheelRight" xml:space="preserve">
+    <value>Otočit volant vpravo</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SteeringWheel90Left" xml:space="preserve">
+    <value>Otočit volant vlevo o 90°</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinThrottle" xml:space="preserve">
+    <value>Minimum plynu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaxThrottle" xml:space="preserve">
+    <value>Maximum plynu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShiftUp" xml:space="preserve">
+    <value>Zařadit vyšší stupeň</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShiftDown" xml:space="preserve">
+    <value>Zařadit nišší stupeň</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinBrake" xml:space="preserve">
+    <value>Minimum Bzrdy</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaxBrake" xml:space="preserve">
+    <value>Maximum brzdy</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="NotCalibrating" xml:space="preserve">
+    <value>Nezkalibrováno</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ResetCalibration" xml:space="preserve">
+    <value>Reset kalibrace</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ShowGripOMeter" xml:space="preserve">
+    <value>Zobrazit Grip-O-Meter okno</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MakeGripOMeterDraggable" xml:space="preserve">
+    <value>Nechat Grip-O-Meter posouvatelné</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="GripOMeterScale" xml:space="preserve">
+    <value>Měřítko Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ResetGripOMeter" xml:space="preserve">
+    <value>Obnovit pozici okna Grip-O-Meter</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerWheelVibrationEffect" xml:space="preserve">
+    <value>Efekt vibrací volantu při nedotáčivosti</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Progress:" xml:space="preserve">
+    <value>postup:</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CalibrationFileNotSelected" xml:space="preserve">
+    <value>[kalibrační soubor není vybraný]</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ParkedEffects" xml:space="preserve">
+    <value>Efekty u stojícího vozidla</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ForceFeedbackStrength" xml:space="preserve">
+    <value>Síla FFB</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="WheelCenteringStrength" xml:space="preserve">
+    <value>Síla centrování volantu </value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileRacing" xml:space="preserve">
+    <value>Centrovat volant při jízdě</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CenterWheelWhileParked" xml:space="preserve">
+    <value>Centrovat volant když vozidlo stojí</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedFriction" xml:space="preserve">
+    <value>Frikce při stojícím vozidle</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
+    <value>Síla centrování volantu u stojícího vozidla</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CurrentCarSetup" xml:space="preserve">
+    <value>Aktuální setup vozu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="CurrentTireCompound" xml:space="preserve">
+    <value>Aktuální směs pneumatik</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerPedalVibrationEffect" xml:space="preserve">
+    <value>Vibrace pedálu při nedotáčivosti</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Něco se pokazilo</value>
+    <comment>Error window</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detaily</value>
+    <comment>Error window</comment>
+  </data>
+  <data name="ClassicMAIRAIsRunning" xml:space="preserve">
+    <value>Maira 1.0 je spuštěná. Prosím vypněte jí, aby jste mohli používat tuto verzi.</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="ExceptionThrown" xml:space="preserve">
+    <value>Byla vyvolána výjimka</value>
+    <comment>Error messages</comment>
+  </data>
+  <data name="KPHUnits" xml:space="preserve">
+    <value>KPH</value>
+    <comment>Abbreviation for kilometers per hour</comment>
+  </data>
+  <data name="CalibrationFileContributors" xml:space="preserve">
+    <value>Autoři kalibračních souborů</value>
+    <comment>Contribute</comment>
+  </data>
+  <data name="CalibrationFilesText" xml:space="preserve">
+    <value>To jsou lidé, kteří štědře věnovali část svého volného času kalibrací efektů řízení na některých svých oblíbených autech a nahráli tyto kalibrační soubory.</value>
+    <comment>Contribute</comment>
+  </data>
+  <data name="DegreesPerSecond" xml:space="preserve">
+    <value>°/s</value>
+    <comment>Abbreviation for degrees per second</comment>
+  </data>
+  <data name="CalibrationFile" xml:space="preserve">
+    <value>Kalibrační soubor</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Understeer" xml:space="preserve">
+    <value>Nedotáčivost</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Oversteer" xml:space="preserve">
+    <value>Přetáčivost</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinimumThreshold" xml:space="preserve">
+    <value>Minimální práh</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaximumThreshold" xml:space="preserve">
+    <value>Maximální práh</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MinimumFrequency" xml:space="preserve">
+    <value>Minimální frekvence</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="MaximumFrequency" xml:space="preserve">
+    <value>Maximální frekvence</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Calibration" xml:space="preserve">
+    <value>Kalibrace</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="VibrationPattern" xml:space="preserve">
+    <value>Vzor vibrací</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SineWave" xml:space="preserve">
+    <value>Sine křivka</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SquareWave" xml:space="preserve">
+    <value>Square křivka</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="TriangleWave" xml:space="preserve">
+    <value>Triangle křivka</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SawtoothWaveIn" xml:space="preserve">
+    <value>Sawtooth křivka (Do)</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="SawtoothWaveOut" xml:space="preserve">
+    <value>Sawtooth křivka (Ven)</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="DecreaseForce" xml:space="preserve">
+    <value>Snížit sílu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="IncreaseForce" xml:space="preserve">
+    <value>Zvýšit sílu</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerWheelConstantForceEffect" xml:space="preserve">
+    <value>Nedotáčivost - konstatní síla efektu </value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Směr</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="OversteerWheelVibrationEffect" xml:space="preserve">
+    <value>Efekty vibrací při přetáčivosti</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="OversteerWheelConstantForceEffect" xml:space="preserve">
+    <value>Přetáčivost - konstatní síla efektu </value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="OversteerPedalVibrationEffect" xml:space="preserve">
+    <value>Efekt vibrací pedálu při přetáčivosti</value>
+    <comment>Steering effects</comment>
+  </data>
+  <data name="UndersteerEffect" xml:space="preserve">
+    <value>Efekt při nedotáčivosti</value>
+    <comment>Pedals</comment>
+  </data>
+  <data name="OversteerEffect" xml:space="preserve">
+    <value>Efekt při přetáčivosti</value>
+    <comment>Pedals</comment>
   </data>
 </root>
