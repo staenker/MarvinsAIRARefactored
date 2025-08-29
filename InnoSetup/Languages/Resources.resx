@@ -1157,4 +1157,36 @@
     <value>Calibration Graph</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="SpeechToText" xml:space="preserve">
+    <value>Speech to Text</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>Overlay</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="OverlayWindow" xml:space="preserve">
+    <value>Overlay Window</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="ShowOverlayWindow" xml:space="preserve">
+    <value>Show the overlay window</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="MakeOverlayWindowDraggable" xml:space="preserve">
+    <value>Make the overlay window draggable</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="ResetOverlayWindow" xml:space="preserve">
+    <value>Reset the overlay window position</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="OverlayWindowScale" xml:space="preserve">
+    <value>Overlay Window Scale</value>
+    <comment>Speech to text</comment>
+  </data>
 </root>
