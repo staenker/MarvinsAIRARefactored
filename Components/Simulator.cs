@@ -45,6 +45,7 @@ public partial class Simulator
 	public IRacingSdkEnum.PaceMode PaceMode { get; private set; } = IRacingSdkEnum.PaceMode.NotPacing;
 	public int PlayerCarIdx { get; private set; } = 0;
 	public IRacingSdkEnum.TrkLoc PlayerTrackSurface { get; private set; } = IRacingSdkEnum.TrkLoc.NotInWorld;
+	public int RadioTransmitCarIdx { get; private set; } = -1;
 	public int ReplayFrameNumEnd { get; private set; } = 1;
 	public bool ReplayPlaySlowMotion { get; private set; } = false;
 	public int ReplayPlaySpeed { get; private set; } = 1;
@@ -99,6 +100,7 @@ public partial class Simulator
 	private IRacingSdkDatum? _paceModeDatum = null;
 	private IRacingSdkDatum? _playerCarIdxDatum = null;
 	private IRacingSdkDatum? _playerTrackSurfaceDatum = null;
+	private IRacingSdkDatum? _radioTransmitCarIdxDatum = null;
 	private IRacingSdkDatum? _replayFrameNumEndDatum = null;
 	private IRacingSdkDatum? _replayPlaySlowMotionDatum = null;
 	private IRacingSdkDatum? _replayPlaySpeedDatum = null;
@@ -223,6 +225,7 @@ public partial class Simulator
 		PaceMode = IRacingSdkEnum.PaceMode.NotPacing;
 		PlayerCarIdx = 0;
 		PlayerTrackSurface = IRacingSdkEnum.TrkLoc.NotInWorld;
+		RadioTransmitCarIdx = -1;
 		ReplayFrameNumEnd = 1;
 		ReplayPlaySlowMotion = false;
 		ReplayPlaySpeed = 1;
@@ -357,6 +360,7 @@ public partial class Simulator
 			_paceModeDatum = _irsdk.Data.TelemetryDataProperties[ "PaceMode" ];
 			_playerCarIdxDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerCarIdx" ];
 			_playerTrackSurfaceDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerTrackSurface" ];
+			_radioTransmitCarIdxDatum = _irsdk.Data.TelemetryDataProperties[ "RadioTransmitCarIdx" ];
 			_replayFrameNumEndDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayFrameNumEnd" ];
 			_replayPlaySlowMotionDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayPlaySlowMotion" ];
 			_replayPlaySpeedDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayPlaySpeed" ];
@@ -479,6 +483,10 @@ public partial class Simulator
 		// get the player track surface
 
 		PlayerTrackSurface = (IRacingSdkEnum.TrkLoc) _irsdk.Data.GetInt( _playerTrackSurfaceDatum );
+
+		// get the car index using the radio
+
+		RadioTransmitCarIdx = _irsdk.Data.GetInt( _radioTransmitCarIdxDatum );
 
 		// get the replay play status
 
@@ -668,6 +676,17 @@ public partial class Simulator
 				}
 				*/
 			}
+		}
+
+		// update speech to text
+
+		if ( RadioTransmitCarIdx != -1 )
+		{
+			app.SpeechToText.Start();
+		}
+		else
+		{
+			app.SpeechToText.Stop();
 		}
 
 		// update steering effects

@@ -518,7 +518,7 @@ public partial class MainWindow : Window
 		{
 			WindowHandle = new WindowInteropHelper( this ).Handle;
 
-			App.Instance!.GripOMeter.Owner = this;
+			App.Instance!.GripOMeterWindow.Owner = this;
 		}
 	}
 
@@ -676,7 +676,7 @@ public partial class MainWindow : Window
 	{
 		var app = App.Instance!;
 
-		app.GripOMeter.ResetWindow();
+		app.GripOMeterWindow.ResetWindow();
 	}
 
 	private void SteeringEffects_RunCalibration_MairaButton_Click( object sender, RoutedEventArgs e )
@@ -761,20 +761,6 @@ public partial class MainWindow : Window
 		var app = App.Instance!;
 
 		app.VirtualJoystick.Brake = 1f;
-	}
-
-	private void SteeringEffects_ActiveResetSave_MairaButton_Click( object sender, RoutedEventArgs e )
-	{
-		var app = App.Instance!;
-
-		app.VirtualJoystick.ActiveResetSave = true;
-	}
-
-	private void SteeringEffects_ActiveResetRun_MairaButton_Click( object sender, RoutedEventArgs e )
-	{
-		var app = App.Instance!;
-
-		app.VirtualJoystick.ActiveResetRun = true;
 	}
 
 	private void Pedals_ClutchTest1_MairaMappableButton_Click( object sender, RoutedEventArgs e )
@@ -873,6 +859,13 @@ public partial class MainWindow : Window
 		var app = App.Instance!;
 
 		app.Sounds.Test( Sounds.SoundEffectType.Oversteer );
+	}
+
+	private void SpeechToText_ResetOverlayWindow_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.SpeechToTextWindow.ResetWindow();
 	}
 
 	private void AdminBoxx_ConnectToAdminBoxx_MairaSwitch_Toggled( object sender, EventArgs e )

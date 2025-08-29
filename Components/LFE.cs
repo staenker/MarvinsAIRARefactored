@@ -1,6 +1,5 @@
 ﻿
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 using SharpDX.DirectSound;
 using SharpDX.Multimedia;
@@ -23,23 +22,18 @@ public class LFE
 	private const int _frameSizeInSamples = _500HzTo8KhzScale * _batchCount;
 	private const int _frameSizeInBytes = _frameSizeInSamples * _bytesPerSample;
 
-	//	private readonly Lock _lock = new();
-
-	public Guid? NextRecordingDeviceGuid { private get; set; } = null;
+	public Guid? NextCaptureDeviceGuid { private get; set; } = null;
 
 	public float CurrentMagnitude
 	{
 		[MethodImpl( MethodImplOptions.AggressiveInlining )]
 		get
 		{
-			// using ( _lock.EnterScope() )
-			{
-				var magnitude = _magnitude[ _pingPongIndex, _batchIndex ];
+			var magnitude = _magnitude[ _pingPongIndex, _batchIndex ];
 
-				_batchIndex = Math.Min( _batchIndex + 1, _batchCount - 1 );
+			_batchIndex = Math.Min( _batchIndex + 1, _batchCount - 1 );
 
-				return magnitude;
-			}
+			return magnitude;
 		}
 	}
 
@@ -52,35 +46,14 @@ public class LFE
 	private readonly Thread _workerThread = new( WorkerThread ) { IsBackground = true, Priority = ThreadPriority.Highest };
 
 	private bool _running = true;
+	private bool _stopped = false;
+
+	private int _lfeBusy = 0;
 	private int _pingPongIndex = 0;
 	private int _batchIndex = 0;
+
+	private readonly byte[] _scratchRead = new byte[ _captureBufferSizeInBytes ];
 	private readonly float[,] _magnitude = new float[ 2, _batchCount ];
-
-	public void Initialize()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[LFE] Initialize >>>" );
-
-		EnumerateDevices();
-
-		_workerThread.Start();
-
-		app.Logger.WriteLine( "[LFE] <<< Initialize" );
-	}
-
-	public void Shutdown()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[LFE] Shutdown >>>" );
-
-		_running = false;
-
-		_autoResetEvent.Set();
-
-		app.Logger.WriteLine( "[LFE] <<< Shutdown" );
-	}
 
 	public void SetMairaComboBoxItemsSource( MairaComboBox mairaComboBox )
 	{
@@ -98,11 +71,44 @@ public class LFE
 		app.Logger.WriteLine( "[LFE] <<< SetMairaComboBoxItemsSource" );
 	}
 
-	private void EnumerateDevices()
+	public void Initialize()
 	{
 		var app = App.Instance!;
 
-		app.Logger.WriteLine( "[LFE] EnumerateDevices >>>" );
+		app.Logger.WriteLine( "[LFE] Initialize >>>" );
+
+		EnumerateCaptureDevices();
+
+		_workerThread.Start();
+
+		app.Logger.WriteLine( "[LFE] <<< Initialize" );
+	}
+
+	public void Shutdown()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[LFE] Shutdown >>>" );
+
+		_running = false;
+
+		_autoResetEvent.Set();
+
+		while ( !_stopped )
+		{
+			Thread.Sleep( 50 );
+		}
+
+		ReleaseCaptureDevice();
+
+		app.Logger.WriteLine( "[LFE] <<< Shutdown" );
+	}
+
+	private void EnumerateCaptureDevices()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[LFE] EnumerateCaptureDevices >>>" );
 
 		_captureDeviceList.Clear();
 
@@ -124,110 +130,154 @@ public class LFE
 			}
 		}
 
-		app.Logger.WriteLine( "[LFE] <<< EnumerateDevices" );
+		app.Logger.WriteLine( "[LFE] <<< EnumerateCaptureDevices" );
+	}
+
+	private void CreateCaptureDevice()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[LFE] CreateCaptureDevice >>>" );
+
+		if ( ( NextCaptureDeviceGuid != null ) && ( NextCaptureDeviceGuid != Guid.Empty ) )
+		{
+			try
+			{
+				app.Logger.WriteLine( "[LFE] Creating the new direct sound capture device" );
+
+				_directSoundCapture = new DirectSoundCapture( (Guid) NextCaptureDeviceGuid );
+
+				var captureBufferDescription = new CaptureBufferDescription
+				{
+					Format = new WaveFormat( _captureBufferFrequency, _captureBufferBitsPerSample, 1 ),
+					BufferBytes = _captureBufferSizeInBytes
+				};
+
+				_captureBuffer = new CaptureBuffer( _directSoundCapture, captureBufferDescription );
+
+				app.Logger.WriteLine( "[SpeechToText] Setting up the notification positions" );
+
+				var notifyCount = _captureBufferNumSamples / _frameSizeInSamples;
+
+				var notificationPositionArray = new NotificationPosition[ notifyCount ];
+
+				for ( var i = 0; i < notificationPositionArray.Length; i++ )
+				{
+					var endOfBlock = ( i + 1 ) * _captureBufferSizeInBytes / notifyCount;
+
+					notificationPositionArray[ i ] = new()
+					{
+						Offset = endOfBlock - 1,
+						WaitHandle = _autoResetEvent
+					};
+				}
+
+				_captureBuffer.SetNotificationPositions( notificationPositionArray );
+
+				app.Logger.WriteLine( "[LFE] Starting the capture" );
+
+				_batchIndex = 0;
+				_pingPongIndex = 0;
+
+				_captureBuffer.Start( true );
+			}
+			catch ( Exception exception )
+			{
+				app.Logger.WriteLine( "[LFE] Failed to create direct sound capture device - could microphone access be restricted? " + exception.Message.Trim() );
+			}
+		}
+
+		app.Logger.WriteLine( "[LFE] <<< CreateCaptureDevice" );
+	}
+
+	private void ReleaseCaptureDevice()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[LFE] ReleaseCaptureDevice >>>" );
+
+		if ( _captureBuffer != null )
+		{
+			_captureBuffer.Stop();
+			_captureBuffer.Dispose();
+
+			_captureBuffer = null;
+		}
+
+		Array.Clear( _magnitude );
+
+		app.Logger.WriteLine( "[LFE] <<< ReleaseCaptureDevice" );
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private void Update( App app, bool signalReceived, Span<byte> byteSpan )
+	private void Update( App app, bool signalReceived )
 	{
-		if ( NextRecordingDeviceGuid != null )
+		if ( NextCaptureDeviceGuid != null )
 		{
-			if ( _captureBuffer != null )
-			{
-				_captureBuffer.Stop();
-				_captureBuffer.Dispose();
+			app.Logger.WriteLine( $"[LFE] Switching to the next capture device: {NextCaptureDeviceGuid}" );
 
-				_captureBuffer = null;
+			ReleaseCaptureDevice();
+			CreateCaptureDevice();
 
-				Array.Clear( _magnitude );
-			}
+			NextCaptureDeviceGuid = null;
 
-			if ( NextRecordingDeviceGuid != Guid.Empty )
-			{
-				try
-				{
-					_directSoundCapture = new DirectSoundCapture( (Guid) NextRecordingDeviceGuid );
-
-					var captureBufferDescription = new CaptureBufferDescription
-					{
-						Format = new WaveFormat( _captureBufferFrequency, _captureBufferBitsPerSample, 1 ),
-						BufferBytes = _captureBufferSizeInBytes
-					};
-
-					_captureBuffer = new CaptureBuffer( _directSoundCapture, captureBufferDescription );
-
-					var notificationPositionArray = new NotificationPosition[ _captureBufferNumSamples / _frameSizeInSamples ];
-
-					for ( var i = 0; i < notificationPositionArray.Length; i++ )
-					{
-						notificationPositionArray[ i ] = new()
-						{
-							Offset = i * _frameSizeInBytes,
-							WaitHandle = _autoResetEvent
-						};
-					}
-
-					_batchIndex = 0;
-					_pingPongIndex = 0;
-
-					_captureBuffer.SetNotificationPositions( notificationPositionArray );
-					_captureBuffer.Start( true );
-				}
-				catch ( Exception exception )
-				{
-					app.Logger.WriteLine( "[LFE] Failed to create direct sound capture buffer - could microphone access be restricted? " + exception.Message.Trim() );
-				}
-
-				signalReceived = false;
-			}
-
-			NextRecordingDeviceGuid = null;
+			signalReceived = false;
 		}
 
 		if ( signalReceived && ( _captureBuffer != null ) )
 		{
-			var currentCapturePosition = _captureBuffer.CurrentCapturePosition;
-
-			currentCapturePosition = ( currentCapturePosition / _frameSizeInBytes ) * _frameSizeInBytes;
-
-			var currentReadPosition = ( currentCapturePosition + _captureBufferSizeInBytes - _frameSizeInBytes ) % _captureBufferSizeInBytes;
-
-			var dataStream = _captureBuffer.Lock( currentReadPosition, _frameSizeInBytes, LockFlags.None, out var secondPart );
-
-			dataStream.ReadExactly( byteSpan );
-
-			var shortSpan = MemoryMarshal.Cast<byte, short>( byteSpan );
-			var pingPongIndex = ( _pingPongIndex + 1 ) & 1;
-			var sampleOffset = 0;
-
-			for ( var batchIndex = 0; batchIndex < _batchCount; batchIndex++ )
+			if ( Interlocked.Exchange( ref _lfeBusy, 1 ) == 0 )
 			{
-				var amplitudeSum = 0f;
+				// copy audio from the capture buffer into our scratch read buffer
 
-				for ( var sampleIndex = 0; sampleIndex < _500HzTo8KhzScale; sampleIndex++ )
+				var currentCapturePosition = _captureBuffer.CurrentCapturePosition;
+
+				currentCapturePosition = ( currentCapturePosition / _frameSizeInBytes ) * _frameSizeInBytes;
+
+				var currentReadPosition = ( currentCapturePosition + _captureBufferSizeInBytes - _frameSizeInBytes ) % _captureBufferSizeInBytes;
+
+				_captureBuffer.Read( _scratchRead, currentReadPosition, _frameSizeInBytes, 0, LockFlags.None );
+
+				// convert from PCM16 to float32 [-1,1]
+
+				var floatSamples = new float[ _frameSizeInSamples ];
+
+				for ( var i = 0; i < _frameSizeInSamples; i++ )
 				{
-					amplitudeSum += shortSpan[ sampleOffset ] / (float) short.MinValue;
+					var b0 = _scratchRead[ 2 * i + 0 ];
+					var b1 = _scratchRead[ 2 * i + 1 ];
 
-					sampleOffset++;
+					var s = (short) ( b0 | ( b1 << 8 ) );
+
+					floatSamples[ i ] = s / 32768f;
 				}
 
-				_magnitude[ pingPongIndex, batchIndex ] = amplitudeSum / _500HzTo8KhzScale;
-			}
+				var pingPongIndex = ( _pingPongIndex + 1 ) & 1;
+				var sampleOffset = 0;
 
-			// using ( _lock.EnterScope() )
-			{
+				for ( var batchIndex = 0; batchIndex < _batchCount; batchIndex++ )
+				{
+					var amplitudeSum = 0f;
+
+					for ( var sampleIndex = 0; sampleIndex < _500HzTo8KhzScale; sampleIndex++ )
+					{
+						amplitudeSum += floatSamples[ sampleOffset ];
+
+						sampleOffset++;
+					}
+
+					_magnitude[ pingPongIndex, batchIndex ] = amplitudeSum / _500HzTo8KhzScale;
+				}
+
 				_batchIndex = 0;
 				_pingPongIndex = pingPongIndex;
+				_lfeBusy = 0;
 			}
-
-			_captureBuffer.Unlock( dataStream, secondPart );
 		}
 	}
 
 	private static void WorkerThread()
 	{
-		var _byteSpan = new Span<byte>( new byte[ _frameSizeInBytes ] );
-
 		var app = App.Instance!;
 
 		var lfe = app.LFE;
@@ -236,7 +286,9 @@ public class LFE
 		{
 			var signalReceived = lfe._autoResetEvent.WaitOne( 250 );
 
-			lfe.Update( app, signalReceived, _byteSpan );
+			lfe.Update( app, signalReceived );
 		}
+
+		lfe._stopped = true;
 	}
 }

@@ -1,0 +1,25 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>MAIRA STT Bridge</title>
+<link rel="stylesheet" href="style.css">
+<body>
+    <h3>MAIRA STT Bridge</h3>
+    <p class="muted">Choose a microphone and click <b>Use Microphone</b> �</p>
+
+    <div>
+        <label>
+            Microphone:
+            <select id="micSelect"></select>
+        </label>
+        <button id="applyMic">Use Microphone</button>
+        <div id="vu"><span></span></div>
+    </div>
+
+    <div style="margin-top:10px">
+        <button id="warmup">Enable Microphone</button>
+    </div>
+
+    <div id="status" class="muted" style="margin-top:8px">Connecting�</div>
+
+    <script src="stt.js"></script>
+</body>
