@@ -115,7 +115,7 @@ public partial class Localization : INotifyPropertyChanged
 
 		var comboBoxItemsDictionary = new Dictionary<string, string> { { "default", "English" } };
 
-		var regex = MyRegex();
+		var regex = ResourceFileRegex();
 
 		var files = Directory.GetFiles( languagesDirectory, "*.resx" );
 
@@ -141,6 +141,6 @@ public partial class Localization : INotifyPropertyChanged
 		app.Logger.WriteLine( "[Localization] <<< SetLanguageComboBoxItemsSource" );
 	}
 
-	[GeneratedRegex( @"^Resources\.(?<languageCode>[a-z]{2}(-[A-Z]{2})?)\.resx$", RegexOptions.IgnoreCase, "en-US" )]
-	private static partial Regex MyRegex();
+	[GeneratedRegex( @"^Resources\.(?<languageCode>[a-z]{2,3}(?:-[A-Za-z0-9]+)*)\.resx$", RegexOptions.IgnoreCase, "en-US" )]
+	private static partial Regex ResourceFileRegex();
 }
