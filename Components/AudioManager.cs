@@ -1,234 +1,233 @@
 ﻿
-using MarvinsAIRARefactored.Classes;
-using SharpDX.DirectSound;
 using SharpDX.XAudio2;
 using System.IO;
 
-namespace MarvinsAIRARefactored.Components
+using MarvinsAIRARefactored.Classes;
+
+namespace MarvinsAIRARefactored.Components;
+
+public sealed class AudioManager : IDisposable
 {
-	public class AudioManager : IDisposable
+	private readonly Lock _lock = new();
+
+	private readonly string _soundsDirectory = Path.Combine( App.DocumentsFolder, "Sounds" );
+
+	private readonly Dictionary<string, CachedSound> _soundCache = [];
+	private readonly Dictionary<string, CachedSoundPlayer> _soundPlayerCache = [];
+
+	private FileSystemWatcher? _fileSystemWatcher = null;
+
+	private readonly XAudio2 _xaudio2;
+	private readonly MasteringVoice _masteringVoice;
+
+	private readonly Dictionary<string, DateTime> _debounceMap = [];
+
+	public AudioManager()
 	{
-		private readonly Lock _lock = new();
+		_xaudio2 = new XAudio2();
+		_masteringVoice = new MasteringVoice( _xaudio2 );
+	}
 
-		private readonly string _soundsDirectory = Path.Combine( App.DocumentsFolder, "Sounds" );
+	public void Initialize()
+	{
+		var app = App.Instance!;
 
-		private readonly Dictionary<string, CachedSound> _soundCache = [];
-		private readonly Dictionary<string, CachedSoundPlayer> _soundPlayerCache = [];
+		app.Logger.WriteLine( "[AudioManager] Initialize >>>" );
 
-		private FileSystemWatcher? _fileSystemWatcher = null;
-
-		private readonly XAudio2 _xaudio2;
-		private readonly MasteringVoice _masteringVoice;
-
-		private readonly Dictionary<string, DateTime> _debounceMap = [];
-
-		public AudioManager()
+		if ( !Directory.Exists( _soundsDirectory ) )
 		{
-			_xaudio2 = new XAudio2();
-			_masteringVoice = new MasteringVoice( _xaudio2 );
+			Directory.CreateDirectory( _soundsDirectory );
 		}
 
-		public void Initialize()
+		_fileSystemWatcher = new FileSystemWatcher( _soundsDirectory, "*.wav" )
+		{
+			NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+			EnableRaisingEvents = true,
+			IncludeSubdirectories = true
+		};
+
+		_fileSystemWatcher.Changed += OnSoundFileChanged;
+		_fileSystemWatcher.Created += OnSoundFileChanged;
+		_fileSystemWatcher.Renamed += OnSoundFileChanged;
+
+		app.Logger.WriteLine( "[AudioManager] <<< Initialize" );
+	}
+
+	public void LoadSounds( string directory, string[] soundKeys )
+	{
+		foreach ( var soundKey in soundKeys )
+		{
+			LoadSound( directory, soundKey );
+		}
+	}
+
+	public void LoadSound( string directory, string soundKey )
+	{
+		var path = Path.Combine( _soundsDirectory, directory, $"{soundKey}.wav" );
+
+		LoadSound( path );
+
+		path = Path.Combine( _soundsDirectory, directory, $"{soundKey}_custom.wav" );
+
+		LoadSound( path );
+	}
+
+	private void OnSoundFileChanged( object sender, FileSystemEventArgs e )
+	{
+		using ( _lock.EnterScope() )
+		{
+			var now = DateTime.Now;
+
+			var expiredKeys = _debounceMap.Where( kvp => ( now - kvp.Value ).TotalSeconds > 10 ).Select( kvp => kvp.Key ).ToList();
+
+			foreach ( var key in expiredKeys )
+			{
+				_debounceMap.Remove( key );
+			}
+
+			if ( _debounceMap.TryGetValue( e.FullPath, out var lastTime ) )
+			{
+				if ( ( now - lastTime ).TotalMilliseconds < 500 )
+				{
+					return;
+				}
+
+				_debounceMap[ e.FullPath ] = now;
+			}
+			else
+			{
+				_debounceMap.Add( e.FullPath, now );
+			}
+		}
+
+		Task.Delay( 1000 ).ContinueWith( _ =>
 		{
 			var app = App.Instance!;
 
-			app.Logger.WriteLine( "[AudioManager] Initialize >>>" );
+			app.Logger.WriteLine( "[AudioManager] OnSoundFileChanged >>>" );
 
-			if ( !Directory.Exists( _soundsDirectory ) )
+			try
 			{
-				Directory.CreateDirectory( _soundsDirectory );
+				LoadSound( e.FullPath );
+
+				app.Logger.WriteLine( $"[AudioManager] Hot-reloaded sound: {e.FullPath}" );
+			}
+			catch ( Exception exception )
+			{
+				app.Logger.WriteLine( $"[AudioManager] Failed to reload {e.FullPath}: {exception.Message}" );
 			}
 
-			_fileSystemWatcher = new FileSystemWatcher( _soundsDirectory, "*.wav" )
-			{
-				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-				EnableRaisingEvents = true,
-				IncludeSubdirectories = true
-			};
+			app.Logger.WriteLine( "[AudioManager] <<< OnSoundFileChanged" );
+		} );
+	}
 
-			_fileSystemWatcher.Changed += OnSoundFileChanged;
-			_fileSystemWatcher.Created += OnSoundFileChanged;
-			_fileSystemWatcher.Renamed += OnSoundFileChanged;
-
-			app.Logger.WriteLine( "[AudioManager] <<< Initialize" );
-		}
-
-		public void LoadSounds( string directory, string[] soundKeys )
+	private void LoadSound( string path )
+	{
+		if ( File.Exists( path ) )
 		{
-			foreach ( var soundKey in soundKeys )
+			var key = Path.GetFileNameWithoutExtension( path )?.ToLower();
+
+			if ( key != null )
 			{
-				LoadSound( directory, soundKey );
-			}
-		}
+				var sound = new CachedSound( path );
+				var player = new CachedSoundPlayer( sound, _xaudio2 );
 
-		public void LoadSound( string directory, string soundKey )
-		{
-			var path = Path.Combine( _soundsDirectory, directory, $"{soundKey}.wav" );
-
-			LoadSound( path );
-
-			path = Path.Combine( _soundsDirectory, directory, $"{soundKey}_custom.wav" );
-
-			LoadSound( path );
-		}
-
-		private void OnSoundFileChanged( object sender, FileSystemEventArgs e )
-		{
-			using ( _lock.EnterScope() )
-			{
-				var now = DateTime.Now;
-
-				var expiredKeys = _debounceMap.Where( kvp => ( now - kvp.Value ).TotalSeconds > 10 ).Select( kvp => kvp.Key ).ToList();
-
-				foreach ( var key in expiredKeys )
+				using ( _lock.EnterScope() )
 				{
-					_debounceMap.Remove( key );
-				}
+					_soundCache[ key ] = sound;
 
-				if ( _debounceMap.TryGetValue( e.FullPath, out var lastTime ) )
-				{
-					if ( ( now - lastTime ).TotalMilliseconds < 500 )
+					if ( _soundPlayerCache.TryGetValue( key, out var existing ) )
 					{
-						return;
+						existing.Stop();
+						existing.Dispose();
 					}
 
-					_debounceMap[ e.FullPath ] = now;
-				}
-				else
-				{
-					_debounceMap.Add( e.FullPath, now );
+					_soundPlayerCache[ key ] = player;
 				}
 			}
-
-			Task.Delay( 1000 ).ContinueWith( _ =>
-			{
-				var app = App.Instance!;
-
-				app.Logger.WriteLine( "[AudioManager] OnSoundFileChanged >>>" );
-
-				try
-				{
-					LoadSound( e.FullPath );
-
-					app.Logger.WriteLine( $"[AudioManager] Hot-reloaded sound: {e.FullPath}" );
-				}
-				catch ( Exception exception )
-				{
-					app.Logger.WriteLine( $"[AudioManager] Failed to reload {e.FullPath}: {exception.Message}" );
-				}
-
-				app.Logger.WriteLine( "[AudioManager] <<< OnSoundFileChanged" );
-			} );
 		}
+	}
 
-		private void LoadSound( string path )
+	public void Play( string key, float volume, float frequencyRatio = 1f, bool loop = false )
+	{
+		using ( _lock.EnterScope() )
 		{
-			if ( File.Exists( path ) )
+			if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
 			{
-				var key = Path.GetFileNameWithoutExtension( path )?.ToLower();
-
-				if ( key != null )
+				if ( !_soundPlayerCache.TryGetValue( key, out player ) )
 				{
-					var sound = new CachedSound( path );
-					var player = new CachedSoundPlayer( sound, _xaudio2 );
-
-					using ( _lock.EnterScope() )
-					{
-						_soundCache[ key ] = sound;
-
-						if ( _soundPlayerCache.TryGetValue( key, out var existing ) )
-						{
-							existing.Stop();
-							existing.Dispose();
-						}
-
-						_soundPlayerCache[ key ] = player;
-					}
+					player = null;
 				}
 			}
-		}
 
-		public void Play( string key, float volume, float frequencyRatio = 1f, bool loop = false )
+			player?.Play( volume, frequencyRatio, loop );
+		}
+	}
+
+	public void Update( string key, float volume, float frequencyRatio = 1f )
+	{
+		using ( _lock.EnterScope() )
 		{
-			using ( _lock.EnterScope() )
+			if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
 			{
-				if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
+				if ( !_soundPlayerCache.TryGetValue( key, out player ) )
 				{
-					if ( !_soundPlayerCache.TryGetValue( key, out player ) )
-					{
-						player = null;
-					}
+					player = null;
 				}
-
-				player?.Play( volume, frequencyRatio, loop );
 			}
-		}
 
-		public void Update( string key, float volume, float frequencyRatio = 1f )
+			player?.Update( volume, frequencyRatio );
+		}
+	}
+
+	public void Stop( string key )
+	{
+		using ( _lock.EnterScope() )
 		{
-			using ( _lock.EnterScope() )
+			if ( _soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
 			{
-				if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
-				{
-					if ( !_soundPlayerCache.TryGetValue( key, out player ) )
-					{
-						player = null;
-					}
-				}
+				player?.Stop();
+			}
 
-				player?.Update( volume, frequencyRatio );
+			if ( _soundPlayerCache.TryGetValue( key, out player ) )
+			{
+				player?.Stop();
 			}
 		}
+	}
 
-		public void Stop( string key )
+	public bool IsPlaying( string key )
+	{
+		using ( _lock.EnterScope() )
 		{
-			using ( _lock.EnterScope() )
+			if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
 			{
-				if ( _soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
+				if ( !_soundPlayerCache.TryGetValue( key, out player ) )
 				{
-					player?.Stop();
-				}
-
-				if ( _soundPlayerCache.TryGetValue( key, out player ) )
-				{
-					player?.Stop();
+					player = null;
 				}
 			}
-		}
 
-		public bool IsPlaying( string key )
+			return player?.IsPlaying() ?? false;
+		}
+	}
+
+	public void Dispose()
+	{
+		_fileSystemWatcher?.Dispose();
+
+		using ( _lock.EnterScope() )
 		{
-			using ( _lock.EnterScope() )
+			foreach ( var player in _soundPlayerCache.Values )
 			{
-				if ( !_soundPlayerCache.TryGetValue( $"{key}_custom", out var player ) )
-				{
-					if ( !_soundPlayerCache.TryGetValue( key, out player ) )
-					{
-						player = null;
-					}
-				}
-
-				return player?.IsPlaying() ?? false;
-			}
-		}
-
-		public void Dispose()
-		{
-			_fileSystemWatcher?.Dispose();
-
-			using ( _lock.EnterScope() )
-			{
-				foreach ( var player in _soundPlayerCache.Values )
-				{
-					player.Dispose();
-				}
-
-				_soundPlayerCache.Clear();
-				_soundCache.Clear();
+				player.Dispose();
 			}
 
-			_masteringVoice.Dispose();
-			_xaudio2.Dispose();
+			_soundPlayerCache.Clear();
+			_soundCache.Clear();
 		}
+
+		_masteringVoice.Dispose();
+		_xaudio2.Dispose();
 	}
 }

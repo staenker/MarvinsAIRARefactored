@@ -10,7 +10,7 @@ using MarvinsAIRARefactored.Controls;
 
 namespace MarvinsAIRARefactored.Components;
 
-public class RecordingManager : IDisposable
+public sealed class RecordingManager : IDisposable
 {
 	private readonly string _recordingsDirectory = Path.Combine( App.DocumentsFolder, "Recordings" );
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MarvinsAIRARefactored.Classes;
 
-public class UsbSerialPortHelper( string vid, string pid ) : IDisposable
+public sealed class UsbSerialPortHelper( string vid, string pid ) : IDisposable
 {
 	public event EventHandler<string>? DataReceived = null;
 	public event EventHandler? PortClosed = null;

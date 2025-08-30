@@ -1,14 +1,15 @@
 ﻿
-using SharpDX.DirectSound;
 using SharpDX.XAudio2;
 
 namespace MarvinsAIRARefactored.Classes;
 
-public class CachedSoundPlayer( CachedSound sound, XAudio2 xaudio2 ) : IDisposable
+public sealed class CachedSoundPlayer( CachedSound sound, XAudio2 xaudio2 ) : IDisposable
 {
 	private readonly CachedSound _sound = sound;
 	private readonly XAudio2 _xaudio2 = xaudio2;
 	private SourceVoice? _sourceVoice;
+
+	public void Dispose() =>_sourceVoice?.Dispose();
 
 	public void Play( float volume = 1f, float frequencyRatio = 1f, bool loop = false )
 	{
@@ -60,11 +61,5 @@ public class CachedSoundPlayer( CachedSound sound, XAudio2 xaudio2 ) : IDisposab
 	public bool IsPlaying()
 	{
 		return _sourceVoice?.State.BuffersQueued > 0;
-	}
-
-	public void Dispose()
-	{
-		_sourceVoice?.Dispose();
-		_sourceVoice = null;
 	}
 }

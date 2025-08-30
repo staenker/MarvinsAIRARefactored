@@ -7,13 +7,15 @@ using SharpDX.XAudio2;
 
 namespace MarvinsAIRARefactored.Classes;
 
-public class CachedSound : IDisposable
+public sealed class CachedSound : IDisposable
 {
 	public WaveFormat WaveFormat { get; }
 	public AudioBuffer AudioBuffer { get; }
 	public uint[]? DecodedPacketsInfo { get; } = null;
 
 	private readonly DataStream _stream;
+
+	public void Dispose() => _stream?.Dispose();
 
 	public CachedSound( string path )
 	{
@@ -33,10 +35,5 @@ public class CachedSound : IDisposable
 		{
 			DecodedPacketsInfo = Array.ConvertAll( soundStream.DecodedPacketsInfo, x => (uint) x );
 		}
-	}
-
-	public void Dispose()
-	{
-		_stream?.Dispose();
 	}
 }
