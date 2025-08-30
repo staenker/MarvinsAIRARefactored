@@ -9,25 +9,30 @@ namespace MarvinsAIRARefactored.Classes;
 
 public sealed class ChromeSTTBridge : IDisposable
 {
-	// Serve files from: Documents\STT (must contain index.html + stt.js (+ optional style.css, etc.))
 	public static string STTDirectory { get; private set; } = Path.Combine( App.DocumentsFolder, "STT" );
 
-	private readonly HttpListener _http = new();
-	private CancellationTokenSource _cts = new();
-	private Task? _serverLoop;
+	private readonly HttpListener _httpListner = new();
+	private CancellationTokenSource _cancellationTokenSource = new();
+	private Task? _serverLoopTask;
 
-	private readonly Lock _wsLock = new();
-	private WebSocket? _clientWebSocket;
+	private readonly Lock _lock = new();
+	private WebSocket? _webSocket;
 
 	private volatile bool _clientConnected;
-	private TaskCompletionSource<bool> _connectedTcs = new( TaskCreationOptions.RunContinuationsAsynchronously );
+	private TaskCompletionSource<bool> _connectedTaskCompletionSource = new( TaskCreationOptions.RunContinuationsAsynchronously );
 
 	public int Port { get; }
-	public string HostUrl => $"http://localhost:{Port}/";
+	public string HostURL => $"http://localhost:{Port}/";
 	public bool IsClientConnected => _clientConnected;
 
-	// Events from the page
-	public event Action<string>? InterimText;
+	public Task SendStartAsync() => SendCommandAsync( new { type = "start" } );
+	public Task SendStopAsync() => SendCommandAsync( new { type = "stop" } );
+	public Task SendSetLanguageAsync( string language ) => SendCommandAsync( new { type = "setlanguage", language } );
+	public Task SendSetStringsAsync( IDictionary<string, string> strings ) => SendCommandAsync( new { type = "setstrings", strings } );
+	public Task<bool> WaitUntilConnectedAsync( TimeSpan timeout ) => _connectedTaskCompletionSource.Task.WaitAsync( timeout );
+	public Task<bool> WaitUntilConnectedAsync() => _connectedTaskCompletionSource.Task;
+
+	public event Action<string>? PartialText;
 	public event Action<string>? FinalText;
 	public event Action<string>? ErrorText;
 	public event Action? SessionEnded;
@@ -36,34 +41,37 @@ public sealed class ChromeSTTBridge : IDisposable
 	{
 		Port = port;
 
-		_http.Prefixes.Add( HostUrl );
+		_httpListner.Prefixes.Add( HostURL );
 	}
 
-	// -------------------- Lifecycle --------------------
+	public void Dispose() => _ = StopAsync();
 
 	public void Start()
 	{
-		if ( _cts.IsCancellationRequested )
+		if ( _cancellationTokenSource.IsCancellationRequested )
 		{
-			Volatile.Write( ref _cts, new CancellationTokenSource() );
+			Volatile.Write( ref _cancellationTokenSource, new CancellationTokenSource() );
 		}
 
-		TryEnsureSTTDirectory();
-
-		_connectedTcs = new( TaskCreationOptions.RunContinuationsAsynchronously );
+		_connectedTaskCompletionSource = new( TaskCreationOptions.RunContinuationsAsynchronously );
 		_clientConnected = false;
 
-		_http.Start();
-		_serverLoop = Task.Run( () => ServerLoop( _cts.Token ) );
+		_httpListner.Start();
+
+		_serverLoopTask = Task.Run( () => ServerLoop( _cancellationTokenSource.Token ) );
+
+		UpdateStrings();
 	}
 
 	public async Task StopAsync()
 	{
-		_cts.Cancel();
+		await SendCommandAsync( new { type = "shutdown" } );
+
+		_cancellationTokenSource.Cancel();
 
 		try
 		{
-			_http.Stop();
+			_httpListner.Stop();
 		}
 		catch
 		{
@@ -71,17 +79,17 @@ public sealed class ChromeSTTBridge : IDisposable
 
 		try
 		{
-			_http.Close();
+			_httpListner.Close();
 		}
 		catch
 		{
 		}
 
-		if ( _serverLoop != null )
+		if ( _serverLoopTask != null )
 		{
 			try
 			{
-				await _serverLoop.ConfigureAwait( false );
+				await _serverLoopTask.ConfigureAwait( false );
 			}
 			catch
 			{
@@ -89,29 +97,31 @@ public sealed class ChromeSTTBridge : IDisposable
 		}
 	}
 
-	public void Dispose() => _ = StopAsync();
-
-	// -------------------- Host -> Page commands --------------------
-
-	public Task SendStartAsync() => SendCommandAsync( new { type = "start" } );
-	public Task SendStopAsync() => SendCommandAsync( new { type = "stop" } );
-	public Task SendSetLangAsync( string lang ) => SendCommandAsync( new { type = "setlang", lang } );
-	public Task<bool> WaitUntilConnectedAsync( TimeSpan timeout ) => _connectedTcs.Task.WaitAsync( timeout );
-	public Task<bool> WaitUntilConnectedAsync() => _connectedTcs.Task;
-
-	// -------------------- HTTP / WS server --------------------
-
-	private async Task ServerLoop( CancellationToken ct )
+	public void UpdateStrings()
 	{
-		while ( !ct.IsCancellationRequested )
+		var localization = DataContext.DataContext.Instance.Localization;
+
+		var strings = new Dictionary<string, string>
 		{
-			HttpListenerContext ctx;
+			[ "title" ] = localization[ "STT_Title" ],
+			[ "hint" ] = localization[ "STT_Hint" ],
+			[ "button" ] = localization[ "STT_Button" ],
+		};
+
+		_ = SendSetStringsAsync( strings );
+	}
+
+	private async Task ServerLoop( CancellationToken cancellationToken )
+	{
+		while ( !cancellationToken.IsCancellationRequested )
+		{
+			HttpListenerContext httpListenerContext;
 
 			try
 			{
-				ctx = await _http.GetContextAsync().ConfigureAwait( false );
+				httpListenerContext = await _httpListner.GetContextAsync().ConfigureAwait( false );
 			}
-			catch when ( ct.IsCancellationRequested )
+			catch when ( cancellationToken.IsCancellationRequested )
 			{
 				break;
 			}
@@ -120,47 +130,47 @@ public sealed class ChromeSTTBridge : IDisposable
 				continue;
 			}
 
-			_ = Task.Run( () => HandleContextAsync( ctx, ct ), ct );
+			_ = Task.Run( () => HandleContextAsync( httpListenerContext, cancellationToken ), cancellationToken );
 		}
 	}
 
-	private async Task HandleContextAsync( HttpListenerContext context, CancellationToken ct )
+	private async Task HandleContextAsync( HttpListenerContext httpListenerContext, CancellationToken cancellationToken )
 	{
 		try
 		{
-			var path = context.Request.Url?.AbsolutePath.TrimStart( '/' ) ?? string.Empty;
+			var path = httpListenerContext.Request.Url?.AbsolutePath.TrimStart( '/' ) ?? string.Empty;
 
-			if ( context.Request.IsWebSocketRequest && path.StartsWith( "ws", StringComparison.OrdinalIgnoreCase ) )
+			if ( httpListenerContext.Request.IsWebSocketRequest && path.StartsWith( "ws", StringComparison.OrdinalIgnoreCase ) )
 			{
-				var wsCtx = await context.AcceptWebSocketAsync( null ).ConfigureAwait( false );
+				var httpListenerWebSocketContext = await httpListenerContext.AcceptWebSocketAsync( null ).ConfigureAwait( false );
 
-				lock ( _wsLock ) _clientWebSocket = wsCtx.WebSocket;
+				lock ( _lock ) _webSocket = httpListenerWebSocketContext.WebSocket;
 
 				_clientConnected = true;
-				_connectedTcs.TrySetResult( true );
+				_connectedTaskCompletionSource.TrySetResult( true );
 
-				await ReceiveLoopAsync( wsCtx.WebSocket, ct ).ConfigureAwait( false );
+				await ReceiveLoopAsync( httpListenerWebSocketContext.WebSocket, cancellationToken ).ConfigureAwait( false );
 
 				return;
 			}
 
-			await ServeStaticAsync( context, path, ct ).ConfigureAwait( false );
+			await ServeStaticAsync( httpListenerContext, path, cancellationToken ).ConfigureAwait( false );
 		}
 		catch ( Exception ex )
 		{
-			TryWriteErrorResponse( context, 500, ex.Message );
+			TryWriteErrorResponse( httpListenerContext, 500, ex.Message );
 		}
 	}
 
-	private async Task ReceiveLoopAsync( WebSocket ws, CancellationToken ct )
+	private async Task ReceiveLoopAsync( WebSocket websocket, CancellationToken cancellationToken )
 	{
 		var buffer = new byte[ 64 * 1024 ];
 
 		try
 		{
-			while ( ws.State == WebSocketState.Open && !ct.IsCancellationRequested )
+			while ( ( websocket.State == WebSocketState.Open ) && !cancellationToken.IsCancellationRequested )
 			{
-				var result = await ws.ReceiveAsync( buffer, ct ).ConfigureAwait( false );
+				var result = await websocket.ReceiveAsync( buffer, cancellationToken ).ConfigureAwait( false );
 
 				if ( result.MessageType == WebSocketMessageType.Close ) break;
 
@@ -180,19 +190,19 @@ public sealed class ChromeSTTBridge : IDisposable
 		{
 			try
 			{
-				await ws.CloseAsync( WebSocketCloseStatus.NormalClosure, "done", CancellationToken.None ).ConfigureAwait( false );
+				await websocket.CloseAsync( WebSocketCloseStatus.NormalClosure, "done", CancellationToken.None ).ConfigureAwait( false );
 			}
 			catch
 			{
 			}
 
-			lock ( _wsLock ) _clientWebSocket = null;
+			lock ( _lock ) _webSocket = null;
 
 			_clientConnected = false;
 
-			if ( !_cts.IsCancellationRequested )
+			if ( !_cancellationTokenSource.IsCancellationRequested )
 			{
-				_connectedTcs = new( TaskCreationOptions.RunContinuationsAsynchronously );
+				_connectedTaskCompletionSource = new( TaskCreationOptions.RunContinuationsAsynchronously );
 			}
 		}
 	}
@@ -203,7 +213,10 @@ public sealed class ChromeSTTBridge : IDisposable
 		{
 			using var doc = JsonDocument.Parse( json );
 
-			if ( !doc.RootElement.TryGetProperty( "type", out var tEl ) ) return;
+			if ( !doc.RootElement.TryGetProperty( "type", out var tEl ) )
+			{
+				return;
+			}
 
 			var type = tEl.GetString();
 
@@ -211,11 +224,18 @@ public sealed class ChromeSTTBridge : IDisposable
 			{
 				case "stt":
 				{
-					var interim = doc.RootElement.TryGetProperty( "interim", out var i ) ? i.GetString() ?? "" : "";
-					var final = doc.RootElement.TryGetProperty( "final", out var f ) ? f.GetString() ?? "" : "";
+					var partial = doc.RootElement.TryGetProperty( "partial", out var i ) ? i.GetString() ?? string.Empty : string.Empty;
+					var final = doc.RootElement.TryGetProperty( "final", out var f ) ? f.GetString() ?? string.Empty : string.Empty;
 
-					if ( !string.IsNullOrWhiteSpace( interim ) ) InterimText?.Invoke( interim );
-					if ( !string.IsNullOrWhiteSpace( final ) ) FinalText?.Invoke( final );
+					if ( !string.IsNullOrWhiteSpace( partial ) )
+					{
+						PartialText?.Invoke( partial );
+					}
+
+					if ( !string.IsNullOrWhiteSpace( final ) )
+					{
+						FinalText?.Invoke( final );
+					}
 
 					break;
 				}
@@ -228,9 +248,9 @@ public sealed class ChromeSTTBridge : IDisposable
 
 				case "error":
 				{
-					var msg = doc.RootElement.TryGetProperty( "message", out var m ) ? m.GetString() ?? "unknown error" : "unknown error";
+					var message = doc.RootElement.TryGetProperty( "message", out var m ) ? m.GetString() ?? "unknown error" : "unknown error";
 
-					ErrorText?.Invoke( msg );
+					ErrorText?.Invoke( message );
 
 					break;
 				}
@@ -244,18 +264,21 @@ public sealed class ChromeSTTBridge : IDisposable
 
 	private async Task SendCommandAsync( object message )
 	{
-		WebSocket? ws;
+		WebSocket? webSocket;
 
-		lock ( _wsLock ) ws = _clientWebSocket;
+		lock ( _lock ) webSocket = _webSocket;
 
-		if ( ws == null || ws.State != WebSocketState.Open ) return;
+		if ( ( webSocket == null ) || ( webSocket.State != WebSocketState.Open ) )
+		{
+			return;
+		}
 
 		var json = JsonSerializer.Serialize( message );
 		var bytes = Encoding.UTF8.GetBytes( json );
 
 		try
 		{
-			await ws.SendAsync( bytes, WebSocketMessageType.Text, true, CancellationToken.None ).ConfigureAwait( false );
+			await webSocket.SendAsync( bytes, WebSocketMessageType.Text, true, CancellationToken.None ).ConfigureAwait( false );
 		}
 		catch ( Exception ex )
 		{
@@ -263,9 +286,7 @@ public sealed class ChromeSTTBridge : IDisposable
 		}
 	}
 
-	// -------------------- Static file server --------------------
-
-	private async Task ServeStaticAsync( HttpListenerContext context, string rawPath, CancellationToken ct )
+	private static async Task ServeStaticAsync( HttpListenerContext httpListenerContext, string rawPath, CancellationToken cancellationToken )
 	{
 		var path = string.IsNullOrWhiteSpace( rawPath ) ? "index.html" : rawPath;
 
@@ -274,23 +295,22 @@ public sealed class ChromeSTTBridge : IDisposable
 			path = Path.Combine( path, "index.html" );
 		}
 
-		var fullBase = STTDirectory;
-		var fullPath = SafeCombine( fullBase, path );
+		var fullPath = SafeCombine( STTDirectory, path );
 
-		if ( fullPath is null || !fullPath.StartsWith( Path.GetFullPath( fullBase ), StringComparison.OrdinalIgnoreCase ) )
+		if ( ( fullPath is null ) || !fullPath.StartsWith( Path.GetFullPath( STTDirectory ), StringComparison.OrdinalIgnoreCase ) )
 		{
-			TryWriteErrorResponse( context, 403, "Forbidden" );
+			TryWriteErrorResponse( httpListenerContext, 403, "Forbidden" );
 
 			return;
 		}
 
 		if ( !File.Exists( fullPath ) )
 		{
-			var fallback = Path.Combine( fullBase, "index.html" );
+			var fallback = Path.Combine( STTDirectory, "index.html" );
 
 			if ( !File.Exists( fallback ) )
 			{
-				TryWriteErrorResponse( context, 404, $"File not found: {path}" );
+				TryWriteErrorResponse( httpListenerContext, 404, $"File not found: {path}" );
 				return;
 			}
 
@@ -301,29 +321,29 @@ public sealed class ChromeSTTBridge : IDisposable
 
 		try
 		{
-			bytes = await File.ReadAllBytesAsync( fullPath, ct ).ConfigureAwait( false );
+			bytes = await File.ReadAllBytesAsync( fullPath, cancellationToken ).ConfigureAwait( false );
 		}
 		catch ( Exception ex )
 		{
-			TryWriteErrorResponse( context, 500, ex.Message );
+			TryWriteErrorResponse( httpListenerContext, 500, ex.Message );
 
 			return;
 		}
 
 		var mime = GetMimeType( fullPath );
 
-		context.Response.ContentType = mime;
-		context.Response.ContentLength64 = bytes.LongLength;
+		httpListenerContext.Response.ContentType = mime;
+		httpListenerContext.Response.ContentLength64 = bytes.LongLength;
 
 		try
 		{
-			await context.Response.OutputStream.WriteAsync( bytes, ct ).ConfigureAwait( false );
+			await httpListenerContext.Response.OutputStream.WriteAsync( bytes, cancellationToken ).ConfigureAwait( false );
 		}
 		finally
 		{
 			try
 			{
-				context.Response.OutputStream.Close();
+				httpListenerContext.Response.OutputStream.Close();
 			}
 			catch
 			{
@@ -331,13 +351,13 @@ public sealed class ChromeSTTBridge : IDisposable
 		}
 	}
 
-	private static bool PathEndsWithSlash( string path ) => path.EndsWith( "/", StringComparison.Ordinal ) || path.EndsWith( "\\", StringComparison.Ordinal );
+	private static bool PathEndsWithSlash( string path ) => path.EndsWith( '/' ) || path.EndsWith( '\\' );
 
-	private static string? SafeCombine( string baseDir, string relativePath )
+	private static string? SafeCombine( string baseDirectory, string relativePath )
 	{
 		try
 		{
-			return Path.GetFullPath( Path.Combine( baseDir, relativePath.Replace( '/', Path.DirectorySeparatorChar ) ) );
+			return Path.GetFullPath( Path.Combine( baseDirectory, relativePath.Replace( '/', Path.DirectorySeparatorChar ) ) );
 		}
 		catch
 		{
@@ -347,9 +367,9 @@ public sealed class ChromeSTTBridge : IDisposable
 
 	private static string GetMimeType( string filePath )
 	{
-		var ext = Path.GetExtension( filePath ).ToLowerInvariant();
+		var extension = Path.GetExtension( filePath ).ToLowerInvariant();
 
-		return ext switch
+		return extension switch
 		{
 			".html" => "text/html; charset=utf-8",
 			".htm" => "text/html; charset=utf-8",
@@ -367,36 +387,22 @@ public sealed class ChromeSTTBridge : IDisposable
 		};
 	}
 
-	private static void TryWriteErrorResponse( HttpListenerContext ctx, int status, string message )
+	private static void TryWriteErrorResponse( HttpListenerContext httpListenerContext, int status, string message )
 	{
 		try
 		{
 			var body = Encoding.UTF8.GetBytes( $"<pre>{WebUtility.HtmlEncode( message )}</pre>" );
 
-			ctx.Response.StatusCode = status;
-			ctx.Response.StatusDescription = message;
-			ctx.Response.ContentType = "text/html; charset=utf-8";
-			ctx.Response.ContentLength64 = body.LongLength;
-			ctx.Response.OutputStream.Write( body, 0, body.Length );
-			ctx.Response.OutputStream.Close();
+			httpListenerContext.Response.StatusCode = status;
+			httpListenerContext.Response.StatusDescription = message;
+			httpListenerContext.Response.ContentType = "text/html; charset=utf-8";
+			httpListenerContext.Response.ContentLength64 = body.LongLength;
+			httpListenerContext.Response.OutputStream.Write( body, 0, body.Length );
+			httpListenerContext.Response.OutputStream.Close();
 		}
 		catch
 		{
 			/* ignore */
-		}
-	}
-
-	private static void TryEnsureSTTDirectory()
-	{
-		try
-		{
-			if ( !Directory.Exists( STTDirectory ) )
-			{
-				Directory.CreateDirectory( STTDirectory );
-			}
-		}
-		catch
-		{
 		}
 	}
 }

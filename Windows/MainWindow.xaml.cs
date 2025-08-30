@@ -170,6 +170,10 @@ public partial class MainWindow : Window
 			SteeringEffects.SetConstantForceDirectionMairaComboBoxItemsSource( SteeringEffects_UndersteerWheelConstantForceDirection_ComboBox );
 			SteeringEffects.SetConstantForceDirectionMairaComboBoxItemsSource( SteeringEffects_OversteerWheelConstantForceDirection_ComboBox );
 
+			SpeechToText.SetMairaComboBoxItemsSource( SpeechToText_Language_ComboBox );
+
+			app.SpeechToText.UpdateStrings();
+
 #endif
 
 			UpdateStatus();

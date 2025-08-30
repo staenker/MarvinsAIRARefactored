@@ -1,25 +1,34 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>MAIRA STT Bridge</title>
-<link rel="stylesheet" href="style.css">
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title id="headTitle">MAIRA Speech-To-Text Bridge</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
-    <h3>MAIRA STT Bridge</h3>
-    <p class="muted">Choose a microphone and click <b>Use Microphone</b> �</p>
 
-    <div>
-        <label>
-            Microphone:
-            <select id="micSelect"></select>
-        </label>
-        <button id="applyMic">Use Microphone</button>
-        <div id="vu"><span></span></div>
-    </div>
+    <img id="mairaLogo" src="maira_logo.png" height=96 />
 
-    <div style="margin-top:10px">
-        <button id="warmup">Enable Microphone</button>
-    </div>
+    <h3 id="bodyTitle">MAIRA Speech-To-Text Bridge</h3>
 
-    <div id="status" class="muted" style="margin-top:8px">Connecting�</div>
+    <p id="hint">Choose an audio capture device, then click the enable button.</p>
+
+    <label>
+        <select id="micSelect"></select>
+    </label>
+
+    <button id="warmup">Enable Speech-To-Text</button>
+
+    <img id="noConnection" src="no-connection.png" height="48" />
+    <img id="listening" src="listening.png" height="48" class="hidden"/>
+    <img id="speaking" src="speaking.png" height="48" class="hidden"/>
 
     <script src="stt.js"></script>
+
 </body>
+
+</html>

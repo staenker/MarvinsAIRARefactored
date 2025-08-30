@@ -87,11 +87,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Artwork\Backgrounds\background_adminboxx.png" />
-    <Resource Include="Artwork\Backgrounds\background_app.png" />
-    <Resource Include="Artwork\Backgrounds\background_buttonmapping.png" />
-    <Resource Include="Artwork\Backgrounds\background_pedals.png" />
-    <Resource Include="Artwork\Backgrounds\background_racingwheel.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_binoculars.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_cancel.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_down.png" />
@@ -135,6 +130,7 @@
     <Resource Include="Artwork\Misc\target_position.png" />
     <Resource Include="Artwork\Switch\switch_off.png" />
     <Resource Include="Artwork\Switch\switch_on.png" />
+    <Resource Include="InnoSetup\STT\favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>

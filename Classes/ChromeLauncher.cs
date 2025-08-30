@@ -6,36 +6,30 @@ namespace MarvinsAIRARefactored.Classes;
 
 public static class ChromeLauncher
 {
-	/// <summary>
-	/// Launch Chrome (preferred) or Edge as a minimal app window to a given URL.
-	/// Returns the Process or null if nothing found.
-	/// </summary>
 	public static Process? LaunchChromeTo( string url )
 	{
 		var exe = FindChromeOrEdge();
-		if ( exe == null ) return null;
 
-		var psi = new ProcessStartInfo( exe )
+		if ( exe == null )
 		{
-			Arguments = $"--app=\"{url}\" --disable-translate --disable-infobars --no-first-run",
+			return null;
+		}
+
+		var processStartInfo = new ProcessStartInfo( exe )
+		{
+			Arguments = $"--app=\"{url}\" --disable-translate --disable-infobars --no-first-run --window-size=640,400",
 			UseShellExecute = false,
 			CreateNoWindow = true
 		};
 
-		return Process.Start( psi );
+		return Process.Start( processStartInfo );
 	}
 
-	/// <summary>
-	/// Check if Chrome or Edge is installed.
-	/// </summary>
 	public static bool IsChromeOrEdgeInstalled()
 	{
 		return FindChromeOrEdge() != null;
 	}
 
-	/// <summary>
-	/// Try to locate Chrome or Edge executable. Returns path or null.
-	/// </summary>
 	private static string? FindChromeOrEdge()
 	{
 		string[] candidates =
@@ -53,7 +47,10 @@ public static class ChromeLauncher
 
 		foreach ( var path in candidates )
 		{
-			if ( File.Exists( path ) ) return path;
+			if ( File.Exists( path ) )
+			{
+				return path;
+			}
 		}
 
 		return null;

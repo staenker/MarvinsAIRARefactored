@@ -1431,7 +1431,7 @@
 
                     <StackPanel Margin="0,10,0,10">
 
-                        <GroupBox Header="{Binding Localization[Settings]}">
+                        <GroupBox Header="{Binding Localization[SpeechToText]}">
 
                             <StackPanel>
 
@@ -1441,6 +1441,12 @@
 
                         </GroupBox>
 
+                        <GroupBox Header="{Binding Localization[Language]}">
+
+                            <controls:MairaComboBox x:Name="SpeechToText_Language_ComboBox" SelectedValue="{Binding Settings.SpeechToTextLanguageCode, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+
+                        </GroupBox>
+                        
                         <GroupBox Header="{Binding Localization[OverlayWindow]}">
 
                             <Grid>
@@ -1771,7 +1777,7 @@
 
                         <GroupBox x:Name="App_Language_GroupBox" Header="{Binding Localization[Language]}">
 
-                            <ComboBox Grid.Row="0" x:Name="App_Language_ComboBox" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Settings.AppCurrentLanguageCode}" VerticalContentAlignment="Center"/>
+                            <ComboBox x:Name="App_Language_ComboBox" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Settings.AppCurrentLanguageCode}" VerticalContentAlignment="Center"/>
 
                         </GroupBox>
 

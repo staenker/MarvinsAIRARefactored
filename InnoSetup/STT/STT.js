@@ -1,234 +1,376 @@
-﻿// stt.js
+﻿
+const statusElement = document.getElementById( 'status' );
+const warmupElement = document.getElementById( 'warmup' );
+const micSelectElement = document.getElementById( 'micSelect' );
+const noConnectionElement = document.getElementById( 'noConnection' );
+const listeningElement = document.getElementById( 'listening' );
+const speakingElement = document.getElementById( 'speaking' );
 
-// ======= UI elements =======
-const statusEl = document.getElementById('status');
-const warmupBtn = document.getElementById('warmup');
-const applyMicBtn = document.getElementById('applyMic');
-const micSelect = document.getElementById('micSelect');
-const vuBar = document.querySelector('#vu > span');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-// ======= Globals =======
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null;
-let ws = null;
-let lang = 'en-US';
+let speechRecognition = null;
+let webSocket = null;
+let language = 'en-US';
 let isPressed = false;
 
 let mediaStream = null;
-let selectedDeviceId = localStorage.getItem('maira.micDeviceId') || '';
+let micDeviceId = localStorage.getItem( 'maira.micDeviceId' ) || '';
 
 let audioContext = null;
-let analyser = null;
 let sourceNode = null;
-let vuTimer = null;
 
-// ======= Helpers =======
-function setStatus(text) {
-    if (statusEl) statusEl.textContent = text;
+function post( type, data = {} ) { if ( webSocket && webSocket.readyState === WebSocket.OPEN ) webSocket.send( JSON.stringify( { type, ...data } ) ); }
+function wsUrl() { const { protocol, host } = window.location; return ( protocol === 'https:' ? 'wss:' : 'ws:' ) + '//' + host + '/ws'; }
+
+let strings = {
+    title: "MAIRA STT Bridge",
+    hint: "Choose an audio capture device, then click the enable button.",
+    button: "Enable Speech-To-Text"
+};
+
+function applyStrings()
+{
+    const headTitleElement = document.getElementById( 'headTitle' );
+    const bodyTitleElement = document.getElementById( 'bodyTitle' );
+    const hintElement = document.getElementById( 'hint' );
+
+    headTitleElement.textContent = strings.title;
+    bodyTitleElement.textContent = strings.title;
+    hintElement.textContent = strings.hint;
+    warmupElement.textContent = strings.button;
 }
 
-function post(type, data = {}) {
-    if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify(Object.assign({ type }, data)));
+function setStatus( which )
+{
+    noConnectionElement.classList.add( 'hidden' );
+    listeningElement.classList.add( 'hidden' );
+    speakingElement.classList.add( 'hidden' );
+
+    switch ( which )
+    {
+        case 0:
+            noConnectionElement.classList.remove( 'hidden' );
+            break;
+
+        case 1:
+            listeningElement.classList.remove( 'hidden' );
+            break;
+
+        case 2:
+            speakingElement.classList.remove( 'hidden' );
+            break;
     }
 }
 
-function wsUrl() {
-    // Derive ws URL from current page location
-    const { protocol, host } = window.location;
-    const wsScheme = protocol === 'https:' ? 'wss:' : 'ws:';
-    return `${wsScheme}//${host}/ws`;
-}
+function ensureWs()
+{
+    if ( webSocket && ( webSocket.readyState === WebSocket.OPEN || webSocket.readyState === WebSocket.CONNECTING ) ) return;
 
-// ======= WebSocket =======
-function ensureWs() {
-    if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
+    webSocket = new WebSocket( wsUrl() );
 
-    ws = new WebSocket(wsUrl());
-
-    ws.onopen = () => {
-        setStatus('Connected. Pick a mic and click Use Microphone.');
+    webSocket.onopen = () =>
+    {
+        setStatus( 0 );
         refreshDevices();
     };
 
-    ws.onclose = () => {
-        setStatus('WebSocket disconnected. Reconnecting…');
-        setTimeout(ensureWs, 1000);
+    webSocket.onclose = () =>
+    {
+        setStatus( 0 );
+        setTimeout( ensureWs, 1000 );
     };
 
-    ws.onmessage = (ev) => {
-        try {
-            const msg = JSON.parse(ev.data);
-            if (msg.type === 'start') startRecognition();
-            else if (msg.type === 'stop') stopRecognition();
-            else if (msg.type === 'setlang' && msg.lang) lang = msg.lang;
-        } catch {
-            // ignore bad messages
+    webSocket.onmessage = ( ev ) =>
+    {
+        try
+        {
+            const msg = JSON.parse( ev.data );
+
+            if ( msg.type === 'start' )
+            {
+                startRecognition();
+            }
+            else if ( msg.type === 'stop' )
+            {
+                stopRecognition();
+            }
+            else if ( msg.type === 'setlanguage' )
+            {
+                if ( msg.language )
+                {
+                    applyLanguage( msg.language );
+                }
+            }
+            else if ( msg.type === 'setstrings' )
+            {
+                strings = { ...strings, ...msg.strings };
+
+                applyStrings();
+            }
+            else if ( msg.type === 'shutdown' )
+            {
+                stopRecognition();
+                stopMediaStream();
+
+                setStatus( 0 );
+
+                window.close();
+            }
+        }
+        catch
+        {
         }
     };
 }
+
 ensureWs();
 
-// ======= Mic selection / permissions =======
-async function refreshDevices() {
-    try {
-        // Ensure labels are populated
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch {
-        // ignore; user may not have granted yet
+async function refreshDevices()
+{
+    try
+    {
+        await navigator.mediaDevices.getUserMedia( { audio: true } );
+    }
+    catch
+    {
     }
 
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const mics = devices.filter(d => d.kind === 'audioinput');
+    const mics = devices.filter( d => d.kind === 'audioinput' );
 
-    micSelect.innerHTML = '';
-    for (const d of mics) {
-        const opt = document.createElement('option');
+    micSelectElement.innerHTML = '';
+
+    for ( const d of mics )
+    {
+        const opt = document.createElement( 'option' );
+
         opt.value = d.deviceId;
-        opt.text = d.label || ('Microphone ' + (micSelect.length + 1));
-        if (selectedDeviceId && d.deviceId === selectedDeviceId) opt.selected = true;
-        micSelect.appendChild(opt);
+        opt.text = d.label || ( 'Microphone ' + ( micSelectElement.length + 1 ) );
+
+        if ( micDeviceId && d.deviceId === micDeviceId )
+        {
+            opt.selected = true;
+        }
+
+        micSelectElement.appendChild( opt );
     }
-    if (!selectedDeviceId && mics.length) selectedDeviceId = mics[ 0 ].deviceId;
+
+    if ( !micDeviceId && mics.length )
+    {
+        micDeviceId = mics[ 0 ].deviceId;
+    }
 }
 
-navigator.mediaDevices.addEventListener('devicechange', refreshDevices);
+navigator.mediaDevices.addEventListener( 'devicechange', refreshDevices );
 
-async function applyMic() {
-    selectedDeviceId = micSelect.value || '';
-    localStorage.setItem('maira.micDeviceId', selectedDeviceId);
+async function switchMic( deviceId )
+{
+    micDeviceId = deviceId || '';
+
+    localStorage.setItem( 'maira.micDeviceId', micDeviceId );
 
     stopMediaStream();
 
-    try {
-        const constraints = selectedDeviceId ? { audio: { deviceId: { exact: selectedDeviceId } } } : { audio: true };
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        startVuMeter(mediaStream);
-        setStatus('Microphone selected. Click Enable Microphone once, then use push-to-talk.');
-    } catch (e) {
-        setStatus('Failed to get microphone: ' + e);
+    warmupElement.classList.remove( 'hidden' )
+
+    try
+    {
+        const constraints = micDeviceId ? { audio: { deviceId: { exact: micDeviceId } } } : { audio: true };
+
+        mediaStream = await navigator.mediaDevices.getUserMedia( constraints );
+
+        setStatus( 0 );
+    }
+    catch ( e )
+    {
+        setStatus( 0 );
     }
 }
 
-function stopMediaStream() {
-    if (mediaStream) {
-        for (const t of mediaStream.getTracks()) t.stop();
+micSelectElement.addEventListener( 'change', () => switchMic( micSelectElement.value ) );
+
+function stopMediaStream()
+{
+    if ( mediaStream )
+    {
+        for ( const t of mediaStream.getTracks() )
+        {
+            t.stop();
+        }
+
         mediaStream = null;
     }
-    stopVuMeter();
 }
 
-function startVuMeter(stream) {
-    stopVuMeter();
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 512;
+function createRecognizer()
+{
+    if ( !SpeechRecognition )
+    {
+        post( 'error', { message: 'SpeechRecognition not supported in this browser.' } );
 
-    sourceNode = audioContext.createMediaStreamSource(stream);
-    sourceNode.connect(analyser);
+        return null;
+    }
 
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-    vuTimer = setInterval(() => {
-        analyser.getByteTimeDomainData(dataArray);
-        let max = 0;
-        for (let i = 0; i < dataArray.length; i++) {
-            const v = Math.abs(dataArray[ i ] - 128) / 128;
-            if (v > max) max = v;
+    if ( speechRecognition )
+    {
+        try
+        {
+            speechRecognition.abort();
         }
-        vuBar.style.width = Math.min(100, Math.round(max * 100)) + '%';
-    }, 60);
-}
+        catch
+        {
+        }
+    }
 
-function stopVuMeter() {
-    if (vuTimer) { clearInterval(vuTimer); vuTimer = null; }
-    vuBar.style.width = '0%';
-    try { sourceNode && sourceNode.disconnect(); } catch { }
-    try { audioContext && audioContext.close(); } catch { }
-    sourceNode = null; analyser = null; audioContext = null;
-}
+    speechRecognition = new SpeechRecognition();
 
-// ======= Speech Recognition =======
-function createRecognizer() {
-    if (!SR) { post('error', { message: 'SpeechRecognition not supported in this browser.' }); return null; }
-    if (rec) try { rec.abort(); } catch { }
+    speechRecognition.lang = language;
+    speechRecognition.interimResults = true;
+    speechRecognition.continuous = true;
+    speechRecognition.maxAlternatives = 1;
 
-    rec = new SR();
-    rec.lang = lang;
-    rec.interimResults = true; // show partials
-    rec.continuous = true;     // run until we stop()
-    rec.maxAlternatives = 1;
+    speechRecognition.onresult = ( e ) =>
+    {
+        let partial = '', final = '';
 
-    rec.onresult = (e) => {
-        let interim = '', final = '';
-        for (let i = e.resultIndex; i < e.results.length; i++) {
+        for ( let i = e.resultIndex; i < e.results.length; i++ )
+        {
             const r = e.results[ i ];
-            if (r.isFinal) final += r[ 0 ].transcript;
-            else interim += r[ 0 ].transcript;
+
+            if ( r.isFinal )
+            {
+                final += r[ 0 ].transcript;
+            }
+            else
+            {
+                partial += r[ 0 ].transcript;
+            }
         }
-        if (interim) post('stt', { interim });
-        if (final) post('stt', { final });
+
+        if ( partial ) post( 'stt', { partial } );
+        if ( final ) post( 'stt', { final } );
     };
 
-    rec.onerror = (ev) => post('error', { message: ev.error || 'unknown' });
+    speechRecognition.onerror = ( ev ) => post( 'error', { message: ev.error || 'unknown' } );
 
-    rec.onend = () => {
-        post('end');
-        if (isPressed) {
-            setTimeout(() => { try { rec.start(); } catch { } }, 60);
-        } else {
-            setStatus('Stopped (awaiting next push-to-talk)…');
+    speechRecognition.onend = () =>
+    {
+        post( 'end' );
+
+        if ( isPressed )
+        {
+            setTimeout( () => { try { speechRecognition.start(); } catch { } }, 60 );
+        }
+        else
+        {
+            setStatus( 1 );
         }
     };
 
-    return rec;
+    return speechRecognition;
 }
 
-function startRecognition() {
+function startRecognition()
+{
     isPressed = true;
-    if (!rec) createRecognizer();
 
-    // Keep chosen device stream alive to steer SR to that input
-    if (!mediaStream) {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(s => { mediaStream = s; startVuMeter(s); })
-            .catch(() => { });
+    if ( !speechRecognition )
+    {
+        createRecognizer();
     }
 
-    try {
-        rec.start(); // must be allowed once via warm-up button
-        setStatus('Listening… (push-to-talk active)');
-    } catch (e) {
-        if (!String(e).includes('start')) {
-            post('error', { message: e.message || 'start() failed' });
+    if ( !mediaStream )
+    {
+        navigator.mediaDevices.getUserMedia( { audio: true } ).then( s => { mediaStream = s; } ).catch( () => { } );
+    }
+
+    try
+    {
+        speechRecognition.start();
+
+        setStatus( 2 );
+    }
+    catch ( e )
+    {
+        if ( !String( e ).includes( 'start' ) )
+        {
+            post( 'error', { message: e.message || 'start() failed' } );
         }
     }
 }
 
-function stopRecognition() {
+function stopRecognition()
+{
     isPressed = false;
-    try { rec && rec.stop(); } catch { }
-    setStatus('Stopping…');
+
+    try
+    {
+        speechRecognition && speechRecognition.stop();
+    }
+    catch
+    {
+    }
+
+    setStatus( 1 );
 }
 
-// ======= Warm-up button =======
-warmupBtn.addEventListener('click', async () => {
-    try {
-        await applyMic(); // will prompt for the selected device
-        if (!rec) createRecognizer();
-
-        // Touch SR once so later programmatic start works
-        rec.start(); rec.stop();
-
-        setStatus('Microphone enabled. Ready for push-to-talk.');
-        warmupBtn.style.display = 'none';
-    } catch (e) {
-        setStatus('Mic enable failed: ' + e);
+function applyLanguage( newLanguage )
+{
+    if ( !newLanguage || ( newLanguage === language ) )
+    {
+        return;
     }
-});
 
-// ======= ApplyMic button =======
-applyMicBtn.addEventListener('click', applyMic);
+    language = newLanguage;
 
-// Initial device list when page loads (WS onopen also calls refresh)
-document.addEventListener('DOMContentLoaded', refreshDevices);
+    const wasRunning = isPressed;
+
+    try
+    {
+        speechRecognition && speechRecognition.abort();
+    }
+    catch
+    {
+    }
+
+    speechRecognition = null;
+
+    createRecognizer();
+
+    if ( wasRunning )
+    {
+        try
+        {
+            speechRecognition.start();
+        }
+        catch
+        {
+        }
+    }
+}
+
+warmupElement.addEventListener( 'click', async () =>
+{
+    try
+    {
+        await switchMic( micSelectElement.value );
+
+        if ( !speechRecognition )
+        {
+            createRecognizer();
+        }
+
+        speechRecognition.start();
+        speechRecognition.stop();
+
+        setStatus( 1 );
+
+        warmupElement.classList.add( 'hidden' )
+    }
+    catch ( e )
+    {
+        setStatus( 0 );
+    }
+} );
+
+document.addEventListener( 'DOMContentLoaded', refreshDevices );
