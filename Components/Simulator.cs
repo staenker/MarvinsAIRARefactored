@@ -150,7 +150,7 @@ public partial class Simulator
 
 		while ( _irsdk.IsStarted )
 		{
-			Thread.Sleep( 0 );
+			Thread.Sleep( 50 );
 		}
 
 		app.Logger.WriteLine( "[Simulator] <<< Shutdown" );
