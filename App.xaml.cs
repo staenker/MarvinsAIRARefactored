@@ -67,7 +67,6 @@ public partial class App : Application
 	private readonly Thread _workerThread = new( WorkerThread ) { IsBackground = true, Priority = ThreadPriority.Normal, Name = "MAIRA App Worker Thread" };
 
 	private bool _running = true;
-	private bool _stopped = false;
 
 	private readonly Timer _timer = new( TimerPeriodInMilliseconds );
 
@@ -288,10 +287,7 @@ public partial class App : Application
 
 		TriggerWorkerThread();
 
-		while ( !_stopped )
-		{
-			Thread.Sleep( 50 );
-		}
+		_workerThread.Join( 5000 );
 
 		SpeechToTextWindow.Close();
 		GripOMeterWindow.Close();
@@ -1911,7 +1907,7 @@ public partial class App : Application
 
 			if ( Interlocked.Exchange( ref app._tickMutex, 1 ) == 0 )
 			{
-				app.Dispatcher.Invoke( () =>
+				app.Dispatcher.InvokeAsync( () =>
 				{
 					app.RacingWheel.Tick( app );
 					app.SettingsFile.Tick( app );
@@ -1934,7 +1930,5 @@ public partial class App : Application
 				} );
 			}
 		}
-
-		app._stopped = true;
 	}
 }

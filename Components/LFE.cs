@@ -46,7 +46,6 @@ public class LFE
 	private readonly Thread _workerThread = new( WorkerThread ) { IsBackground = true, Priority = ThreadPriority.Highest, Name = "MAIRA LFE Worker Thread" };
 
 	private bool _running = true;
-	private bool _stopped = false;
 
 	private int _lfeBusy = 0;
 	private int _pingPongIndex = 0;
@@ -94,10 +93,7 @@ public class LFE
 
 		_autoResetEvent.Set();
 
-		while ( !_stopped )
-		{
-			Thread.Sleep( 50 );
-		}
+		_workerThread.Join( 5000 );
 
 		ReleaseCaptureDevice();
 
@@ -288,7 +284,5 @@ public class LFE
 
 			lfe.Update( app, signalReceived );
 		}
-
-		lfe._stopped = true;
 	}
 }

@@ -75,6 +75,8 @@ public class MultimediaTimer
 
 		_autoResetEvent.Set();
 
+		_workerThread.Join( 5000 );
+
 		app.Logger.WriteLine( "[MultimediaTimer] <<< Shutdown" );
 	}
 
