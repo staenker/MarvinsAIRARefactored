@@ -6107,6 +6107,29 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Speech to text - Language code
+
+	private string _speechToTextLanguageCode = "en-US";
+
+	public string SpeechToTextLanguageCode
+	{
+		get => _speechToTextLanguageCode;
+
+		set
+		{
+			if ( value != _speechToTextLanguageCode )
+			{
+				_speechToTextLanguageCode = value;
+
+				OnPropertyChanged();
+
+				App.Instance!.SpeechToText.Language = _speechToTextLanguageCode;
+			}
+		}
+	}
+
+	#endregion
+
 	#region Speech to text - Show overlay window
 
 	private bool _speechToTextShowOverlayWindow = false;
