@@ -59,10 +59,7 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root"
-    xmlns=""
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -900,10 +897,6 @@
     <value>转向不足效果</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="UndersteerEffectCalibration" xml:space="preserve">
-    <value>转向不足效果校准</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
     <value>你当前未在向心的赛道</value>
     <comment>Steering effects</comment>
@@ -956,84 +949,12 @@
     <value>刹车最大值</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="ActiveResetSave" xml:space="preserve">
-    <value>启用重置保存</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="ActiveResetRun" xml:space="preserve">
-    <value>启用重置运行</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Phase:" xml:space="preserve">
-    <value>阶段</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="SteeringWheel:" xml:space="preserve">
-    <value>方向盘</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="YawRate:" xml:space="preserve">
-    <value>偏移值:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionX:" xml:space="preserve">
-    <value>车辆 X坐标:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CarPositionY:" xml:space="preserve">
-    <value>车辆 Y坐标:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityX:" xml:space="preserve">
-    <value>速率 X:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="VelocityY:" xml:space="preserve">
-    <value>速率 Y:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Heading:" xml:space="preserve">
-    <value>前段:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Throttle:" xml:space="preserve">
-    <value>油门:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Brake:" xml:space="preserve">
-    <value>刹车:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="NotCalibrating" xml:space="preserve">
     <value>未校准</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetCalibration" xml:space="preserve">
     <value>重置校准</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToWallEdge" xml:space="preserve">
-    <value>驾驶向墙壁边缘</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarmUpTires" xml:space="preserve">
-    <value>暖胎</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="DriveToActiveResetPoint" xml:space="preserve">
-    <value>驾驶到启用重置点</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="TurningPasses" xml:space="preserve">
-    <value>转向通过</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UTurn" xml:space="preserve">
-    <value>掉头</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Stop" xml:space="preserve">
-    <value>停止</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShowGripOMeter" xml:space="preserve">
@@ -1060,36 +981,12 @@
     <value>转向不足震动反馈效果</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="WarningThreshold" xml:space="preserve">
-    <value>警告阈值</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerThreshold" xml:space="preserve">
-    <value>转向不足阈值</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarningFrequency" xml:space="preserve">
-    <value>警告频率</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerFrequency" xml:space="preserve">
-    <value>转向不足频率</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="Progress:" xml:space="preserve">
     <value>进度:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="UndersteerCalibrationFiles" xml:space="preserve">
-    <value>转向不足校准文件</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="CalibrationFileNotSelected" xml:space="preserve">
     <value>[校准文件未选定]</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="RPM:" xml:space="preserve">
-    <value>转速:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ParkedEffects" xml:space="preserve">
@@ -1147,14 +1044,6 @@
   <data name="ExceptionThrown" xml:space="preserve">
     <value>异常已发出</value>
     <comment>Error messages</comment>
-  </data>
-  <data name="WarmUpSpeed" xml:space="preserve">
-    <value>热身速度</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="WarmUpLapCount" xml:space="preserve">
-    <value>热身圈计数</value>
-    <comment>Steering effects</comment>
   </data>
   <data name="KPHUnits" xml:space="preserve">
     <value> KPH</value>

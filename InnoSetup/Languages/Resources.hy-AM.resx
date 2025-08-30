@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,40 +26,43 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -118,183 +121,183 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Ալգորիթմ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="App" xml:space="preserve">
-    <value>App</value>
+    <value>Հավելված</value>
     <comment>Tab item</comment>
   </data>
   <data name="AppTitle" xml:space="preserve">
-    <value>Marvin's Awesome iRacing App</value>
+    <value>Մարվինի Հիասքանչ ԱյՌեյսինգ Հավելված</value>
     <comment>Window title</comment>
   </data>
   <data name="DetailBoostBias" xml:space="preserve">
-    <value>Detail Boost Bias</value>
+    <value>Մանրամասնության Ոււժեղացման Շեղում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Debug" xml:space="preserve">
-    <value>Debug</value>
+    <value>Դեբագ</value>
     <comment>Tab item</comment>
   </data>
   <data name="DetailBoost" xml:space="preserve">
-    <value>Detail Boost</value>
+    <value>Մանրամասնության Ոււժեղացում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="FadeForceFeedback" xml:space="preserve">
-    <value>Fade force feedback when entering or exiting car</value>
+    <value>Ֆորս Ֆիդբեքի Մարում Մեքենայից Ներս Կամ Ֆուրս Գալիս</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="RacingFriction" xml:space="preserve">
-    <value>Racing Friction</value>
+    <value>Մրցարշավային Շփում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Graph" xml:space="preserve">
-    <value>Graph</value>
+    <value>Գրաֆ</value>
     <comment>Tab item</comment>
   </data>
   <data name="HeaderData" xml:space="preserve">
-    <value>Header Data</value>
+    <value>Վերնագրի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Լեզու</value>
     <comment>App</comment>
   </data>
   <data name="DetailBooster" xml:space="preserve">
-    <value>Detail Booster</value>
+    <value>Մանրամասնության Ոււժեղացուցիչ</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="DeltaLimiter" xml:space="preserve">
-    <value>Delta Limiter</value>
+    <value>Դելտայի Սահմանափակիչ</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="MaxForce" xml:space="preserve">
-    <value>Max Force</value>
+    <value>Առավելագույն Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Native60Hz" xml:space="preserve">
-    <value>Native 60 Hz</value>
+    <value>Նատիվ 60 Հց</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="Native360Hz" xml:space="preserve">
-    <value>Native 360 Hz</value>
+    <value>Նատիվ 360 Հց</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="NoFFBDevicesFound" xml:space="preserve">
-    <value>[No Force Feedback Devices Found]</value>
+    <value>[Ֆորս Ֆիդբեքի Սարքավորումը Չի Գտնվել]</value>
     <comment>Steering device list</comment>
   </data>
   <data name="OFF" xml:space="preserve">
-    <value>OFF</value>
+    <value>Անջատված</value>
     <comment>Generic</comment>
   </data>
   <data name="Power" xml:space="preserve">
-    <value>Power</value>
+    <value>Սնուցում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="RacingWheel" xml:space="preserve">
-    <value>Racing Wheel</value>
+    <value>Մրցարշավային ղեկ</value>
     <comment>Tab item</comment>
   </data>
   <data name="SteeringDevice" xml:space="preserve">
-    <value>Steering Device</value>
+    <value>Ղեկային սարք</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Վերագործարկում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SessionInformation" xml:space="preserve">
-    <value>Session Information</value>
+    <value>Սեսիայի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
   <data name="Simulator" xml:space="preserve">
-    <value>Simulator</value>
+    <value>Սիմուլյատոր</value>
     <comment>Tab item</comment>
   </data>
   <data name="SimulatorNotRunning" xml:space="preserve">
-    <value>The iRacing simulator is not running</value>
+    <value>ԱյՌեյսինգ Սիմուլյատորը Միացված Չէ</value>
     <comment>Generic</comment>
   </data>
   <data name="SoftLockStrength" xml:space="preserve">
-    <value>Soft Lock Strength</value>
+    <value>Փափուկ Սահմանափակման Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="TelemetryData" xml:space="preserve">
-    <value>Telemetry Data</value>
+    <value>Տելեմետրիայի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
   <data name="Test" xml:space="preserve">
-    <value>Test</value>
+    <value>Թեստ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ThisLanguage" xml:space="preserve">
-    <value>English</value>
+    <value>Հայերեն</value>
     <comment>App language list</comment>
   </data>
   <data name="TopmostWindow" xml:space="preserve">
-    <value>Topmost Window</value>
+    <value>Ամենավերևի Պատուհան</value>
     <comment>App</comment>
   </data>
   <data name="TorqueUnits" xml:space="preserve">
-    <value> Nm</value>
+    <value> Նմ</value>
     <comment>Abbreviation for Newton-meters</comment>
   </data>
   <data name="DetailBoosterOn60Hz" xml:space="preserve">
-    <value>Detail Booster On 60 Hz</value>
+    <value>Մանրամասնության Ոււժեղացուցիչ 60Հց</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="AdminBoxx" xml:space="preserve">
-    <value>AdminBoxx</value>
+    <value>Ադմին Բոքս</value>
     <comment>Tab item</comment>
   </data>
   <data name="ConnectToAdminBoxx" xml:space="preserve">
-    <value>Connect to AdminBoxx</value>
+    <value>Միանալ Ադմին Բոքսին</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="UpdateButtonMappings" xml:space="preserve">
-    <value>Update Input Mapping</value>
+    <value>Թարմացնել Մուտկային Մափինգը</value>
     <comment>Window title</comment>
   </data>
   <data name="PressTheRecordButton" xml:space="preserve">
-    <value>[Press The Record Button]</value>
+    <value>[Սեղմեք Գրառման Կոճակը]</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Button" xml:space="preserve">
-    <value>Button</value>
+    <value>Կոճակ</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Click" xml:space="preserve">
-    <value>Click</value>
+    <value>Սեղմում</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Hold" xml:space="preserve">
-    <value>Hold</value>
+    <value>Պահել</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value>Keyboard</value>
+    <value>Ստեղնաշար</value>
     <comment>Button mapping</comment>
   </data>
   <data name="WaitingForInput" xml:space="preserve">
-    <value>[Waiting For Input]</value>
+    <value>[Սպասում է Մուտքագրման]</value>
     <comment>Button mapping</comment>
   </data>
   <data name="DeltaLimit" xml:space="preserve">
-    <value>Delta Limit</value>
+    <value>Դելտայի Սահման</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="DeltaLimitUnits" xml:space="preserve">
-    <value> Nm/s</value>
+    <value>Ն·մ/վ</value>
     <comment>Abbreviation for Newton-meters per millisecond</comment>
   </data>
   <data name="DeltaLimiterOn60Hz" xml:space="preserve">
-    <value>Delta Limiter On 60 Hz</value>
+    <value>Դելտայի Սահմանափակիչ (60 Հց)</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="CompressionRateUnits" xml:space="preserve">
-    <value>%/Nm</value>
+    <value>%/Ն·մ</value>
     <comment>Abbreviation for percent per Newton-meters</comment>
   </data>
   <data name="Percent" xml:space="preserve">
@@ -302,47 +305,47 @@
     <comment>Abbreviation for percent</comment>
   </data>
   <data name="CompressionRate" xml:space="preserve">
-    <value>Compression Rate</value>
+    <value>Սեղմման Արագություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Device" xml:space="preserve">
-    <value>Device</value>
+    <value>Սարք</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="OverallStrength" xml:space="preserve">
-    <value>Overall Strength</value>
+    <value>Ընդհանուր Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="AutoMargin" xml:space="preserve">
-    <value>Auto Margin</value>
+    <value>Ավտոմատ Սահմանաչափ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Մաքրել</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurrentForce" xml:space="preserve">
-    <value>Current Force</value>
+    <value>Ընթացիկ Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="PeakForce" xml:space="preserve">
-    <value>Peak Force</value>
+    <value>Գագաթնակետային Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="AutoForce" xml:space="preserve">
-    <value>Auto Force</value>
+    <value>Ավտոմատ Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="OtherFeatures" xml:space="preserve">
-    <value>Other Features</value>
+    <value>Այլ Հատկություններ</value>
     <comment>Racing wheel, Pedals</comment>
   </data>
   <data name="Switches" xml:space="preserve">
-    <value>Switches</value>
+    <value>Անջատիչներ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CrashProtection" xml:space="preserve">
-    <value>Crash Protection</value>
+    <value>Վթարի Պաշտպանություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="GForceUnits" xml:space="preserve">
@@ -350,111 +353,111 @@
     <comment>Abbreviation for g-force</comment>
   </data>
   <data name="GForce" xml:space="preserve">
-    <value>G-Force</value>
+    <value>G-Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value>Duration</value>
+    <value>Տևողություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ForceReduction" xml:space="preserve">
-    <value>Force Reduction</value>
+    <value>Ուժի Քչացում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SecondsUnits" xml:space="preserve">
-    <value> sec</value>
+    <value>վ</value>
     <comment>Abbreviation for seconds (time)</comment>
   </data>
   <data name="ShockVelocityUnits" xml:space="preserve">
-    <value> m/s</value>
+    <value>մ/վ</value>
     <comment>Abbreviation for meters per second</comment>
   </data>
   <data name="CurbProtection" xml:space="preserve">
-    <value>Curb Protection</value>
+    <value>Բորդյուրի Պաշտպանություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ShockVelocity" xml:space="preserve">
-    <value>Shock Velocity</value>
+    <value>Հարվածի Արագություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Pedals" xml:space="preserve">
-    <value>Pedals</value>
+    <value>Ոտնակներ</value>
     <comment>Tab item</comment>
   </data>
   <data name="PedalsP1000" xml:space="preserve">
-    <value>Simagic P1000 Pedals</value>
+    <value>Simagic P1000 ոտնակներ</value>
     <comment>Pedals device</comment>
   </data>
   <data name="PedalsP2000" xml:space="preserve">
-    <value>Simagic P2000 Pedals</value>
+    <value>Simagic P2000 ոտնակներ</value>
     <comment>Pedals device</comment>
   </data>
   <data name="PedalsNone" xml:space="preserve">
-    <value>[No Compatible Simagic Pedals Found]</value>
+    <value>[Համատեղելի Simagic ոտնակներ չեն գտնվել]</value>
     <comment>Pedals device</comment>
   </data>
   <data name="Clutch" xml:space="preserve">
-    <value>Clutch</value>
+    <value>Կցիչ</value>
     <comment>Pedals</comment>
   </data>
   <data name="Brake" xml:space="preserve">
-    <value>Brake</value>
+    <value>Արգելակ</value>
     <comment>Pedals</comment>
   </data>
   <data name="Throttle" xml:space="preserve">
-    <value>Throttle</value>
+    <value>Գազ</value>
     <comment>Pedals</comment>
   </data>
   <data name="PedalEffects" xml:space="preserve">
-    <value>Pedal Effects</value>
+    <value>Ոտնակների Էֆեկտներ</value>
     <comment>Pedals</comment>
   </data>
   <data name="Strength" xml:space="preserve">
-    <value>Strength</value>
+    <value>Ուժ</value>
     <comment>Racing wheel, Pedals</comment>
   </data>
   <data name="HertzUnits" xml:space="preserve">
-    <value> Hz</value>
+    <value> Հց</value>
     <comment>Abbreviation for Hertz</comment>
   </data>
   <data name="Frequency" xml:space="preserve">
-    <value>Frequency</value>
+    <value>Հաճախականություն</value>
     <comment>Pedals</comment>
   </data>
   <data name="Amplitude" xml:space="preserve">
-    <value>Amplitude</value>
+    <value>Ամպլիտուդ</value>
     <comment>Pedals</comment>
   </data>
   <data name="Minimum" xml:space="preserve">
-    <value>Minimum</value>
+    <value>Նվազագույն</value>
     <comment>Racing wheel, Pedals, Graph</comment>
   </data>
   <data name="Maximum" xml:space="preserve">
-    <value>Maximum</value>
+    <value>Առավելագույն</value>
     <comment>Racing wheel, Pedals, Graph</comment>
   </data>
   <data name="Curve" xml:space="preserve">
-    <value>Curve</value>
+    <value>Կոր</value>
     <comment>Racing wheel, Pedals</comment>
   </data>
   <data name="GearChange" xml:space="preserve">
-    <value>Gear Change</value>
+    <value>Փոխանցման Փոփոխություն</value>
     <comment>Pedal effects list</comment>
   </data>
   <data name="ClutchSlip" xml:space="preserve">
-    <value>Clutch Slip</value>
+    <value>Կցիչի սահք</value>
     <comment>Pedal effects list</comment>
   </data>
   <data name="SteeringEffects" xml:space="preserve">
-    <value>Steering Effects</value>
+    <value>Ղեկի էֆեկտներ</value>
     <comment>Tab item, Pedal effects list</comment>
   </data>
   <data name="WheelLock" xml:space="preserve">
-    <value>Wheel Lock</value>
+    <value>Անիվների արգելափակում</value>
     <comment>Pedal effects list</comment>
   </data>
   <data name="WheelSpin" xml:space="preserve">
-    <value>Wheel Spin</value>
+    <value>Անիվների սահք</value>
     <comment>Pedal effects list</comment>
   </data>
   <data name="RPM" xml:space="preserve">
@@ -462,403 +465,403 @@
     <comment>Pedal effects list</comment>
   </data>
   <data name="None" xml:space="preserve">
-    <value>None</value>
+    <value>Չկա</value>
     <comment>Pedal effects list</comment>
   </data>
   <data name="PerWheelbase" xml:space="preserve">
-    <value>Per Wheelbase</value>
+    <value>Ըստ բազայի</value>
     <comment>Save conditions</comment>
   </data>
   <data name="PerCar" xml:space="preserve">
-    <value>Per Car</value>
+    <value>Ըստ մեքենայի</value>
     <comment>Save conditions</comment>
   </data>
   <data name="PerTrack" xml:space="preserve">
-    <value>Per Track</value>
+    <value>Ըստ տրասսայի</value>
     <comment>Save conditions</comment>
   </data>
   <data name="PerTrackConfiguration" xml:space="preserve">
-    <value>Per Track Configuration</value>
+    <value>Ըստ տրասսայի կազմաձևման</value>
     <comment>Save conditions</comment>
   </data>
   <data name="PerWetDry" xml:space="preserve">
-    <value>Per Wet/Dry</value>
+    <value>Ըստ թաց/չոր ծածկույթի</value>
     <comment>Save conditions</comment>
   </data>
   <data name="Wet" xml:space="preserve">
-    <value>Wet</value>
+    <value>Թաց</value>
     <comment>Status</comment>
   </data>
   <data name="Dry" xml:space="preserve">
-    <value>Dry</value>
+    <value>Չոր</value>
     <comment>Status</comment>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Լռելյայն</value>
     <comment>Status</comment>
   </data>
   <data name="SaveThisSetting" xml:space="preserve">
-    <value>Save This Setting</value>
+    <value>Պահպանել այս կարգավորումը</value>
     <comment>Window title</comment>
   </data>
   <data name="NewVersionAvailable" xml:space="preserve">
-    <value>New Version Available!</value>
+    <value>Առկա է նոր տարբերակ!</value>
     <comment>Window title</comment>
   </data>
   <data name="DownloadQuestion" xml:space="preserve">
-    <value>Would you like to download it now?</value>
+    <value>Ներբեռնել հիմա՞</value>
     <comment>Cloud service</comment>
   </data>
   <data name="RunInstaller" xml:space="preserve">
-    <value>Run installer?</value>
+    <value>Գործարկել տեղադրո՞ղը</value>
     <comment>Window title</comment>
   </data>
   <data name="RunInstallerQuestion" xml:space="preserve">
-    <value>Would you like to run the installer now?</value>
+    <value>Գործարկե՞լ տեղադրողը հիմա</value>
     <comment>Cloud service</comment>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value>Check For Updates On Startup</value>
+    <value>Ստուգել թարմացումները</value>
     <comment>App</comment>
   </data>
   <data name="AutomaticallyDownloadUpdates" xml:space="preserve">
-    <value>Automatically Download Updates</value>
+    <value>Ավտոմատ ներբեռնել թարմացումները</value>
     <comment>App</comment>
   </data>
   <data name="ConnectOnStartup" xml:space="preserve">
-    <value>Connect to AdminBoxx on App Startup</value>
+    <value>Միանալ գործարկման պահին</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Brightness" xml:space="preserve">
-    <value>Brightness</value>
+    <value>Պայծառություն</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Volume" xml:space="preserve">
-    <value>Volume</value>
+    <value>Ձայնի բարձրություն</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="NoAudioDevicesFound" xml:space="preserve">
-    <value>[No Audio Devices Found]</value>
+    <value>Ձայնային սարքեր չեն գտնվել</value>
     <comment>Audio device list</comment>
   </data>
   <data name="Connection" xml:space="preserve">
-    <value>Connection</value>
+    <value>Միացում</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Էկրան</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Audio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Աուդիո</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="DeltaLimiterBias" xml:space="preserve">
-    <value>Delta Limiter Bias</value>
+    <value>Դելտայի սահմանափակիչի շեղում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Output" xml:space="preserve">
-    <value>Output</value>
+    <value>Ելք</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="WheelLFE" xml:space="preserve">
-    <value>Wheel LFE</value>
+    <value>Ղեկի LFE</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="LFERecordingDevice" xml:space="preserve">
-    <value>LFE Recording Device</value>
+    <value>LFE ձայնագրման սարք</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Average" xml:space="preserve">
-    <value>Average</value>
+    <value>Միջին</value>
     <comment>Graph</comment>
   </data>
   <data name="Variance" xml:space="preserve">
-    <value>Variance</value>
+    <value>Տատանում</value>
     <comment>Graph</comment>
   </data>
   <data name="StandardDeviation" xml:space="preserve">
-    <value>Standard Deviation</value>
+    <value>Ստանդարտ շեղում</value>
     <comment>Graph</comment>
   </data>
   <data name="InputTorque60Hz" xml:space="preserve">
-    <value>Input Torque (60 Hz)</value>
+    <value>Մուտքային Մոմենտ (60 Հց)</value>
     <comment>Graph</comment>
   </data>
   <data name="InputTorque" xml:space="preserve">
-    <value>Input Torque</value>
+    <value>Մուտքային Մոմենտ</value>
     <comment>Graph</comment>
   </data>
   <data name="OutputTorque" xml:space="preserve">
-    <value>Output Torque</value>
+    <value>Ելքային Մոմենտ</value>
     <comment>Graph</comment>
   </data>
   <data name="TimerJitter" xml:space="preserve">
-    <value>Timer Jitter</value>
+    <value>Ժամաչափի Տատանում</value>
     <comment>Graph</comment>
   </data>
   <data name="InputLFE" xml:space="preserve">
-    <value>Input LFE</value>
+    <value>Մուտքային LFE</value>
     <comment>Graph</comment>
   </data>
   <data name="ABSEngaged" xml:space="preserve">
-    <value>ABS Engaged</value>
+    <value>ABS-ը միացված է</value>
     <comment>Pedal effects list, Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
-    <value>[Disabled]</value>
+    <value>[Անջատված]</value>
     <comment>LFE device list</comment>
   </data>
   <data name="RememberWindowPositionAndSize" xml:space="preserve">
-    <value>Remember Window Position and Size</value>
+    <value>Հիշել պատուհանի դիրքն ու չափը</value>
     <comment>App</comment>
   </data>
   <data name="FadeWithBrake" xml:space="preserve">
-    <value>Fade With Brake</value>
+    <value>Մարում՝ արգելակելիս</value>
     <comment>Pedals</comment>
   </data>
   <data name="StartingRPM" xml:space="preserve">
-    <value>Starting RPM</value>
+    <value>Սկզբնական RPM</value>
     <comment>Pedals</comment>
   </data>
   <data name="VibrateInTopGear" xml:space="preserve">
-    <value>Vibrate In Top Gear</value>
+    <value>Թրթռացնել ամենաբարձր փոխանցման դեպքում</value>
     <comment>Pedals</comment>
   </data>
   <data name="FadeWithThrottle" xml:space="preserve">
-    <value>Fade With Throttle</value>
+    <value>Մարում՝ գազ տալիս</value>
     <comment>Pedals</comment>
   </data>
   <data name="StartingPoint" xml:space="preserve">
-    <value>Starting Point</value>
+    <value>Սկզբնակետ</value>
     <comment>Pedals</comment>
   </data>
   <data name="EndingPoint" xml:space="preserve">
-    <value>Ending Point</value>
+    <value>Ավարտական կետ</value>
     <comment>Pedals</comment>
   </data>
   <data name="GearChangeShiftIntoGear" xml:space="preserve">
-    <value>Gear Change - Shift Into Gear</value>
+    <value>Փոխանցում՝ Ներդնել Փոխանցում</value>
     <comment>Pedals</comment>
   </data>
   <data name="GearChangeShiftIntoNeutral" xml:space="preserve">
-    <value>Gear Change - Shift Into Neutral</value>
+    <value>Փոխանցում՝ Տեղադրել Նեյտրալ</value>
     <comment>Pedals</comment>
   </data>
   <data name="AlwaysEnableFFB" xml:space="preserve">
-    <value>Enable FFB even if iRacing simulator FFB is on</value>
+    <value>Միացնել FFB-ն, նույնիսկ եթե iRacing-ի FFB-ն միացված է</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ClutchPedalHaptics" xml:space="preserve">
-    <value>Clutch Pedal Haptics</value>
+    <value>Clutch ոտնակի թրթռում</value>
     <comment>Graph</comment>
   </data>
   <data name="BrakePedalHaptics" xml:space="preserve">
-    <value>Brake Pedal Haptics</value>
+    <value>Արգելակի ոտնակի թրթռում</value>
     <comment>Graph</comment>
   </data>
   <data name="ThrottlePedalHaptics" xml:space="preserve">
-    <value>Throttle Pedal Haptics</value>
+    <value>Գազի ոտնակի թրթռում</value>
     <comment>Graph</comment>
   </data>
   <data name="NoiseDamper" xml:space="preserve">
-    <value>Noise Damper</value>
+    <value>Աղմուկի Խլացուցիչ</value>
     <comment>Pedals</comment>
   </data>
   <data name="AppWindow" xml:space="preserve">
-    <value>App Window</value>
+    <value>Հավելվածի Պատուհան</value>
     <comment>App</comment>
   </data>
   <data name="UIScale" xml:space="preserve">
-    <value>UI Scale</value>
+    <value>Միջերեսի Մասշտաբ</value>
     <comment>App</comment>
   </data>
   <data name="CloudService" xml:space="preserve">
-    <value>Cloud Service</value>
+    <value>Ամպային Ծառայություն</value>
     <comment>App</comment>
   </data>
   <data name="CheckNow" xml:space="preserve">
-    <value>Check Now</value>
+    <value>Ստուգել Հիմա</value>
     <comment>App</comment>
   </data>
   <data name="CheckingForUpdate" xml:space="preserve">
-    <value>Checking for update...</value>
+    <value>Ստուգում է թարմացումը...</value>
     <comment>Status</comment>
   </data>
   <data name="DownloadingUpdate" xml:space="preserve">
-    <value>Downloading update...</value>
+    <value>Ներբեռնում է թարմացումը...</value>
     <comment>Status</comment>
   </data>
   <data name="Contribute" xml:space="preserve">
-    <value>Contribute</value>
+    <value>Ներդրում կատարել</value>
     <comment>Tab item</comment>
   </data>
   <data name="BuyMeACoffee" xml:space="preserve">
-    <value>Buy Me a Coffee!</value>
+    <value>Հյուրասիրիր սուրճով!</value>
     <comment>Contribute</comment>
   </data>
   <data name="DonationsText" xml:space="preserve">
-    <value>Donations are completely optional. I will never charge any fees for using MAIRA. That said, donations make me feel warm and fuzzy, and is a great motivator for me to keep working on MAIRA. A huge thank you to everybody who have donated already! Here is the link to donate:</value>
+    <value>Եթե ցանկանում եք աջակցել այս նախագծին, կարող եք կատարել նվիրատվություն՝ օգնելով զարգացմանը և նոր հնարավորություններին։</value>
     <comment>Contribute</comment>
   </data>
   <data name="Donations" xml:space="preserve">
-    <value>Donations</value>
+    <value>Նվիրատվություններ</value>
     <comment>Contribute</comment>
   </data>
   <data name="Donors" xml:space="preserve">
-    <value>Donors</value>
+    <value>Նվիրատուներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="SuperDonors" xml:space="preserve">
-    <value>Super Donors</value>
+    <value>Սուպեր նվիրատուներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>Նվիրաբերել</value>
     <comment>Tab item</comment>
   </data>
   <data name="CodeContributions" xml:space="preserve">
-    <value>Code Contributions</value>
+    <value>Կոդի ներդրումներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="TranslationContributions" xml:space="preserve">
-    <value>Translation Contributions</value>
+    <value>Թարգմանությունների ներդրումներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="CodeContributionsText" xml:space="preserve">
-    <value>If you are a C# developer, and would like to contribute some code to this project, here is the link to the GitHub repository:</value>
+    <value>Եթե դուք C# ծրագրավորող եք և ցանկանում եք ներդրում կատարել այս նախագծի կոդում, ահա GitHub պահոցի հղումը՝</value>
     <comment>Contribute</comment>
   </data>
   <data name="TranslationContributionsText" xml:space="preserve">
-    <value>If you can read and write in multiple languages, we need your help to translate this app into every possible language in the world! For more information about how to do this, visit this Discord channel:</value>
+    <value>Եթե կարող եք կարդալ և գրել մի քանի լեզուներով, մեզ պետք է ձեր օգնությունը թարգմանությունների համար։ Մանրամասների համար այցելեք այս Discord ալիքը՝</value>
     <comment>Contribute</comment>
   </data>
   <data name="TranslationsDiscordChannel" xml:space="preserve">
-    <value>Translations Discord Channel</value>
+    <value>Թարգմանությունների Discord ալիք</value>
     <comment>Contribute</comment>
   </data>
   <data name="GitHubRepository" xml:space="preserve">
-    <value>GitHub Repository</value>
+    <value>GitHub պահոց</value>
     <comment>Contribute</comment>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Ներդրողներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="ShowWindow" xml:space="preserve">
-    <value>Show Window</value>
+    <value>Ցույց տալ պատուհանը</value>
     <comment>System tray icon</comment>
   </data>
   <data name="ExitApp" xml:space="preserve">
-    <value>Exit App</value>
+    <value>Ելք հավելվածից</value>
     <comment>System tray icon</comment>
   </data>
   <data name="MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize To System Tray</value>
+    <value>Թաքցնել համակարգային վահանակում</value>
     <comment>App</comment>
   </data>
   <data name="StartMinimized" xml:space="preserve">
-    <value>Start Minimized</value>
+    <value>Սկսել փոքրացված</value>
     <comment>App</comment>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
-    <value>Start With Windows</value>
+    <value>Սկսել Windows-ով</value>
     <comment>App</comment>
   </data>
   <data name="TotalCompressionRate" xml:space="preserve">
-    <value>Total: Compression Rate</value>
+    <value>Ընդամենը․ Սեղմման Արագություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SlewCompressionThreshold" xml:space="preserve">
-    <value>Slew: Compression Threshold</value>
+    <value>Slew․ Սեղմման Շեմ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SlewCompressionRate" xml:space="preserve">
-    <value>Slew: Compression Rate</value>
+    <value>Slew․ Սեղմման Արագություն</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="TotalCompressionThreshold" xml:space="preserve">
-    <value>Total: Compression Threshold</value>
+    <value>Ընդամենը․ Սեղմման Շեմ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SlewUnits" xml:space="preserve">
-    <value> Nm/ms</value>
+    <value>Ն·մ/մվ</value>
     <comment>Abbreviation for Newton-meters per second</comment>
   </data>
   <data name="WheelForce" xml:space="preserve">
-    <value>Wheel Force</value>
+    <value>Ղեկի Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Set" xml:space="preserve">
-    <value>Set</value>
+    <value>Սահմանել</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Նախադիտում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="NoRecordingsFound" xml:space="preserve">
-    <value>[No Recordings Found]</value>
+    <value>[Ձայնագրություններ չեն գտնվել]</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Center wheel when not in car</value>
+    <value>Կենտրոնացնել ղեկը, երբ մեքենայում չեք</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SimpleMode" xml:space="preserve">
-    <value>Enable simple mode</value>
+    <value>Միացնել պարզ ռեժիմը</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Sensitivity" xml:space="preserve">
-    <value>Sensitivity</value>
+    <value>Զգայունություն</value>
     <comment>Pedals</comment>
   </data>
   <data name="ZeAlanLeTwist" xml:space="preserve">
-    <value>Slew and Total Compression</value>
+    <value>Slew և Ընդհանուր Սեղմում</value>
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="DiscordModerators" xml:space="preserve">
-    <value>Discord Moderators</value>
+    <value>Discord մոդերատորներ</value>
     <comment>Contribute</comment>
   </data>
   <data name="DiscordModeratorsText" xml:space="preserve">
-    <value>I want to thank these volunteer moderators for helping answer the many questions posed by MAIRA users, allowing me to have more time to focus on the development of MAIRA!</value>
+    <value>Շնորհակալություն կամավոր մոդերատորներին՝ հարցերին պատասխանելու և համայնքին օգնելու համար, ինչը թույլ է տալիս ինձ ավելի շատ ժամանակ հատկացնել MAIRA-ի զարգացմանը։</value>
     <comment>Contribute</comment>
   </data>
   <data name="AdminBoxxIsUpdating" xml:space="preserve">
-    <value>The AdminBoxx firmware is being updated</value>
+    <value>AdminBoxx-ի firmware-ը թարմացվում է</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="AllowSuperStrength" xml:space="preserve">
-    <value>Allow up to 200% strength (potentially dangerous)</value>
+    <value>Թույլատրել մինչև 200% ուժ (կարող է լինել վտանգավոր)</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ON" xml:space="preserve">
-    <value>ON</value>
+    <value>Միացված</value>
     <comment>Generic</comment>
   </data>
   <data name="Sounds" xml:space="preserve">
-    <value>Sounds</value>
+    <value>Ձայներ</value>
     <comment>Tab item</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Միացված</value>
     <comment>Sounds</comment>
   </data>
   <data name="FrequencyRatio" xml:space="preserve">
-    <value>Frequency Ratio</value>
+    <value>Հաճախականության հարաբերակցություն</value>
     <comment>Sounds</comment>
   </data>
   <data name="Fade" xml:space="preserve">
-    <value>Fade</value>
+    <value>Մարում</value>
     <comment>Sounds</comment>
   </data>
   <data name="SendChatMessages" xml:space="preserve">
-    <value>Send private chat messages to the driver</value>
+    <value>Ուղարկել անձնական չաթ հաղորդագրություններ վարորդին</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="EnableLogitechRPMLights" xml:space="preserve">
-    <value>Enable Logitech RPM lights</value>
+    <value>Միացնել Logitech RPM լույսերը</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Degrees" xml:space="preserve">
@@ -866,99 +869,99 @@
     <comment>Abbreviation for degrees</comment>
   </data>
   <data name="Master" xml:space="preserve">
-    <value>Master</value>
+    <value>Գլխավոր</value>
     <comment>Sounds</comment>
   </data>
   <data name="CrashProtectionActivated" xml:space="preserve">
-    <value>Crash protection has been activated!</value>
+    <value>Վթարի պաշտպանությունը ակտիվացվել է!</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurbProtectionActivated" xml:space="preserve">
-    <value>Curb protection has been activated!</value>
+    <value>Բորդյուրի պաշտպանությունը ակտիվացվել է!</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="PrivateMessages" xml:space="preserve">
-    <value>Private Messages</value>
+    <value>Անձնական հաղորդագրություններ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurbProtectionMessagesEnabled" xml:space="preserve">
-    <value>Enable curb protection messages</value>
+    <value>Միացնել բորդյուրի պաշտպանության հաղորդագրությունները</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CrashProtectionMessagesEnabled" xml:space="preserve">
-    <value>Enable crash protection messages</value>
+    <value>Միացնել վթարի պաշտպանության հաղորդագրությունները</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="InputMappedSettingUpdateEnabled" xml:space="preserve">
-    <value>Enable input mapped setting update messages</value>
+    <value>Միացնել քարտեզված մուտքերի կարգավորման թարմացման հաղորդագրությունները</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="NotOnCentripetalCircuitTrack" xml:space="preserve">
-    <value>You are not on the Centripetal Circuit track</value>
+    <value>Դուք Centripetal Circuit տրասսայի վրա չեք</value>
     <comment>Steering effects</comment>
   </data>
   <data name="RunCalibration" xml:space="preserve">
-    <value>Run Calibration</value>
+    <value>Սկսել կալիբրացիան</value>
     <comment>Steering effects</comment>
   </data>
   <data name="StopCalibration" xml:space="preserve">
-    <value>Stop Calibration</value>
+    <value>Կանգնեցնել կալիբրացիան</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SteeringWheelLeft" xml:space="preserve">
-    <value>Steering Wheel Left</value>
+    <value>Ղեկ՝ Ձախ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SteeringWheelCenter" xml:space="preserve">
-    <value>Steering Wheel Center</value>
+    <value>Ղեկ՝ Կենտրոն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SteeringWheelRight" xml:space="preserve">
-    <value>Steering Wheel Right</value>
+    <value>Ղեկ՝ Աջ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SteeringWheel90Left" xml:space="preserve">
-    <value>Steering Wheel 90° Left</value>
+    <value>Ղեկ՝ 90° Ձախ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MinThrottle" xml:space="preserve">
-    <value>Minimum Throttle</value>
+    <value>Գազի Նվազագույն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MaxThrottle" xml:space="preserve">
-    <value>Maximum Throttle</value>
+    <value>Գազի Առավելագույն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShiftUp" xml:space="preserve">
-    <value>Shift Up</value>
+    <value>Բարձր Փոխանցում</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShiftDown" xml:space="preserve">
-    <value>Shift Down</value>
+    <value>Ցածր Փոխանցում</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MinBrake" xml:space="preserve">
-    <value>Minimum Brake</value>
+    <value>Արգելակի Նվազագույն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MaxBrake" xml:space="preserve">
-    <value>Maximum Brake</value>
+    <value>Արգելակի Առավելագույն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="NotCalibrating" xml:space="preserve">
-    <value>Not Calibrating</value>
+    <value>Կալիբրացիա չի ընթանում</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetCalibration" xml:space="preserve">
-    <value>Reset Calibration</value>
+    <value>Վերականգնել Կալիբրացիան</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ShowGripOMeter" xml:space="preserve">
-    <value>Show the Grip-O-Meter window</value>
+    <value>Ցույց տալ Grip-O-Meter պատուհանը</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MakeGripOMeterDraggable" xml:space="preserve">
-    <value>Make the Grip-O-Meter window draggable</value>
+    <value>Թույլ տալ տեղափոխել Grip-O-Meter պատուհանը</value>
     <comment>Steering effects</comment>
   </data>
   <data name="GripOMeter" xml:space="preserve">
@@ -966,235 +969,199 @@
     <comment>Steering effects</comment>
   </data>
   <data name="GripOMeterScale" xml:space="preserve">
-    <value>Grip-O-Meter Scale</value>
+    <value>Grip-O-Meter-ի Սանդղակ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetGripOMeter" xml:space="preserve">
-    <value>Reset the Grip-O-Meter window position</value>
+    <value>Վերականգնել Grip-O-Meter պատուհանի դիրքը</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerWheelVibrationEffect" xml:space="preserve">
-    <value>Understeer Wheel Vibration Effect</value>
+    <value>Անդերստիրի՝ ղեկի թրթռման էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Progress:" xml:space="preserve">
-    <value>Progress:</value>
+    <value>Առաջընթաց:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="CalibrationFileNotSelected" xml:space="preserve">
-    <value>[Calibration File Not Selected]</value>
+    <value>[Կալիբրացիոն ֆայլը ընտրված չէ]</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ParkedEffects" xml:space="preserve">
-    <value>Parked Effects</value>
+    <value>Կայանած Վիճակի Էֆեկտներ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ForceFeedbackStrength" xml:space="preserve">
-    <value>Force Feedback Strength</value>
+    <value>Ֆորս Ֆիդբեքի Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="WheelCenteringStrength" xml:space="preserve">
-    <value>Wheel Centering Strength</value>
+    <value>Ղեկի Կենտրոնացման Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CenterWheelWhileRacing" xml:space="preserve">
-    <value>Center wheel while racing</value>
+    <value>Կենտրոնացնել ղեկը մրցավազքի ժամանակ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CenterWheelWhileParked" xml:space="preserve">
-    <value>Center wheel while parked</value>
+    <value>Կենտրոնացնել ղեկը կայանած վիճակում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ParkedFriction" xml:space="preserve">
-    <value>Parked Friction</value>
+    <value>Կայանած Վիճակում Շփում</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="ParkedWheelCenteringStrength" xml:space="preserve">
-    <value>Parked Wheel Centering Strength</value>
+    <value>Կայանած՝ Ղեկի Կենտրոնացման Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
-    <value>Current Car Setup:</value>
+    <value>Ընթացիկ Մեքենայի Կարգավորում:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Current Tire Compound:</value>
+    <value>Ընթացիկ Անվադողի Խառնուրդ:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerPedalVibrationEffect" xml:space="preserve">
-    <value>Understeer Pedal Vibration Effect</value>
+    <value>Անդերստիրի Ոտնակի Թրթռման Էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ErrorTitle" xml:space="preserve">
-    <value>Something Went Wrong</value>
+    <value>Ինչ-որ բան սխալ գնաց</value>
     <comment>Error window</comment>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Մանրամասներ</value>
     <comment>Error window</comment>
   </data>
   <data name="ClassicMAIRAIsRunning" xml:space="preserve">
-    <value>Classic MAIRA is currently running - please exit classic MAIRA before running this version of MAIRA!</value>
+    <value>Classic MAIRA-ն աշխատում է — փակեք այն, նախքան այս տարբերակը գործարկելն</value>
     <comment>Error message</comment>
   </data>
   <data name="ExceptionThrown" xml:space="preserve">
-    <value>An exception has been thrown</value>
+    <value>Բացառություն է նետվել</value>
     <comment>Error messages</comment>
   </data>
   <data name="KPHUnits" xml:space="preserve">
-    <value> KPH</value>
+    <value>կմ/ժ</value>
     <comment>Abbreviation for kilometers per hour</comment>
   </data>
   <data name="CalibrationFileContributors" xml:space="preserve">
-    <value>Calibration File Contributors</value>
+    <value>Կալիբրացիոն ֆայլերի ներդրողները</value>
     <comment>Contribute</comment>
   </data>
   <data name="CalibrationFilesText" xml:space="preserve">
-    <value>These are the folks who have generously contributed some of their spare time, to run steering effects calibrations on some of their favorite cars, and to upload those calibration files!</value>
+    <value>Սրանք մարդիկ են, ովքեր մեծահոգաբար տրամադրել են իրենց սիրելի մեքենաների կալիբրացիոն ֆայլերը… Խնդրում ենք նաև կիսվել ձեր սիրելի մեքենաների կալիբրացիաներով և վերբեռնել այդ ֆայլերը։</value>
     <comment>Contribute</comment>
   </data>
   <data name="DegreesPerSecond" xml:space="preserve">
-    <value>°/s</value>
+    <value>°/վ</value>
     <comment>Abbreviation for degrees per second</comment>
   </data>
   <data name="CalibrationFile" xml:space="preserve">
-    <value>Calibration File</value>
+    <value>Կալիբրացիոն Ֆայլ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Understeer" xml:space="preserve">
-    <value>Understeer</value>
+    <value>Անդերստիր</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Oversteer" xml:space="preserve">
-    <value>Oversteer</value>
+    <value>Օվերստիր</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MinimumThreshold" xml:space="preserve">
-    <value>Minimum Threshold</value>
+    <value>Նվազագույն Շեմ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MaximumThreshold" xml:space="preserve">
-    <value>Maximum Threshold</value>
+    <value>Առավելագույն Շեմ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MinimumFrequency" xml:space="preserve">
-    <value>Minimum Frequency</value>
+    <value>Նվազագույն Հաճախականություն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="MaximumFrequency" xml:space="preserve">
-    <value>Maximum Frequency</value>
+    <value>Առավելագույն Հաճախականություն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Calibration" xml:space="preserve">
-    <value>Calibration</value>
+    <value>Կալիբրացիա</value>
     <comment>Steering effects</comment>
   </data>
   <data name="VibrationPattern" xml:space="preserve">
-    <value>Vibration Pattern</value>
+    <value>Թրթռման Նախշ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SineWave" xml:space="preserve">
-    <value>Sine Wave</value>
+    <value>Սինուսային Ալիք</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SquareWave" xml:space="preserve">
-    <value>Square Wave</value>
+    <value>Քառակուսի Ալիք</value>
     <comment>Steering effects</comment>
   </data>
   <data name="TriangleWave" xml:space="preserve">
-    <value>Triangle Wave</value>
+    <value>Եռանկյուն Ալիք</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SawtoothWaveIn" xml:space="preserve">
-    <value>Sawtooth Wave (In)</value>
+    <value>Սղոցաձև Ալիք (աճ)</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SawtoothWaveOut" xml:space="preserve">
-    <value>Sawtooth Wave (Out)</value>
+    <value>Սղոցաձև Ալիք (իջ)</value>
     <comment>Steering effects</comment>
   </data>
   <data name="DecreaseForce" xml:space="preserve">
-    <value>Decrease Force</value>
+    <value>Նվազեցնել Ուժը</value>
     <comment>Steering effects</comment>
   </data>
   <data name="IncreaseForce" xml:space="preserve">
-    <value>Increase Force</value>
+    <value>Աճեցնել Ուժը</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerWheelConstantForceEffect" xml:space="preserve">
-    <value>Understeer Wheel Constant Force Effect</value>
+    <value>Անդերստիրի՝ ղեկի մշտական ուժի էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Direction" xml:space="preserve">
-    <value>Direction</value>
+    <value>Ուղղություն</value>
     <comment>Steering effects</comment>
   </data>
   <data name="OversteerWheelVibrationEffect" xml:space="preserve">
-    <value>Oversteer Wheel Vibration Effect</value>
+    <value>Օվերստիրի՝ ղեկի թրթռման էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="OversteerWheelConstantForceEffect" xml:space="preserve">
-    <value>Oversteer Wheel Constant Force Effect</value>
+    <value>Օվերստիրի՝ ղեկի մշտական ուժի էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="OversteerPedalVibrationEffect" xml:space="preserve">
-    <value>Oversteer Pedal Vibration Effect</value>
+    <value>Օվերստիրի՝ ոտնակի թրթռման էֆեկտ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerEffect" xml:space="preserve">
-    <value>Understeer Effect</value>
+    <value>Անդերստիր Էֆեկտ</value>
     <comment>Pedals</comment>
   </data>
   <data name="OversteerEffect" xml:space="preserve">
-    <value>Oversteer Effect</value>
+    <value>Օվերստիր Էֆեկտ</value>
     <comment>Pedals</comment>
   </data>
   <data name="ConfigurationFileIsInvalid" xml:space="preserve">
-    <value>Configuration File Is Invalid!</value>
+    <value>Կազմաձևման ֆայլը անվավեր է</value>
     <comment>Steering effects</comment>
   </data>
   <data name="CalibrationGraph" xml:space="preserve">
-    <value>Calibration Graph</value>
+    <value>Կալիբրացիայի գրաֆիկ</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SpeechToText" xml:space="preserve">
-    <value>Speech to Text</value>
+    <value>Խոսքից Տեքստ</value>
     <comment>Speech to text</comment>
-  </data>
-  <data name="Overlay" xml:space="preserve">
-    <value>Overlay</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="OverlayWindow" xml:space="preserve">
-    <value>Overlay Window</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="ShowOverlayWindow" xml:space="preserve">
-    <value>Show the overlay window</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="MakeOverlayWindowDraggable" xml:space="preserve">
-    <value>Make the overlay window draggable</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="ResetOverlayWindow" xml:space="preserve">
-    <value>Reset the overlay window position</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="OverlayWindowScale" xml:space="preserve">
-    <value>Overlay Window Scale</value>
-    <comment>Speech to text</comment>
-  </data>
-  <data name="STT_Title" xml:space="preserve">
-    <value>MAIRA Speech-To-Text Bridge</value>
-    <comment>Speech-to-text bridge</comment>
-  </data>
-  <data name="STT_Hint" xml:space="preserve">
-    <value>Choose an audio capture device, then click the enable button.</value>
-    <comment>Speech-to-text bridge</comment>
-  </data>
-  <data name="STT_Button" xml:space="preserve">
-    <value>Enable Speech-To-Text</value>
-    <comment>Speech-to-text bridge</comment>
   </data>
 </root>
