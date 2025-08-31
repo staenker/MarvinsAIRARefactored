@@ -52,6 +52,7 @@ Name: "{userdocs}\MarvinsAIRA Refactored\Languages"
 Name: "{userdocs}\MarvinsAIRA Refactored\Sounds"
 Name: "{userdocs}\MarvinsAIRA Refactored\Recordings"
 Name: "{userdocs}\MarvinsAIRA Refactored\Calibration"
+Name: "{userdocs}\MarvinsAIRA Refactored\STT"
 Name: "{userdocs}\MarvinsAIRA Refactored\SimHub Plugin"
 
 [Files]
@@ -63,6 +64,7 @@ Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Languag
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Sounds\*.wav"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Sounds"; Flags: ignoreversion recursesubdirs
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Recordings\*.csv"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Recordings"; Flags: ignoreversion
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Calibration\*.csv"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Calibration"; Flags: ignoreversion
+Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\STT\*"; DestDir: "{userdocs}\MarvinsAIRA Refactored\STT"; Flags: ignoreversion
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactoredSimHub\bin\Release\MarvinsAIRARefactoredSimHub.dll"; DestDir: "{userdocs}\MarvinsAIRA Refactored\SimHub Plugin"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\marvi\Documents\GitHub\MarvinsAIRARefactoredSimHub\bin\Release\MarvinsAIRARefactoredSimHub.dll"; DestDir: "{code:SimHubRoot}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
