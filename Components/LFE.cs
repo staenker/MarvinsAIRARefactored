@@ -51,7 +51,7 @@ public class LFE
 	private int _pingPongIndex = 0;
 	private int _batchIndex = 0;
 
-	private readonly byte[] _scratchRead = new byte[ _captureBufferSizeInBytes ];
+	private readonly byte[] _scratchRead = new byte[ _frameSizeInBytes ];
 	private readonly float[,] _magnitude = new float[ 2, _batchCount ];
 
 	public void SetMairaComboBoxItemsSource( MairaComboBox mairaComboBox )
@@ -232,7 +232,7 @@ public class LFE
 
 				var currentReadPosition = ( currentCapturePosition + _captureBufferSizeInBytes - _frameSizeInBytes ) % _captureBufferSizeInBytes;
 
-				_captureBuffer.Read( _scratchRead, currentReadPosition, _frameSizeInBytes, 0, LockFlags.None );
+				_captureBuffer.Read( _scratchRead, 0, _frameSizeInBytes, currentReadPosition, LockFlags.None );
 
 				// convert from PCM16 to float32 [-1,1]
 
