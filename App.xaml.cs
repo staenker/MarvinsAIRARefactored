@@ -294,13 +294,18 @@ public partial class App : Application
 
 		_ = SpeechToText.DisableAsync();
 
-		Telemetry.Shutdown();
 		Simulator.Shutdown();
-		MultimediaTimer.Shutdown();
 		AdminBoxx.Shutdown();
-		LFE.Shutdown();
 		DirectInput.Shutdown();
 		Logger.Shutdown();
+
+#if !ADMINBOXX
+
+		LFE.Shutdown();
+		MultimediaTimer.Shutdown();
+		Telemetry.Shutdown();
+
+#endif
 
 		Logger.WriteLine( "[App] <<< App_Exit" );
 	}

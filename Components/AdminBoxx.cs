@@ -189,7 +189,7 @@ public partial class AdminBoxx
 			"caution_extended_by_one_lap", "caution_shortened_by_one_lap",
 			"chat_disabled", "chat_enabled",
 			"all_penalties_cleared", "session_has_been_advanced", "one_lap_to_green",
-			"black_flag_driver_number", "clear_driver_number", "wave_by_driver_number", "end_of_line_driver_number", "disqualify_driver_number", "remove_driver_number",
+			"black_flag_driver_number", "clear_driver_number", "wave_by_driver_number", "end_of_line_driver_number", "disqualify_driver_number", "remove_driver_number", "clear_command",
 			"connected_to_adminboxx_app", "connected_to_iracing_simulator", "disconnected_from_iracing_simulator"
 		];
 
@@ -882,7 +882,7 @@ public partial class AdminBoxx
 		{
 			LeaveNumpadMode( false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "clear_command" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoEscape" );
@@ -1163,7 +1163,7 @@ public partial class AdminBoxx
 
 			SetLEDToColor( 1, 7, Cyan, false );
 
-			RunSequence( 1 );
+			RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "remove_driver_number" );
 		}
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< DoRemoveDriver" );
@@ -1177,7 +1177,7 @@ public partial class AdminBoxx
 
 		app.ChatQueue.SendMessage( $"!remove #{_carNumber}" );
 
-		RunSequence( 1, Tone.AdminBoxx, false, null, 0, 0, "remove_driver_number" );
+		RunSequence( 1 );
 
 		app.Logger.WriteLine( "[AdminBoxx] <<< RemoveDriverCallback" );
 	}

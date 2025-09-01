@@ -157,6 +157,8 @@ public sealed class AudioManager : IDisposable
 				if ( !_soundPlayerCache.TryGetValue( key, out player ) )
 				{
 					player = null;
+
+					App.Instance!.Logger.WriteLine( $"[AudioManager] Trying to play sound {key} but it was not loaded" );
 				}
 			}
 

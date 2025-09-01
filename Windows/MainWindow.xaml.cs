@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
@@ -58,10 +59,13 @@ public partial class MainWindow : Window
 
 #if ADMINBOXX
 
+		var iconUri = new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/adminboxx.ico" );
+
 		RacingWheel_TabItem.Visibility = Visibility.Collapsed;
 		SteeringEffects_TabItem.Visibility = Visibility.Collapsed;
 		Pedals_TabItem.Visibility = Visibility.Collapsed;
 		Sounds_TabItem.Visibility = Visibility.Collapsed;
+		SpeechToText_TabItem.Visibility = Visibility.Collapsed;
 		Graph_TabItem.Visibility = Visibility.Collapsed;
 		Simulator_TabItem.Visibility = Visibility.Collapsed;
 		Contribute_TabItem.Visibility = Visibility.Collapsed;
@@ -76,7 +80,13 @@ public partial class MainWindow : Window
 
 		TabControl.SelectedItem = AdminBoxx_TabItem;
 
+#else
+
+	var iconUri = new Uri("pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/maira-universal.ico");
+
 #endif
+
+		Icon = BitmapFrame.Create( iconUri );
 
 #if !CODER
 

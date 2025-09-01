@@ -9,7 +9,6 @@
     <Version>2.0.$([MSBuild]::Subtract($([System.Math]::Floor($([MSBuild]::Divide($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)))), 20180)).$([MSBuild]::Divide($([MSBuild]::Modulo($([System.DateTimeOffset]::UtcNow.ToUnixTimeSeconds()), 86400)), 60))</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>Artwork\AppIcon\maira-universal.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
@@ -21,31 +20,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-
-  <ItemGroup>
-    <None Remove="Artwork\AppIcon\adminboxx.ico" />
-    <None Remove="Artwork\AppIcon\maira-universal.ico" />
-    <None Remove="Artwork\ButtonIcons\button_icon_copy.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_dot.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_exit.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_max_brake.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_max_throttle.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_min_brake.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_min_throttle.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_sad_face.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_90_left.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_center.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_left.png" />
-    <None Remove="Artwork\ButtonIcons\button_icon_steering_wheel_right.png" />
-    <None Remove="Artwork\Flags\denmark.png" />
-    <None Remove="Artwork\Flags\poland.png" />
-    <None Remove="Artwork\Knob\knob_default.png" />
-    <None Remove="Artwork\Knob\knob_pressed.png" />
-    <None Remove="Artwork\Misc\adminboxx_logo.png" />
-    <None Remove="Artwork\Misc\grip-o-meter-ball.png" />
-    <None Remove="Artwork\Misc\grip-o-meter.png" />
-    <None Remove="Artwork\Misc\maira_logo_rotated.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -84,9 +58,6 @@
     <Resource Include="Artwork\Misc\grip-o-meter.png" />
     <Resource Include="Artwork\Misc\maira_logo_rotated.png" />
     <Resource Include="Fonts\FiraCode-VariableFont_wght.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Artwork\ButtonIcons\button_icon_binoculars.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_cancel.png" />
     <Resource Include="Artwork\ButtonIcons\button_icon_down.png" />
@@ -178,10 +149,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="InnoSetup\Calibration\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /S /D &quot;$(ProjectDir)InnoSetup\Languages\Resources*.resx&quot; &quot;$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\MarvinsAIRA Refactored\Languages\&quot; /Y /I" />
     <Exec Command="xcopy /S /D &quot;$(ProjectDir)InnoSetup\Sounds\*.wav&quot; &quot;$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\MarvinsAIRA Refactored\Sounds\&quot; /Y /I" />
@@ -190,12 +157,17 @@
     <Exec Command="xcopy /S /D &quot;$(ProjectDir)InnoSetup\STT\*&quot; &quot;$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\MarvinsAIRA Refactored\STT\&quot; /Y /I" />
   </Target>
 
-  <!-- Also handle 'dotnet publish' -->
-  <Target Name="CopyDLLsOnPublish" AfterTargets="Publish">
-    <ItemGroup>
-      <DLLsPublish Include="$(ProjectDir)DLLs\*.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(DLLsPublish)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
-  </Target>
+  <Choose>
+    <When Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(DefineConstants)', '(?:^|;)ADMINBOXX(?:;|$)'))">
+      <PropertyGroup>
+        <ApplicationIcon>Artwork\AppIcon\adminboxx.ico</ApplicationIcon>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <ApplicationIcon>Artwork\AppIcon\maira-universal.ico</ApplicationIcon>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>
