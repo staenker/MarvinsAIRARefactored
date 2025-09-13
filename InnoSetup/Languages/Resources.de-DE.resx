@@ -121,7 +121,7 @@
     <value>Algorithmus</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Einstellungen</value>
     <comment>Tab item</comment>
   </data>
@@ -153,11 +153,11 @@
     <value>Diagramm</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Header Daten</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Sprache</value>
     <comment>App</comment>
   </data>
@@ -205,7 +205,7 @@
     <value>Zurücksetzen</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Sitzungsinformation</value>
     <comment>Simulator</comment>
   </data>
@@ -221,7 +221,7 @@
     <value>Stärke virtueller Anschlag</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Telemetrie Daten</value>
     <comment>Simulator</comment>
   </data>
@@ -665,7 +665,7 @@
     <value>Rauschunterdrückung</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>App-Fenster</value>
     <comment>App</comment>
   </data>
@@ -673,7 +673,7 @@
     <value>UI-Skalierung</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Cloud-Dienst</value>
     <comment>App</comment>
   </data>
@@ -1168,7 +1168,7 @@ Hier ist der Link zum Spenden:</value>
     <value>Overlay</value>
     <comment>Speech to text</comment>
   </data>
-  <data name="OverlayWindow" xml:space="preserve">
+  <data name="OverlayWindow_UC" xml:space="preserve">
     <value>Overlay-Fenster</value>
     <comment>Speech to text</comment>
   </data>
@@ -1203,5 +1203,17 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Discord Moderatoren</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Diagramm</value>
+  </data>
+  <data name="SpeechToText_UC" xml:space="preserve">
+    <value>Sprache zu Text</value>
   </data>
 </root>

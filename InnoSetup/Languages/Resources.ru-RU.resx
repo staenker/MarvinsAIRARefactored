@@ -121,7 +121,7 @@
     <value>Алгоритм</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Настройки</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>График</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Header данные</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Язык</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>Сброс</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Информация о сессии</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>Ограничение soft lock</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Данные телеметрии</value>
     <comment>Simulator</comment>
   </data>
@@ -667,7 +667,7 @@
     <value>Снижение шумов</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Окно приложения</value>
     <comment>App</comment>
   </data>
@@ -675,7 +675,7 @@
     <value>Масштаб интерфейса</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Облачный сервис</value>
     <comment>App</comment>
   </data>
@@ -1067,5 +1067,14 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Модераторы Дискорда</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Симулятор</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>График</value>
   </data>
 </root>

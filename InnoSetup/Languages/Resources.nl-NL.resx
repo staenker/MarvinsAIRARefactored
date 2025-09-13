@@ -121,7 +121,7 @@
     <value>Algoritme</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Instellingen</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>Grafiek</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Basisgegevens</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Taal</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>Reset</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Sessie informatie</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>Eindaanslag sterkte</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Telemetrie gegevens</value>
     <comment>Simulator</comment>
   </data>
@@ -629,5 +629,14 @@
   </data>
   <data name="Algorithm_UC" xml:space="preserve">
     <value>Algoritme</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Grafiek</value>
   </data>
 </root>

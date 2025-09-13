@@ -121,7 +121,7 @@
     <value>Algoritmus FFB</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Aplikace</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>Graf FFB</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Hlavní data</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Jazyk</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>Obnovit</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Informace o aktuální jízdě</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>Síla dorazu řízení</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Telemetrické data</value>
     <comment>Simulator</comment>
   </data>
@@ -667,7 +667,7 @@
     <value>Tlumič hluku</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Okno aplikace</value>
     <comment>App</comment>
   </data>
@@ -675,7 +675,7 @@
     <value>Měřítko UI</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Cloud Servis</value>
     <comment>App</comment>
   </data>
@@ -1159,5 +1159,14 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Moderátoři na Discordu</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Simulátor</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Graf FFB</value>
   </data>
 </root>

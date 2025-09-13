@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
+using Color = System.Windows.Media.Color;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Pen = System.Windows.Media.Pen;
@@ -23,11 +24,28 @@ public partial class MairaKnob : UserControl
 {
 	private const int ResetHoldMilliseconds = 1000;
 
+	private static readonly SolidColorBrush _curveBackgroundBrush = new( Color.FromArgb( 255, 49, 49, 49 ) );
+	private static readonly SolidColorBrush _curveGridLinesBrush = new( Color.FromArgb( 255, 68, 68, 68 ) );
+	private static readonly SolidColorBrush _curveForegroundBrush = new( Color.FromArgb( 255, 255, 91, 46 ) );
+
+	private static Pen _curveGridLinesPen = new( _curveGridLinesBrush, 1.5 );
+	private static Pen _curveForegroundPen = new( _curveForegroundBrush, 6 );
+
 	private POINT _draggingCenter;
 
 	private readonly DispatcherTimer _resetDispatcherTimer = new() { Interval = TimeSpan.FromMilliseconds( 20 ) };
 	private DateTime _resetStartTime;
 	private bool _isResetting;
+
+	static MairaKnob()
+	{
+		_curveBackgroundBrush.Freeze();
+		_curveGridLinesBrush.Freeze();
+		_curveForegroundBrush.Freeze();
+
+		_curveGridLinesPen.Freeze();
+		_curveForegroundPen.Freeze();
+	}
 
 	public MairaKnob()
 	{
@@ -256,6 +274,7 @@ public partial class MairaKnob : UserControl
 
 		ValueChangedCallback?.Invoke( newValue );
 	}
+
 	private void EndDrag()
 	{
 		IsDragging = false;
@@ -271,8 +290,8 @@ public partial class MairaKnob : UserControl
 	{
 		if ( ShowCurve )
 		{
-			var imageWidth = (int) Curve_Image.Width;
-			var imageHeight = (int) Curve_Image.Height;
+			var renderTargetWidth = (int) Curve_Image.Width * 2;
+			var renderTargetHeight = (int) Curve_Image.Height * 2;
 
 			var power = MathZ.CurveToPower( Value );
 
@@ -280,34 +299,30 @@ public partial class MairaKnob : UserControl
 
 			using ( var dc = dv.RenderOpen() )
 			{
-				var darkGray = new SolidColorBrush( System.Windows.Media.Color.FromRgb( 48, 48, 48 ) );
-
-				dc.DrawRectangle( darkGray, null, new Rect( 0, 0, imageWidth, imageHeight ) );
-
-				var penGrid = new Pen( new SolidColorBrush( System.Windows.Media.Color.FromRgb( 0, 0, 0 ) ), 1 );
-
-				for ( var x = imageWidth / 4; x < imageWidth; x += imageWidth / 4 )
+				dc.DrawRectangle( _curveBackgroundBrush, null, new Rect( 0, 0, renderTargetWidth, renderTargetHeight ) );
+				/*
+				for ( var x = renderTargetWidth / 4; x < renderTargetWidth; x += renderTargetWidth / 4 )
 				{
-					dc.DrawLine( penGrid, new Point( x, 0 ), new Point( x, imageHeight ) );
+					dc.DrawLine( _curveGridLinesPen, new Point( x, 0 ), new Point( x, renderTargetHeight ) );
 				}
 
-				for ( var y = imageWidth / 4; y < imageHeight; y += imageHeight / 4 )
+				for ( var y = renderTargetWidth / 4; y < renderTargetHeight; y += renderTargetHeight / 4 )
 				{
-					dc.DrawLine( penGrid, new Point( 0, y ), new Point( imageWidth, y ) );
+					dc.DrawLine( _curveGridLinesPen, new Point( 0, y ), new Point( renderTargetWidth, y ) );
 				}
-
+				*/
 				var geometry = new StreamGeometry();
 
 				using ( var ctx = geometry.Open() )
 				{
-					for ( var x = 0; x < imageWidth; x++ )
+					for ( var x = 3; x < renderTargetWidth - 3; x++ )
 					{
-						float xf = x / (float) ( imageWidth - 1 );
+						float xf = ( x - 3 ) / (float) ( renderTargetWidth - 6 );
 						float yf = MathF.Pow( xf, power );
 
-						int y = imageHeight - 1 - (int) ( yf * ( imageHeight - 1 ) );
+						int y = renderTargetHeight - 4 - (int) ( yf * ( renderTargetHeight - 7 ) );
 
-						if ( x == 0 )
+						if ( x == 3 )
 						{
 							ctx.BeginFigure( new Point( x, y ), false, false );
 						}
@@ -318,19 +333,19 @@ public partial class MairaKnob : UserControl
 					}
 				}
 
-				dc.DrawGeometry( null, new Pen( System.Windows.Media.Brushes.White, 1.5f ), geometry );
+				dc.DrawGeometry( null, _curveForegroundPen, geometry );
 			}
 
-			var renderTargetBitmap = new RenderTargetBitmap( imageWidth, imageHeight, 96, 96, PixelFormats.Pbgra32 );
+			var renderTargetBitmap = new RenderTargetBitmap( renderTargetWidth, renderTargetHeight, 96.0, 96.0, PixelFormats.Pbgra32 );
 
 			renderTargetBitmap.Render( dv );
 
 			Curve_Image.Source = renderTargetBitmap;
-			Curve_Image.Visibility = Visibility.Visible;
+			Curve_Grid.Visibility = Visibility.Visible;
 		}
 		else
 		{
-			Curve_Image.Visibility = Visibility.Collapsed;
+			Curve_Grid.Visibility = Visibility.Collapsed;
 		}
 	}
 

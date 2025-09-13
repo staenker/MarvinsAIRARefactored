@@ -121,8 +121,8 @@
     <value>Algorithm</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
-    <value>App</value>
+  <data name="AppSettings" xml:space="preserve">
+    <value>App Settings</value>
     <comment>Tab item</comment>
   </data>
   <data name="AppTitle" xml:space="preserve">
@@ -149,13 +149,13 @@
     <value>Graph</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
-    <value>Header Data</value>
+  <data name="HeaderData_UC" xml:space="preserve">
+    <value>HEADER DATA</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
-    <comment>App</comment>
+  <data name="Language_UC" xml:space="preserve">
+    <value>LANGUAGE</value>
+    <comment>App settings</comment>
   </data>
   <data name="DetailBooster" xml:space="preserve">
     <value>Detail Booster</value>
@@ -205,8 +205,8 @@
     <value>Reset</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
-    <value>Session Information</value>
+  <data name="SessionInformation_UC" xml:space="preserve">
+    <value>SESSION INFORMATION</value>
     <comment>Simulator</comment>
   </data>
   <data name="Simulator" xml:space="preserve">
@@ -221,8 +221,8 @@
     <value>Soft Lock Strength</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
-    <value>Telemetry Data</value>
+  <data name="TelemetryData_UC" xml:space="preserve">
+    <value>TELEMETRY DATA</value>
     <comment>Simulator</comment>
   </data>
   <data name="Test" xml:space="preserve">
@@ -235,7 +235,7 @@
   </data>
   <data name="TopmostWindow" xml:space="preserve">
     <value>Topmost Window</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="TorqueUnits" xml:space="preserve">
     <value> Nm</value>
@@ -523,11 +523,11 @@
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check For Updates On Startup</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="AutomaticallyDownloadUpdates" xml:space="preserve">
     <value>Automatically Download Updates</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="ConnectOnStartup" xml:space="preserve">
     <value>Connect to AdminBoxx on App Startup</value>
@@ -615,7 +615,7 @@
   </data>
   <data name="RememberWindowPositionAndSize" xml:space="preserve">
     <value>Remember Window Position and Size</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="FadeWithBrake" xml:space="preserve">
     <value>Fade With Brake</value>
@@ -669,21 +669,21 @@
     <value>Noise Damper</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
-    <value>App Window</value>
-    <comment>App</comment>
+  <data name="AppWindow_UC" xml:space="preserve">
+    <value>APP WINDOW</value>
+    <comment>App settings</comment>
   </data>
   <data name="UIScale" xml:space="preserve">
     <value>UI Scale</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
-    <value>Cloud Service</value>
-    <comment>App</comment>
+  <data name="CloudService_UC" xml:space="preserve">
+    <value>CLOUD SERVICE</value>
+    <comment>App settings</comment>
   </data>
   <data name="CheckNow" xml:space="preserve">
     <value>Check Now</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="CheckingForUpdate" xml:space="preserve">
     <value>Checking for update...</value>
@@ -759,15 +759,15 @@
   </data>
   <data name="MinimizeToSystemTray" xml:space="preserve">
     <value>Minimize To System Tray</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="StartMinimized" xml:space="preserve">
     <value>Start Minimized</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
     <value>Start With Windows</value>
-    <comment>App</comment>
+    <comment>App settings</comment>
   </data>
   <data name="TotalCompressionRate" xml:space="preserve">
     <value>Total: Compression Rate</value>
@@ -1163,14 +1163,14 @@
   </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Speech to Text</value>
-    <comment>Speech to text</comment>
+    <comment>Tab item</comment>
   </data>
   <data name="Overlay" xml:space="preserve">
     <value>Overlay</value>
     <comment>Speech to text</comment>
   </data>
-  <data name="OverlayWindow" xml:space="preserve">
-    <value>Overlay Window</value>
+  <data name="OverlayWindow_UC" xml:space="preserve">
+    <value>OVERLAY WINDOW</value>
     <comment>Speech to text</comment>
   </data>
   <data name="ShowOverlayWindow" xml:space="preserve">
@@ -1224,5 +1224,25 @@
   <data name="Moderators" xml:space="preserve">
     <value>Moderators</value>
     <comment>Contribute</comment>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>APP SETTINGS</value>
+    <comment>App settings</comment>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>SIMULATOR</value>
+    <comment>Simulator</comment>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>GRAPH</value>
+    <comment>Graph</comment>
+  </data>
+  <data name="SpeechToText_UC" xml:space="preserve">
+    <value>SPEECH TO TEXT</value>
+    <comment>Speech to text</comment>
+  </data>
+  <data name="Changelog" xml:space="preserve">
+    <value>Changelog</value>
+    <comment>Cloud service</comment>
   </data>
 </root>

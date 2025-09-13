@@ -121,7 +121,7 @@
     <value>Algorytm</value>
     <comment>Baza Kierownicy</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Aplikacja</value>
     <comment>Zakładka</comment>
   </data>
@@ -145,11 +145,11 @@
     <value>Wykres</value>
     <comment>Zakładka</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Nagłówek</value>
     <comment>Symulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Język</value>
     <comment>Aplikacja</comment>
   </data>
@@ -200,7 +200,7 @@
     <value>Reset</value>
     <comment>Baza Kierownicy</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Informacje o Sesji</value>
     <comment>Symulator</comment>
   </data>
@@ -216,7 +216,7 @@
     <value>Siła Krańcowej Blokady Obrotu Kierownicy</value>
     <comment>Baza Kierownicy</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Dane Telemetryczne</value>
     <comment>Symulator</comment>
   </data>
@@ -663,7 +663,7 @@
     <value>Tłumienie Hałasu</value>
     <comment>Pedały</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Okno Aplikacji</value>
     <comment>Aplikacja</comment>
   </data>
@@ -671,7 +671,7 @@
     <value>Skala UI</value>
     <comment>Aplikacja</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Magazyn Chmura</value>
     <comment>Aplikacja</comment>
   </data>
@@ -901,5 +901,14 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Moderatorzy Discord</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Aplikacja</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Symulator</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Wykres</value>
   </data>
 </root>

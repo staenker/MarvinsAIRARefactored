@@ -121,7 +121,7 @@
     <value>算法</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>App</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>图标</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>头段数据</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>语言</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>重置</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>当节赛事信息</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>软锁力度</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>遥测数据信息</value>
     <comment>Simulator</comment>
   </data>
@@ -667,7 +667,7 @@
     <value>噪音阻尼</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>App窗口</value>
     <comment>App</comment>
   </data>
@@ -675,7 +675,7 @@
     <value>UI 比例</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>云服务</value>
     <comment>App</comment>
   </data>
@@ -1067,5 +1067,14 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Discord版主</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>模拟器</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>图标</value>
   </data>
 </root>

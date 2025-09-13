@@ -18,8 +18,7 @@
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterOwner"
-        Closed="Window_Closed"
-        Background="#FF111111">
+        Closed="Window_Closed">
 
     <Window.DataContext>
         <Binding Source="{x:Static datacontext:DataContext.Instance}"/>

@@ -88,7 +88,7 @@
             <TabItem x:Name="HeaderData_TabItem"
                      Header="{Binding Localization[HeaderData_UC]}">
 
-                <Grid>
+                <Grid Margin="0,40,0,0">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -105,7 +105,8 @@
                                Grid.Column="2"
                                Scroll="HeaderData_ScrollBar_Scroll"
                                SmallChange="1"
-                               LargeChange="5" />
+                               LargeChange="15"
+                               Visibility="Collapsed" />
 
                 </Grid>
 
@@ -114,7 +115,7 @@
             <TabItem x:Name="SessionInfo_TabItem"
                      Header="{Binding Localization[SessionInformation_UC]}">
 
-                <Grid>
+                <Grid Margin="0,40,0,0">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -131,7 +132,8 @@
                                Grid.Column="2"
                                Scroll="SessionInfo_ScrollBar_Scroll"
                                SmallChange="1"
-                               LargeChange="5" />
+                               LargeChange="15"
+                               Visibility="Collapsed" />
 
                 </Grid>
 
@@ -140,7 +142,7 @@
             <TabItem x:Name="TelemetryData_TabItem"
                      Header="{Binding Localization[TelemetryData_UC]}">
 
-                <Grid>
+                <Grid Margin="0,40,0,0">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -157,7 +159,8 @@
                                Grid.Column="2"
                                Scroll="TelemetryData_ScrollBar_Scroll"
                                SmallChange="1"
-                               LargeChange="5" />
+                               LargeChange="15"
+                               Visibility="Collapsed" />
 
                 </Grid>
 

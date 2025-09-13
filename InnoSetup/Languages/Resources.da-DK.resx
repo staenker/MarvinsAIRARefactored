@@ -121,7 +121,7 @@
     <value>Algoritme</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Program</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>Graf</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Overskrift Data</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Sprog</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>Nulstil</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Session Information</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>Blød låse styrke</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Telemetri data</value>
     <comment>Simulator</comment>
   </data>
@@ -667,7 +667,7 @@
     <value>Støj dæmper</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Program Vindue</value>
     <comment>App</comment>
   </data>
@@ -675,7 +675,7 @@
     <value>UI Størrelse</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Cloud Service</value>
     <comment>App</comment>
   </data>
@@ -1167,5 +1167,14 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Discord Moderators</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Graf</value>
   </data>
 </root>

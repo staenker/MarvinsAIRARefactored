@@ -390,7 +390,8 @@
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Disabled"
                               MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=GroupBox}}"
-                              PreviewMouseWheel="Preview_ScrollViewer_PreviewMouseWheel">
+                              PreviewMouseWheel="Preview_ScrollViewer_PreviewMouseWheel"
+                              Loaded="Preview_ScrollViewer_Loaded">
 
                     <Image x:Name="AlgorithmPreview_Image"
                            Height="301"

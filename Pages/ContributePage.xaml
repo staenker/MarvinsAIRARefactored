@@ -47,8 +47,9 @@
                         </Style>
                     </UniformGrid.Resources>
 
-                    <TextBlock Text="Matthew Brittle" />
                     <TextBlock Text="Alan Le" />
+                    <TextBlock Text="Matthew Brittle" />
+                    <TextBlock Text="Scott @ BoxBoxDesign" />
 
                 </UniformGrid>
 
@@ -199,20 +200,6 @@
                                    Grid.Column="1" />
                     </Grid>
 
-                    <!--Slavik-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="220" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Slavik Mikoyan" />
-                        <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/armenia_fluttering_flag_64.png"
-                               Height="20"
-                               HorizontalAlignment="Right" />
-                        <TextBlock Text="հայերեն"
-                                   Grid.Column="1" />
-                    </Grid>
-
                     <!--Valerio.exe-->
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -269,20 +256,6 @@
                                    Grid.Column="1" />
                     </Grid>
 
-                    <!--Vpolne-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="220" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Stepan Kutyrev" />
-                        <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/russia_fluttering_flag_64.png"
-                               Height="20"
-                               HorizontalAlignment="Right" />
-                        <TextBlock Text="Русский"
-                                   Grid.Column="1" />
-                    </Grid>
-
                     <!--0xBATUDEV-->
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -294,6 +267,34 @@
                                Height="20"
                                HorizontalAlignment="Right" />
                         <TextBlock Text="Türkçe"
+                                   Grid.Column="1" />
+                    </Grid>
+
+                    <!--Slavik-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Slavik Mikoyan" />
+                        <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/armenia_fluttering_flag_64.png"
+                               Height="20"
+                               HorizontalAlignment="Right" />
+                        <TextBlock Text="հայերեն"
+                                   Grid.Column="1" />
+                    </Grid>
+
+                    <!--Vpolne-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Stepan Kutyrev" />
+                        <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/russia_fluttering_flag_64.png"
+                               Height="20"
+                               HorizontalAlignment="Right" />
+                        <TextBlock Text="Русский"
                                    Grid.Column="1" />
                     </Grid>
 

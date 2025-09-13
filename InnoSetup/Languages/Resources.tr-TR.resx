@@ -121,7 +121,7 @@
     <value>Algoritma</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Uygulama</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>Grafik</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Başlık Verileri</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Dil</value>
     <comment>App</comment>
   </data>
@@ -201,7 +201,7 @@
     <value>Sıfırla</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Oturum Bilgileri</value>
     <comment>Simulator</comment>
   </data>
@@ -217,7 +217,7 @@
     <value>Yumuşak Kilitleme Kuvveti</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Telemetri Verisi</value>
     <comment>Simulator</comment>
   </data>
@@ -660,7 +660,7 @@
     <value>Gürültü Sönümleyici</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Uygulama Penceresi</value>
     <comment>App</comment>
   </data>
@@ -668,7 +668,7 @@
     <value>UI Ölçeği</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Bulut Hizmeti</value>
     <comment>App</comment>
   </data>
@@ -1160,7 +1160,7 @@
     <value>Kaplama</value>
     <comment>Speech to text</comment>
   </data>
-  <data name="OverlayWindow" xml:space="preserve">
+  <data name="OverlayWindow_UC" xml:space="preserve">
     <value>Kaplama Penceresi</value>
     <comment>Speech to text</comment>
   </data>
@@ -1200,5 +1200,17 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Discord Moderetörleri</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Grafik</value>
+  </data>
+  <data name="SpeechToText_UC" xml:space="preserve">
+    <value>Konuşmayı Metne Dönüştürme</value>
   </data>
 </root>

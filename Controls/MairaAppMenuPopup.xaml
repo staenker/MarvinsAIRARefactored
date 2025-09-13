@@ -25,13 +25,15 @@
                 <Image Source="/MarvinsAIRARefactored;component/Artwork/Misc/app-menu-logo.png"
                        HorizontalAlignment="Center"
                        Height="96"
-                       Margin="20"/>
+                       Margin="20" />
 
                 <ListBox x:Name="MenuList"
                          ItemsSource="{Binding AppMenuItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
                          SelectedItem="{Binding SelectedAppMenuItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
                          BorderThickness="0"
-                         Background="Transparent">
+                         Background="Transparent"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                     <ListBox.ItemContainerStyle>
 
@@ -139,11 +141,11 @@
                     </ListBox.ItemTemplate>
 
                 </ListBox>
-                
+
             </StackPanel>
-            
+
         </Border>
-        
+
     </Grid>
-    
+
 </UserControl>

@@ -121,7 +121,7 @@
     <value>Ալգորիթմ</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="App" xml:space="preserve">
+  <data name="AppSettings" xml:space="preserve">
     <value>Հավելված</value>
     <comment>Tab item</comment>
   </data>
@@ -149,11 +149,11 @@
     <value>Գրաֆ</value>
     <comment>Tab item</comment>
   </data>
-  <data name="HeaderData" xml:space="preserve">
+  <data name="HeaderData_UC" xml:space="preserve">
     <value>Վերնագրի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="Language_UC" xml:space="preserve">
     <value>Լեզու</value>
     <comment>App</comment>
   </data>
@@ -204,7 +204,7 @@
     <value>Վերագործարկում</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="SessionInformation" xml:space="preserve">
+  <data name="SessionInformation_UC" xml:space="preserve">
     <value>Սեսիայի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
@@ -220,7 +220,7 @@
     <value>Փափուկ Սահմանափակման Ուժ</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="TelemetryData" xml:space="preserve">
+  <data name="TelemetryData_UC" xml:space="preserve">
     <value>Տելեմետրիայի Տվյալներ</value>
     <comment>Simulator</comment>
   </data>
@@ -667,7 +667,7 @@
     <value>Աղմուկի Խլացուցիչ</value>
     <comment>Pedals</comment>
   </data>
-  <data name="AppWindow" xml:space="preserve">
+  <data name="AppWindow_UC" xml:space="preserve">
     <value>Հավելվածի Պատուհան</value>
     <comment>App</comment>
   </data>
@@ -675,7 +675,7 @@
     <value>Միջերեսի Մասշտաբ</value>
     <comment>App</comment>
   </data>
-  <data name="CloudService" xml:space="preserve">
+  <data name="CloudService_UC" xml:space="preserve">
     <value>Ամպային Ծառայություն</value>
     <comment>App</comment>
   </data>
@@ -1171,5 +1171,17 @@
   </data>
   <data name="Moderators" xml:space="preserve">
     <value>Discord մոդերատորներ</value>
+  </data>
+  <data name="AppSettings_UC" xml:space="preserve">
+    <value>Հավելված</value>
+  </data>
+  <data name="Simulator_UC" xml:space="preserve">
+    <value>Սիմուլյատոր</value>
+  </data>
+  <data name="Graph_UC" xml:space="preserve">
+    <value>Գրաֆ</value>
+  </data>
+  <data name="SpeechToText_UC" xml:space="preserve">
+    <value>Խոսքից Տեքստ</value>
   </data>
 </root>

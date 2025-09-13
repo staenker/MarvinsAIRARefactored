@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 using static MarvinsAIRARefactored.Windows.MainWindow;
@@ -10,11 +12,29 @@ namespace MarvinsAIRARefactored.Controls
 {
 	public partial class MairaAppMenuPopup : UserControl
 	{
-		public sealed class AppMenuItem
+		public sealed class AppMenuItem : INotifyPropertyChanged
 		{
 			public AppPage AppPage { get; init; }
 			public UserControl PageUserControl { get; init; } = new UserControl();
-			public string DisplayName { get; set; } = string.Empty;
+			private string _displayName = string.Empty;
+
+			public string DisplayName
+			{
+				get => _displayName;
+
+				set
+				{
+					if ( _displayName != value )
+					{
+						_displayName = value;
+
+						OnPropertyChanged();
+					}
+				}
+			}
+
+			public event PropertyChangedEventHandler? PropertyChanged;
+			private void OnPropertyChanged( [CallerMemberName] string? propertyName = null ) => PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
 		}
 
 		public ObservableCollection<AppMenuItem> AppMenuItems { get; } = [];
@@ -82,7 +102,7 @@ namespace MarvinsAIRARefactored.Controls
 			AppMenuItems.Add( new AppMenuItem
 			{
 				AppPage = AppPage.Application,
-				PageUserControl = _applicationPage
+				PageUserControl = _appSettingsPage
 			} );
 
 #if !ADMINBOXX
@@ -251,7 +271,7 @@ namespace MarvinsAIRARefactored.Controls
 						break;
 
 					case AppPage.Application:
-						menuItem.DisplayName = localization[ "App" ];
+						menuItem.DisplayName = localization[ "AppSettings" ];
 						break;
 
 					case AppPage.Contribute:
@@ -310,7 +330,7 @@ namespace MarvinsAIRARefactored.Controls
 					break;
 
 				case AppPage.Application:
-					SelectedAppPageText = localization[ "App_UC" ];
+					SelectedAppPageText = localization[ "AppSettings_UC" ];
 					break;
 
 				case AppPage.Contribute:

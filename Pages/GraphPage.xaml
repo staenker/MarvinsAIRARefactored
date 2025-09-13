@@ -16,16 +16,14 @@
 
     <StackPanel>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[Graph_UC]}" />
-
         <Grid x:Name="Grid">
 
             <Border x:Name="Border"
-                    Margin="0,10,0,0"
                     BorderThickness="2"
                     BorderBrush="#FFF"
                     Background="#80000000"
-                    CornerRadius="5">
+                    CornerRadius="5"
+                    PreviewMouseLeftButtonDown="Border_PreviewMouseLeftButtonDown">
 
                 <Image x:Name="Image"
                        Height="401"
@@ -36,7 +34,7 @@
             </Border>
 
             <controls:MairaButton Margin="20"
-                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/missing-icon.png"
+                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/solo.png"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Bottom"
                                   Click="Target_MairaButton_Click">
@@ -46,7 +44,7 @@
                     <Style TargetType="controls:MairaButton">
 
                         <Setter Property="Visibility"
-                                Value="Collapsed" />
+                                Value="Hidden" />
 
                         <Style.Triggers>
 
@@ -69,168 +67,63 @@
         <StackPanel x:Name="BottomPanel_StackPanel"
                     Tag="HideWhenGraphIsSoloed">
 
-            <Grid Margin="0,10,0,0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-
-                <controls:MairaComboBox Grid.Column="0"
-                                        x:Name="Statistics_MairaComboBox"
-                                        SelectedValue="{Binding Settings.GraphStatisticsLayerIndex, Mode=TwoWay}" />
-
-                <StackPanel Grid.Column="1">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[Minimum]}"
-                               HorizontalAlignment="Center"
-                               FontSize="10" />
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               x:Name="Minimum_TextBlock"
-                               HorizontalAlignment="Center"
-                               Text="0.00" />
-
-                </StackPanel>
-
-                <StackPanel Grid.Column="2">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[Maximum]}"
-                               HorizontalAlignment="Center"
-                               FontSize="10" />
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               x:Name="Maximum_TextBlock"
-                               HorizontalAlignment="Center"
-                               Text="0.00" />
-
-                </StackPanel>
-
-                <StackPanel Grid.Column="3">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[Average]}"
-                               HorizontalAlignment="Center"
-                               FontSize="10" />
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               x:Name="Average_TextBlock"
-                               HorizontalAlignment="Center"
-                               Text="0.00" />
-
-                </StackPanel>
-
-                <StackPanel Grid.Column="4">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[Variance]}"
-                               HorizontalAlignment="Center"
-                               FontSize="10" />
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               x:Name="Variance_TextBlock"
-                               HorizontalAlignment="Center"
-                               Text="0.00" />
-
-                </StackPanel>
-
-                <StackPanel Grid.Column="5">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[StandardDeviation]}"
-                               HorizontalAlignment="Center"
-                               FontSize="10" />
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               x:Name="StandardDeviation_TextBlock"
-                               HorizontalAlignment="Center"
-                               Text="0.00" />
-
-                </StackPanel>
-
-            </Grid>
-
             <Grid Margin="0,20,0,0">
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="40" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="40" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <controls:MairaSwitch Grid.Column="0"
+                <controls:MairaSwitch Grid.Row="0"
+                                      Grid.Column="0"
                                       IsOn="{Binding Settings.GraphInputTorque, Mode=TwoWay}"
                                       Label="{Binding Localization[InputTorque]}" />
 
-                <controls:MairaSwitch Grid.Column="2"
+                <controls:MairaSwitch Grid.Row="0"
+                                      Grid.Column="2"
                                       IsOn="{Binding Settings.GraphOutputTorque, Mode=TwoWay}"
                                       Label="{Binding Localization[OutputTorque]}" />
 
-            </Grid>
-
-            <Grid Margin="0,10,0,0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <controls:MairaSwitch Grid.Column="0"
+                <controls:MairaSwitch Grid.Row="2"
+                                      Grid.Column="0"
                                       IsOn="{Binding Settings.GraphInputTorque60Hz, Mode=TwoWay}"
                                       Label="{Binding Localization[InputTorque60Hz]}" />
 
-                <controls:MairaSwitch Grid.Column="2"
+                <controls:MairaSwitch Grid.Row="2"
+                                      Grid.Column="2"
                                       IsOn="{Binding Settings.GraphInputLFE, Mode=TwoWay}"
                                       Label="{Binding Localization[InputLFE]}" />
 
-            </Grid>
-
-            <Grid Margin="0,10,0,0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <controls:MairaSwitch Grid.Column="0"
+                <controls:MairaSwitch Grid.Row="4"
+                                      Grid.Column="0"
                                       IsOn="{Binding Settings.GraphClutchPedalHaptics, Mode=TwoWay}"
                                       Label="{Binding Localization[ClutchPedalHaptics]}" />
 
-                <controls:MairaSwitch Grid.Column="2"
+                <controls:MairaSwitch Grid.Row="4"
+                                      Grid.Column="2"
                                       IsOn="{Binding Settings.GraphBrakePedalHaptics, Mode=TwoWay}"
                                       Label="{Binding Localization[BrakePedalHaptics]}" />
 
-                <controls:MairaSwitch Grid.Column="4"
+                <controls:MairaSwitch Grid.Row="4"
+                                      Grid.Column="4"
                                       IsOn="{Binding Settings.GraphThrottlePedalHaptics, Mode=TwoWay}"
                                       Label="{Binding Localization[ThrottlePedalHaptics]}" />
 
-            </Grid>
-
-            <Grid Margin="0,10,0,0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <controls:MairaSwitch Grid.Column="0"
+                <controls:MairaSwitch Grid.Row="6"
+                                      Grid.Column="0"
                                       IsOn="{Binding Settings.GraphTimerJitter, Mode=TwoWay}"
                                       Label="{Binding Localization[TimerJitter]}" />
 

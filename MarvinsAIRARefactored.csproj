@@ -22,6 +22,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
 
   <ItemGroup>
+    <None Remove="Artwork\Buttons\solo.png" />
     <None Remove="Artwork\Flags\armenia_fluttering_flag_64.png" />
     <None Remove="Artwork\Flags\brazil_fluttering_flag_64.png" />
     <None Remove="Artwork\Flags\canada_fluttering_flag_64.png" />
@@ -94,6 +95,7 @@
     <Resource Include="Artwork\Buttons\set.png" />
     <Resource Include="Artwork\Buttons\shift-down.png" />
     <Resource Include="Artwork\Buttons\shift-up.png" />
+    <Resource Include="Artwork\Buttons\solo.png" />
     <Resource Include="Artwork\Buttons\square-default.png" />
     <Resource Include="Artwork\Buttons\square-pressed.png" />
     <Resource Include="Artwork\Buttons\steering-wheel-90-left.png" />

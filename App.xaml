@@ -32,8 +32,8 @@
 
         <!-- TextBlock -->
 
-        <Style x:Key="MairaTextBlockStyle"
-               TargetType="{x:Type TextBlock}">
+        <Style TargetType="{x:Type TextBlock}"
+               x:Key="MairaTextBlockStyle">
 
             <Setter Property="FontFamily"
                     Value="pack://application:,,,/MarvinsAIRARefactored;component/Fonts/#Aptos Narrow" />
@@ -52,8 +52,8 @@
 
         <!-- ToggleButton -->
 
-        <Style x:Key="MairaToggleButtonStyle"
-               TargetType="{x:Type ToggleButton}">
+        <Style TargetType="{x:Type ToggleButton}"
+               x:Key="MairaToggleButtonStyle">
 
             <Setter Property="Background"
                     Value="Transparent" />
@@ -320,6 +320,152 @@
                 </Setter.Value>
 
             </Setter>
+
+        </Style>
+
+        <!-- Thumb -->
+
+        <Style TargetType="{x:Type Thumb}"
+               x:Key="ScrollBarThumbStyle">
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+
+                        <Border x:Name="ThumbBorder"
+                                CornerRadius="6"
+                                Background="#666"
+                                BorderBrush="#444"
+                                BorderThickness="1" />
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="ThumbBorder"
+                                        Property="Background"
+                                        Value="#888" />
+                            </Trigger>
+
+                            <Trigger Property="IsDragging"
+                                     Value="True">
+                                <Setter TargetName="ThumbBorder"
+                                        Property="Background"
+                                        Value="#eee" />
+                                <Setter TargetName="ThumbBorder"
+                                        Property="BorderBrush"
+                                        Value="#666" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- ScrollBar (Vertical) -->
+
+        <ControlTemplate TargetType="{x:Type ScrollBar}"
+                         x:Key="VerticalScrollBarTemplate">
+
+            <Grid Background="Transparent"
+                  Width="{TemplateBinding Width}">
+
+                <Track x:Name="PART_Track"
+                       IsDirectionReversed="True">
+
+                    <Track.DecreaseRepeatButton>
+
+                        <RepeatButton Command="ScrollBar.LineUpCommand"
+                                      Focusable="False"
+                                      Height="0"
+                                      Background="Transparent" />
+
+                    </Track.DecreaseRepeatButton>
+
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumbStyle}" />
+                    </Track.Thumb>
+
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="ScrollBar.LineDownCommand"
+                                      Focusable="False"
+                                      Height="0"
+                                      Background="Transparent" />
+                    </Track.IncreaseRepeatButton>
+
+                </Track>
+
+            </Grid>
+
+        </ControlTemplate>
+
+        <!-- ScrollBar (Horizontal) -->
+
+        <ControlTemplate x:Key="HorizontalScrollBarTemplate"
+                         TargetType="{x:Type ScrollBar}">
+
+            <Grid Background="Transparent"
+                  Height="{TemplateBinding Height}">
+
+                <Track x:Name="PART_Track">
+
+                    <Track.DecreaseRepeatButton>
+
+                        <RepeatButton Command="ScrollBar.LineLeftCommand"
+                                      Focusable="False"
+                                      Width="0"
+                                      Background="Transparent" />
+
+                    </Track.DecreaseRepeatButton>
+
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumbStyle}" />
+                    </Track.Thumb>
+
+                    <Track.IncreaseRepeatButton>
+
+                        <RepeatButton Command="ScrollBar.LineRightCommand"
+                                      Focusable="False"
+                                      Width="0"
+                                      Background="Transparent" />
+
+                    </Track.IncreaseRepeatButton>
+
+                </Track>
+
+            </Grid>
+
+        </ControlTemplate>
+
+        <!-- Scrollbar -->
+
+        <Style TargetType="{x:Type ScrollBar}">
+
+            <Setter Property="Width"
+                    Value="12" />
+            <Setter Property="Template"
+                    Value="{StaticResource VerticalScrollBarTemplate}" />
+
+            <Style.Triggers>
+
+                <Trigger Property="Orientation"
+                         Value="Horizontal">
+                    <Setter Property="Height"
+                            Value="12" />
+                    <Setter Property="Width"
+                            Value="Auto" />
+                    <Setter Property="Template"
+                            Value="{StaticResource HorizontalScrollBarTemplate}" />
+                </Trigger>
+
+            </Style.Triggers>
 
         </Style>
 

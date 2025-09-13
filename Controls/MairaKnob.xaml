@@ -46,26 +46,37 @@
         <Grid Grid.Row="1">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="Curve_Image"
-                   Grid.Column="0"
-                   Width="48"
-                   Height="48"
-                   Visibility="Collapsed" />
-
             <TextBlock x:Name="Value_TextBlock"
                        Style="{StaticResource MairaTextBlockStyle}"
-                       Grid.Column="1"
+                       Grid.Column="0"
                        FontSize="30"
                        Foreground="#ff5b2e"
                        Text="{Binding ValueString, ElementName=Root, FallbackValue='10.0 Nm'}"
                        PreviewMouseRightButtonDown="Value_TextBlock_PreviewMouseRightButtonDown"
                        PreviewMouseRightButtonUp="Value_TextBlock_PreviewMouseRightButtonUp"
                        MouseLeave="Value_TextBlock_MouseLeave" />
+
+            <Grid x:Name="Curve_Grid"
+                  Grid.Column="1"
+                  Margin="0,0,10,4"
+                  Visibility="Collapsed">
+
+                <Image x:Name="Curve_Image"
+                       Width="20"
+                       Height="20"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Margin="7,0" />
+
+                <Border CornerRadius="5"
+                        BorderThickness="2"
+                        BorderBrush="#eee" />
+
+            </Grid>
 
             <Grid Grid.Column="2">
 

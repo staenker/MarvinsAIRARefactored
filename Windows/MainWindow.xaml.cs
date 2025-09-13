@@ -12,6 +12,8 @@ using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
 using TabControl = System.Windows.Controls.TabControl;
 
+using PInvoke;
+using static PInvoke.User32;
 using Simagic;
 
 using MarvinsAIRARefactored.Classes;
@@ -42,19 +44,6 @@ public partial class MainWindow : Window
 
 	private const int UpdateInterval = 6;
 
-	public nint WindowHandle { get; private set; } = 0;
-	public bool SteeringEffectsTabItemIsVisible { get; private set; } = false;
-	public bool GraphTabItemIsVisible { get; private set; } = false;
-	public bool DebugTabItemIsVisible { get; private set; } = false;
-
-	private string? _installerFilePath = null;
-
-	private bool _initialized = false;
-
-	private NotifyIcon? _notifyIcon = null;
-
-	private int _updateCounter = UpdateInterval + 6;
-
 	public static readonly RacingWheelPage _racingWheelPage = new();
 	public static readonly SteeringEffectsPage _steeringEffectsPage = new();
 	public static readonly PedalsPage _pedalsPage = new();
@@ -63,10 +52,20 @@ public partial class MainWindow : Window
 	public static readonly GraphPage _graphPage = new();
 	public static readonly SimulatorPage _simulatorPage = new();
 	public static readonly AdminBoxxPage _adminBoxxPage = new();
-	public static readonly ApplicationPage _applicationPage = new();
+	public static readonly AppSettingsPage _appSettingsPage = new();
 	public static readonly ContributePage _contributePage = new();
 	public static readonly DonatePage _donatePage = new();
 	public static readonly DebugPage _debugPage = new();
+
+	public nint WindowHandle { get; private set; } = 0;
+	public bool SteeringEffectsTabItemIsVisible { get; private set; } = false;
+	public bool GraphTabItemIsVisible { get; private set; } = false;
+	public bool DebugTabItemIsVisible { get; private set; } = false;
+
+	private string? _installerFilePath = null;
+	private bool _initialized = false;
+	private NotifyIcon? _notifyIcon = null;
+	private int _updateCounter = UpdateInterval + 6;
 
 	public MainWindow()
 	{
@@ -80,7 +79,7 @@ public partial class MainWindow : Window
 
 		app.Logger.WriteLine( $"[MainWindow] Version is {version}" );
 
-		Components.Localization.SetLanguageComboBoxItemsSource( _applicationPage.Language_MairaComboBox );
+		Components.Localization.SetLanguageComboBoxItemsSource( _appSettingsPage.Language_MairaComboBox );
 
 #if ADMINBOXX
 
@@ -177,8 +176,6 @@ public partial class MainWindow : Window
 			app.LFE.SetMairaComboBoxItemsSource( _racingWheelPage.LFERecordingDevice_MairaComboBox );
 
 			app.RecordingManager.SetMairaComboBoxItemsSource( _racingWheelPage.PreviewRecordings_MairaComboBox );
-
-			Graph.SetMairaComboBoxItemsSource( _graphPage.Statistics_MairaComboBox );
 
 			RacingWheel.SetMairaComboBoxItemsSource( _racingWheelPage.Algorithm_MairaComboBox );
 
@@ -385,7 +382,7 @@ public partial class MainWindow : Window
 		{
 			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
-			Misc.ApplyToTaggedElements( MainGrid, "Complex", element => element.Visibility = settings.RacingWheelSimpleModeEnabled ? Visibility.Collapsed : Visibility.Visible );
+			Misc.ApplyToTaggedElements( Root_Grid, "Complex", element => element.Visibility = settings.RacingWheelSimpleModeEnabled ? Visibility.Collapsed : Visibility.Visible );
 		} );
 	}
 
@@ -592,14 +589,6 @@ public partial class MainWindow : Window
 			};
 
 			Process.Start( processStartInfo );
-		}
-	}
-
-	private void TabControl_SelectionChanged( object sender, SelectionChangedEventArgs e )
-	{
-		if ( e.Source is TabControl )
-		{
-			UpdateTabItemIsVisible();
 		}
 	}
 

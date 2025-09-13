@@ -64,5 +64,13 @@ public partial class RacingWheelPage : UserControl
 		parent?.RaiseEvent( eventArg );
 	}
 
+	private void Preview_ScrollViewer_Loaded( object sender, RoutedEventArgs e )
+	{
+		var scrollViewer = (ScrollViewer) sender;
+		var half = scrollViewer.ScrollableWidth / 2;
+
+		scrollViewer.ScrollToHorizontalOffset( half );
+	}
+
 	#endregion
 }

@@ -5,9 +5,9 @@ using UserControl = System.Windows.Controls.UserControl;
 
 namespace MarvinsAIRARefactored.Pages;
 
-public partial class ApplicationPage : UserControl
+public partial class AppSettingsPage : UserControl
 {
-	public ApplicationPage()
+	public AppSettingsPage()
 	{
 		InitializeComponent();
 	}
