@@ -133,10 +133,6 @@
     <value>Verteilung der Detail-Verstärkung </value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Debug" xml:space="preserve">
-    <value>Fehlersuche (Debug)</value>
-    <comment>Tab item</comment>
-  </data>
   <data name="DetailBoost" xml:space="preserve">
     <value>Detail-Verstärkung</value>
     <comment>Racing wheel</comment>
@@ -305,14 +301,6 @@
     <value>Kompressionsrate</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Device" xml:space="preserve">
-    <value>Ausgabe-Gerät</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="OverallStrength" xml:space="preserve">
-    <value>Gesamtkraft</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="AutoMargin" xml:space="preserve">
     <value>Spielraum bei Autoeinstellung</value>
     <comment>Racing wheel</comment>
@@ -327,22 +315,6 @@
   </data>
   <data name="PeakForce" xml:space="preserve">
     <value>Maximale Kraft</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="AutoForce" xml:space="preserve">
-    <value>Automatische Kraft</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="OtherFeatures" xml:space="preserve">
-    <value>Weitere Funktionen</value>
-    <comment>Racing wheel, Pedals</comment>
-  </data>
-  <data name="Switches" xml:space="preserve">
-    <value>Weitere Einstellungen</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="CrashProtection" xml:space="preserve">
-    <value>Kollisionsschutz</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="GForceUnits" xml:space="preserve">
@@ -369,17 +341,9 @@
     <value> m/s</value>
     <comment>Abbreviation for meters per second</comment>
   </data>
-  <data name="CurbProtection" xml:space="preserve">
-    <value>Schutz bei Randsteinen</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="ShockVelocity" xml:space="preserve">
     <value>Dämpfergeschwindigkeit</value>
     <comment>Racing wheel</comment>
-  </data>
-  <data name="Pedals" xml:space="preserve">
-    <value>Pedale</value>
-    <comment>Tab item</comment>
   </data>
   <data name="PedalsP1000" xml:space="preserve">
     <value>Simagic P1000 Pedale</value>
@@ -392,18 +356,6 @@
   <data name="PedalsNone" xml:space="preserve">
     <value>[Keine kompatiblen Simagic Pedale gefunden]</value>
     <comment>Pedals device</comment>
-  </data>
-  <data name="Clutch" xml:space="preserve">
-    <value>Kupplung</value>
-    <comment>Pedals</comment>
-  </data>
-  <data name="Brake" xml:space="preserve">
-    <value>Bremse</value>
-    <comment>Pedals</comment>
-  </data>
-  <data name="Throttle" xml:space="preserve">
-    <value>Gaspedal</value>
-    <comment>Pedals</comment>
   </data>
   <data name="PedalEffects" xml:space="preserve">
     <value>Pedal Effekte</value>
@@ -448,14 +400,6 @@
   <data name="SteeringEffects" xml:space="preserve">
     <value>Lenkeffekte</value>
     <comment>Tab item, Pedal effects list</comment>
-  </data>
-  <data name="WheelLock" xml:space="preserve">
-    <value>Lenkeinschlag</value>
-    <comment>Pedal effects list</comment>
-  </data>
-  <data name="WheelSpin" xml:space="preserve">
-    <value>Reifenschlupf</value>
-    <comment>Pedal effects list</comment>
   </data>
   <data name="RPM" xml:space="preserve">
     <value>Drehzahl</value>
@@ -557,14 +501,6 @@
     <value>Delta-Begrenzer-Verteilung</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Output" xml:space="preserve">
-    <value>Ausgabe</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="WheelLFE" xml:space="preserve">
-    <value>Lenkrad LFE</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="LFERecordingDevice" xml:space="preserve">
     <value>LFE Aufnahmegerät</value>
     <comment>Racing wheel</comment>
@@ -637,14 +573,6 @@
     <value>Endpunkt</value>
     <comment>Pedals</comment>
   </data>
-  <data name="GearChangeShiftIntoGear" xml:space="preserve">
-    <value>Gangwechsel - Gang einlegen</value>
-    <comment>Pedals</comment>
-  </data>
-  <data name="GearChangeShiftIntoNeutral" xml:space="preserve">
-    <value>Gangwechsel - In Leerlauf schalten</value>
-    <comment>Pedals</comment>
-  </data>
   <data name="AlwaysEnableFFB" xml:space="preserve">
     <value>Aktiviere FFB auch wenn iRacing FFB aktiviert ist</value>
     <comment>Racing wheel</comment>
@@ -702,18 +630,6 @@
 Die Nutzung von MAIRA wird immer kostenlos sein. Ich werde niemals Gebühren dafür erheben.
 Dennoch: Spenden geben mir ein gutes Gefühl und motivieren mich ungemein, MAIRA immer weiter zu verbessern. Ein riesiges Dankeschön an alle, die bereits gespendet haben!
 Hier ist der Link zum Spenden:</value>
-    <comment>Contribute</comment>
-  </data>
-  <data name="Donations" xml:space="preserve">
-    <value>Spenden</value>
-    <comment>Contribute</comment>
-  </data>
-  <data name="Donors" xml:space="preserve">
-    <value>Spender</value>
-    <comment>Contribute</comment>
-  </data>
-  <data name="SuperDonors" xml:space="preserve">
-    <value>Super-Spender</value>
     <comment>Contribute</comment>
   </data>
   <data name="Donate" xml:space="preserve">
@@ -796,10 +712,6 @@ Hier ist der Link zum Spenden:</value>
     <value>Übernehmen</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="Preview" xml:space="preserve">
-    <value>Vorschau</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="NoRecordingsFound" xml:space="preserve">
     <value>[Keine Aufzeichnung gefunden]</value>
     <comment>Racing wheel</comment>
@@ -868,7 +780,7 @@ Hier ist der Link zum Spenden:</value>
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Gesamtlautstärke</value>
     <comment>Sounds</comment>
   </data>
@@ -878,10 +790,6 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="CurbProtectionActivated" xml:space="preserve">
     <value>Randstein-Schutz wurde aktiviert!</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="PrivateMessages" xml:space="preserve">
-    <value>Private Nachrichten</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurbProtectionMessagesEnabled" xml:space="preserve">
@@ -964,20 +872,12 @@ Hier ist der Link zum Spenden:</value>
     <value>Grip-O-Meter Fenster verschiebbar machen</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeter" xml:space="preserve">
-    <value>Grip-O-Meter</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="GripOMeterScale" xml:space="preserve">
     <value>Grip-O-Meter Skalierung </value>
     <comment>Steering effects</comment>
   </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Grip-O-Meter Fensterposition zurücksetzen</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerWheelVibrationEffect" xml:space="preserve">
-    <value>Untersteuern – Lenkradvibrations-Effekt</value>
     <comment>Steering effects</comment>
   </data>
   <data name="Progress:" xml:space="preserve">
@@ -987,10 +887,6 @@ Hier ist der Link zum Spenden:</value>
   <data name="CalibrationFileNotSelected" xml:space="preserve">
     <value>[Kalibrierungsdatei nicht ausgewählt]</value>
     <comment>Steering effects</comment>
-  </data>
-  <data name="ParkedEffects" xml:space="preserve">
-    <value>Effekte bei stehendem Fahrzeug</value>
-    <comment>Racing wheel</comment>
   </data>
   <data name="ForceFeedbackStrength" xml:space="preserve">
     <value>Force Feedback Stärke</value>
@@ -1018,14 +914,6 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
     <value>Aktuelles Setup:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Aktuelle Reifenmischung:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="UndersteerPedalVibrationEffect" xml:space="preserve">
-    <value>Untersteuern – Pedalvibrations-Effekt</value>
     <comment>Steering effects</comment>
   </data>
   <data name="ErrorTitle" xml:space="preserve">
@@ -1060,18 +948,6 @@ Hier ist der Link zum Spenden:</value>
     <value>°/s</value>
     <comment>Abbreviation for degrees per second</comment>
   </data>
-  <data name="CalibrationFile" xml:space="preserve">
-    <value>Kalibrierungsdatei</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Understeer" xml:space="preserve">
-    <value>Untersteuern</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Oversteer" xml:space="preserve">
-    <value>Übersteuern</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="MinimumThreshold" xml:space="preserve">
     <value>Minimaler Schwellenwert</value>
     <comment>Steering effects</comment>
@@ -1086,10 +962,6 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="MaximumFrequency" xml:space="preserve">
     <value>Maximale Frequenz</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="Calibration" xml:space="preserve">
-    <value>Kalibrierung</value>
     <comment>Steering effects</comment>
   </data>
   <data name="VibrationPattern" xml:space="preserve">
@@ -1124,24 +996,8 @@ Hier ist der Link zum Spenden:</value>
     <value>Kraft erhöhen</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="UndersteerWheelConstantForceEffect" xml:space="preserve">
-    <value>Untersteuern – konstante Lenkradkraft</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="Direction" xml:space="preserve">
     <value>Richtung</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="OversteerWheelVibrationEffect" xml:space="preserve">
-    <value>Übersteuern – Lenkradvibrations-Effekt</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="OversteerWheelConstantForceEffect" xml:space="preserve">
-    <value>Übersteuern – konstanter Lenkradkraft-Effekt</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="OversteerPedalVibrationEffect" xml:space="preserve">
-    <value>Übersteuern – Pedalvibrations-Effekt</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerEffect" xml:space="preserve">
@@ -1154,10 +1010,6 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="ConfigurationFileIsInvalid" xml:space="preserve">
     <value>Konfigurationsdatei ist ungültig!</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CalibrationGraph" xml:space="preserve">
-    <value>Kalibrierungsdiagramm</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SpeechToText" xml:space="preserve">
@@ -1215,5 +1067,146 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="SpeechToText_UC" xml:space="preserve">
     <value>Sprache zu Text</value>
+  </data>
+  <data name="ABSEngaged_UC" xml:space="preserve">
+    <value>ABS Aktiv</value>
+  </data>
+  <data name="Algorithm_UC" xml:space="preserve">
+    <value>Algorithmus</value>
+  </data>
+  <data name="Amplitude_UC" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="AutoMaxForce" xml:space="preserve">
+    <value>Automatische Kraft</value>
+  </data>
+  <data name="Brake_UC" xml:space="preserve">
+    <value>Bremse</value>
+  </data>
+  <data name="Calibration_UC" xml:space="preserve">
+    <value>Kalibrierung</value>
+  </data>
+  <data name="CalibrationFile_UC" xml:space="preserve">
+    <value>Kalibrierungsdatei</value>
+  </data>
+  <data name="Clutch_UC" xml:space="preserve">
+    <value>Kupplung</value>
+  </data>
+  <data name="ClutchSlip_UC" xml:space="preserve">
+    <value>Kupplungsschlupf</value>
+  </data>
+  <data name="CrashProtection_UC" xml:space="preserve">
+    <value>Kollisionsschutz</value>
+  </data>
+  <data name="CurbProtection_UC" xml:space="preserve">
+    <value>Schutz bei Randsteinen</value>
+  </data>
+  <data name="Device_UC" xml:space="preserve">
+    <value>Ausgabe-Gerät</value>
+  </data>
+  <data name="Donate_UC" xml:space="preserve">
+    <value>Spenden</value>
+  </data>
+  <data name="Donors_UC" xml:space="preserve">
+    <value>Spender</value>
+  </data>
+  <data name="Frequency_UC" xml:space="preserve">
+    <value>Frequenz</value>
+  </data>
+  <data name="GearChangeShiftIntoGear_UC" xml:space="preserve">
+    <value>Gangwechsel - Gang einlegen</value>
+  </data>
+  <data name="GearChangeShiftIntoNeutral_UC" xml:space="preserve">
+    <value>Gangwechsel - In Leerlauf schalten</value>
+  </data>
+  <data name="GripOMeter_UC" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+  </data>
+  <data name="OtherFeatures_UC" xml:space="preserve">
+    <value>Weitere Funktionen</value>
+  </data>
+  <data name="Output_UC" xml:space="preserve">
+    <value>Ausgabe</value>
+  </data>
+  <data name="OverallStrength_UC" xml:space="preserve">
+    <value>Gesamtkraft</value>
+  </data>
+  <data name="Oversteer_UC" xml:space="preserve">
+    <value>Übersteuern</value>
+  </data>
+  <data name="OversteerPedalVibrationEffect_UC" xml:space="preserve">
+    <value>Übersteuern – Pedalvibrations-Effekt</value>
+  </data>
+  <data name="OversteerWheelConstantForceEffect_UC" xml:space="preserve">
+    <value>Übersteuern – konstanter Lenkradkraft-Effekt</value>
+  </data>
+  <data name="OversteerWheelVibrationEffect_UC" xml:space="preserve">
+    <value>Übersteuern – Lenkradvibrations-Effekt</value>
+  </data>
+  <data name="ParkedEffects_UC" xml:space="preserve">
+    <value>Effekte bei stehendem Fahrzeug</value>
+  </data>
+  <data name="Pedals_UC" xml:space="preserve">
+    <value>Pedale</value>
+  </data>
+  <data name="Preview_UC" xml:space="preserve">
+    <value>Vorschau</value>
+  </data>
+  <data name="PrivateMessages_UC" xml:space="preserve">
+    <value>Private Nachrichten</value>
+  </data>
+  <data name="RacingWheel_UC" xml:space="preserve">
+    <value>Lenkrad</value>
+  </data>
+  <data name="RPM_UC" xml:space="preserve">
+    <value>Drehzahl</value>
+  </data>
+  <data name="Sounds_UC" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="SteeringEffects_UC" xml:space="preserve">
+    <value>Lenkeffekte</value>
+  </data>
+  <data name="SuperDonors_UC" xml:space="preserve">
+    <value>Super-Spender</value>
+  </data>
+  <data name="Switches_UC" xml:space="preserve">
+    <value>Weitere Einstellungen</value>
+  </data>
+  <data name="Throttle_UC" xml:space="preserve">
+    <value>Gaspedal</value>
+  </data>
+  <data name="Understeer_UC" xml:space="preserve">
+    <value>Untersteuern</value>
+  </data>
+  <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
+    <value>Untersteuern – Pedalvibrations-Effekt</value>
+  </data>
+  <data name="UndersteerWheelConstantForceEffect_UC" xml:space="preserve">
+    <value>Untersteuern – konstante Lenkradkraft</value>
+  </data>
+  <data name="UndersteerWheelVibrationEffect_UC" xml:space="preserve">
+    <value>Untersteuern – Lenkradvibrations-Effekt</value>
+  </data>
+  <data name="WheelLFE_UC" xml:space="preserve">
+    <value>Lenkrad LFE</value>
+  </data>
+  <data name="WheelLock_UC" xml:space="preserve">
+    <value>Lenkeinschlag</value>
+  </data>
+  <data name="WheelSpin_UC" xml:space="preserve">
+    <value>Reifenschlupf</value>
+  </data>
+  <data name="CalibrationGraph_UC" xml:space="preserve">
+    <value>Kalibrierungsdiagramm</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedale</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Reifenschlupf</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Lenkeinschlag</value>
   </data>
 </root>

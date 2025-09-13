@@ -865,7 +865,7 @@
     <value>°</value>
     <comment>Efekty Kierownicy</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Główny</value>
     <comment>Dźwięki</comment>
   </data>
@@ -910,5 +910,32 @@
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>Wykres</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS Włączony</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplituda</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Poślizg Sprzęgła</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Częstotliwość</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>Obr./Min</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Dźwięki</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedały</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Poślizg kół</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Zblokowane Koła</value>
   </data>
 </root>

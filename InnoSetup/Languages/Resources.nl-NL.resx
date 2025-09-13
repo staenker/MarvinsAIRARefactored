@@ -639,4 +639,28 @@
   <data name="Graph_UC" xml:space="preserve">
     <value>Grafiek</value>
   </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>Bij ingrijpen ABS</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Slippende koppeling</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequentie</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>Toerental</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedalen</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Spinnen van de banden</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Blokkeren van een wiel</value>
+  </data>
 </root>

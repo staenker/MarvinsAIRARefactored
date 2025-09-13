@@ -14,35 +14,9 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-
-  <ItemGroup>
-    <None Remove="Artwork\Buttons\solo.png" />
-    <None Remove="Artwork\Flags\armenia_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\brazil_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\canada_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\china_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\czech_republic_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\denmark_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\france_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\germany_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\italy_fluttering_flag_64 %281%29.png" />
-    <None Remove="Artwork\Flags\italy_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\netherlands_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\poland_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\russia_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\spain_fluttering_flag_64.png" />
-    <None Remove="Artwork\Flags\turkey_fluttering_flag_64.png" />
-    <None Remove="Artwork\Misc\buy-me-a-coffee-logo.png" />
-    <None Remove="Artwork\Misc\discord-logo.png" />
-    <None Remove="Artwork\Misc\github-logo.png" />
-    <None Remove="Fonts\Aptos-Narrow-Italic.ttf" />
-  </ItemGroup>
 
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -129,6 +103,7 @@
     <Resource Include="Fonts\Aptos-Narrow-Italic.ttf" />
     <Resource Include="Fonts\Aptos-Narrow.ttf" />
     <Resource Include="Artwork\Misc\simagic-logo.png" />
+    <Resource Include="InnoSetup\STT\app-menu-logo.png" />
     <Resource Include="InnoSetup\STT\favicon.ico" />
   </ItemGroup>
 

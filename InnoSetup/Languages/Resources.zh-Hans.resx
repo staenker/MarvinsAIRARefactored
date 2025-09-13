@@ -867,7 +867,7 @@
     <value>°</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>主要</value>
     <comment>Sounds</comment>
   </data>
@@ -1023,10 +1023,6 @@
     <value>当前车辆设置:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>当前轮胎配方:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
     <value>转向不足时踏板震动效果</value>
     <comment>Steering effects</comment>
@@ -1076,5 +1072,32 @@
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>图标</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS介入</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>振幅</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>离合器打滑</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>频率</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>转速</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>声音</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>踏板</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>车轮打滑</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>车轮锁死</value>
   </data>
 </root>

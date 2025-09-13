@@ -867,7 +867,7 @@
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Գլխավոր</value>
     <comment>Sounds</comment>
   </data>
@@ -1017,10 +1017,6 @@
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
     <value>Ընթացիկ Մեքենայի Կարգավորում:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Ընթացիկ Անվադողի Խառնուրդ:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
@@ -1183,5 +1179,32 @@
   </data>
   <data name="SpeechToText_UC" xml:space="preserve">
     <value>Խոսքից Տեքստ</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS-ը միացված է</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Ամպլիտուդ</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Կցիչի սահք</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Հաճախականություն</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Ձայներ</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Ոտնակներ</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Անիվների սահք</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Անիվների արգելափակում</value>
   </data>
 </root>

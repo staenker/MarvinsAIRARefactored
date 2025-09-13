@@ -20,20 +20,25 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
-            <StackPanel>
+            <Grid>
 
-                <Image Source="/MarvinsAIRARefactored;component/Artwork/Misc/app-menu-logo.png"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0"
+                       Source="/MarvinsAIRARefactored;component/Artwork/Misc/app-menu-logo.png"
                        HorizontalAlignment="Center"
                        Height="96"
                        Margin="20" />
 
                 <ListBox x:Name="MenuList"
+                         Grid.Row="1"
                          ItemsSource="{Binding AppMenuItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
                          SelectedItem="{Binding SelectedAppMenuItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
                          BorderThickness="0"
-                         Background="Transparent"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                         Background="Transparent">
 
                     <ListBox.ItemContainerStyle>
 
@@ -142,7 +147,7 @@
 
                 </ListBox>
 
-            </StackPanel>
+            </Grid>
 
         </Border>
 

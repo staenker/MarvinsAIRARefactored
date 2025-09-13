@@ -123,7 +123,7 @@
   </data>
   <data name="AppSettings" xml:space="preserve">
     <value>App Settings</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Marvin's Awesome iRacing App</value>
@@ -147,7 +147,7 @@
   </data>
   <data name="Graph" xml:space="preserve">
     <value>Graph</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="HeaderData_UC" xml:space="preserve">
     <value>HEADER DATA</value>
@@ -191,11 +191,11 @@
   </data>
   <data name="RacingWheel" xml:space="preserve">
     <value>Racing Wheel</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="RacingWheel_UC" xml:space="preserve">
     <value>RACING WHEEL</value>
-    <comment>Tab item</comment>
+    <comment>Racing wheel</comment>
   </data>
   <data name="SteeringDevice" xml:space="preserve">
     <value>Steering Device</value>
@@ -211,7 +211,7 @@
   </data>
   <data name="Simulator" xml:space="preserve">
     <value>Simulator</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="SimulatorNotRunning" xml:space="preserve">
     <value>The iRacing simulator is not running</value>
@@ -247,7 +247,7 @@
   </data>
   <data name="AdminBoxx" xml:space="preserve">
     <value>AdminBoxx</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="ConnectToAdminBoxx" xml:space="preserve">
     <value>Connect to AdminBoxx</value>
@@ -379,7 +379,7 @@
   </data>
   <data name="Pedals_UC" xml:space="preserve">
     <value>PEDALS</value>
-    <comment>Tab item</comment>
+    <comment>Pedals</comment>
   </data>
   <data name="PedalsP1000" xml:space="preserve">
     <value>Simagic P1000 Pedals</value>
@@ -443,27 +443,27 @@
   </data>
   <data name="ClutchSlip_UC" xml:space="preserve">
     <value>CLUTCH SLIP</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedals</comment>
   </data>
   <data name="SteeringEffects_UC" xml:space="preserve">
     <value>STEERING EFFECTS</value>
-    <comment>Tab item, Pedal effects list</comment>
+    <comment>Steering effects</comment>
   </data>
   <data name="SteeringEffects" xml:space="preserve">
     <value>Steering Effects</value>
-    <comment>Tab item, Pedal effects list</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="WheelLock_UC" xml:space="preserve">
     <value>WHEEL LOCK</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedals</comment>
   </data>
   <data name="WheelSpin_UC" xml:space="preserve">
     <value>WHEEL SPIN</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedals</comment>
   </data>
   <data name="RPM_UC" xml:space="preserve">
     <value>RPM</value>
-    <comment>Pedal effects list</comment>
+    <comment>Pedals</comment>
   </data>
   <data name="None" xml:space="preserve">
     <value>None</value>
@@ -607,7 +607,7 @@
   </data>
   <data name="ABSEngaged_UC" xml:space="preserve">
     <value>ABS ENGAGED</value>
-    <comment>Pedal effects list, Sounds</comment>
+    <comment>Sounds</comment>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value>[Disabled]</value>
@@ -695,7 +695,7 @@
   </data>
   <data name="Contribute_UC" xml:space="preserve">
     <value>CONTRIBUTE</value>
-    <comment>Tab item</comment>
+    <comment>Contribute</comment>
   </data>
   <data name="BuyMeACoffee" xml:space="preserve">
     <value>Buy Me a Coffee</value>
@@ -719,7 +719,7 @@
   </data>
   <data name="Donate" xml:space="preserve">
     <value>Donate</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="CodeContributions_UC" xml:space="preserve">
     <value>CODE CONTRIBUTIONS</value>
@@ -843,7 +843,7 @@
   </data>
   <data name="Sounds_UC" xml:space="preserve">
     <value>SOUNDS</value>
-    <comment>Tab item</comment>
+    <comment>Sounds</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
     <value>Enabled</value>
@@ -869,8 +869,8 @@
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
-    <value>Master</value>
+  <data name="Master_UC" xml:space="preserve">
+    <value>MASTER</value>
     <comment>Sounds</comment>
   </data>
   <data name="CrashProtectionActivated" xml:space="preserve">
@@ -1021,10 +1021,6 @@
     <value>Current Car Setup:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Current Tire Compound:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
     <value>UNDERSTEER PEDAL VIBRATION EFFECT</value>
     <comment>Steering effects</comment>
@@ -1163,7 +1159,7 @@
   </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Speech to Text</value>
-    <comment>Tab item</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="Overlay" xml:space="preserve">
     <value>Overlay</value>
@@ -1215,7 +1211,7 @@
   </data>
   <data name="Contribute" xml:space="preserve">
     <value>Contribute</value>
-    <comment>Contribute</comment>
+    <comment>App menu item</comment>
   </data>
   <data name="CalibrationFileContributions_UC" xml:space="preserve">
     <value>CALIBRATION FILE CONTRIBUTIONS</value>
@@ -1244,5 +1240,41 @@
   <data name="Changelog" xml:space="preserve">
     <value>Changelog</value>
     <comment>Cloud service</comment>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS Engaged</value>
+    <comment>Pedal effects list</comment>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+    <comment>Pedals</comment>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Clutch Slip</value>
+    <comment>Pedal effects list</comment>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequency</value>
+    <comment>Pedals</comment>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+    <comment>Pedal effect list</comment>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sounds</value>
+    <comment>App menu item</comment>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedals</value>
+    <comment>App menu item</comment>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Wheel Lock</value>
+    <comment>Pedal effects list</comment>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Wheel Spin</value>
+    <comment>Pedal effects list</comment>
   </data>
 </root>

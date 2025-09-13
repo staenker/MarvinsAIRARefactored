@@ -301,10 +301,6 @@
     <value>Taxa de Compressão</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="OverallStrength" xml:space="preserve">
-    <value>Intensidade Geral</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="AutoMargin" xml:space="preserve">
     <value>Margem Automática</value>
     <comment>Racing wheel</comment>
@@ -319,10 +315,6 @@
   </data>
   <data name="PeakForce" xml:space="preserve">
     <value>Intensidade de Pico</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="AutoForce" xml:space="preserve">
-    <value>Intensidade Automática</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="OtherFeatures_UC" xml:space="preserve">
@@ -860,7 +852,7 @@
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Master</value>
     <comment>Sounds</comment>
   </data>
@@ -1010,10 +1002,6 @@
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
     <value>Setup Atual:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Composto de Pneu Atual:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
@@ -1212,5 +1200,44 @@
   </data>
   <data name="SpeechToText_UC" xml:space="preserve">
     <value>Reconhecimento de Voz</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS Ativado</value>
+  </data>
+  <data name="Algorithm_UC" xml:space="preserve">
+    <value>Algoritmo</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="AutoMaxForce" xml:space="preserve">
+    <value>Intensidade Automática</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Ponto da Embreagem</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequência</value>
+  </data>
+  <data name="OverallStrength_UC" xml:space="preserve">
+    <value>Intensidade Geral</value>
+  </data>
+  <data name="RacingWheel_UC" xml:space="preserve">
+    <value>Volante</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sons</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedais</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Patinagem das Rodas</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Batente Virtual</value>
   </data>
 </root>

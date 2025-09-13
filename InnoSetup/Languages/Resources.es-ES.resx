@@ -881,4 +881,31 @@
   <data name="Graph_UC" xml:space="preserve">
     <value>Gráfico</value>
   </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS Activado</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitud</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Deslizamiento del Embrague</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frecuencia</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sonidos</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedales</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Patinaje de Ruedas</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Bloqueo de Ruedas</value>
+  </data>
 </root>

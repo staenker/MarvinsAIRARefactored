@@ -782,4 +782,28 @@
   <data name="Graph_UC" xml:space="preserve">
     <value>Graphique</value>
   </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS Activé</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Point de friction</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Fréquence</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pédales</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Patinage</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Blocage des roues</value>
+  </data>
 </root>

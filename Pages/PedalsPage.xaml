@@ -29,7 +29,8 @@
             </Grid.ColumnDefinitions>
 
             <controls:MairaSwitch Grid.Column="0"
-                                  IsOn="{Binding Settings.PedalsEnabled, Mode=TwoWay}" />
+                                  IsOn="{Binding Settings.PedalsEnabled, Mode=TwoWay}"
+                                  VerticalAlignment="Center" />
 
             <TextBlock x:Name="Device_Label"
                        Grid.Column="2"
@@ -40,7 +41,8 @@
 
             <Image Grid.Column="4"
                    Source="/MarvinsAIRARefactored;component/Artwork/Misc/simagic-logo.png"
-                   Height="32" />
+                   Height="32"
+                   VerticalAlignment="Center" />
 
         </Grid>
 

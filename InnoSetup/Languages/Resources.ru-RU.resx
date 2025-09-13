@@ -867,7 +867,7 @@
     <value>°</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Общая громкость</value>
     <comment>Sounds</comment>
   </data>
@@ -1023,10 +1023,6 @@
     <value>Текущие настройки автомобиля:</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Текущий состав резины:</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
     <value>Эффект андерстира педали</value>
     <comment>Steering effects</comment>
@@ -1076,5 +1072,32 @@
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>График</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>Работа АБС </value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Амплитуда</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Пробуксовка сцепления (clutch slip)</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Частота</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>Обороты (RPM)</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Звуки</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Педали</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Пробуксовка колёс</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Блокировка колёс</value>
   </data>
 </root>

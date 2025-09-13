@@ -867,7 +867,7 @@
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value></value>
     <comment>Sounds</comment>
   </data>
@@ -1019,10 +1019,6 @@
     <value>Aktuální setup vozu</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Aktuální směs pneumatik</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
     <value>Vibrace pedálu při nedotáčivosti</value>
     <comment>Steering effects</comment>
@@ -1168,5 +1164,32 @@
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>Graf FFB</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS aktivováno</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Prokluz spojky</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frekvence</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>Otáčky motoru</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Zvuky</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedály</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Prokluz kola</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Zablokování kola</value>
   </data>
 </root>

@@ -867,7 +867,7 @@
     <value>°</value>
     <comment>Abbreviation for degrees</comment>
   </data>
-  <data name="Master" xml:space="preserve">
+  <data name="Master_UC" xml:space="preserve">
     <value>Master</value>
     <comment>Sounds</comment>
   </data>
@@ -1017,10 +1017,6 @@
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
     <value>Nuværende Setup:</value>
-    <comment>Steering effects</comment>
-  </data>
-  <data name="CurrentTireCompound" xml:space="preserve">
-    <value>Nuværende Dæk Type:</value>
     <comment>Steering effects</comment>
   </data>
   <data name="UndersteerPedalVibrationEffect_UC" xml:space="preserve">
@@ -1176,5 +1172,32 @@
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>Graf</value>
+  </data>
+  <data name="ABSEngaged" xml:space="preserve">
+    <value>ABS aktiveret</value>
+  </data>
+  <data name="Amplitude" xml:space="preserve">
+    <value>Amplitude</value>
+  </data>
+  <data name="ClutchSlip" xml:space="preserve">
+    <value>Kobling Slip</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frekvens</value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>RPM</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Lyde</value>
+  </data>
+  <data name="Pedals" xml:space="preserve">
+    <value>Pedaler</value>
+  </data>
+  <data name="WheelSpin" xml:space="preserve">
+    <value>Hjulspin</value>
+  </data>
+  <data name="WheelLock" xml:space="preserve">
+    <value>Hjul lås</value>
   </data>
 </root>
