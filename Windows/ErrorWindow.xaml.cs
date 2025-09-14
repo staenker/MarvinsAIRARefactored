@@ -22,14 +22,9 @@ public partial class ErrorWindow : Window
 
 	public static void ShowModal( string message, Exception? exception = null )
 	{
-		var app = App.Instance!;
+		var dialog = new ErrorWindow( message, exception );
 
-		app.Dispatcher.Invoke( () =>
-		{
-			var dialog = new ErrorWindow( message, exception );
-
-			dialog.ShowDialog();
-		} );
+		dialog.ShowDialog();
 	}
 
 	private void CopyDetails_MairaButton_Click( object sender, RoutedEventArgs e )
