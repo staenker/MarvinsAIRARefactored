@@ -20,8 +20,8 @@
 
             <Border x:Name="Border"
                     BorderThickness="2"
-                    BorderBrush="#FFF"
-                    Background="#80000000"
+                    BorderBrush="#666"
+                    Background="#222"
                     CornerRadius="5"
                     PreviewMouseLeftButtonDown="Border_PreviewMouseLeftButtonDown">
 

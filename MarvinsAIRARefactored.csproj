@@ -18,6 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <ItemGroup>
+    <None Remove="Artwork\Buttons\copy.png" />
     <None Remove="Artwork\Buttons\plus-large.png" />
     <None Remove="Artwork\Buttons\record-orange.png" />
     <None Remove="Artwork\Buttons\record-white.png" />
@@ -44,6 +45,7 @@
     <Resource Include="Artwork\Buttons\combo-box-checked.png" />
     <Resource Include="Artwork\Buttons\combo-box-default.png" />
     <Resource Include="Artwork\Buttons\combo-box-hover.png" />
+    <Resource Include="Artwork\Buttons\copy.png" />
     <Resource Include="Artwork\Buttons\drag.png" />
     <Resource Include="Artwork\Buttons\knob-middle-default.png" />
     <Resource Include="Artwork\Buttons\knob-middle-pressed.png" />

@@ -1136,10 +1136,6 @@
     <value>Arquivo de Configuração Inválido!</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>Gráfico de Calibração</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Reconhecimento de Voz</value>
     <comment>Speech to text</comment>
@@ -1239,5 +1235,8 @@
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Batente Virtual</value>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Nível de Aderência</value>
   </data>
 </root>

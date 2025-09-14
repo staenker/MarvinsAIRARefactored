@@ -1192,4 +1192,7 @@
   <data name="WheelLock" xml:space="preserve">
     <value>Zablokování kola</value>
   </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+  </data>
 </root>

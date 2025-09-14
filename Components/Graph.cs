@@ -1,7 +1,8 @@
 ﻿
-using System.Runtime.CompilerServices;
-
 using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.Controls;
+using MarvinsAIRARefactored.Windows;
+using System.Runtime.CompilerServices;
 
 namespace MarvinsAIRARefactored.Components;
 
@@ -32,7 +33,7 @@ public class Graph : GraphBase
 
 		app.Logger.WriteLine( "[Graph] Initialize >>>" );
 
-		//FIX Initialize( app.MainWindow.Graph_Image );
+		Initialize( MainWindow._graphPage.Image );
 
 		for ( var layerIndex = 0; layerIndex < (int) LayerIndex.Count; layerIndex++ )
 		{
@@ -60,7 +61,7 @@ public class Graph : GraphBase
 	{
 		var app = App.Instance!;
 
-		if ( app.MainWindow.GraphTabItemIsVisible )
+		if ( MairaAppMenuPopup.CurrentAppPage == MainWindow.AppPage.Graph )
 		{
 			_layerArray[ (int) layerIndex ].value = normalizedValue;
 		}
@@ -70,7 +71,7 @@ public class Graph : GraphBase
 	{
 		var app = App.Instance!;
 
-		if ( app.MainWindow.GraphTabItemIsVisible )
+		if ( MairaAppMenuPopup.CurrentAppPage == MainWindow.AppPage.Graph )
 		{
 			var settings = DataContext.DataContext.Instance.Settings;
 
@@ -103,7 +104,7 @@ public class Graph : GraphBase
 
 	public void Tick( App app )
 	{
-		if ( app.MainWindow.GraphTabItemIsVisible )
+		if ( MairaAppMenuPopup.CurrentAppPage == MainWindow.AppPage.Graph )
 		{
 			WritePixels();
 

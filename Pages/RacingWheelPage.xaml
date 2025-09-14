@@ -323,7 +323,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[Output_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[Output_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -368,7 +369,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[Preview_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[Preview_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -380,8 +382,8 @@
 
             <Border Grid.Row="0"
                     BorderThickness="2"
-                    BorderBrush="#FFF"
-                    Background="#80000000"
+                    BorderBrush="#666"
+                    Background="#222"
                     CornerRadius="5"
                     Padding="0,0,0,6">
 
@@ -407,7 +409,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[WheelLFE_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[WheelLFE_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -437,7 +440,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[CrashProtection_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[CrashProtection_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -479,49 +483,55 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[CurbProtection_UC]}" />
+        <StackPanel x:Name="CurbProtection_StackPanel">
 
-        <Grid Tag="Complex">
+            <controls:MairaGroupHeader Label="{Binding Localization[CurbProtection_UC]}"
+                                       Tag="Complex" />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid Tag="Complex">
 
-            <controls:MairaKnob Grid.Column="0"
-                                Label="{Binding Localization[ShockVelocity]}"
-                                Value="{Binding Settings.RacingWheelCurbProtectionShockVelocity, Mode=TwoWay}"
-                                ValueString="{Binding Settings.RacingWheelCurbProtectionShockVelocityString}"
-                                StepSize="0.01"
-                                ContextSwitches="{Binding Settings.RacingWheelCurbProtectionShockVelocityContextSwitches}"
-                                PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionShockVelocityPlusButtonMappings}"
-                                MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionShockVelocityMinusButtonMappings}"
-                                DefaultValue="0.5" />
-            <controls:MairaKnob Grid.Column="2"
-                                Label="{Binding Localization[Duration]}"
-                                Value="{Binding Settings.RacingWheelCurbProtectionDuration, Mode=TwoWay}"
-                                ValueString="{Binding Settings.RacingWheelCurbProtectionDurationString}"
-                                StepSize="0.1"
-                                ContextSwitches="{Binding Settings.RacingWheelCurbProtectionDurationContextSwitches}"
-                                PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionDurationPlusButtonMappings}"
-                                MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionDurationMinusButtonMappings}"
-                                DefaultValue="0.1" />
-            <controls:MairaKnob Grid.Column="4"
-                                Label="{Binding Localization[ForceReduction]}"
-                                Value="{Binding Settings.RacingWheelCurbProtectionForceReduction, Mode=TwoWay}"
-                                ValueString="{Binding Settings.RacingWheelCurbProtectionForceReductionString}"
-                                StepSize="0.01"
-                                ContextSwitches="{Binding Settings.RacingWheelCurbProtectionForceReductionContextSwitches}"
-                                PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionForceReductionPlusButtonMappings}"
-                                MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionForceReductionMinusButtonMappings}"
-                                DefaultValue="0.75" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        </Grid>
+                <controls:MairaKnob Grid.Column="0"
+                                    Label="{Binding Localization[ShockVelocity]}"
+                                    Value="{Binding Settings.RacingWheelCurbProtectionShockVelocity, Mode=TwoWay}"
+                                    ValueString="{Binding Settings.RacingWheelCurbProtectionShockVelocityString}"
+                                    StepSize="0.01"
+                                    ContextSwitches="{Binding Settings.RacingWheelCurbProtectionShockVelocityContextSwitches}"
+                                    PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionShockVelocityPlusButtonMappings}"
+                                    MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionShockVelocityMinusButtonMappings}"
+                                    DefaultValue="0.5" />
+                <controls:MairaKnob Grid.Column="2"
+                                    Label="{Binding Localization[Duration]}"
+                                    Value="{Binding Settings.RacingWheelCurbProtectionDuration, Mode=TwoWay}"
+                                    ValueString="{Binding Settings.RacingWheelCurbProtectionDurationString}"
+                                    StepSize="0.1"
+                                    ContextSwitches="{Binding Settings.RacingWheelCurbProtectionDurationContextSwitches}"
+                                    PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionDurationPlusButtonMappings}"
+                                    MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionDurationMinusButtonMappings}"
+                                    DefaultValue="0.1" />
+                <controls:MairaKnob Grid.Column="4"
+                                    Label="{Binding Localization[ForceReduction]}"
+                                    Value="{Binding Settings.RacingWheelCurbProtectionForceReduction, Mode=TwoWay}"
+                                    ValueString="{Binding Settings.RacingWheelCurbProtectionForceReductionString}"
+                                    StepSize="0.01"
+                                    ContextSwitches="{Binding Settings.RacingWheelCurbProtectionForceReductionContextSwitches}"
+                                    PlusButtonMappings="{Binding Settings.RacingWheelCurbProtectionForceReductionPlusButtonMappings}"
+                                    MinusButtonMappings="{Binding Settings.RacingWheelCurbProtectionForceReductionMinusButtonMappings}"
+                                    DefaultValue="0.75" />
 
-        <controls:MairaGroupHeader Label="{Binding Localization[ParkedEffects_UC]}" />
+            </Grid>
+
+        </StackPanel>
+
+        <controls:MairaGroupHeader Label="{Binding Localization[ParkedEffects_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -563,7 +573,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[OtherFeatures_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[OtherFeatures_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 
@@ -605,7 +616,8 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[PrivateMessages_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[PrivateMessages_UC]}"
+                                   Tag="Complex" />
 
         <Grid Tag="Complex">
 

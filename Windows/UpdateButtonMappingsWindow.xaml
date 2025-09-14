@@ -10,12 +10,10 @@
         mc:Ignorable="d"
         Title="{Binding Localization[UpdateButtonMappings]}"
         Icon="/Artwork/AppIcon/maira-universal.ico"
-        MinWidth="600"
         Width="800"
-        MinHeight="150"
-        MaxHeight="400"
+        MaxHeight="600"
         SizeToContent="Height"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterOwner"
         Closed="Window_Closed">
@@ -24,16 +22,16 @@
         <Binding Source="{x:Static datacontext:DataContext.Instance}" />
     </Window.DataContext>
 
-    <StackPanel Margin="40,30,40,40">
+    <StackPanel Margin="40,20,40,40">
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       Margin="0,0,0,40">
 
-            <StackPanel />
+            <StackPanel x:Name="StackPanel" />
 
         </ScrollViewer>
 
-        <StackPanel x:Name="StackPanel">
+        <StackPanel>
 
             <Grid HorizontalAlignment="Center">
 

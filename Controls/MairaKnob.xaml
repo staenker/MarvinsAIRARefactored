@@ -94,7 +94,7 @@
                                               MappedFrame="/MarvinsAIRARefactored;component/Artwork/Buttons/knob-minus-mapped.png"
                                               PressedFrame="/MarvinsAIRARefactored;component/Artwork/Buttons/knob-minus-pressed.png"
                                               Click="Minus_MairaMappableButton_Click"
-                                              ButtonMappings="{Binding PlusButtonMappings, ElementName=Root}" />
+                                              ButtonMappings="{Binding MinusButtonMappings, ElementName=Root}" />
 
                 <controls:MairaButton x:Name="Middle_MairaButton"
                                       Grid.Column="1"

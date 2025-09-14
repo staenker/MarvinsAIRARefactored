@@ -1151,10 +1151,6 @@
     <value>Konfigurationsfilen er ugyldig!</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>Kalibrerings graf</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="Algorithm_UC" xml:space="preserve">
     <value>Algoritme</value>
   </data>
@@ -1199,5 +1195,8 @@
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Hjul lås</value>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
   </data>
 </root>

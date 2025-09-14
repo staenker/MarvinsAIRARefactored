@@ -41,11 +41,64 @@
                                     Label=""
                                     SelectedValue="{Binding Settings.SteeringEffectsCalibrationFileName, Mode=TwoWay}" />
 
-            <TextBlock Grid.Row="2"
+            <TextBlock x:Name="CarSetupName_TextBlock"
+                       Grid.Row="2"
                        Grid.Column="0"
                        Grid.ColumnSpan="3"
                        d:Text="Just a test to see what this line looks like."
                        Foreground="#ff5b2e" />
+
+        </Grid>
+
+        <Grid Margin="0,20,0,0">
+
+            <Border BorderThickness="2"
+                    BorderBrush="#666"
+                    Background="#222"
+                    CornerRadius="5"
+                    Padding="0,20,0,20">
+
+                <Image x:Name="Calibration_Image"
+                       Height="400"
+                       Width="900"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+
+            </Border>
+
+            <Border x:Name="InvalidConfigurationFile_Border"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Padding="10,1"
+                    Background="#222"
+                    BorderBrush="#993030"
+                    BorderThickness="2"
+                    CornerRadius="8"
+                    Margin="0,82,0,0"
+                    Visibility="Hidden">
+
+                <TextBlock Style="{StaticResource MairaTextBlockStyle}"
+                           Text="{Binding Localization[ConfigurationFileIsInvalid]}"
+                           Foreground="#ff2e2e" />
+
+            </Border>
+
+            <Border x:Name="CalibrationProgress_Border"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Padding="10,1"
+                    Background="#222"
+                    BorderBrush="#666"
+                    BorderThickness="2"
+                    CornerRadius="8"
+                    Margin="0,82,0,0"
+                    Visibility="Hidden">
+
+                <TextBlock x:Name="CalibrationProgress_TextBlock"
+                           Style="{StaticResource MairaTextBlockStyle}"
+                           Text="Progress: 100%"
+                           Foreground="#eee" />
+
+            </Border>
 
         </Grid>
 
@@ -80,69 +133,6 @@
                                 PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerMaximumThresholdPlusButtonMappings}"
                                 MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerMaximumThresholdMinusButtonMappings}"
                                 DefaultValue="0.13" />
-
-        </Grid>
-
-        <controls:MairaGroupHeader Label="{Binding Localization[Oversteer_UC]}" />
-
-        <Grid>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <controls:MairaKnob Grid.Column="0"
-                                Label="{Binding Localization[MinimumThreshold]}"
-                                Value="{Binding Settings.SteeringEffectsOversteerMinimumThreshold, Mode=TwoWay}"
-                                ValueString="{Binding Settings.SteeringEffectsOversteerMinimumThresholdString}"
-                                StepSize="0.01"
-                                ContextSwitches="{Binding Settings.SteeringEffectsOversteerMinimumThresholdContextSwitches}"
-                                PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerMinimumThresholdPlusButtonMappings}"
-                                MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerMinimumThresholdMinusButtonMappings}"
-                                DefaultValue="0.01" />
-
-            <controls:MairaKnob Grid.Column="2"
-                                Label="{Binding Localization[MaximumThreshold]}"
-                                Value="{Binding Settings.SteeringEffectsOversteerMaximumThreshold, Mode=TwoWay}"
-                                ValueString="{Binding Settings.SteeringEffectsOversteerMaximumThresholdString}"
-                                StepSize="0.01"
-                                ContextSwitches="{Binding Settings.SteeringEffectsOversteerMaximumThresholdContextSwitches}"
-                                PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerMaximumThresholdPlusButtonMappings}"
-                                MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerMaximumThresholdMinusButtonMappings}"
-                                DefaultValue="0.5" />
-
-        </Grid>
-
-        <controls:MairaGroupHeader Label="{Binding Localization[CalibrationGraph_UC]}" />
-
-        <Grid>
-
-            <Border BorderThickness="2"
-                    BorderBrush="#FFF"
-                    Background="#80000000"
-                    CornerRadius="5"
-                    Padding="0,20,0,20">
-
-                <Image x:Name="Calibration_Image"
-                       Height="400"
-                       Width="900"
-                       RenderOptions.BitmapScalingMode="HighQuality" />
-
-            </Border>
-
-            <TextBlock x:Name="CalibrationProgress_TextBlock"
-                       Style="{StaticResource MairaTextBlockStyle}"
-                       Text="Progress: 100%"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Top"
-                       Margin="0,82,0,0"
-                       Foreground="White"
-                       Background="Black"
-                       Padding="20,2,20,6" />
 
         </Grid>
 
@@ -291,6 +281,40 @@
                                 MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerPedalVibrationCurveMinusButtonMappings}"
                                 ShowCurve="True"
                                 DefaultValue="0" />
+
+        </Grid>
+
+        <controls:MairaGroupHeader Label="{Binding Localization[Oversteer_UC]}" />
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:MairaKnob Grid.Column="0"
+                                Label="{Binding Localization[MinimumThreshold]}"
+                                Value="{Binding Settings.SteeringEffectsOversteerMinimumThreshold, Mode=TwoWay}"
+                                ValueString="{Binding Settings.SteeringEffectsOversteerMinimumThresholdString}"
+                                StepSize="0.01"
+                                ContextSwitches="{Binding Settings.SteeringEffectsOversteerMinimumThresholdContextSwitches}"
+                                PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerMinimumThresholdPlusButtonMappings}"
+                                MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerMinimumThresholdMinusButtonMappings}"
+                                DefaultValue="0.01" />
+
+            <controls:MairaKnob Grid.Column="2"
+                                Label="{Binding Localization[MaximumThreshold]}"
+                                Value="{Binding Settings.SteeringEffectsOversteerMaximumThreshold, Mode=TwoWay}"
+                                ValueString="{Binding Settings.SteeringEffectsOversteerMaximumThresholdString}"
+                                StepSize="0.01"
+                                ContextSwitches="{Binding Settings.SteeringEffectsOversteerMaximumThresholdContextSwitches}"
+                                PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerMaximumThresholdPlusButtonMappings}"
+                                MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerMaximumThresholdMinusButtonMappings}"
+                                DefaultValue="0.5" />
 
         </Grid>
 
@@ -448,92 +472,67 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <controls:MairaSwitch Grid.Row="0"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="3"
-                                  Margin="0"
-                                  IsOn="{Binding Settings.SteeringEffectsShowGripOMeterWindow, Mode=TwoWay}"
-                                  Label="{Binding Localization[ShowGripOMeter]}" />
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3">
 
-            <controls:MairaSwitch Grid.Row="1"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="3"
-                                  Margin="0,10,0,0"
-                                  IsOn="{Binding Settings.SteeringEffectsMakeGripOMeterDraggable, Mode=TwoWay}"
-                                  Label="{Binding Localization[MakeGripOMeterDraggable]}" />
+                <controls:MairaSwitch IsOn="{Binding Settings.SteeringEffectsShowGripOMeterWindow, Mode=TwoWay}"
+                                      Label="{Binding Localization[ShowGripOMeter]}" />
 
-            <controls:MairaButton x:Name="ResetGripOMeter_MairaButton"
-                                  Grid.Row="2"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="3"
-                                  Margin="0,10,0,0"
-                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/reset.png"
-                                  Label="{Binding Localization[ResetGripOMeter]}"
-                                  LabelOnRight="True"
-                                  Click="ResetGripOMeter_MairaButton_Click" />
+                <controls:MairaSwitch Margin="0,10,0,0"
+                                      IsOn="{Binding Settings.SteeringEffectsMakeGripOMeterDraggable, Mode=TwoWay}"
+                                      Label="{Binding Localization[MakeGripOMeterDraggable]}" />
+
+            </StackPanel>
 
             <controls:MairaKnob Grid.Row="0"
                                 Grid.Column="4"
-                                Grid.RowSpan="5"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,10"
                                 Label="{Binding Localization[GripOMeterScale]}"
                                 Value="{Binding Settings.SteeringEffectsGripOMeterWindowScale, Mode=TwoWay}"
                                 ValueString="{Binding Settings.SteeringEffectsGripOMeterWindowScaleString}"
                                 StepSize="0.05"
                                 DefaultValue="1" />
 
+            <controls:MairaButton x:Name="ResetGripOMeter_MairaButton"
+                                  Grid.Row="2"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="5"
+                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/reset.png"
+                                  Label="{Binding Localization[ResetGripOMeter]}"
+                                  Click="ResetGripOMeter_MairaButton_Click" />
+
         </Grid>
 
         <controls:MairaGroupHeader Label="{Binding Localization[Calibration_UC]}" />
 
-        <TextBlock x:Name="NotOnCentripetalCircuitTrack_TextBlock"
-                   Text="{Binding Localization[NotOnCentripetalCircuitTrack]}"
-                   Foreground="#FFFFFF"
-                   Background="#FF4C00"
-                   Padding="20,2,20,4"
-                   TextAlignment="Center" />
+        <Border x:Name="NotOnCentripetalCircuitTrack_Border"
+                BorderBrush="#993030"
+                BorderThickness="2"
+                CornerRadius="8"
+                Padding="10,1"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,20">
 
-        <Grid>
+            <TextBlock Style="{StaticResource MairaTextBlockStyle}"
+                       Text="{Binding Localization[NotOnCentripetalCircuitTrack]}"
+                       Foreground="#ff2e2e" />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        </Border>
 
-            <controls:MairaButton x:Name="RunCalibration_MairaButton"
-                                  Grid.Row="0"
-                                  Grid.Column="1"
-                                  Label="{Binding Localization[RunCalibration]}"
-                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/run-calibration.png"
-                                  Click="RunCalibration_MairaButton_Click" />
-
-            <controls:MairaButton x:Name="StopCalibration_MairaButton"
-                                  Grid.Row="0"
-                                  Grid.Column="3"
-                                  Label="{Binding Localization[StopCalibration]}"
-                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/stop-calibration.png"
-                                  Click="StopCalibration_MairaButton_Click" />
-
-        </Grid>
-
-        <UniformGrid Columns="4"
-                     Margin="0,20,0,0">
+        <UniformGrid x:Name="CalibrationButtons_UniformGrid"
+                     Columns="4">
 
             <UniformGrid.Resources>
                 <Style TargetType="controls:MairaButton">
@@ -541,6 +540,20 @@
                             Value="0,20,0,0" />
                 </Style>
             </UniformGrid.Resources>
+
+            <Border />
+
+            <controls:MairaButton x:Name="RunCalibration_MairaButton"
+                                  Label="{Binding Localization[RunCalibration]}"
+                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/run-calibration.png"
+                                  Click="RunCalibration_MairaButton_Click" />
+
+            <controls:MairaButton x:Name="StopCalibration_MairaButton"
+                                  Label="{Binding Localization[StopCalibration]}"
+                                  Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/stop-calibration.png"
+                                  Click="StopCalibration_MairaButton_Click" />
+
+            <Border />
 
             <controls:MairaButton Label="{Binding Localization[SteeringWheelLeft]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/steering-wheel-left.png"

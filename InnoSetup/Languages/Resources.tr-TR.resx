@@ -1136,10 +1136,6 @@
     <value>Yapılandırma Dosyası Geçersiz!</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>Kalibrasyon Grafiği</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Konuşmayı Metne Dönüştürme</value>
     <comment>Speech to text</comment>
@@ -1239,5 +1235,8 @@
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Direksiyon Kilidi</value>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
   </data>
 </root>

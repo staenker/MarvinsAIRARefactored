@@ -1151,10 +1151,6 @@
     <value>Կազմաձևման ֆայլը անվավեր է</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>Կալիբրացիայի գրաֆիկ</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Խոսքից Տեքստ</value>
     <comment>Speech to text</comment>
@@ -1206,5 +1202,8 @@
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Անիվների արգելափակում</value>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
   </data>
 </root>

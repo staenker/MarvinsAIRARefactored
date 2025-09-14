@@ -1100,4 +1100,7 @@
   <data name="WheelLock" xml:space="preserve">
     <value>车轮锁死</value>
   </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>抓地力测量计</value>
+  </data>
 </root>

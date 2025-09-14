@@ -117,7 +117,7 @@
                 </Grid.ColumnDefinitions>
 
                 <controls:MairaButton Grid.Column="0"
-                                      Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/missing-icon.png"
+                                      Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/copy.png"
                                       Click="CopyDetails_MairaButton_Click" />
 
                 <controls:MairaButton Grid.Column="2"

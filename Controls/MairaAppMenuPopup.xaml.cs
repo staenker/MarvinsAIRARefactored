@@ -12,6 +12,8 @@ namespace MarvinsAIRARefactored.Controls
 {
 	public partial class MairaAppMenuPopup : UserControl
 	{
+		public static AppPage CurrentAppPage { get; private set; } = AppPage.RacingWheel;
+
 		public sealed class AppMenuItem : INotifyPropertyChanged
 		{
 			public AppPage AppPage { get; init; }
@@ -137,6 +139,8 @@ namespace MarvinsAIRARefactored.Controls
 			SelectedAppPageUserControl = _racingWheelPage;
 			SelectedAppMenuItem = AppMenuItems.FirstOrDefault( appMenuItem => appMenuItem.AppPage == SelectedAppPage );
 
+			CurrentAppPage = SelectedAppPage;
+
 			UpdateSelectedAppPageText();
 		}
 
@@ -223,6 +227,8 @@ namespace MarvinsAIRARefactored.Controls
 				{
 					mairaAppMenuPopup.SelectedAppMenuItem = match;
 				}
+
+				CurrentAppPage = appPage;
 			}
 		}
 

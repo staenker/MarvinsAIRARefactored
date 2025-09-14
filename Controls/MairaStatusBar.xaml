@@ -17,7 +17,7 @@
             <Style TargetType="Border">
 
                 <Setter Property="BorderBrush"
-                        Value="#666666" />
+                        Value="#666" />
 
                 <Style.Triggers>
 
@@ -61,7 +61,7 @@
                            BasedOn="{StaticResource MairaTextBlockStyle}">
 
                         <Setter Property="Foreground"
-                                Value="#eeeeee" />
+                                Value="#eee" />
 
                         <Style.Triggers>
 

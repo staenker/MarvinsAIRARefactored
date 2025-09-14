@@ -84,7 +84,7 @@
 
             <ContentControl x:Name="AppPage_ContentControl"
                             Content="{Binding ElementName=AppMenuPopup, Path=SelectedAppPageUserControl}"
-                            Margin="20,0" />
+                            Margin="20,0,20,60" />
 
         </ScrollViewer>
 

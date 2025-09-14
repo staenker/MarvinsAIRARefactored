@@ -1153,10 +1153,6 @@
     <value>Configuration File Is Invalid!</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>CALIBRATION GRAPH</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="SpeechToText" xml:space="preserve">
     <value>Speech to Text</value>
     <comment>App menu item</comment>
@@ -1276,5 +1272,9 @@
   <data name="WheelSpin" xml:space="preserve">
     <value>Wheel Spin</value>
     <comment>Pedal effects list</comment>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
+    <comment>Steering effects</comment>
   </data>
 </root>

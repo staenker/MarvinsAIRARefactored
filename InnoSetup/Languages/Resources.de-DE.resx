@@ -1197,9 +1197,6 @@ Hier ist der Link zum Spenden:</value>
   <data name="WheelSpin_UC" xml:space="preserve">
     <value>Reifenschlupf</value>
   </data>
-  <data name="CalibrationGraph_UC" xml:space="preserve">
-    <value>Kalibrierungsdiagramm</value>
-  </data>
   <data name="Pedals" xml:space="preserve">
     <value>Pedale</value>
   </data>
@@ -1208,5 +1205,8 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="WheelLock" xml:space="preserve">
     <value>Lenkeinschlag</value>
+  </data>
+  <data name="GripOMeter" xml:space="preserve">
+    <value>Grip-O-Meter</value>
   </data>
 </root>

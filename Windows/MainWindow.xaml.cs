@@ -2,18 +2,12 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using Application = System.Windows.Application;
-using Brushes = System.Windows.Media.Brushes;
-using TabControl = System.Windows.Controls.TabControl;
 
-using PInvoke;
-using static PInvoke.User32;
 using Simagic;
 
 using MarvinsAIRARefactored.Classes;
@@ -58,9 +52,6 @@ public partial class MainWindow : Window
 	public static readonly DebugPage _debugPage = new();
 
 	public nint WindowHandle { get; private set; } = 0;
-	public bool SteeringEffectsTabItemIsVisible { get; private set; } = false;
-	public bool GraphTabItemIsVisible { get; private set; } = false;
-	public bool DebugTabItemIsVisible { get; private set; } = false;
 
 	private string? _installerFilePath = null;
 	private bool _initialized = false;
@@ -85,35 +76,13 @@ public partial class MainWindow : Window
 
 		var iconUri = new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/adminboxx.ico" );
 
-		RacingWheel_TabItem.Visibility = Visibility.Collapsed;
-		SteeringEffects_TabItem.Visibility = Visibility.Collapsed;
-		Pedals_TabItem.Visibility = Visibility.Collapsed;
-		Sounds_TabItem.Visibility = Visibility.Collapsed;
-		SpeechToText_TabItem.Visibility = Visibility.Collapsed;
-		Graph_TabItem.Visibility = Visibility.Collapsed;
-		Simulator_TabItem.Visibility = Visibility.Collapsed;
-		Contribute_TabItem.Visibility = Visibility.Collapsed;
-		Donate_TabItem.Visibility = Visibility.Collapsed;
-		Debug_TabItem.Visibility = Visibility.Collapsed;
-
-		Language_GroupBox.Visibility = Visibility.Collapsed;
-		CloudService_GroupBox.Visibility = Visibility.Collapsed;
-
-		TabControl.SelectedItem = AdminBoxx_TabItem;
-
 #else
 
-		var iconUri = new Uri("pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/maira-universal.ico");
+		var iconUri = new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/AppIcon/maira-universal.ico" );
 
 #endif
 
 		Icon = BitmapFrame.Create( iconUri );
-
-#if !CODER
-
-		//FIX Debug_TabItem.Visibility = Visibility.Collapsed;
-
-#endif
 
 		app.Logger.WriteLine( "[MainWindow] <<< Constructor" );
 	}
@@ -333,7 +302,7 @@ public partial class MainWindow : Window
 			var racingWheelTotalCompressionRateVisibility = Visibility.Hidden;
 
 			var racingWheelAlgorithmRowTwoGridVisibility = Visibility.Collapsed;
-			//FIX var racingWheelCurbProtectionGroupBoxVisibility = Visibility.Collapsed;
+			var racingWheelCurbProtectionStackPanelVisibility = Visibility.Collapsed;
 
 			switch ( MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings.RacingWheelAlgorithm )
 			{
@@ -341,14 +310,14 @@ public partial class MainWindow : Window
 				case RacingWheel.Algorithm.DetailBoosterOn60Hz:
 					racingWheelDetailBoostKnobControlVisibility = Visibility.Visible;
 					racingWheelDetailBoostBiasKnobControlVisibility = Visibility.Visible;
-					//FIX racingWheelCurbProtectionGroupBoxVisibility = Visibility.Visible;
+					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
 					break;
 
 				case RacingWheel.Algorithm.DeltaLimiter:
 				case RacingWheel.Algorithm.DeltaLimiterOn60Hz:
 					racingWheelDeltaLimitKnobControlVisibility = Visibility.Visible;
 					racingWheelDeltaLimiterBiasKnobControlVisibility = Visibility.Visible;
-					//FIX racingWheelCurbProtectionGroupBoxVisibility = Visibility.Visible;
+					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
 					break;
 
 				case RacingWheel.Algorithm.ZeAlanLeTwist:
@@ -358,7 +327,7 @@ public partial class MainWindow : Window
 					racingWheelTotalCompressionRateVisibility = Visibility.Visible;
 
 					racingWheelAlgorithmRowTwoGridVisibility = Visibility.Visible;
-					//FIX racingWheelCurbProtectionGroupBoxVisibility = Visibility.Visible;
+					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
 					break;
 			}
 
@@ -372,7 +341,7 @@ public partial class MainWindow : Window
 			_racingWheelPage.TotalCompressionRate_MairaKnob.Visibility = racingWheelTotalCompressionRateVisibility;
 
 			_racingWheelPage.AlgorithmRowTwo_Grid.Visibility = racingWheelAlgorithmRowTwoGridVisibility;
-			//FIX RacingWheel_CurbProtection_GroupBox.Visibility = racingWheelCurbProtectionGroupBoxVisibility;
+			_racingWheelPage.CurbProtection_StackPanel.Visibility = racingWheelCurbProtectionStackPanelVisibility;
 		} );
 	}
 
@@ -485,22 +454,6 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void UpdateTabItemIsVisible()
-	{
-		if ( WindowState == WindowState.Minimized )
-		{
-			SteeringEffectsTabItemIsVisible = false;
-			GraphTabItemIsVisible = false;
-			DebugTabItemIsVisible = false;
-		}
-		else
-		{
-			SteeringEffectsTabItemIsVisible = ( AppMenuPopup.SelectedAppPage == AppPage.SteeringEffects );
-			GraphTabItemIsVisible = ( AppMenuPopup.SelectedAppPage == AppPage.Graph );
-			DebugTabItemIsVisible = ( AppMenuPopup.SelectedAppPage == AppPage.Debug );
-		}
-	}
-
 	public void CloseAndLaunchInstaller( string installerFilePath )
 	{
 		_installerFilePath = installerFilePath;
@@ -514,7 +467,7 @@ public partial class MainWindow : Window
 		{
 			WindowHandle = new WindowInteropHelper( this ).Handle;
 
-			App.Instance!.GripOMeterWindow.Owner = this;
+			UpdateRacingWheelSimpleMode();
 		}
 	}
 
@@ -561,8 +514,6 @@ public partial class MainWindow : Window
 				Hide();
 			}
 		}
-
-		UpdateTabItemIsVisible();
 	}
 
 	private void Window_Closing( object sender, CancelEventArgs e )
