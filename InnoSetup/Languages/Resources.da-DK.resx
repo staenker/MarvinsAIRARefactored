@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -468,7 +468,7 @@
     <value>Download automatisk opdateringer</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Opret forbindelse til AdminBoxx ved program start</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1161,4 +1161,28 @@
   <data name="Changelog">
     <value>Ændringslog</value>
   </data>
-<data name="SpeechToText"><value>Tale til tekst</value></data><data name="OverlayWindow_UC"><value>OVERLEJRINGSVINDUE</value></data><data name="Contribute"><value>Bidrag</value></data><data name="Moderators"><value>Moderatorer</value></data><data name="Simulator_UC"><value>SIMULATOR</value></data><data name="Amplitude"><value>Amplitude</value></data><data name="RPM"><value>omdr./min.</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="SpeechToText">
+    <value>Tale til tekst</value>
+  </data>
+  <data name="OverlayWindow_UC">
+    <value>OVERLEJRINGSVINDUE</value>
+  </data>
+  <data name="Contribute">
+    <value>Bidrag</value>
+  </data>
+  <data name="Moderators">
+    <value>Moderatorer</value>
+  </data>
+  <data name="Simulator_UC">
+    <value>SIMULATOR</value>
+  </data>
+  <data name="Amplitude">
+    <value>Amplitude</value>
+  </data>
+  <data name="RPM">
+    <value>omdr./min.</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

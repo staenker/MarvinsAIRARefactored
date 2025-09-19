@@ -1,6 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xs:element name="root" ns1:IsDataSet="true">
@@ -469,7 +468,7 @@
     <value>Автоматически загружать обновления</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Подключаться к AdminBoxx при запуске приложения</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1042,4 +1041,124 @@
   <data name="WheelLock" xml:space="preserve">
     <value>Блокировка колёс</value>
   </data>
-<data name="DegreesPerSecond"><value /></data><data name="CalibrationFile_UC"><value /></data><data name="Understeer_UC"><value>НЕДОСТАТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ</value></data><data name="Oversteer_UC"><value>ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ</value></data><data name="MinimumThreshold"><value /></data><data name="MaximumThreshold"><value /></data><data name="MinimumFrequency"><value /></data><data name="MaximumFrequency"><value /></data><data name="Calibration_UC"><value /></data><data name="VibrationPattern"><value /></data><data name="SineWave"><value>Синусоида</value></data><data name="SquareWave"><value>Прямоугольная волна</value></data><data name="TriangleWave"><value>Треугольная волна</value></data><data name="SawtoothWaveIn"><value>Пилообразная волна (нарастающая)</value></data><data name="SawtoothWaveOut"><value>Пилообразная волна (спадающая)</value></data><data name="DecreaseForce"><value /></data><data name="IncreaseForce"><value /></data><data name="UndersteerWheelConstantForceEffect_UC"><value>ЭФФЕКТ ПОСТОЯННОЙ СИЛЫ НА РУЛЕ (НЕДОСТАТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value></data><data name="Direction"><value /></data><data name="OversteerWheelVibrationEffect_UC"><value>ЭФФЕКТ ВИБРАЦИИ РУЛЯ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value></data><data name="OversteerWheelConstantForceEffect_UC"><value>ЭФФЕКТ ПОСТОЯННОЙ СИЛЫ НА РУЛЕ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value></data><data name="OversteerPedalVibrationEffect_UC"><value>ЭФФЕКТ ВИБРАЦИИ ПЕДАЛИ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value></data><data name="OversteerEffect"><value>Эффект избыточной поворачиваемости</value></data><data name="ConfigurationFileIsInvalid"><value /></data><data name="SpeechToText"><value>Распознавание речи</value></data><data name="Overlay"><value>Оверлей</value></data><data name="OverlayWindow_UC"><value>ОКНО ОВЕРЛЕЯ</value></data><data name="ShowOverlayWindow"><value>Показать окно оверлея</value></data><data name="MakeOverlayWindowDraggable"><value>Сделать окно оверлея перетаскиваемым</value></data><data name="ResetOverlayWindow"><value>Сбросить положение окна оверлея</value></data><data name="OverlayWindowScale"><value>Масштаб окна оверлея</value></data><data name="STT_Title"><value>Шлюз MAIRA для распознавания речи</value></data><data name="STT_Hint"><value>Выберите устройство захвата аудио, затем нажмите кнопку «Включить».</value></data><data name="STT_Button"><value>Включить распознавание речи</value></data><data name="FFBDeviceNotSelected"><value>[Force Feedback устройство не выбрано]</value></data><data name="ReadyToDonate"><value>Готовы пожертвовать?</value></data><data name="CalibrationFileContributions_UC"><value>ВКЛАДЫ В ФАЙЛЫ КАЛИБРОВКИ</value></data><data name="SpeechToText_UC"><value>РАСПОЗНАВАНИЕ РЕЧИ</value></data><data name="Changelog"><value>Журнал изменений</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="DegreesPerSecond">
+    <value />
+  </data>
+  <data name="CalibrationFile_UC">
+    <value />
+  </data>
+  <data name="Understeer_UC">
+    <value>НЕДОСТАТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ</value>
+  </data>
+  <data name="Oversteer_UC">
+    <value>ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ</value>
+  </data>
+  <data name="MinimumThreshold">
+    <value />
+  </data>
+  <data name="MaximumThreshold">
+    <value />
+  </data>
+  <data name="MinimumFrequency">
+    <value />
+  </data>
+  <data name="MaximumFrequency">
+    <value />
+  </data>
+  <data name="Calibration_UC">
+    <value />
+  </data>
+  <data name="VibrationPattern">
+    <value />
+  </data>
+  <data name="SineWave">
+    <value>Синусоида</value>
+  </data>
+  <data name="SquareWave">
+    <value>Прямоугольная волна</value>
+  </data>
+  <data name="TriangleWave">
+    <value>Треугольная волна</value>
+  </data>
+  <data name="SawtoothWaveIn">
+    <value>Пилообразная волна (нарастающая)</value>
+  </data>
+  <data name="SawtoothWaveOut">
+    <value>Пилообразная волна (спадающая)</value>
+  </data>
+  <data name="DecreaseForce">
+    <value />
+  </data>
+  <data name="IncreaseForce">
+    <value />
+  </data>
+  <data name="UndersteerWheelConstantForceEffect_UC">
+    <value>ЭФФЕКТ ПОСТОЯННОЙ СИЛЫ НА РУЛЕ (НЕДОСТАТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value>
+  </data>
+  <data name="Direction">
+    <value />
+  </data>
+  <data name="OversteerWheelVibrationEffect_UC">
+    <value>ЭФФЕКТ ВИБРАЦИИ РУЛЯ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value>
+  </data>
+  <data name="OversteerWheelConstantForceEffect_UC">
+    <value>ЭФФЕКТ ПОСТОЯННОЙ СИЛЫ НА РУЛЕ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value>
+  </data>
+  <data name="OversteerPedalVibrationEffect_UC">
+    <value>ЭФФЕКТ ВИБРАЦИИ ПЕДАЛИ (ИЗБЫТОЧНАЯ ПОВОРАЧИВАЕМОСТЬ)</value>
+  </data>
+  <data name="OversteerEffect">
+    <value>Эффект избыточной поворачиваемости</value>
+  </data>
+  <data name="ConfigurationFileIsInvalid">
+    <value />
+  </data>
+  <data name="SpeechToText">
+    <value>Распознавание речи</value>
+  </data>
+  <data name="Overlay">
+    <value>Оверлей</value>
+  </data>
+  <data name="OverlayWindow_UC">
+    <value>ОКНО ОВЕРЛЕЯ</value>
+  </data>
+  <data name="ShowOverlayWindow">
+    <value>Показать окно оверлея</value>
+  </data>
+  <data name="MakeOverlayWindowDraggable">
+    <value>Сделать окно оверлея перетаскиваемым</value>
+  </data>
+  <data name="ResetOverlayWindow">
+    <value>Сбросить положение окна оверлея</value>
+  </data>
+  <data name="OverlayWindowScale">
+    <value>Масштаб окна оверлея</value>
+  </data>
+  <data name="STT_Title">
+    <value>Шлюз MAIRA для распознавания речи</value>
+  </data>
+  <data name="STT_Hint">
+    <value>Выберите устройство захвата аудио, затем нажмите кнопку «Включить».</value>
+  </data>
+  <data name="STT_Button">
+    <value>Включить распознавание речи</value>
+  </data>
+  <data name="FFBDeviceNotSelected">
+    <value>[Force Feedback устройство не выбрано]</value>
+  </data>
+  <data name="ReadyToDonate">
+    <value>Готовы пожертвовать?</value>
+  </data>
+  <data name="CalibrationFileContributions_UC">
+    <value>ВКЛАДЫ В ФАЙЛЫ КАЛИБРОВКИ</value>
+  </data>
+  <data name="SpeechToText_UC">
+    <value>РАСПОЗНАВАНИЕ РЕЧИ</value>
+  </data>
+  <data name="Changelog">
+    <value>Журнал изменений</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

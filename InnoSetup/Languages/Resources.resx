@@ -529,7 +529,7 @@
     <value>Automatically Download Updates</value>
     <comment>App settings</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Connect to AdminBoxx on App Startup</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1288,5 +1288,21 @@
   <data name="Wind" xml:space="preserve">
     <value>Wind</value>
     <comment>App menu item</comment>
+  </data>
+  <data name="ConnectToWindOnStartup" xml:space="preserve">
+    <value>Connect to MAIRA Wind on App Startup</value>
+    <comment>Wind</comment>
+  </data>
+  <data name="ConnectToWind" xml:space="preserve">
+    <value>Connect to MAIRA Wind</value>
+    <comment>Wind</comment>
+  </data>
+  <data name="LeftFan" xml:space="preserve">
+    <value>Left Fan</value>
+    <comment>Wind</comment>
+  </data>
+  <data name="RightFan" xml:space="preserve">
+    <value>Right Fan</value>
+    <comment>Wind</comment>
   </data>
 </root>

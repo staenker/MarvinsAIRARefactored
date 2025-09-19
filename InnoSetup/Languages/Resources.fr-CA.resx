@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -468,7 +468,7 @@
     <value>Télécharger automatiquement les mises à jour</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Connectez-vous à AdminBoxx au démarrage de l'application</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -879,4 +879,214 @@
   <data name="Sounds">
     <value>Sons</value>
   </data>
-<data name="SlewUnits"><value /></data><data name="DiscordModeratorsText"><value /></data><data name="ON"><value>Marche</value></data><data name="Sounds_UC"><value>SONS</value></data><data name="FrequencyRatio"><value /></data><data name="Fade"><value>Atténuer</value></data><data name="SendChatMessages"><value /></data><data name="Degrees"><value /></data><data name="Master_UC"><value>PRINCIPAL</value></data><data name="CrashProtectionActivated"><value /></data><data name="CurbProtectionActivated"><value /></data><data name="PrivateMessages_UC"><value /></data><data name="NotOnCentripetalCircuitTrack"><value /></data><data name="RunCalibration"><value /></data><data name="StopCalibration"><value /></data><data name="SteeringWheelLeft"><value /></data><data name="SteeringWheelCenter"><value /></data><data name="SteeringWheelRight"><value /></data><data name="SteeringWheel90Left"><value /></data><data name="MinThrottle"><value /></data><data name="MaxThrottle"><value /></data><data name="ShiftUp"><value /></data><data name="ShiftDown"><value /></data><data name="MinBrake"><value /></data><data name="MaxBrake"><value /></data><data name="NotCalibrating"><value /></data><data name="MakeGripOMeterDraggable"><value /></data><data name="GripOMeter_UC"><value /></data><data name="UndersteerWheelVibrationEffect_UC"><value /></data><data name="Progress:"><value>Progression :</value></data><data name="ParkedEffects_UC"><value /></data><data name="ForceFeedbackStrength"><value /></data><data name="WheelCenteringStrength"><value /></data><data name="ParkedFriction"><value /></data><data name="ParkedWheelCenteringStrength"><value /></data><data name="CurrentCarSetup"><value /></data><data name="UndersteerPedalVibrationEffect_UC"><value /></data><data name="ErrorTitle"><value /></data><data name="Details"><value>Détails</value></data><data name="ClassicMAIRAIsRunning"><value /></data><data name="ExceptionThrown"><value /></data><data name="KPHUnits"><value /></data><data name="CalibrationFilesText"><value /></data><data name="DegreesPerSecond"><value /></data><data name="CalibrationFile_UC"><value>FICHIER D’ÉTALONNAGE</value></data><data name="Understeer_UC"><value>SOUS-VIRAGE</value></data><data name="Oversteer_UC"><value>SURVIRAGE</value></data><data name="MinimumFrequency"><value>Fréquence minimale</value></data><data name="MaximumFrequency"><value>Fréquence maximale</value></data><data name="Calibration_UC"><value>ÉTALONNAGE</value></data><data name="VibrationPattern"><value>Motif de vibration</value></data><data name="SineWave"><value>Onde sinusoïdale</value></data><data name="SquareWave"><value>Onde carrée</value></data><data name="TriangleWave"><value>Onde triangulaire</value></data><data name="DecreaseForce"><value>Diminuer la force</value></data><data name="IncreaseForce"><value>Augmenter la force</value></data><data name="UndersteerWheelConstantForceEffect_UC"><value>EFFET DE FORCE CONSTANTE DU VOLANT (SOUS-VIRAGE)</value></data><data name="Direction"><value /></data><data name="OversteerWheelVibrationEffect_UC"><value>EFFET DE VIBRATION DU VOLANT (SURVIRAGE)</value></data><data name="OversteerWheelConstantForceEffect_UC"><value>EFFET DE FORCE CONSTANTE DU VOLANT (SURVIRAGE)</value></data><data name="OversteerPedalVibrationEffect_UC"><value>EFFET DE VIBRATION DE PÉDALE (SURVIRAGE)</value></data><data name="UndersteerEffect"><value>Effet de sous-virage</value></data><data name="OversteerEffect"><value>Effet de survirage</value></data><data name="ConfigurationFileIsInvalid"><value>Le fichier de configuration est invalide</value></data><data name="SpeechToText"><value>Reconnaissance vocale</value></data><data name="OverlayWindow_UC"><value>FENÊTRE DE SUPERPOSITION</value></data><data name="AppSettings_UC"><value>PARAMÈTRES DU PROGRAMME</value></data><data name="Amplitude"><value /></data><data name="RPM"><value>tr/min</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="SlewUnits">
+    <value />
+  </data>
+  <data name="DiscordModeratorsText">
+    <value />
+  </data>
+  <data name="ON">
+    <value>Marche</value>
+  </data>
+  <data name="Sounds_UC">
+    <value>SONS</value>
+  </data>
+  <data name="FrequencyRatio">
+    <value />
+  </data>
+  <data name="Fade">
+    <value>Atténuer</value>
+  </data>
+  <data name="SendChatMessages">
+    <value />
+  </data>
+  <data name="Degrees">
+    <value />
+  </data>
+  <data name="Master_UC">
+    <value>PRINCIPAL</value>
+  </data>
+  <data name="CrashProtectionActivated">
+    <value />
+  </data>
+  <data name="CurbProtectionActivated">
+    <value />
+  </data>
+  <data name="PrivateMessages_UC">
+    <value />
+  </data>
+  <data name="NotOnCentripetalCircuitTrack">
+    <value />
+  </data>
+  <data name="RunCalibration">
+    <value />
+  </data>
+  <data name="StopCalibration">
+    <value />
+  </data>
+  <data name="SteeringWheelLeft">
+    <value />
+  </data>
+  <data name="SteeringWheelCenter">
+    <value />
+  </data>
+  <data name="SteeringWheelRight">
+    <value />
+  </data>
+  <data name="SteeringWheel90Left">
+    <value />
+  </data>
+  <data name="MinThrottle">
+    <value />
+  </data>
+  <data name="MaxThrottle">
+    <value />
+  </data>
+  <data name="ShiftUp">
+    <value />
+  </data>
+  <data name="ShiftDown">
+    <value />
+  </data>
+  <data name="MinBrake">
+    <value />
+  </data>
+  <data name="MaxBrake">
+    <value />
+  </data>
+  <data name="NotCalibrating">
+    <value />
+  </data>
+  <data name="MakeGripOMeterDraggable">
+    <value />
+  </data>
+  <data name="GripOMeter_UC">
+    <value />
+  </data>
+  <data name="UndersteerWheelVibrationEffect_UC">
+    <value />
+  </data>
+  <data name="Progress:">
+    <value>Progression :</value>
+  </data>
+  <data name="ParkedEffects_UC">
+    <value />
+  </data>
+  <data name="ForceFeedbackStrength">
+    <value />
+  </data>
+  <data name="WheelCenteringStrength">
+    <value />
+  </data>
+  <data name="ParkedFriction">
+    <value />
+  </data>
+  <data name="ParkedWheelCenteringStrength">
+    <value />
+  </data>
+  <data name="CurrentCarSetup">
+    <value />
+  </data>
+  <data name="UndersteerPedalVibrationEffect_UC">
+    <value />
+  </data>
+  <data name="ErrorTitle">
+    <value />
+  </data>
+  <data name="Details">
+    <value>Détails</value>
+  </data>
+  <data name="ClassicMAIRAIsRunning">
+    <value />
+  </data>
+  <data name="ExceptionThrown">
+    <value />
+  </data>
+  <data name="KPHUnits">
+    <value />
+  </data>
+  <data name="CalibrationFilesText">
+    <value />
+  </data>
+  <data name="DegreesPerSecond">
+    <value />
+  </data>
+  <data name="CalibrationFile_UC">
+    <value>FICHIER D’ÉTALONNAGE</value>
+  </data>
+  <data name="Understeer_UC">
+    <value>SOUS-VIRAGE</value>
+  </data>
+  <data name="Oversteer_UC">
+    <value>SURVIRAGE</value>
+  </data>
+  <data name="MinimumFrequency">
+    <value>Fréquence minimale</value>
+  </data>
+  <data name="MaximumFrequency">
+    <value>Fréquence maximale</value>
+  </data>
+  <data name="Calibration_UC">
+    <value>ÉTALONNAGE</value>
+  </data>
+  <data name="VibrationPattern">
+    <value>Motif de vibration</value>
+  </data>
+  <data name="SineWave">
+    <value>Onde sinusoïdale</value>
+  </data>
+  <data name="SquareWave">
+    <value>Onde carrée</value>
+  </data>
+  <data name="TriangleWave">
+    <value>Onde triangulaire</value>
+  </data>
+  <data name="DecreaseForce">
+    <value>Diminuer la force</value>
+  </data>
+  <data name="IncreaseForce">
+    <value>Augmenter la force</value>
+  </data>
+  <data name="UndersteerWheelConstantForceEffect_UC">
+    <value>EFFET DE FORCE CONSTANTE DU VOLANT (SOUS-VIRAGE)</value>
+  </data>
+  <data name="Direction">
+    <value />
+  </data>
+  <data name="OversteerWheelVibrationEffect_UC">
+    <value>EFFET DE VIBRATION DU VOLANT (SURVIRAGE)</value>
+  </data>
+  <data name="OversteerWheelConstantForceEffect_UC">
+    <value>EFFET DE FORCE CONSTANTE DU VOLANT (SURVIRAGE)</value>
+  </data>
+  <data name="OversteerPedalVibrationEffect_UC">
+    <value>EFFET DE VIBRATION DE PÉDALE (SURVIRAGE)</value>
+  </data>
+  <data name="UndersteerEffect">
+    <value>Effet de sous-virage</value>
+  </data>
+  <data name="OversteerEffect">
+    <value>Effet de survirage</value>
+  </data>
+  <data name="ConfigurationFileIsInvalid">
+    <value>Le fichier de configuration est invalide</value>
+  </data>
+  <data name="SpeechToText">
+    <value>Reconnaissance vocale</value>
+  </data>
+  <data name="OverlayWindow_UC">
+    <value>FENÊTRE DE SUPERPOSITION</value>
+  </data>
+  <data name="AppSettings_UC">
+    <value>PARAMÈTRES DU PROGRAMME</value>
+  </data>
+  <data name="Amplitude">
+    <value />
+  </data>
+  <data name="RPM">
+    <value>tr/min</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

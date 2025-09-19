@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -468,7 +468,7 @@
     <value>Automaticky stahovat aktualizace</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Připojit k AdminBoxx při spuštění</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1142,4 +1142,46 @@
   <data name="Changelog">
     <value>Seznam změn</value>
   </data>
-<data name="ConfigurationFileIsInvalid"><value>Konfigurační soubor je neplatný</value></data><data name="SpeechToText"><value>Převod řeči na text</value></data><data name="OverlayWindow_UC"><value>PŘEKRYVNÉ OKNO</value></data><data name="ShowOverlayWindow"><value>Zobrazit překryvné okno</value></data><data name="ResetOverlayWindow"><value>Obnovit pozici překryvného okna</value></data><data name="OverlayWindowScale"><value>Měřítko překryvného okna</value></data><data name="STT_Title"><value>Most MAIRA řeč–text</value></data><data name="STT_Hint"><value>Vyberte zařízení pro záznam zvuku a poté klikněte na tlačítko Povolit.</value></data><data name="STT_Button"><value>Povolit převod řeči na text</value></data><data name="ReadyToDonate"><value>Připraveni přispět?</value></data><data name="CalibrationFileContributions_UC"><value>PŘÍSPĚVKY KE KALIBRAČNÍM SOUBORŮM</value></data><data name="SpeechToText_UC"><value>PŘEVOD ŘEČI NA TEXT</value></data><data name="Amplitude"><value>Amplituda</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="ConfigurationFileIsInvalid">
+    <value>Konfigurační soubor je neplatný</value>
+  </data>
+  <data name="SpeechToText">
+    <value>Převod řeči na text</value>
+  </data>
+  <data name="OverlayWindow_UC">
+    <value>PŘEKRYVNÉ OKNO</value>
+  </data>
+  <data name="ShowOverlayWindow">
+    <value>Zobrazit překryvné okno</value>
+  </data>
+  <data name="ResetOverlayWindow">
+    <value>Obnovit pozici překryvného okna</value>
+  </data>
+  <data name="OverlayWindowScale">
+    <value>Měřítko překryvného okna</value>
+  </data>
+  <data name="STT_Title">
+    <value>Most MAIRA řeč–text</value>
+  </data>
+  <data name="STT_Hint">
+    <value>Vyberte zařízení pro záznam zvuku a poté klikněte na tlačítko Povolit.</value>
+  </data>
+  <data name="STT_Button">
+    <value>Povolit převod řeči na text</value>
+  </data>
+  <data name="ReadyToDonate">
+    <value>Připraveni přispět?</value>
+  </data>
+  <data name="CalibrationFileContributions_UC">
+    <value>PŘÍSPĚVKY KE KALIBRAČNÍM SOUBORŮM</value>
+  </data>
+  <data name="SpeechToText_UC">
+    <value>PŘEVOD ŘEČI NA TEXT</value>
+  </data>
+  <data name="Amplitude">
+    <value>Amplituda</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -468,7 +468,7 @@
     <value>Ավտոմատ ներբեռնել թարմացումները</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Միանալ գործարկման պահին</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1174,4 +1174,16 @@
   <data name="Changelog">
     <value>Փոփոխությունների ցուցակ</value>
   </data>
-<data name="ShowOverlayWindow"><value>Ցուցադրել վերածրագրի պատուհանը</value></data><data name="ResetOverlayWindow"><value>Վերականգնել վերածրագրի պատուհանի դիրքը</value></data><data name="RPM"><value>պտ/ր</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="ShowOverlayWindow">
+    <value>Ցուցադրել վերածրագրի պատուհանը</value>
+  </data>
+  <data name="ResetOverlayWindow">
+    <value>Վերականգնել վերածրագրի պատուհանի դիրքը</value>
+  </data>
+  <data name="RPM">
+    <value>պտ/ր</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

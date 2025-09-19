@@ -1,6 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xs:element name="root" ns1:IsDataSet="true">
@@ -454,7 +453,7 @@
     <value>Baixar Atualizações Automaticamente</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Conectar ao AdminBoxx ao iniciar</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1172,4 +1171,25 @@
   <data name="GripOMeter" xml:space="preserve">
     <value>Nível de Aderência</value>
   </data>
-<data name="FFBDeviceNotSelected"><value>[Force Feedback dispositivo não selecionado]</value></data><data name="ReadyToDonate"><value>Pronto para doar?</value></data><data name="CalibrationFileContributions_UC"><value>CONTRIBUIÇÕES DO ARQUIVO DE CALIBRAÇÃO</value></data><data name="AppSettings_UC"><value>CONFIGURAÇÕES DO PROGRAMA</value></data><data name="Changelog"><value>Registro de alterações</value></data><data name="Amplitude"><value /></data><data name="RPM"><value /></data></root>
+  <data name="FFBDeviceNotSelected">
+    <value>[Force Feedback dispositivo não selecionado]</value>
+  </data>
+  <data name="ReadyToDonate">
+    <value>Pronto para doar?</value>
+  </data>
+  <data name="CalibrationFileContributions_UC">
+    <value>CONTRIBUIÇÕES DO ARQUIVO DE CALIBRAÇÃO</value>
+  </data>
+  <data name="AppSettings_UC">
+    <value>CONFIGURAÇÕES DO PROGRAMA</value>
+  </data>
+  <data name="Changelog">
+    <value>Registro de alterações</value>
+  </data>
+  <data name="Amplitude">
+    <value />
+  </data>
+  <data name="RPM">
+    <value />
+  </data>
+</root>

@@ -1,6 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xs:element name="root" ns1:IsDataSet="true">
@@ -454,7 +453,7 @@
     <value>Güncellemeleri Otomatik Olarak İndir</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>Uygulama Başlangıcında AdminBoxx Bağlan</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1175,4 +1174,22 @@
   <data name="WheelLock" xml:space="preserve">
     <value>Direksiyon Kilidi</value>
   </data>
-<data name="FFBDeviceNotSelected"><value>[Force Feedback aygıt seçilmedi]</value></data><data name="ReadyToDonate"><value>Bağış yapmaya hazır mısınız?</value></data><data name="CalibrationFileContributions_UC"><value>KALİBRASYON DOSYASI KATKILARI</value></data><data name="Simulator_UC"><value>SIMÜLATÖR</value></data><data name="Changelog"><value>Değişiklik günlüğü</value></data><data name="GripOMeter"><value /></data></root>
+  <data name="FFBDeviceNotSelected">
+    <value>[Force Feedback aygıt seçilmedi]</value>
+  </data>
+  <data name="ReadyToDonate">
+    <value>Bağış yapmaya hazır mısınız?</value>
+  </data>
+  <data name="CalibrationFileContributions_UC">
+    <value>KALİBRASYON DOSYASI KATKILARI</value>
+  </data>
+  <data name="Simulator_UC">
+    <value>SIMÜLATÖR</value>
+  </data>
+  <data name="Changelog">
+    <value>Değişiklik günlüğü</value>
+  </data>
+  <data name="GripOMeter">
+    <value />
+  </data>
+</root>

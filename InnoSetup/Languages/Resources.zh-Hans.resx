@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:schema id="root">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -468,7 +468,7 @@
     <value>自动下载更新包</value>
     <comment>App</comment>
   </data>
-  <data name="ConnectOnStartup" xml:space="preserve">
+  <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
     <value>当App启动时连接到管理员Boxx</value>
     <comment>AdminBoxx</comment>
   </data>
@@ -1068,4 +1068,97 @@
   <data name="Changelog">
     <value>更新日志</value>
   </data>
-<data name="DegreesPerSecond"><value /></data><data name="CalibrationFile_UC"><value>校准文件</value></data><data name="Understeer_UC"><value>转向不足</value></data><data name="Oversteer_UC"><value>转向过度</value></data><data name="MinimumThreshold"><value>最小阈值</value></data><data name="MaximumThreshold"><value>最大阈值</value></data><data name="MinimumFrequency"><value>最小频率</value></data><data name="MaximumFrequency"><value>最大频率</value></data><data name="Calibration_UC"><value>校准</value></data><data name="VibrationPattern"><value>振动模式</value></data><data name="SineWave"><value>正弦波</value></data><data name="SquareWave"><value>方波</value></data><data name="TriangleWave"><value>三角波</value></data><data name="SawtoothWaveIn"><value>锯齿波（上升）</value></data><data name="SawtoothWaveOut"><value>锯齿波（下降）</value></data><data name="DecreaseForce"><value>降低力度</value></data><data name="IncreaseForce"><value>增加力度</value></data><data name="UndersteerWheelConstantForceEffect_UC"><value>转向不足 方向盘恒定力效果</value></data><data name="Direction"><value>方向</value></data><data name="OversteerWheelVibrationEffect_UC"><value>转向过度 方向盘震动效果</value></data><data name="OversteerWheelConstantForceEffect_UC"><value>转向过度 方向盘恒定力效果</value></data><data name="OversteerPedalVibrationEffect_UC"><value>转向过度 踏板震动效果</value></data><data name="OversteerEffect"><value>转向过度效果</value></data><data name="ConfigurationFileIsInvalid"><value>配置文件无效！</value></data><data name="SpeechToText"><value>语音转文字</value></data><data name="OverlayWindow_UC"><value>覆盖窗口</value></data><data name="ShowOverlayWindow"><value>显示覆盖窗口</value></data><data name="MakeOverlayWindowDraggable"><value>使覆盖窗口可拖动</value></data><data name="ResetOverlayWindow"><value>重置覆盖窗口位置</value></data><data name="OverlayWindowScale"><value>覆盖窗口比例</value></data><data name="AppSettings_UC"><value>程序设置</value></data></root>
+  <data name="DegreesPerSecond">
+    <value />
+  </data>
+  <data name="CalibrationFile_UC">
+    <value>校准文件</value>
+  </data>
+  <data name="Understeer_UC">
+    <value>转向不足</value>
+  </data>
+  <data name="Oversteer_UC">
+    <value>转向过度</value>
+  </data>
+  <data name="MinimumThreshold">
+    <value>最小阈值</value>
+  </data>
+  <data name="MaximumThreshold">
+    <value>最大阈值</value>
+  </data>
+  <data name="MinimumFrequency">
+    <value>最小频率</value>
+  </data>
+  <data name="MaximumFrequency">
+    <value>最大频率</value>
+  </data>
+  <data name="Calibration_UC">
+    <value>校准</value>
+  </data>
+  <data name="VibrationPattern">
+    <value>振动模式</value>
+  </data>
+  <data name="SineWave">
+    <value>正弦波</value>
+  </data>
+  <data name="SquareWave">
+    <value>方波</value>
+  </data>
+  <data name="TriangleWave">
+    <value>三角波</value>
+  </data>
+  <data name="SawtoothWaveIn">
+    <value>锯齿波（上升）</value>
+  </data>
+  <data name="SawtoothWaveOut">
+    <value>锯齿波（下降）</value>
+  </data>
+  <data name="DecreaseForce">
+    <value>降低力度</value>
+  </data>
+  <data name="IncreaseForce">
+    <value>增加力度</value>
+  </data>
+  <data name="UndersteerWheelConstantForceEffect_UC">
+    <value>转向不足 方向盘恒定力效果</value>
+  </data>
+  <data name="Direction">
+    <value>方向</value>
+  </data>
+  <data name="OversteerWheelVibrationEffect_UC">
+    <value>转向过度 方向盘震动效果</value>
+  </data>
+  <data name="OversteerWheelConstantForceEffect_UC">
+    <value>转向过度 方向盘恒定力效果</value>
+  </data>
+  <data name="OversteerPedalVibrationEffect_UC">
+    <value>转向过度 踏板震动效果</value>
+  </data>
+  <data name="OversteerEffect">
+    <value>转向过度效果</value>
+  </data>
+  <data name="ConfigurationFileIsInvalid">
+    <value>配置文件无效！</value>
+  </data>
+  <data name="SpeechToText">
+    <value>语音转文字</value>
+  </data>
+  <data name="OverlayWindow_UC">
+    <value>覆盖窗口</value>
+  </data>
+  <data name="ShowOverlayWindow">
+    <value>显示覆盖窗口</value>
+  </data>
+  <data name="MakeOverlayWindowDraggable">
+    <value>使覆盖窗口可拖动</value>
+  </data>
+  <data name="ResetOverlayWindow">
+    <value>重置覆盖窗口位置</value>
+  </data>
+  <data name="OverlayWindowScale">
+    <value>覆盖窗口比例</value>
+  </data>
+  <data name="AppSettings_UC">
+    <value>程序设置</value>
+  </data>
+</root>
