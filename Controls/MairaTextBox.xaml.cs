@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
+using TextBox = System.Windows.Controls.TextBox;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace MarvinsAIRARefactored.Controls;
@@ -19,15 +20,16 @@ public partial class MairaTextBox : UserControl
 	{
 		if ( e.Key == Key.Enter )
 		{
-			// Force binding update (in case UpdateSourceTrigger isn’t PropertyChanged)
-			var textBox = (TextBox) sender;
-			var binding = textBox.GetBindingExpression( TextBox.TextProperty );
-			binding?.UpdateSource();
+			if ( sender is TextBox textBox )
+			{
+				var binding = textBox.GetBindingExpression( TextBox.TextProperty );
 
-			// Remove focus from the TextBox
-			textBox.MoveFocus( new TraversalRequest( FocusNavigationDirection.Next ) );
+				binding?.UpdateSource();
 
-			e.Handled = true; // stop ding sound
+				textBox.MoveFocus( new TraversalRequest( FocusNavigationDirection.Next ) );
+
+				e.Handled = true;
+			}
 		}
 	}
 
@@ -51,21 +53,13 @@ public partial class MairaTextBox : UserControl
 		set => SetValue( ValueProperty, value );
 	}
 
-	public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty.Register( nameof( IsNumericOnly ), typeof( bool), typeof( MairaTextBox ) );
+	public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty.Register( nameof( IsNumericOnly ), typeof( bool ), typeof( MairaTextBox ) );
 
 	public bool IsNumericOnly
 	{
 		get => (bool) GetValue( ValueProperty );
 		set => SetValue( ValueProperty, value );
 	}
-
-	#endregion
-
-	#region Dependency Property Changed Events
-
-	#endregion
-
-	#region Logic
 
 	#endregion
 }
