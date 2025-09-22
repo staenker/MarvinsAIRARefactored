@@ -59,7 +59,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "WindController.kicad_prl",
+    "filename": "Wind Pod.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -97,7 +97,7 @@
       91,
       71,
       91,
-      91
+      1213
     ],
     "custom_group_rules": [],
     "expanded_rows": [],
