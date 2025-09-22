@@ -110,6 +110,8 @@ public class DirectInput
 			app.Logger.WriteLine( $"[DirectInput] Exception caught: {exception.Message.Trim()}" );
 
 			app.RacingWheel.NextRacingWheelGuid = Guid.Empty;
+
+			_forceFeedbackDeviceInstanceGuid = Guid.Empty;
 		}
 
 		if ( ForceFeedbackJoystick != null )
@@ -458,7 +460,7 @@ public class DirectInput
 		{
 			settings.RacingWheelSteeringDeviceGuid = ForceFeedbackDeviceList.FirstOrDefault().Key;
 		}
-		else if ( _forceFeedbackDeviceInstanceGuid != settings.RacingWheelLFERecordingDeviceGuid )
+		else if ( _forceFeedbackDeviceInstanceGuid != settings.RacingWheelSteeringDeviceGuid )
 		{
 			app.RacingWheel.NextRacingWheelGuid = settings.RacingWheelSteeringDeviceGuid;
 		}
