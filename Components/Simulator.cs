@@ -301,6 +301,8 @@ public partial class Simulator
 
 		var sessionInfo = _irsdk.Data.SessionInfo;
 
+		app.TradingPaints.UpdateDrivers( sessionInfo.DriverInfo.Drivers );
+
 		CarSetupName = Path.GetFileNameWithoutExtension( sessionInfo.DriverInfo.DriverSetupName ).ToLower();
 
 		NumForwardGears = sessionInfo.DriverInfo.DriverCarGearNumForward;

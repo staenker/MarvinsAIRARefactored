@@ -1341,4 +1341,20 @@
     <value>Device Missing</value>
     <comment>Racing wheel</comment>
   </data>
+  <data name="IRacingPaintFolder" xml:space="preserve">
+    <value>iRacing Paint Folder</value>
+    <comment>Trading paints</comment>
+  </data>
+  <data name="TradingPaints" xml:space="preserve">
+    <value>Trading Paints</value>
+    <comment>App menu item</comment>
+  </data>
+  <data name="TradingPaints_UC" xml:space="preserve">
+    <value>TRADING PAINTS</value>
+    <comment>Trading Paints</comment>
+  </data>
+  <data name="TradingPaintsDisclaimer" xml:space="preserve">
+    <value>Marvin's Awesome iRacing App (MAIRA) is not affiliated with Trading Paints</value>
+    <comment>Trading Paints</comment>
+  </data>
 </root>

@@ -29,6 +29,7 @@ public partial class MainWindow : Window
 		Wind,
 		Sounds,
 		SpeechToText,
+		TradingPaints,
 		Graph,
 		Simulator,
 		AdminBoxx,
@@ -46,6 +47,7 @@ public partial class MainWindow : Window
 	public static readonly WindPage _windPage = new();
 	public static readonly SoundsPage _soundsPage = new();
 	public static readonly SpeechToTextPage _speechToTextPage = new();
+	public static readonly TradingPaintsPage _tradingPaintsPage = new();
 	public static readonly GraphPage _graphPage = new();
 	public static readonly SimulatorPage _simulatorPage = new();
 	public static readonly AdminBoxxPage _adminBoxxPage = new();

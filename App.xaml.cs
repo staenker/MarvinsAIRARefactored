@@ -57,6 +57,7 @@ public partial class App : Application
 	public SpeechToTextWindow SpeechToTextWindow { get; private set; }
 	public Wind Wind { get; private set; }
 	public HidHotplugMonitor HidHotplugMonitor { get; private set; }
+	public TradingPaints TradingPaints { get; private set; }
 
 	public const int TimerPeriodInMilliseconds = 17;
 	public const int TimerTicksPerSecond = 1000 / TimerPeriodInMilliseconds;
@@ -108,6 +109,7 @@ public partial class App : Application
 		SpeechToTextWindow = new();
 		Wind = new();
 		HidHotplugMonitor = new();
+		TradingPaints = new();
 
 		_timer.Elapsed += OnTimer;
 	}
@@ -233,6 +235,7 @@ public partial class App : Application
 				SpeechToTextWindow.Initialize();
 				Wind.Initialize();
 				HidHotplugMonitor.Initialize();
+				TradingPaints.Initialize();
 
 #endif
 
@@ -315,6 +318,7 @@ public partial class App : Application
 		LFE.Shutdown();
 		MultimediaTimer.Shutdown();
 		Telemetry.Shutdown();
+		TradingPaints.Shutdown();
 
 #endif
 

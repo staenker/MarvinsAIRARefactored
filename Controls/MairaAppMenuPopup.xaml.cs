@@ -89,6 +89,12 @@ namespace MarvinsAIRARefactored.Controls
 
 			AppMenuItems.Add( new AppMenuItem
 			{
+				AppPage = AppPage.TradingPaints,
+				PageUserControl = _tradingPaintsPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
 				AppPage = AppPage.Graph,
 				PageUserControl = _graphPage
 			} );
@@ -278,6 +284,10 @@ namespace MarvinsAIRARefactored.Controls
 						menuItem.DisplayName = localization[ "SpeechToText" ];
 						break;
 
+					case AppPage.TradingPaints:
+						menuItem.DisplayName = localization[ "TradingPaints" ];
+						break;
+
 					case AppPage.Graph:
 						menuItem.DisplayName = localization[ "Graph" ];
 						break;
@@ -339,6 +349,10 @@ namespace MarvinsAIRARefactored.Controls
 
 				case AppPage.SpeechToText:
 					SelectedAppPageText = localization[ "SpeechToText_UC" ];
+					break;
+
+				case AppPage.TradingPaints:
+					SelectedAppPageText = localization[ "TradingPaints_UC" ];
 					break;
 
 				case AppPage.Graph:

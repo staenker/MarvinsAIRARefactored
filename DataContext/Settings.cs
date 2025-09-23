@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
@@ -7936,6 +7937,53 @@ public class Settings : INotifyPropertyChanged
 			if ( value != _appCheckForUpdates )
 			{
 				_appCheckForUpdates = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Trading paints - Enabled
+
+	private bool _tradingPaintsEnabled = false;
+
+	public bool TradingPaintsEnabled
+	{
+		get => _tradingPaintsEnabled;
+
+		set
+		{
+			if ( value != _tradingPaintsEnabled )
+			{
+				_tradingPaintsEnabled = value;
+
+				OnPropertyChanged();
+
+				if ( _tradingPaintsEnabled )
+				{
+					App.Instance?.TradingPaints.Reset();
+				}
+			}
+		}
+	}
+
+	#endregion
+
+	#region Trading paints - Folder
+
+	private string _tradingPaintsFolder = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), "iRacing", "paint" );
+
+	public string TradingPaintsFolder
+	{
+		get => _tradingPaintsFolder;
+
+		set
+		{
+			if ( value != _tradingPaintsFolder )
+			{
+				_tradingPaintsFolder = value;
 
 				OnPropertyChanged();
 			}
