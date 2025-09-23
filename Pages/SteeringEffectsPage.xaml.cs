@@ -120,6 +120,7 @@ public partial class SteeringEffectsPage : UserControl
 		app.Logger.WriteLine( "[SteeringEffectsPage] UpdateCalibrationFileNameOptions >>>" );
 
 		var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var dictionary = new Dictionary<string, string>()
 		{
@@ -139,6 +140,7 @@ public partial class SteeringEffectsPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			CalibrationFileName_MairaComboBox.ItemsSource = dictionary;
+			CalibrationFileName_MairaComboBox.SelectedValue = settings.SteeringEffectsCalibrationFileName;
 			CalibrationFileName_MairaComboBox.OffValue = string.Empty;
 		} );
 
@@ -152,6 +154,7 @@ public partial class SteeringEffectsPage : UserControl
 		app.Logger.WriteLine( "[SteeringEffectsPage] SetVibrationPatternMairaComboBoxItemsSource >>>" );
 
 		var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var dictionary = new Dictionary<RacingWheel.VibrationPattern, string>
 		{
@@ -166,7 +169,10 @@ public partial class SteeringEffectsPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			UndersteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary;
+			UndersteerWheelVibrationPattern_MairaComboBox.SelectedValue = settings.SteeringEffectsUndersteerWheelVibrationPattern;
+
 			OversteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary;
+			OversteerWheelVibrationPattern_MairaComboBox.SelectedValue = settings.SteeringEffectsOversteerWheelVibrationPattern;
 		} );
 
 		app.Logger.WriteLine( "[SteeringEffectsPage] <<< SetVibrationPatternMairaComboBoxItemsSource" );
@@ -179,6 +185,7 @@ public partial class SteeringEffectsPage : UserControl
 		app.Logger.WriteLine( "[SteeringEffectsPage] SetConstantForceDirectionMairaComboBoxItemsSource >>>" );
 
 		var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var dictionary = new Dictionary<RacingWheel.ConstantForceDirection, string>
 		{
@@ -190,7 +197,10 @@ public partial class SteeringEffectsPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			UndersteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary;
+			UndersteerWheelConstantForceDirection_MairaComboBox.SelectedValue = settings.SteeringEffectsUndersteerWheelConstantForceDirection;
+
 			OversteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary;
+			OversteerWheelConstantForceDirection_MairaComboBox.SelectedValue = settings.SteeringEffectsOversteerWheelConstantForceDirection;
 		} );
 
 		app.Logger.WriteLine( "[SteeringEffectsPage] <<< SetConstantForceDirectionMairaComboBoxItemsSource" );

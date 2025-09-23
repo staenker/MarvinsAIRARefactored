@@ -108,6 +108,7 @@ public partial class RacingWheelPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			SteeringDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value );
+			SteeringDevice_MairaComboBox.SelectedValue = settings.RacingWheelSteeringDeviceGuid;
 			SteeringDevice_MairaComboBox.OffValue = Guid.Empty;
 		} );
 
@@ -176,6 +177,7 @@ public partial class RacingWheelPage : UserControl
 		app.Logger.WriteLine( "[RacingWheelPage] UpdateAlgorithmOptions >>>" );
 
 		var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var dictionary = new Dictionary<RacingWheel.Algorithm, string>
 		{
@@ -191,6 +193,7 @@ public partial class RacingWheelPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			Algorithm_MairaComboBox.ItemsSource = dictionary;
+			Algorithm_MairaComboBox.SelectedValue = settings.RacingWheelAlgorithm;
 		} );
 
 		app.Logger.WriteLine( "[RacingWheelPage] <<< UpdateAlgorithmOptions" );

@@ -91,6 +91,7 @@ public partial class PedalsPage : UserControl
 		app.Logger.WriteLine( "[PedalsPage] UpdateEffectOptions >>>" );
 
 		var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var dictionary = new Dictionary<Pedals.Effect, string>
 		{
@@ -111,13 +112,25 @@ public partial class PedalsPage : UserControl
 			ClutchEffect2_MairaComboBox.ItemsSource = dictionary;
 			ClutchEffect3_MairaComboBox.ItemsSource = dictionary;
 
+			ClutchEffect1_MairaComboBox.SelectedValue = settings.PedalsClutchEffect1;
+			ClutchEffect2_MairaComboBox.SelectedValue = settings.PedalsClutchEffect2;
+			ClutchEffect3_MairaComboBox.SelectedValue = settings.PedalsClutchEffect3;
+
 			BrakeEffect1_MairaComboBox.ItemsSource = dictionary;
 			BrakeEffect2_MairaComboBox.ItemsSource = dictionary;
 			BrakeEffect3_MairaComboBox.ItemsSource = dictionary;
 
+			BrakeEffect1_MairaComboBox.SelectedValue = settings.PedalsBrakeEffect1;
+			BrakeEffect2_MairaComboBox.SelectedValue = settings.PedalsBrakeEffect2;
+			BrakeEffect3_MairaComboBox.SelectedValue = settings.PedalsBrakeEffect3;
+
 			ThrottleEffect1_MairaComboBox.ItemsSource = dictionary;
 			ThrottleEffect2_MairaComboBox.ItemsSource = dictionary;
 			ThrottleEffect3_MairaComboBox.ItemsSource = dictionary;
+
+			ThrottleEffect1_MairaComboBox.SelectedValue = settings.PedalsThrottleEffect1;
+			ThrottleEffect2_MairaComboBox.SelectedValue = settings.PedalsThrottleEffect2;
+			ThrottleEffect3_MairaComboBox.SelectedValue = settings.PedalsThrottleEffect3;
 		} );
 
 		app.Logger.WriteLine( "[PedalsPage] <<< UpdateEffectOptions" );
