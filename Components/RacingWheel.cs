@@ -16,7 +16,8 @@ public class RacingWheel
 		DeltaLimiter,
 		DetailBoosterOn60Hz,
 		DeltaLimiterOn60Hz,
-		ZeAlanLeTwist,
+		SlewAndTotalCompression,
+		MultiAdjustmentToolkit
 	};
 
 	public enum VibrationPattern
@@ -72,12 +73,15 @@ public class RacingWheel
 
 	private readonly float[] _steeringWheelTorque360Hz = new float[ Simulator.SamplesPerFrame360Hz + 2 ];
 
-	private float _lastSteeringWheelTorque500Hz = 0f;
-	private float _runningSteeringWheelTorque500Hz = 0f;
+	private float _algorithmPropertyA = 0f; // last
+	private float _algorithmPropertyB = 0f; // running
+	private float _algorithmPropertyC = 0f;
 
-	private float _lastUnfadedOutputTorque = 0f;
+	private float _outputTorque = 0f;
 	private float _peakTorque = 0f;
 	private float _autoTorque = 0f;
+
+	private float _lastUnfadedOutputTorque = 0f;
 
 	private float _elapsedMilliseconds = 0f;
 
@@ -86,6 +90,12 @@ public class RacingWheel
 	private bool _logiPlayLedsNotWorking = false;
 
 	private int _updateCounter = UpdateInterval + 4;
+
+	public float AutoTorque { get => _autoTorque; }
+	public float OutputTorque { get => _outputTorque; }
+	public bool CrashProtectionIsActive { get => _crashProtectionTimerMS > 0f; }
+	public bool CurbProtectionIsActive { get => _curbProtectionTimerMS > 0f; }
+	public bool FadingIsActive { get => _fadeTimerMS > 0f; }
 
 	public void Initialize()
 	{
@@ -123,7 +133,7 @@ public class RacingWheel
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
-	private static float ProcessAlgorithm( ref float runningSteeringWheelTorque500Hz, float lastSteeringWheelTorque500Hz, float steeringWheelTorque60Hz, float steeringWheelTorque500Hz, float curbProtectionLerpFactor )
+	private float ProcessAlgorithm( float steeringWheelTorque60Hz, float steeringWheelTorque500Hz, float curbProtectionLerpFactor )
 	{
 		// shortcut to settings
 
@@ -153,9 +163,10 @@ public class RacingWheel
 			{
 				var detailBoost = MathZ.Lerp( 1f + settings.RacingWheelDetailBoost, 1f, curbProtectionLerpFactor );
 
-				runningSteeringWheelTorque500Hz = MathZ.Lerp( runningSteeringWheelTorque500Hz + ( steeringWheelTorque500Hz - lastSteeringWheelTorque500Hz ) * detailBoost, steeringWheelTorque500Hz, settings.RacingWheelDetailBoostBias );
+				_algorithmPropertyB = MathZ.Lerp( _algorithmPropertyB + ( steeringWheelTorque500Hz - _algorithmPropertyA ) * detailBoost, steeringWheelTorque500Hz, settings.RacingWheelDetailBoostBias );
+				_algorithmPropertyA = steeringWheelTorque500Hz;
 
-				outputTorque = runningSteeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				outputTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
 
 				break;
 			}
@@ -164,11 +175,12 @@ public class RacingWheel
 			{
 				var deltaLimit = MathZ.Lerp( settings.RacingWheelDeltaLimit / 500f, 0f, curbProtectionLerpFactor );
 
-				var limitedDeltaSteeringWheelTorque500Hz = Math.Clamp( steeringWheelTorque500Hz - lastSteeringWheelTorque500Hz, -deltaLimit, deltaLimit );
+				var limitedDeltaSteeringWheelTorque500Hz = Math.Clamp( steeringWheelTorque500Hz - _algorithmPropertyA, -deltaLimit, deltaLimit );
 
-				runningSteeringWheelTorque500Hz = MathZ.Lerp( runningSteeringWheelTorque500Hz + limitedDeltaSteeringWheelTorque500Hz, steeringWheelTorque500Hz, settings.RacingWheelDeltaLimiterBias );
+				_algorithmPropertyB = MathZ.Lerp( _algorithmPropertyB + limitedDeltaSteeringWheelTorque500Hz, steeringWheelTorque500Hz, settings.RacingWheelDeltaLimiterBias );
+				_algorithmPropertyA = steeringWheelTorque500Hz;
 
-				outputTorque = runningSteeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				outputTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
 
 				break;
 			}
@@ -177,9 +189,10 @@ public class RacingWheel
 			{
 				var detailBoost = MathZ.Lerp( 1f + settings.RacingWheelDetailBoost, 1f, curbProtectionLerpFactor );
 
-				runningSteeringWheelTorque500Hz = MathZ.Lerp( runningSteeringWheelTorque500Hz + ( steeringWheelTorque500Hz - lastSteeringWheelTorque500Hz ) * detailBoost, steeringWheelTorque60Hz, settings.RacingWheelDetailBoostBias );
+				_algorithmPropertyB = MathZ.Lerp( _algorithmPropertyB + ( steeringWheelTorque500Hz - _algorithmPropertyA ) * detailBoost, steeringWheelTorque60Hz, settings.RacingWheelDetailBoostBias );
+				_algorithmPropertyA = steeringWheelTorque500Hz;
 
-				outputTorque = runningSteeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				outputTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
 
 				break;
 			}
@@ -188,20 +201,21 @@ public class RacingWheel
 			{
 				var deltaLimit = MathZ.Lerp( settings.RacingWheelDeltaLimit / 500f, 0f, curbProtectionLerpFactor );
 
-				var limitedDeltaSteeringWheelTorque500Hz = Math.Clamp( steeringWheelTorque500Hz - lastSteeringWheelTorque500Hz, -deltaLimit, deltaLimit );
+				var limitedDeltaSteeringWheelTorque500Hz = Math.Clamp( steeringWheelTorque500Hz - _algorithmPropertyA, -deltaLimit, deltaLimit );
 
-				runningSteeringWheelTorque500Hz = MathZ.Lerp( runningSteeringWheelTorque500Hz + limitedDeltaSteeringWheelTorque500Hz, steeringWheelTorque60Hz, settings.RacingWheelDeltaLimiterBias );
+				_algorithmPropertyB = MathZ.Lerp( _algorithmPropertyB + limitedDeltaSteeringWheelTorque500Hz, steeringWheelTorque60Hz, settings.RacingWheelDeltaLimiterBias );
+				_algorithmPropertyA = steeringWheelTorque500Hz;
 
-				outputTorque = runningSteeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				outputTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
 
 				break;
 			}
 
-			case Algorithm.ZeAlanLeTwist:
+			case Algorithm.SlewAndTotalCompression:
 			{
-				var normalizedRunningTorque = runningSteeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				var normalizedRunningTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
 
-				var normalizedDelta = ( steeringWheelTorque500Hz - runningSteeringWheelTorque500Hz ) / settings.RacingWheelMaxForce;
+				var normalizedDelta = ( steeringWheelTorque500Hz - _algorithmPropertyB ) / settings.RacingWheelMaxForce;
 				var normalizedDeltaAbs = MathF.Abs( normalizedDelta );
 
 				var deltaLimit = settings.RacingWheelSlewCompressionThreshold / 500f;
@@ -226,26 +240,126 @@ public class RacingWheel
 					normalizedRunningTorque += normalizedDelta;
 				}
 
-				var normalizedRunningTorqueAbs = MathF.Abs( normalizedRunningTorque );
-
 				var compressionThreshold = settings.RacingWheelTotalCompressionThreshold;
-				var compressionWidth = compressionThreshold;
-				var halfCompressionWidth = compressionWidth * 0.5f;
+				var compressionWidth = settings.RacingWheelTotalCompressionThreshold;
 
 				var oneMinusTotalCompressionRate = 1f - settings.RacingWheelTotalCompressionRate;
 
-				if ( ( normalizedRunningTorqueAbs > ( compressionThreshold - halfCompressionWidth ) ) && ( normalizedRunningTorqueAbs < ( compressionThreshold + halfCompressionWidth ) ) )
+				if ( settings.RacingWheelTotalCompressionRate != 0f )
 				{
-					normalizedRunningTorqueAbs -= settings.RacingWheelTotalCompressionRate / 2f * ( normalizedRunningTorqueAbs - compressionThreshold + halfCompressionWidth - ( compressionWidth / MathF.PI * MathF.Sin( MathF.PI * ( normalizedRunningTorqueAbs - compressionThreshold + halfCompressionWidth ) / compressionWidth ) ) );
-				}
-				else if ( normalizedRunningTorqueAbs >= ( compressionThreshold + halfCompressionWidth ) )
-				{
-					normalizedRunningTorqueAbs = compressionThreshold + ( normalizedRunningTorqueAbs - compressionThreshold ) * oneMinusTotalCompressionRate;
+					normalizedRunningTorque = MathZ.Compression( normalizedRunningTorque, settings.RacingWheelTotalCompressionRate, compressionThreshold, compressionWidth, false );
 				}
 
-				normalizedRunningTorque = normalizedRunningTorqueAbs * MathF.Sign( normalizedRunningTorque );
+				if ( settings.RacingWheelEnableSoftLimiter )
+				{
+					normalizedRunningTorque = MathZ.SoftLimiter( normalizedRunningTorque, 1f );
+				}
 
-				runningSteeringWheelTorque500Hz = normalizedRunningTorque * settings.RacingWheelMaxForce;
+				_algorithmPropertyB = normalizedRunningTorque * settings.RacingWheelMaxForce;
+				_algorithmPropertyA = steeringWheelTorque500Hz;
+
+				outputTorque = normalizedRunningTorque;
+
+				break;
+			}
+
+			case Algorithm.MultiAdjustmentToolkit:
+			{
+				var steadyBias = 0.08f;
+
+				var normalizedLastCompressedTorque = _algorithmPropertyA / settings.RacingWheelMaxForce;
+				var normalizedPriorRunningTorque = _algorithmPropertyB / settings.RacingWheelMaxForce;
+				var normalizedPriorSteadyTorque = _algorithmPropertyC / settings.RacingWheelMaxForce;
+
+				var normalizedTorque500Hz = steeringWheelTorque500Hz / settings.RacingWheelMaxForce;
+				var normalizedTorque60Hz = steeringWheelTorque60Hz / settings.RacingWheelMaxForce;
+
+				var compressionAmount = settings.RacingWheelMultiTorqueCompression;
+				var slewAmount = settings.RacingWheelMultiSlewRateReduction;
+				var detailGain = MathZ.Lerp( 1f + settings.RacingWheelMultiDetailGain, 1f, curbProtectionLerpFactor );
+				var smoothingAmount = settings.RacingWheelMultiOutputSmoothing;
+
+				var normalizedCompressedTorque = normalizedTorque500Hz;
+
+				if ( compressionAmount != 0f )
+				{
+					var compressionRate = MathF.Min( 2f * compressionAmount, 0.75f );
+					var compressionThreshold = 1f - 0.75f * compressionAmount;
+					var compressionWidth = MathF.Min( compressionAmount, 0.5f );
+
+					normalizedCompressedTorque = MathZ.Compression( normalizedTorque500Hz, compressionRate, compressionThreshold, compressionWidth, false );
+				}
+
+				if ( slewAmount != 0f )
+				{
+					float slewRateMultiplier;
+
+					if ( ( MathF.Abs( normalizedCompressedTorque ) > MathF.Abs( normalizedLastCompressedTorque ) ) || ( MathF.Sign( normalizedCompressedTorque ) != MathF.Sign( normalizedLastCompressedTorque ) ) )
+					{
+						slewRateMultiplier = 1f;
+					}
+					else
+					{
+						slewRateMultiplier = 0.8f;
+					}
+
+					var slewRate = MathF.Min( MathF.Pow( slewAmount, 0.35f ), 0.9f ) * slewRateMultiplier;
+					var slewThreshold = 0.01f - 0.0095f * slewAmount;
+					var slewWidth = MathF.Min( MathF.Pow( slewAmount, 0.005f ), 0.0025f );
+
+					var delta = normalizedCompressedTorque - normalizedLastCompressedTorque;
+					var compressedDelta = MathZ.Compression( delta, slewRate, slewThreshold, slewWidth, false );
+
+					normalizedCompressedTorque = normalizedLastCompressedTorque + compressedDelta;
+				}
+
+				var normalizedRunningSteadyTorque = MathZ.Lerp( normalizedPriorSteadyTorque, ( normalizedCompressedTorque + normalizedTorque60Hz ) / 2f, steadyBias );
+				var normalizedRunningTorque = normalizedCompressedTorque;
+
+				if ( detailGain != 1f )
+				{
+					if ( ( MathF.Abs( normalizedCompressedTorque - normalizedRunningSteadyTorque ) > MathF.Abs( normalizedLastCompressedTorque - normalizedRunningSteadyTorque ) ) || ( MathF.Sign( normalizedCompressedTorque - normalizedRunningSteadyTorque ) != MathF.Sign( normalizedLastCompressedTorque - normalizedPriorSteadyTorque ) ) || ( normalizedCompressedTorque == normalizedRunningSteadyTorque ) || ( normalizedLastCompressedTorque == normalizedPriorSteadyTorque ) )
+					{
+						if ( normalizedCompressedTorque > normalizedRunningSteadyTorque )
+						{
+							normalizedRunningTorque = MathF.Max( normalizedRunningSteadyTorque + ( normalizedCompressedTorque - normalizedRunningSteadyTorque ) * detailGain, normalizedRunningSteadyTorque );
+						}
+						else
+						{
+							normalizedRunningTorque = MathF.Min( normalizedRunningSteadyTorque - ( normalizedRunningSteadyTorque - normalizedCompressedTorque ) * detailGain, normalizedRunningSteadyTorque );
+						}
+					}
+					else
+					{
+						if ( normalizedCompressedTorque > normalizedRunningSteadyTorque )
+						{
+							normalizedRunningTorque = MathF.Max( normalizedRunningSteadyTorque + ( normalizedCompressedTorque - normalizedRunningSteadyTorque ) / ( normalizedLastCompressedTorque - normalizedRunningSteadyTorque ) * ( normalizedPriorRunningTorque - normalizedRunningSteadyTorque ), normalizedRunningSteadyTorque );
+						}
+						else
+						{
+							normalizedRunningTorque = MathF.Min( normalizedRunningSteadyTorque - ( normalizedRunningSteadyTorque - normalizedCompressedTorque ) / ( normalizedRunningSteadyTorque - normalizedLastCompressedTorque ) * ( normalizedRunningSteadyTorque - normalizedPriorRunningTorque ), normalizedRunningSteadyTorque );
+						}
+					}
+				}
+
+				if ( smoothingAmount != 0f )
+				{
+					var smoothingRate = 0.8f * MathF.Pow( smoothingAmount, 0.3f );
+
+					normalizedRunningTorque = MathZ.Lerp( normalizedRunningTorque, normalizedPriorRunningTorque + normalizedRunningSteadyTorque - normalizedPriorSteadyTorque, smoothingRate );
+				}
+
+				if ( settings.RacingWheelEnableMultiSoftLimiter )
+				{
+					var limitedTorque = MathZ.SoftLimiter( normalizedRunningTorque, 1f );
+
+					normalizedCompressedTorque = normalizedCompressedTorque * limitedTorque / normalizedRunningTorque;
+					normalizedRunningTorque = limitedTorque;
+				}
+
+				_algorithmPropertyA = normalizedCompressedTorque * settings.RacingWheelMaxForce;
+				_algorithmPropertyB = normalizedRunningTorque * settings.RacingWheelMaxForce;
+				_algorithmPropertyC = normalizedRunningSteadyTorque * settings.RacingWheelMaxForce;
 
 				outputTorque = normalizedRunningTorque;
 
@@ -702,11 +816,7 @@ public class RacingWheel
 
 			// process the algorithm
 
-			var outputTorque = ProcessAlgorithm( ref _runningSteeringWheelTorque500Hz, _lastSteeringWheelTorque500Hz, steeringWheelTorque60Hz, steeringWheelTorque500Hz, curbProtectionLerpFactor );
-
-			// save last 500Hz steering wheel torque
-
-			_lastSteeringWheelTorque500Hz = steeringWheelTorque500Hz;
+			var outputTorque = ProcessAlgorithm( steeringWheelTorque60Hz, steeringWheelTorque500Hz, curbProtectionLerpFactor );
 
 			// understeer constant force effect
 
@@ -872,6 +982,8 @@ public class RacingWheel
 
 			outputTorque += vibrationTorque;
 
+			_outputTorque = outputTorque;
+
 			// update force feedback torque
 
 			app.DirectInput.UpdateForceFeedbackEffect( outputTorque );
@@ -882,14 +994,6 @@ public class RacingWheel
 			app.Graph.UpdateLayer( Graph.LayerIndex.InputTorque, steeringWheelTorque500Hz, steeringWheelTorque500Hz / settings.RacingWheelMaxForce );
 			app.Graph.UpdateLayer( Graph.LayerIndex.InputLFE, inputLFEMagnitude, inputLFEMagnitude );
 			app.Graph.UpdateLayer( Graph.LayerIndex.OutputTorque, outputTorque, outputTorque );
-
-			// update telemetry
-
-			app.Telemetry.Data.racingWheelOutputTorque = outputTorque;
-			app.Telemetry.Data.racingWheelOutputTorqueIsClipping = ( outputTorque < -1f ) || ( outputTorque > 1f );
-			app.Telemetry.Data.racingWheelCrashProtectionIsActive = ( _crashProtectionTimerMS > 0 );
-			app.Telemetry.Data.racingWheelCurbProtectionIsActive = ( _curbProtectionTimerMS > 0 );
-			app.Telemetry.Data.racingWheelIsFading = ( _fadeTimerMS > 0 );
 
 			// update recording data
 
@@ -954,14 +1058,9 @@ public class RacingWheel
 
 				var recording = app.RecordingManager.Recording;
 
-				var runningTorque = 0f;
-				var lastTorque500Hz = 0f;
-
-				if ( recording != null )
-				{
-					runningTorque = recording.Data![ 0 ].InputTorque500Hz;
-					lastTorque500Hz = recording.Data![ 0 ].InputTorque500Hz;
-				}
+				_algorithmPropertyA = 0f;
+				_algorithmPropertyB = 0f;
+				_algorithmPropertyC = 0f;
 
 				for ( var x = 0; x < _algorithmPreviewGraphBase.BitmapWidth; x++ )
 				{
@@ -970,9 +1069,7 @@ public class RacingWheel
 						var inputTorque60Hz = recording.Data![ x ].InputTorque60Hz;
 						var inputTorque500Hz = recording.Data![ x ].InputTorque500Hz;
 
-						var outputTorque = ProcessAlgorithm( ref runningTorque, lastTorque500Hz, inputTorque60Hz, inputTorque500Hz, 0f );
-
-						lastTorque500Hz = inputTorque500Hz;
+						var outputTorque = ProcessAlgorithm( inputTorque60Hz, inputTorque500Hz, 0f );
 
 						_algorithmPreviewGraphBase.Update( inputTorque500Hz / settings.RacingWheelMaxForce, 0.5f, 0f, 0f, 1f, 0.25f, 0.25f );
 						_algorithmPreviewGraphBase.Update( outputTorque, 0f, 0.5f, 0.5f, 0.25f, 1f, 1f );

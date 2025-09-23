@@ -283,13 +283,22 @@ public partial class MainWindow : Window
 		Dispatcher.Invoke( () =>
 		{
 			var racingWheelDetailBoostKnobControlVisibility = Visibility.Hidden;
-			var racingWheelDeltaLimitKnobControlVisibility = Visibility.Hidden;
 			var racingWheelDetailBoostBiasKnobControlVisibility = Visibility.Hidden;
+
+			var racingWheelDeltaLimitKnobControlVisibility = Visibility.Hidden;
 			var racingWheelDeltaLimiterBiasKnobControlVisibility = Visibility.Hidden;
+
+			var racingWheelEnableSoftLimiterVisibility = Visibility.Hidden;
 			var racingWheelSlewCompressionThresholdVisibility = Visibility.Hidden;
 			var racingWheelSlewCompressionRateVisibility = Visibility.Hidden;
 			var racingWheelTotalCompressionThresholdVisibility = Visibility.Hidden;
 			var racingWheelTotalCompressionRateVisibility = Visibility.Hidden;
+
+			var racingWheelMultiSoftLimiterVisibility = Visibility.Hidden;
+			var racingWheelMultiTorqueCompressionVisibility = Visibility.Hidden;
+			var racingWheelMultiSlewRateReductionVisibility = Visibility.Hidden;
+			var racingWheelMultiDetailGainVisibility = Visibility.Hidden;
+			var racingWheelMultiOutputSmoothingVisibility = Visibility.Hidden;
 
 			var racingWheelAlgorithmRowTwoGridVisibility = Visibility.Collapsed;
 			var racingWheelCurbProtectionStackPanelVisibility = Visibility.Collapsed;
@@ -310,7 +319,8 @@ public partial class MainWindow : Window
 					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
 					break;
 
-				case RacingWheel.Algorithm.ZeAlanLeTwist:
+				case RacingWheel.Algorithm.SlewAndTotalCompression:
+					racingWheelEnableSoftLimiterVisibility = Visibility.Visible;
 					racingWheelSlewCompressionThresholdVisibility = Visibility.Visible;
 					racingWheelSlewCompressionRateVisibility = Visibility.Visible;
 					racingWheelTotalCompressionThresholdVisibility = Visibility.Visible;
@@ -319,16 +329,36 @@ public partial class MainWindow : Window
 					racingWheelAlgorithmRowTwoGridVisibility = Visibility.Visible;
 					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
 					break;
+
+				case RacingWheel.Algorithm.MultiAdjustmentToolkit:
+					racingWheelMultiSoftLimiterVisibility = Visibility.Visible;
+					racingWheelMultiTorqueCompressionVisibility = Visibility.Visible;
+					racingWheelMultiSlewRateReductionVisibility = Visibility.Visible;
+					racingWheelMultiDetailGainVisibility = Visibility.Visible;
+					racingWheelMultiOutputSmoothingVisibility = Visibility.Visible;
+
+					racingWheelAlgorithmRowTwoGridVisibility = Visibility.Visible;
+					racingWheelCurbProtectionStackPanelVisibility = Visibility.Visible;
+					break;
 			}
 
 			_racingWheelPage.DetailBoost_MairaKnob.Visibility = racingWheelDetailBoostKnobControlVisibility;
-			_racingWheelPage.DeltaLimit_MairaKnob.Visibility = racingWheelDeltaLimitKnobControlVisibility;
 			_racingWheelPage.DetailBoostBias_MairaKnob.Visibility = racingWheelDetailBoostBiasKnobControlVisibility;
+
+			_racingWheelPage.DeltaLimit_MairaKnob.Visibility = racingWheelDeltaLimitKnobControlVisibility;
 			_racingWheelPage.DeltaLimiterBias_MairaKnob.Visibility = racingWheelDeltaLimiterBiasKnobControlVisibility;
+
+			_racingWheelPage.EnableSoftLimiter_MairaSwitch.Visibility = racingWheelEnableSoftLimiterVisibility;
 			_racingWheelPage.SlewCompressionThreshold_MairaKnob.Visibility = racingWheelSlewCompressionThresholdVisibility;
 			_racingWheelPage.SlewCompressionRate_MairaKnob.Visibility = racingWheelSlewCompressionRateVisibility;
 			_racingWheelPage.TotalCompressionThreshold_MairaKnob.Visibility = racingWheelTotalCompressionThresholdVisibility;
 			_racingWheelPage.TotalCompressionRate_MairaKnob.Visibility = racingWheelTotalCompressionRateVisibility;
+
+			_racingWheelPage.EnableMultiSoftLimiter_MairaSwitch.Visibility = racingWheelMultiSoftLimiterVisibility;
+			_racingWheelPage.MultiTorqueCompression_MairaKnob.Visibility = racingWheelMultiTorqueCompressionVisibility;
+			_racingWheelPage.MultiSlewRateReduction_MairaKnob.Visibility = racingWheelMultiSlewRateReductionVisibility;
+			_racingWheelPage.MultiDetailGain_MairaKnob.Visibility = racingWheelMultiDetailGainVisibility;
+			_racingWheelPage.MultiOutputSmoothing_MairaKnob.Visibility = racingWheelMultiOutputSmoothingVisibility;
 
 			_racingWheelPage.AlgorithmRowTwo_Grid.Visibility = racingWheelAlgorithmRowTwoGridVisibility;
 			_racingWheelPage.CurbProtection_StackPanel.Visibility = racingWheelCurbProtectionStackPanelVisibility;

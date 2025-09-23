@@ -187,7 +187,8 @@ public partial class RacingWheelPage : UserControl
 			{ RacingWheel.Algorithm.DeltaLimiter, localization[ "DeltaLimiter" ] },
 			{ RacingWheel.Algorithm.DetailBoosterOn60Hz, localization[ "DetailBoosterOn60Hz" ] },
 			{ RacingWheel.Algorithm.DeltaLimiterOn60Hz, localization[ "DeltaLimiterOn60Hz" ] },
-			{ RacingWheel.Algorithm.ZeAlanLeTwist, localization[ "ZeAlanLeTwist" ] }
+			{ RacingWheel.Algorithm.SlewAndTotalCompression, localization[ "SlewAndTotalCompression" ] },
+			{ RacingWheel.Algorithm.MultiAdjustmentToolkit, localization[ "MultiAdjustmentToolkit" ] }
 		};
 
 		app.Dispatcher.Invoke( () =>

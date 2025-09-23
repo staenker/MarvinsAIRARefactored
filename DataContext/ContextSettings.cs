@@ -14,10 +14,16 @@ public class ContextSettings
 	public float RacingWheelDetailBoostBias { get; set; }
 	public float RacingWheelDeltaLimit { get; set; }
 	public float RacingWheelDeltaLimiterBias { get; set; }
+	public bool RacingWheelEnableSoftLimiter { get; set; }
 	public float RacingWheelSlewCompressionThreshold { get; set; }
 	public float RacingWheelSlewCompressionRate { get; set; }
 	public float RacingWheelTotalCompressionThreshold { get; set; }
 	public float RacingWheelTotalCompressionRate { get; set; }
+	public float RacingWheelEnableMutliSoftLimiter { get; set; }
+	public float RacingWheelMultiTorqueCompression { get; set; }
+	public float RacingWheelMultiSlewRateReduction { get; set; }
+	public float RacingWheelMultiDetailGain { get; set; }
+	public float RacingWheelMultiOutputSmoothing { get; set; }
 	public float RacingWheelOutputMinimum { get; set; }
 	public float RacingWheelOutputMaximum { get; set; }
 	public float RacingWheelOutputCurve { get; set; }
