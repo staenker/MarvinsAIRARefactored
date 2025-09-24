@@ -8,7 +8,7 @@ namespace MarvinsAIRARefactored.Components;
 public class Telemetry
 {
 	private const string MemoryMappedFileName = "Local\\MAIRARefactoredTelemetry";
-	private const int MaxStringLength = 128;
+	private const int MaxStringLengthInBytes = 256;
 
 	[StructLayout( LayoutKind.Sequential, Pack = 4 )]
 	public unsafe struct DataBufferStruct
@@ -21,8 +21,11 @@ public class Telemetry
 		public float racingWheelAutoTorque;
 
 		public int racingWheelAlgorithm;
-		public fixed byte racingWheelAlgorithmName[ MaxStringLength ];
+		public fixed byte racingWheelAlgorithmName[ MaxStringLengthInBytes ];
+
 		public fixed float racingWheelAlgorithmSettings[ 5 ];
+		public fixed byte racingWheelAlgorithmSettingNames[ 5 * MaxStringLengthInBytes ];
+		public fixed byte racingWheelAlgorithmSettingValues[ 5 * MaxStringLengthInBytes ];
 
 		public float racingWheelOutputTorque;
 		public bool racingWheelOutputTorqueIsClipping;
@@ -47,18 +50,51 @@ public class Telemetry
 
 		public void SetAlgorithmName( string? value )
 		{
-			fixed ( byte* p = racingWheelAlgorithmName )
+			fixed ( byte* bytePtr = racingWheelAlgorithmName )
 			{
-				var byteSpan = new Span<byte>( p, MaxStringLength );
-
-				byteSpan.Clear();
-
-				if ( string.IsNullOrEmpty( value ) ) return;
-
-				var bytesWritten = Encoding.UTF8.GetBytes( value.AsSpan(), byteSpan );
-
-				if ( bytesWritten >= byteSpan.Length ) byteSpan[ ^1 ] = 0; else byteSpan[ bytesWritten ] = 0;
+				WriteString( bytePtr, 0, MaxStringLengthInBytes, value );
 			}
+		}
+
+		public void SetAlgorithmSettingName( int index, string? value )
+		{
+			if ( index < 0 || index >= 5 ) return;
+
+			fixed ( byte* bytePtr = racingWheelAlgorithmSettingNames )
+			{
+				WriteString( bytePtr, index, MaxStringLengthInBytes, value );
+			}
+		}
+
+		public void SetAlgorithmSettingValue( int index, string? value )
+		{
+			if ( index < 0 || index >= 5 ) return;
+
+			fixed ( byte* bytePtr = racingWheelAlgorithmSettingValues )
+			{
+				WriteString( bytePtr, index, MaxStringLengthInBytes, value );
+			}
+		}
+
+		public static unsafe void WriteString( byte* bytePtr, int index, int capacity, string? value )
+		{
+			if ( bytePtr == null || capacity <= 0 ) return;
+
+			var offset = index * capacity;
+
+			if ( string.IsNullOrEmpty( value ) )
+			{
+				bytePtr[ offset ] = 0;
+				return;
+			}
+
+			var bytes = Encoding.UTF8.GetBytes( value );
+
+			var length = Math.Min( bytes.Length, capacity - 1 );
+
+			Marshal.Copy( bytes, 0, (IntPtr) bytePtr + offset, length );
+
+			bytePtr[ offset + length ] = 0;
 		}
 	}
 
@@ -142,11 +178,13 @@ public class Telemetry
 
 		unsafe
 		{
-			dataBuffer.racingWheelAlgorithmSettings[ 0 ] = 0f;
-			dataBuffer.racingWheelAlgorithmSettings[ 1 ] = 0f;
-			dataBuffer.racingWheelAlgorithmSettings[ 2 ] = 0f;
-			dataBuffer.racingWheelAlgorithmSettings[ 3 ] = 0f;
-			dataBuffer.racingWheelAlgorithmSettings[ 4 ] = 0f;
+			for ( var index = 0; index < 5; index++ )
+			{
+				dataBuffer.racingWheelAlgorithmSettings[ index ] = 0f;
+
+				dataBuffer.SetAlgorithmSettingName( index, null );
+				dataBuffer.SetAlgorithmSettingValue( index, null );
+			}
 
 			switch ( settings.RacingWheelAlgorithm )
 			{
@@ -156,6 +194,12 @@ public class Telemetry
 					dataBuffer.racingWheelAlgorithmSettings[ 0 ] = settings.RacingWheelDetailBoost;
 					dataBuffer.racingWheelAlgorithmSettings[ 1 ] = settings.RacingWheelDetailBoostBias;
 
+					dataBuffer.SetAlgorithmSettingName( 0, localization[ "DetailBoost" ] );
+					dataBuffer.SetAlgorithmSettingName( 1, localization[ "DetailBoostBias" ] );
+
+					dataBuffer.SetAlgorithmSettingValue( 0, settings.RacingWheelDetailBoostString );
+					dataBuffer.SetAlgorithmSettingValue( 1, settings.RacingWheelDetailBoostBiasString );
+
 					break;
 
 				case RacingWheel.Algorithm.DeltaLimiter:
@@ -163,6 +207,12 @@ public class Telemetry
 
 					dataBuffer.racingWheelAlgorithmSettings[ 0 ] = settings.RacingWheelDeltaLimit;
 					dataBuffer.racingWheelAlgorithmSettings[ 1 ] = settings.RacingWheelDeltaLimiterBias;
+
+					dataBuffer.SetAlgorithmSettingName( 0, localization[ "DeltaLimit" ] );
+					dataBuffer.SetAlgorithmSettingName( 1, localization[ "DeltaLimiterBias" ] );
+
+					dataBuffer.SetAlgorithmSettingValue( 0, settings.RacingWheelDeltaLimitString );
+					dataBuffer.SetAlgorithmSettingValue( 1, settings.RacingWheelDeltaLimiterBiasString );
 
 					break;
 
@@ -174,6 +224,18 @@ public class Telemetry
 					dataBuffer.racingWheelAlgorithmSettings[ 3 ] = settings.RacingWheelTotalCompressionThreshold;
 					dataBuffer.racingWheelAlgorithmSettings[ 4 ] = settings.RacingWheelTotalCompressionRate;
 
+					dataBuffer.SetAlgorithmSettingName( 0, localization[ "SoftClipping" ] );
+					dataBuffer.SetAlgorithmSettingName( 1, localization[ "SlewCompressionThreshold" ] );
+					dataBuffer.SetAlgorithmSettingName( 2, localization[ "SlewCompressionRate" ] );
+					dataBuffer.SetAlgorithmSettingName( 3, localization[ "TotalCompressionThreshold" ] );
+					dataBuffer.SetAlgorithmSettingName( 4, localization[ "TotalCompressionRate" ] );
+
+					dataBuffer.SetAlgorithmSettingValue( 0, settings.RacingWheelEnableSoftLimiter ? localization[ "ON" ] : localization[ "OFF" ] );
+					dataBuffer.SetAlgorithmSettingValue( 1, settings.RacingWheelSlewCompressionThresholdString );
+					dataBuffer.SetAlgorithmSettingValue( 2, settings.RacingWheelSlewCompressionRateString );
+					dataBuffer.SetAlgorithmSettingValue( 3, settings.RacingWheelTotalCompressionThresholdString );
+					dataBuffer.SetAlgorithmSettingValue( 4, settings.RacingWheelTotalCompressionRateString );
+
 					break;
 
 				case RacingWheel.Algorithm.MultiAdjustmentToolkit:
@@ -183,6 +245,18 @@ public class Telemetry
 					dataBuffer.racingWheelAlgorithmSettings[ 2 ] = settings.RacingWheelMultiSlewRateReduction;
 					dataBuffer.racingWheelAlgorithmSettings[ 3 ] = settings.RacingWheelMultiDetailGain;
 					dataBuffer.racingWheelAlgorithmSettings[ 4 ] = settings.RacingWheelMultiOutputSmoothing;
+
+					dataBuffer.SetAlgorithmSettingName( 0, localization[ "SoftClipping" ] );
+					dataBuffer.SetAlgorithmSettingName( 1, localization[ "TorqueCompression" ] );
+					dataBuffer.SetAlgorithmSettingName( 2, localization[ "SlewRateReduction" ] );
+					dataBuffer.SetAlgorithmSettingName( 3, localization[ "DetailGain" ] );
+					dataBuffer.SetAlgorithmSettingName( 4, localization[ "OutputSmoothing" ] );
+
+					dataBuffer.SetAlgorithmSettingValue( 0, settings.RacingWheelEnableMultiSoftLimiter ? localization[ "ON" ] : localization[ "OFF" ] );
+					dataBuffer.SetAlgorithmSettingValue( 1, settings.RacingWheelMultiTorqueCompressionString );
+					dataBuffer.SetAlgorithmSettingValue( 2, settings.RacingWheelMultiSlewRateReductionString );
+					dataBuffer.SetAlgorithmSettingValue( 3, settings.RacingWheelMultiDetailGainString );
+					dataBuffer.SetAlgorithmSettingValue( 4, settings.RacingWheelMultiOutputSmoothingString );
 
 					break;
 			}
