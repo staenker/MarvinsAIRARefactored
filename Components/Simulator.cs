@@ -714,17 +714,6 @@ public partial class Simulator
 			}
 		}
 
-		// update speech to text
-
-		if ( RadioTransmitCarIdx != -1 )
-		{
-			app.SpeechToText.Start();
-		}
-		else
-		{
-			app.SpeechToText.Stop();
-		}
-
 		// update steering effects
 
 		app.SteeringEffects.Update( app, deltaSeconds );

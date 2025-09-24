@@ -11,7 +11,6 @@ public sealed class SpeechToText : IDisposable
 	private Process? _browserProcess;
 	private string _language = "en-US";
 	private bool _isEnabled = false;
-	private bool _isStarted = false;
 
 	public string Language
 	{
@@ -167,38 +166,6 @@ public sealed class SpeechToText : IDisposable
 		else
 		{
 			_ = DisableAsync();
-		}
-	}
-
-	public void Start()
-	{
-		if ( !_isStarted )
-		{
-			_isStarted = true;
-
-			if ( _chromeSTTBridge != null )
-			{
-				if ( _chromeSTTBridge.IsClientConnected )
-				{
-					_ = _chromeSTTBridge.SendStartAsync();
-				}
-			}
-		}
-	}
-
-	public void Stop()
-	{
-		if ( _isStarted )
-		{
-			_isStarted = false;
-
-			if ( _chromeSTTBridge != null )
-			{
-				if ( _chromeSTTBridge.IsClientConnected )
-				{
-					_ = _chromeSTTBridge.SendStopAsync();
-				}
-			}
 		}
 	}
 
