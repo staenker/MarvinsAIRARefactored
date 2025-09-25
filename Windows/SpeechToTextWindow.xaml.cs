@@ -17,7 +17,8 @@ public partial class SpeechToTextWindow : Window
 	private float _windowVisibilityTimer = 0f;
 	private float _finalVisibilityTimer = 0f;
 
-	private int _partialCarIdx = -1;
+	private int _speakingCarIdx = -1;
+	private DateTime _speakingTimestamp;
 
 	public SpeechToTextWindow()
 	{
@@ -138,12 +139,20 @@ public partial class SpeechToTextWindow : Window
 			{
 				var app = App.Instance!;
 
-				if ( _partialCarIdx == -1 )
+				app.Logger.WriteLine( $"[SpeechToText] Got partial text ({text})" );
+
+				var elapsedTime = DateTime.UtcNow - _speakingTimestamp;
+
+				if ( _speakingCarIdx == -1 || ( elapsedTime.TotalSeconds > 1 ) )
 				{
-					_partialCarIdx = app.Simulator.LastRadioTransmitCarIdx;
+					_speakingCarIdx = app.Simulator.LastRadioTransmitCarIdx;
+
+					app.Logger.WriteLine( $"[SpeechToText] Speaking car index was not set - now set to {_speakingCarIdx}" );
 				}
 
-				var driver = app.Simulator.GetDriver( _partialCarIdx );
+				_speakingTimestamp = DateTime.UtcNow;
+
+				var driver = app.Simulator.GetDriver( _speakingCarIdx );
 
 				if ( driver != null )
 				{
@@ -175,9 +184,13 @@ public partial class SpeechToTextWindow : Window
 			{
 				var app = App.Instance!;
 
-				var driver = app.Simulator.GetDriver( _partialCarIdx );
+				app.Logger.WriteLine( $"[SpeechToText] Got final text ({text})" );
 
-				_partialCarIdx = -1;
+				var driver = app.Simulator.GetDriver( _speakingCarIdx );
+
+				_speakingCarIdx = -1;
+
+				app.Logger.WriteLine( $"[SpeechToText] Speaking car index cleared" );
 
 				if ( driver != null )
 				{
