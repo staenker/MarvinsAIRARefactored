@@ -64,7 +64,10 @@ public sealed class SpeechToText : IDisposable
 
 			_chromeSTTBridge.ErrorText += text =>
 			{
-				app.SpeechToTextWindow.SetFinalText( text );
+				if ( text != "no-speech" )
+				{
+					app.SpeechToTextWindow.SetFinalText( text );
+				}
 			};
 
 			_chromeSTTBridge.Start();
