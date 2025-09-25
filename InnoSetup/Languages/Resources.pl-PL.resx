@@ -1098,9 +1098,6 @@
   <data name="STT_Title">
     <value>Most MAIRA do rozpoznawania mowy</value>
   </data>
-  <data name="STT_Hint">
-    <value>Wybierz urządzenie przechwytywania dźwięku, a następnie kliknij przycisk Włącz.</value>
-  </data>
   <data name="STT_Button">
     <value>Włącz rozpoznawanie mowy</value>
   </data>

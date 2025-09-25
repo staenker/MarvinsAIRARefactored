@@ -1127,7 +1127,7 @@
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Hint" xml:space="preserve">
-    <value>オーディオ キャプチャ デバイスを選択して、［有効にする］ボタンをクリックしてください。</value>
+    <value></value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Button" xml:space="preserve">

@@ -1083,9 +1083,6 @@
   <data name="STT_Title">
     <value>Puente MAIRA de reconocimiento de voz</value>
   </data>
-  <data name="STT_Hint">
-    <value>Elige un dispositivo de captura de audio y, después, haz clic en el botón Activar.</value>
-  </data>
   <data name="STT_Button">
     <value>Activar reconocimiento de voz</value>
   </data>

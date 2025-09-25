@@ -1110,7 +1110,7 @@
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Hint" xml:space="preserve">
-    <value>Bir ses yakalama cihazı seçin, ardından etkinleştir düğmesine tıklayın.</value>
+    <value></value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Button" xml:space="preserve">

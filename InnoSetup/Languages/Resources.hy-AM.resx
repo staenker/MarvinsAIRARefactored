@@ -1156,9 +1156,6 @@
   <data name="STT_Title">
     <value>MAIRA խոսքից-տեքստ կամուրջ</value>
   </data>
-  <data name="STT_Hint">
-    <value>Ընտրեք ձայնագրող սարք, ապա սեղմեք միացման կոճակը։</value>
-  </data>
   <data name="STT_Button">
     <value>Միացնել խոսքից-տեքստը</value>
   </data>

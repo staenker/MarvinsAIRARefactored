@@ -1047,9 +1047,6 @@
   <data name="STT_Title">
     <value>MAIRA 语音转文字桥接</value>
   </data>
-  <data name="STT_Hint">
-    <value>选择一个音频采集设备，然后点击启用按钮。</value>
-  </data>
   <data name="STT_Button">
     <value>启用语音转文字</value>
   </data>

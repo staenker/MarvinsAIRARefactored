@@ -1163,9 +1163,6 @@
   <data name="STT_Title">
     <value>Most MAIRA řeč–text</value>
   </data>
-  <data name="STT_Hint">
-    <value>Vyberte zařízení pro záznam zvuku a poté klikněte na tlačítko Povolit.</value>
-  </data>
   <data name="STT_Button">
     <value>Povolit převod řeči na text</value>
   </data>

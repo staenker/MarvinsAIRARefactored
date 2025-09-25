@@ -1110,7 +1110,7 @@
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Hint" xml:space="preserve">
-    <value>Selecione um dispositivo de captura de áudio e clique no botão Habilitar.</value>
+    <value></value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Button" xml:space="preserve">

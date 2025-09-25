@@ -1140,9 +1140,6 @@
   <data name="STT_Title">
     <value>MAIRA Tale-til-tekst-bro</value>
   </data>
-  <data name="STT_Hint">
-    <value>Vælg en lydenhed til optagelse, og klik derefter på aktiveringsknappen.</value>
-  </data>
   <data name="STT_Button">
     <value>Aktivér tale-til-tekst</value>
   </data>

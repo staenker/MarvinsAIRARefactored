@@ -986,8 +986,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Hint" xml:space="preserve">
-    <value>Wähle ein Audiogerät zur Aufnahme und klicke dann auf die Aktivieren-Schaltfläche.
-</value>
+    <value></value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Button" xml:space="preserve">

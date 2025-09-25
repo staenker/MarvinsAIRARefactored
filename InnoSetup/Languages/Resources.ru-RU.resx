@@ -1182,7 +1182,7 @@
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Hint" xml:space="preserve">
-    <value>Выберите звуковое устройство, затем нажмите кнопку включения.</value>
+    <value></value>
     <comment>Speech-to-text bridge</comment>
   </data>
   <data name="STT_Button" xml:space="preserve">

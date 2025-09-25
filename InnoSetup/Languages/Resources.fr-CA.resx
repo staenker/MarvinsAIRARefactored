@@ -852,9 +852,6 @@
   <data name="STT_Title">
     <value>Passerelle MAIRA de reconnaissance vocale</value>
   </data>
-  <data name="STT_Hint">
-    <value>Choisissez un périphérique de capture audio, puis cliquez sur le bouton d’activation.</value>
-  </data>
   <data name="STT_Button">
     <value>Activer la reconnaissance vocale</value>
   </data>

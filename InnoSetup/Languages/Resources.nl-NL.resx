@@ -1009,9 +1009,6 @@
   <data name="STT_Title">
     <value>MAIRA Spraak-naar-tekst-brug</value>
   </data>
-  <data name="STT_Hint">
-    <value>Kies een audio-opnameapparaat en klik vervolgens op de knop Inschakelen.</value>
-  </data>
   <data name="STT_Button">
     <value>Spraak-naar-tekst inschakelen</value>
   </data>

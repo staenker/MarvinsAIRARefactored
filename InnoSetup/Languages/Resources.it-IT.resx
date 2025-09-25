@@ -1082,9 +1082,6 @@
   <data name="STT_Title">
     <value>Bridge MAIRA per il riconoscimento vocale</value>
   </data>
-  <data name="STT_Hint">
-    <value>Scegli un dispositivo di acquisizione audio e poi fai clic sul pulsante Abilita.</value>
-  </data>
   <data name="STT_Button">
     <value>Abilita riconoscimento vocale</value>
   </data>
