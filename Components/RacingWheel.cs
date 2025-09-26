@@ -128,7 +128,7 @@ public class RacingWheel
 
 			playerName = playerName.Replace( " ", "." );
 
-			app.ChatQueue.SendMessage( $"/{playerName} [MAIRA] {DataContext.DataContext.Instance.Localization[ key ]}", value );
+			app.ChatQueue.SendMessage( $"/{playerName} (MAIRA) {DataContext.DataContext.Instance.Localization[ key ]}", value );
 		}
 	}
 
