@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -18,7 +19,7 @@ public static class Serializer
 
 		var propertyName = propertyPath.Split( '.' ).Last();
 
-		var propInfo =  settings.GetType().GetProperty( propertyName ) ?? throw new Exception( $"[Settings] Could not determine default value of property '{propertyName}'" );
+		var propInfo = settings.GetType().GetProperty( propertyName ) ?? throw new Exception( $"[Settings] Could not determine default value of property '{propertyName}'" );
 
 		return propInfo.GetValue( settings );
 	}
@@ -115,16 +116,7 @@ public static class Serializer
 			{
 				var current = prop.GetValue( target );
 
-				if ( current is null )
-				{
-					current = Activator.CreateInstance( pType );
-
-					if ( current is null ) continue; // cannot create; skip
-
-					prop.SetValue( target, current );
-				}
-
-				// If the property is itself a dictionary/list/complex object, overlay recursively
+				current ??= Activator.CreateInstance( pType ) ?? throw new Exception( $"Could not create instance of '{pType.Name}'" );
 
 				if ( IsGenericDictionary( pType, out var kT, out var vT ) )
 				{
@@ -138,6 +130,8 @@ public static class Serializer
 				{
 					ApplyOverlay( propElement, current, propPath );
 				}
+
+				prop.SetValue( target, current );
 			}
 		}
 	}
