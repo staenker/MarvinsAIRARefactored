@@ -240,14 +240,9 @@ public class RacingWheel
 					normalizedRunningTorque += normalizedDelta;
 				}
 
-				var compressionThreshold = settings.RacingWheelTotalCompressionThreshold;
-				var compressionWidth = settings.RacingWheelTotalCompressionThreshold;
-
-				var oneMinusTotalCompressionRate = 1f - settings.RacingWheelTotalCompressionRate;
-
 				if ( settings.RacingWheelTotalCompressionRate != 0f )
 				{
-					normalizedRunningTorque = MathZ.Compression( normalizedRunningTorque, settings.RacingWheelTotalCompressionRate, compressionThreshold, compressionWidth, false );
+					normalizedRunningTorque = MathZ.Compression( normalizedRunningTorque, settings.RacingWheelTotalCompressionRate, settings.RacingWheelTotalCompressionThreshold, settings.RacingWheelTotalCompressionThreshold, false );
 				}
 
 				if ( settings.RacingWheelEnableSoftLimiter )
@@ -1068,6 +1063,12 @@ public class RacingWheel
 					{
 						var inputTorque60Hz = recording.Data![ x ].InputTorque60Hz;
 						var inputTorque500Hz = recording.Data![ x ].InputTorque500Hz;
+
+						if ( x < 100 )
+						{
+							inputTorque60Hz = 0f;
+							inputTorque500Hz = 0f;
+						}
 
 						var outputTorque = ProcessAlgorithm( 1, inputTorque60Hz, inputTorque500Hz, 0f );
 

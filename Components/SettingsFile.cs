@@ -66,18 +66,7 @@ public class SettingsFile
 
 		if ( File.Exists( SettingsFilePath ) )
 		{
-			var settings = (Settings?) Serializer.Load( SettingsFilePath, typeof( Settings ) );
-
-			if ( settings != null )
-			{
-				app.Logger.WriteLine( "[SettingsFile] Loaded existing settings file" );
-
-				DataContext.DataContext.Instance.Settings = settings;
-			}
-			else
-			{
-				throw new Exception( "[SettingsFile] Could not load existing settings file - check log for the specific error" );
-			}
+			DataContext.DataContext.Instance.Settings = (Settings) Serializer.Load<Settings>( SettingsFilePath );
 		}
 		else
 		{
