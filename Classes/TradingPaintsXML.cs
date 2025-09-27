@@ -31,7 +31,6 @@ public static class TradingPaintsXml
 		public string? Ext { get; init; }
 	}
 
-
 	public static IReadOnlyList<Asset> ParseAssets( Stream xmlStream )
 	{
 		ArgumentNullException.ThrowIfNull( xmlStream );
