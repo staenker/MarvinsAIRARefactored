@@ -1061,12 +1061,6 @@ public class RacingWheel
 						var inputTorque60Hz = recording.Data![ x ].InputTorque60Hz;
 						var inputTorque500Hz = recording.Data![ x ].InputTorque500Hz;
 
-						if ( x < 100 )
-						{
-							inputTorque60Hz = 0f;
-							inputTorque500Hz = 0f;
-						}
-
 						var outputTorque = ProcessAlgorithm( 1, inputTorque60Hz, inputTorque500Hz, 0f );
 
 						_algorithmPreviewGraphBase.Update( inputTorque500Hz / settings.RacingWheelMaxForce, 0.5f, 0f, 0f, 1f, 0.25f, 0.25f );
