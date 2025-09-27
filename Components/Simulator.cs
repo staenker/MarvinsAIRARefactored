@@ -42,9 +42,11 @@ public partial class Simulator
 	public bool IsReplayPlaying { get; private set; } = false;
 	public float LapDistPct { get; private set; } = 0f;
 	public int LastRadioTransmitCarIdx { get; private set; } = -1;
+	public float LatAccel { get; private set; } = 0f;
 	public int LeagueID { get; private set; } = 0;
 	public float[] LFShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public bool LoadNumTextures { get; private set; } = false;
+	public float LongAccel { get; private set; } = 0f;
 	public float[] LRShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public int NumForwardGears { get; private set; } = 0;
 	public IRacingSdkEnum.PaceMode PaceMode { get; private set; } = IRacingSdkEnum.PaceMode.NotPacing;
@@ -103,8 +105,10 @@ public partial class Simulator
 	private IRacingSdkDatum? _isOnTrackDatum = null;
 	private IRacingSdkDatum? _isReplayPlayingDatum = null;
 	private IRacingSdkDatum? _lapDistPctDatum = null;
+	private IRacingSdkDatum? _latAccelDatum = null;
 	private IRacingSdkDatum? _lfShockVel_STDatum = null;
 	private IRacingSdkDatum? _loadNumTexturesDatum = null;
+	private IRacingSdkDatum? _longAccelDatum = null;
 	private IRacingSdkDatum? _lrShockVel_STDatum = null;
 	private IRacingSdkDatum? _paceModeDatum = null;
 	private IRacingSdkDatum? _playerCarIdxDatum = null;
@@ -250,7 +254,9 @@ public partial class Simulator
 		IsReplayPlaying = false;
 		LapDistPct = 0f;
 		LastRadioTransmitCarIdx = -1;
+		LatAccel = 0f;
 		LoadNumTextures = false;
+		LongAccel = 0f;
 		NumForwardGears = 0;
 		PaceMode = IRacingSdkEnum.PaceMode.NotPacing;
 		PlayerCarIdx = 0;
@@ -394,7 +400,9 @@ public partial class Simulator
 			_isOnTrackDatum = _irsdk.Data.TelemetryDataProperties[ "IsOnTrack" ];
 			_isReplayPlayingDatum = _irsdk.Data.TelemetryDataProperties[ "IsReplayPlaying" ];
 			_lapDistPctDatum = _irsdk.Data.TelemetryDataProperties[ "LapDistPct" ];
+			_latAccelDatum = _irsdk.Data.TelemetryDataProperties[ "LatAccel" ];
 			_loadNumTexturesDatum = _irsdk.Data.TelemetryDataProperties[ "LoadNumTextures" ];
+			_longAccelDatum = _irsdk.Data.TelemetryDataProperties[ "LongAccel" ];
 			_paceModeDatum = _irsdk.Data.TelemetryDataProperties[ "PaceMode" ];
 			_playerCarIdxDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerCarIdx" ];
 			_playerTrackSurfaceDatum = _irsdk.Data.TelemetryDataProperties[ "PlayerTrackSurface" ];
@@ -568,6 +576,11 @@ public partial class Simulator
 		VelocityY = _irsdk.Data.GetFloat( _velocityYDatum );
 
 		Velocity = MathF.Sqrt( VelocityX * VelocityX + VelocityY * VelocityY );
+
+		// get car body accelerations
+
+		LatAccel = _irsdk.Data.GetFloat( _latAccelDatum );
+		LongAccel = _irsdk.Data.GetFloat( _longAccelDatum );
 
 		// get weather declared wet and reload settings if it was changed
 
