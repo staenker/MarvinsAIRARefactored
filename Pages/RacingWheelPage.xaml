@@ -316,8 +316,7 @@
 
         </Grid>
 
-        <Grid x:Name="AlgorithmRowTwo_Grid"
-              Margin="0,20,0,0">
+        <Grid Margin="0,20,0,0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -327,18 +326,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <controls:MairaSwitch x:Name="EnableSoftLimiter_MairaSwitch"
-                                  Grid.Column="0"
+            <controls:MairaSwitch Grid.Column="0"
                                   Label="{Binding Localization[SoftClipping]}"
                                   IsOn="{Binding Settings.RacingWheelEnableSoftLimiter, Mode=TwoWay}"
-                                  ContextSwitches="{Binding Settings.RacingWheelEnableSoftLimiterContextSwitches}"
-                                  d:Visibility="Hidden" />
-
-            <controls:MairaSwitch x:Name="EnableMultiSoftLimiter_MairaSwitch"
-                                  Grid.Column="0"
-                                  Label="{Binding Localization[SoftClipping]}"
-                                  IsOn="{Binding Settings.RacingWheelEnableMultiSoftLimiter, Mode=TwoWay}"
-                                  ContextSwitches="{Binding Settings.RacingWheelEnableMultiSoftLimiterContextSwitches}" />
+                                  ContextSwitches="{Binding Settings.RacingWheelEnableSoftLimiterContextSwitches}" />
 
             <controls:MairaKnob x:Name="TotalCompressionThreshold_MairaKnob"
                                 Grid.Column="2"

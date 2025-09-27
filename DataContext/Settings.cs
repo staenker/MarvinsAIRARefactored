@@ -495,6 +495,33 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Racing wheel - Enable soft limiter
+
+	private bool _racingWheelEnableSoftLimiter = true;
+
+	public bool RacingWheelEnableSoftLimiter
+	{
+		get => _racingWheelEnableSoftLimiter;
+
+		set
+		{
+			if ( value != _racingWheelEnableSoftLimiter )
+			{
+				_racingWheelEnableSoftLimiter = value;
+
+				OnPropertyChanged();
+			}
+
+			var app = App.Instance!;
+
+			app.RacingWheel.UpdateAlgorithmPreview = true;
+		}
+	}
+
+	public ContextSwitches RacingWheelEnableSoftLimiterContextSwitches { get; set; } = new( true, true, false, false, false );
+
+	#endregion
+
 	#region Racing wheel - Detail boost
 
 	private float _racingWheelDetailBoost = 0f;
@@ -696,33 +723,6 @@ public class Settings : INotifyPropertyChanged
 	public ContextSwitches RacingWheelDeltaLimiterBiasContextSwitches { get; set; } = new( true, true, false, false, false );
 	public ButtonMappings RacingWheelDeltaLimiterBiasPlusButtonMappings { get; set; } = new();
 	public ButtonMappings RacingWheelDeltaLimiterBiasMinusButtonMappings { get; set; } = new();
-
-	#endregion
-
-	#region Racing wheel - Enable soft limiter
-
-	private bool _racingWheelEnableSoftLimiter = true;
-
-	public bool RacingWheelEnableSoftLimiter
-	{
-		get => _racingWheelEnableSoftLimiter;
-
-		set
-		{
-			if ( value != _racingWheelEnableSoftLimiter )
-			{
-				_racingWheelEnableSoftLimiter = value;
-
-				OnPropertyChanged();
-			}
-
-			var app = App.Instance!;
-
-			app.RacingWheel.UpdateAlgorithmPreview = true;
-		}
-	}
-
-	public ContextSwitches RacingWheelEnableSoftLimiterContextSwitches { get; set; } = new( true, true, false, false, false );
 
 	#endregion
 
@@ -928,33 +928,6 @@ public class Settings : INotifyPropertyChanged
 	public ContextSwitches RacingWheelTotalCompressionRateContextSwitches { get; set; } = new( true, true, false, false, false );
 	public ButtonMappings RacingWheelTotalCompressionRatePlusButtonMappings { get; set; } = new();
 	public ButtonMappings RacingWheelTotalCompressionRateMinusButtonMappings { get; set; } = new();
-
-	#endregion
-
-	#region Racing wheel - Enable multi soft Limiter
-
-	private bool _racingWheelEnableMultiSoftLimiter = true;
-
-	public bool RacingWheelEnableMultiSoftLimiter
-	{
-		get => _racingWheelEnableMultiSoftLimiter;
-
-		set
-		{
-			if ( value != _racingWheelEnableMultiSoftLimiter )
-			{
-				_racingWheelEnableMultiSoftLimiter = value;
-
-				OnPropertyChanged();
-			}
-
-			var app = App.Instance!;
-
-			app.RacingWheel.UpdateAlgorithmPreview = true;
-		}
-	}
-
-	public ContextSwitches RacingWheelEnableMultiSoftLimiterContextSwitches { get; set; } = new( true, true, false, false, false );
 
 	#endregion
 

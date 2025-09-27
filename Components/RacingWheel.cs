@@ -242,12 +242,7 @@ public class RacingWheel
 
 				if ( settings.RacingWheelTotalCompressionRate != 0f )
 				{
-					normalizedRunningTorque = MathZ.Compression( normalizedRunningTorque, settings.RacingWheelTotalCompressionRate, settings.RacingWheelTotalCompressionThreshold, settings.RacingWheelTotalCompressionThreshold, false );
-				}
-
-				if ( settings.RacingWheelEnableSoftLimiter && ( normalizedRunningTorque < -0.1f || normalizedRunningTorque > 0.1f ) )
-				{
-					normalizedRunningTorque = MathZ.SoftLimiter( normalizedRunningTorque, 1f );
+					normalizedRunningTorque = MathZ.Compression( normalizedRunningTorque, settings.RacingWheelTotalCompressionRate, settings.RacingWheelTotalCompressionThreshold, settings.RacingWheelTotalCompressionThreshold );
 				}
 
 				_algorithmPropertyB[ algorithmPropertyIndex ] = normalizedRunningTorque * settings.RacingWheelMaxForce;
@@ -262,9 +257,9 @@ public class RacingWheel
 			{
 				var steadyBias = 0.08f;
 
-				var normalizedLastCompressedTorque = _algorithmPropertyA[ algorithmPropertyIndex ] / settings.RacingWheelMaxForce;
-				var normalizedPriorRunningTorque = _algorithmPropertyB[ algorithmPropertyIndex ] / settings.RacingWheelMaxForce;
-				var normalizedPriorSteadyTorque = _algorithmPropertyC[ algorithmPropertyIndex ] / settings.RacingWheelMaxForce;
+				var normalizedLastCompressedTorque = _algorithmPropertyA[ algorithmPropertyIndex ];
+				var normalizedPriorRunningTorque = _algorithmPropertyB[ algorithmPropertyIndex ];
+				var normalizedPriorSteadyTorque = _algorithmPropertyC[ algorithmPropertyIndex ];
 
 				var normalizedTorque500Hz = steeringWheelTorque500Hz / settings.RacingWheelMaxForce;
 				var normalizedTorque60Hz = steeringWheelTorque60Hz / settings.RacingWheelMaxForce;
@@ -276,16 +271,16 @@ public class RacingWheel
 
 				var normalizedCompressedTorque = normalizedTorque500Hz;
 
-				if ( compressionAmount != 0f )
+				if ( compressionAmount > 0f )
 				{
 					var compressionRate = MathF.Min( 2f * compressionAmount, 0.75f );
 					var compressionThreshold = 1f - 0.75f * compressionAmount;
 					var compressionWidth = MathF.Min( compressionAmount, 0.5f );
 
-					normalizedCompressedTorque = MathZ.Compression( normalizedTorque500Hz, compressionRate, compressionThreshold, compressionWidth, false );
+					normalizedCompressedTorque = MathZ.Compression( normalizedTorque500Hz, compressionRate, compressionThreshold, compressionWidth );
 				}
 
-				if ( slewAmount != 0f )
+				if ( slewAmount > 0f )
 				{
 					float slewRateMultiplier;
 
@@ -303,37 +298,40 @@ public class RacingWheel
 					var slewWidth = MathF.Min( MathF.Pow( slewAmount, 0.005f ), 0.0025f );
 
 					var delta = normalizedCompressedTorque - normalizedLastCompressedTorque;
-					var compressedDelta = MathZ.Compression( delta, slewRate, slewThreshold, slewWidth, false );
+					var compressedDelta = MathZ.Compression( delta, slewRate, slewThreshold, slewWidth );
 
 					normalizedCompressedTorque = normalizedLastCompressedTorque + compressedDelta;
 				}
 
-				var normalizedRunningSteadyTorque = MathZ.Lerp( normalizedPriorSteadyTorque, ( normalizedCompressedTorque + normalizedTorque60Hz ) / 2f, steadyBias );
+				var normalizedRunningSteadyTorque = MathZ.Lerp( normalizedPriorSteadyTorque, ( normalizedCompressedTorque + normalizedTorque60Hz ) * 0.5f, steadyBias );
 				var normalizedRunningTorque = normalizedCompressedTorque;
 
 				if ( detailGain != 1f )
 				{
-					if ( ( MathF.Abs( normalizedCompressedTorque - normalizedRunningSteadyTorque ) > MathF.Abs( normalizedLastCompressedTorque - normalizedRunningSteadyTorque ) ) || ( MathF.Sign( normalizedCompressedTorque - normalizedRunningSteadyTorque ) != MathF.Sign( normalizedLastCompressedTorque - normalizedPriorSteadyTorque ) ) || ( normalizedLastCompressedTorque == normalizedRunningSteadyTorque ) )
+					const float epsilonGuard = 1e-6f;
+
+					var currentDeviation = normalizedCompressedTorque - normalizedRunningSteadyTorque;
+					var lastDeviation = normalizedLastCompressedTorque - normalizedRunningSteadyTorque;
+					var priorDeviationSign = normalizedLastCompressedTorque - normalizedPriorSteadyTorque;
+
+					if ( MathF.Abs( currentDeviation ) > MathF.Abs( lastDeviation ) || MathF.Sign( currentDeviation ) != MathF.Sign( priorDeviationSign ) || MathF.Abs( lastDeviation ) < epsilonGuard )
 					{
-						if ( normalizedCompressedTorque > normalizedRunningSteadyTorque )
+						if ( currentDeviation > 0f )
 						{
-							normalizedRunningTorque = MathF.Max( normalizedRunningSteadyTorque + ( normalizedCompressedTorque - normalizedRunningSteadyTorque ) * detailGain, normalizedRunningSteadyTorque );
+							normalizedRunningTorque = MathF.Max( normalizedRunningSteadyTorque + currentDeviation * detailGain, normalizedRunningSteadyTorque );
 						}
 						else
 						{
-							normalizedRunningTorque = MathF.Min( normalizedRunningSteadyTorque - ( normalizedRunningSteadyTorque - normalizedCompressedTorque ) * detailGain, normalizedRunningSteadyTorque );
+							normalizedRunningTorque = MathF.Min( normalizedRunningSteadyTorque + currentDeviation * detailGain, normalizedRunningSteadyTorque );
 						}
 					}
 					else
 					{
-						if ( normalizedCompressedTorque > normalizedRunningSteadyTorque )
-						{
-							normalizedRunningTorque = MathF.Max( normalizedRunningSteadyTorque + ( normalizedCompressedTorque - normalizedRunningSteadyTorque ) / ( normalizedLastCompressedTorque - normalizedRunningSteadyTorque ) * ( normalizedPriorRunningTorque - normalizedRunningSteadyTorque ), normalizedRunningSteadyTorque );
-						}
-						else
-						{
-							normalizedRunningTorque = MathF.Min( normalizedRunningSteadyTorque - ( normalizedRunningSteadyTorque - normalizedCompressedTorque ) / ( normalizedRunningSteadyTorque - normalizedLastCompressedTorque ) * ( normalizedRunningSteadyTorque - normalizedPriorRunningTorque ), normalizedRunningSteadyTorque );
-						}
+						var ratio = currentDeviation / lastDeviation;
+						var carried = ratio * ( normalizedPriorRunningTorque - normalizedRunningSteadyTorque );
+						var candidate = normalizedRunningSteadyTorque + carried;
+
+						normalizedRunningTorque = ( currentDeviation > 0f ) ? MathF.Max( candidate, normalizedRunningSteadyTorque ) : MathF.Min( candidate, normalizedRunningSteadyTorque );
 					}
 				}
 
@@ -344,17 +342,9 @@ public class RacingWheel
 					normalizedRunningTorque = MathZ.Lerp( normalizedRunningTorque, normalizedPriorRunningTorque + normalizedRunningSteadyTorque - normalizedPriorSteadyTorque, smoothingRate );
 				}
 
-				if ( settings.RacingWheelEnableMultiSoftLimiter && ( normalizedRunningTorque < -0.1f || normalizedRunningTorque > 0.1f ) )
-				{
-					var limitedTorque = MathZ.SoftLimiter( normalizedRunningTorque, 1f );
-
-					normalizedCompressedTorque = normalizedCompressedTorque * limitedTorque / normalizedRunningTorque;
-					normalizedRunningTorque = limitedTorque;
-				}
-
-				_algorithmPropertyA[ algorithmPropertyIndex ] = normalizedCompressedTorque * settings.RacingWheelMaxForce;
-				_algorithmPropertyB[ algorithmPropertyIndex ] = normalizedRunningTorque * settings.RacingWheelMaxForce;
-				_algorithmPropertyC[ algorithmPropertyIndex ] = normalizedRunningSteadyTorque * settings.RacingWheelMaxForce;
+				_algorithmPropertyA[ algorithmPropertyIndex ] = normalizedCompressedTorque;
+				_algorithmPropertyB[ algorithmPropertyIndex ] = normalizedRunningTorque;
+				_algorithmPropertyC[ algorithmPropertyIndex ] = normalizedRunningSteadyTorque;
 
 				outputTorque = normalizedRunningTorque;
 
@@ -369,6 +359,13 @@ public class RacingWheel
 			var power = MathZ.CurveToPower( settings.RacingWheelOutputCurve );
 
 			outputTorque = MathF.Sign( outputTorque ) * MathF.Pow( MathF.Abs( outputTorque ), power );
+		}
+
+		// apply soft limiter after output curve
+
+		if ( settings.RacingWheelEnableSoftLimiter )
+		{
+			outputTorque = MathZ.SoftLimiter( outputTorque );
 		}
 
 		// apply output maximum
