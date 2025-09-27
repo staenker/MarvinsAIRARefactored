@@ -307,7 +307,7 @@ public class Telemetry
 
 		// let SimHub know this buffer is ready for reading
 
-		_data.version = 2;
+		_data.version = 3;
 		_data.bufferIndex = _currentBufferIndex;
 
 		_memoryMappedFileViewAccessor?.Write( 0, ref _data );
