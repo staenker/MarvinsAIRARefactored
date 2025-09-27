@@ -16,5 +16,5 @@ public class ButtonMappings
 		public Button ClickButton { get; set; } = new();
 	}
 
-	public List<MappedButton> MappedButtons { get; } = [];
+	public List<MappedButton> MappedButtons { get; set; } = [];
 }
