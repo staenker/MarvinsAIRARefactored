@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:MarvinsAIRARefactored.Controls"
              mc:Ignorable="d">
 
-    <Grid>
+    <Grid VerticalAlignment="Center">
 
         <Grid.Style>
 
@@ -125,6 +125,33 @@
 
             <Grid>
 
+                <Grid.Style>
+
+                    <Style TargetType="Grid">
+
+                        <Setter Property="Width"
+                                Value="{Binding IconWidth, ElementName=Root}" />
+                        <Setter Property="Height"
+                                Value="{Binding IconHeight, ElementName=Root}" />
+
+                        <Style.Triggers>
+                            
+                            <DataTrigger Binding="{Binding IsSmall, ElementName=Root}"
+                                         Value="True">
+                                <Setter Property="Width"
+                                        Value="32" />
+                                <Setter Property="Height"
+                                        Value="32" />
+                            </DataTrigger>
+                            
+                        </Style.Triggers>
+                        
+                    </Style>
+
+                </Grid.Style>
+
+                <!-- Disabled -->
+
                 <Image RenderOptions.BitmapScalingMode="HighQuality">
 
                     <Image.Style>
@@ -165,6 +192,8 @@
                     </Image.Style>
 
                 </Image>
+
+                <!-- Pressed -->
 
                 <Image RenderOptions.BitmapScalingMode="HighQuality">
 
@@ -223,6 +252,8 @@
 
                 </Image>
 
+                <!-- Mapped -->
+
                 <Image RenderOptions.BitmapScalingMode="HighQuality">
 
                     <Image.Style>
@@ -272,6 +303,8 @@
                     </Image.Style>
 
                 </Image>
+
+                <!-- Default -->
 
                 <Image RenderOptions.BitmapScalingMode="HighQuality">
 
@@ -323,10 +356,10 @@
 
                 </Image>
 
+                <!-- Icon -->
+
                 <Image x:Name="Icon_Image"
                        Source="{Binding Icon, ElementName=Root}"
-                       Width="{Binding IconWidth, ElementName=Root}"
-                       Height="{Binding IconHeight, ElementName=Root}"
                        RenderOptions.BitmapScalingMode="HighQuality">
 
                     <Image.Style>
@@ -335,13 +368,27 @@
 
                             <Setter Property="Opacity"
                                     Value="1" />
+                            <Setter Property="Width"
+                                    Value="{Binding IconWidth, ElementName=Root}" />
+                            <Setter Property="Height"
+                                    Value="{Binding IconHeight, ElementName=Root}" />
 
                             <Style.Triggers>
+
                                 <DataTrigger Binding="{Binding IsEnabled, ElementName=Root}"
                                              Value="False">
                                     <Setter Property="Opacity"
                                             Value="0.25" />
                                 </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsSmall, ElementName=Root}"
+                                             Value="True">
+                                    <Setter Property="Width"
+                                            Value="32" />
+                                    <Setter Property="Height"
+                                            Value="32" />
+                                </DataTrigger>
+
                             </Style.Triggers>
 
                         </Style>
@@ -349,6 +396,8 @@
                     </Image.Style>
 
                 </Image>
+
+                <!-- Blink Icon -->
 
                 <Image x:Name="Blink_Image"
                        Source="{Binding BlinkIcon, ElementName=Root}"
@@ -362,13 +411,27 @@
 
                             <Setter Property="Visibility"
                                     Value="Visible" />
+                            <Setter Property="Width"
+                                    Value="{Binding IconWidth, ElementName=Root}" />
+                            <Setter Property="Height"
+                                    Value="{Binding IconHeight, ElementName=Root}" />
 
                             <Style.Triggers>
+
                                 <DataTrigger Binding="{Binding IsBlinking, ElementName=Root}"
                                              Value="True">
                                     <Setter Property="Visibility"
                                             Value="Visible" />
                                 </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsSmall, ElementName=Root}"
+                                             Value="True">
+                                    <Setter Property="Width"
+                                            Value="32" />
+                                    <Setter Property="Height"
+                                            Value="32" />
+                                </DataTrigger>
+
                             </Style.Triggers>
 
                         </Style>

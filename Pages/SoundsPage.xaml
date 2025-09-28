@@ -99,7 +99,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="ABSEngaged_Test_MairaButton_Click" />
+                                  Click="ABSEngaged_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 
@@ -161,7 +162,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="WheelLock_Test_MairaButton_Click" />
+                                  Click="WheelLock_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 
@@ -223,7 +225,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="WheelSpin_Test_MairaButton_Click" />
+                                  Click="WheelSpin_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 
@@ -271,7 +274,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="Understeer_Test_MairaButton_Click" />
+                                  Click="Understeer_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 
@@ -319,7 +323,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="Oversteer_Test_MairaButton_Click" />
+                                  Click="Oversteer_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 
@@ -367,7 +372,8 @@
             <controls:MairaButton Grid.Column="10"
                                   Label="{Binding Localization[Test]}"
                                   Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
-                                  Click="SeatOfPants_Test_MairaButton_Click" />
+                                  Click="SeatOfPants_Test_MairaButton_Click"
+                                  IsSmall="True" />
 
         </Grid>
 

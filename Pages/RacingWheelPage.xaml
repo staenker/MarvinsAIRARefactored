@@ -56,7 +56,7 @@
                 <controls:MairaMappableButton x:Name="Test_MairaMappableButton"
                                               Grid.Column="2"
                                               Label="{Binding Localization[Test]}"
-                                              Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
+                                              Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate-large.png"
                                               ButtonMappings="{Binding Settings.RacingWheelTestButtonMappings}"
                                               Click="Test_MairaMappableButton_Click" />
 

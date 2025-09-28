@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:MarvinsAIRARefactored.Controls"
              mc:Ignorable="d">
 
-    <Grid>
+    <Grid VerticalAlignment="Center">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -63,7 +63,7 @@
 
             <Grid x:Name="Curve_Grid"
                   Grid.Column="1"
-                  Margin="0,0,10,4"
+                  Margin="0,2,10,2"
                   Visibility="Collapsed">
 
                 <Image x:Name="Curve_Image"

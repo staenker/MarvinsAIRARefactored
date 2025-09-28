@@ -203,7 +203,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsClutchTest1ButtonMappings}"
-                                          Click="ClutchTest1_MairaMappableButton_Click" />
+                                          Click="ClutchTest1_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
@@ -230,7 +231,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsClutchTest2ButtonMappings}"
-                                          Click="ClutchTest2_MairaMappableButton_Click" />
+                                          Click="ClutchTest2_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="5"
                        Grid.Column="0"
@@ -257,7 +259,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsClutchTest3ButtonMappings}"
-                                          Click="ClutchTest3_MairaMappableButton_Click" />
+                                          Click="ClutchTest3_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
         </Grid>
 
@@ -328,7 +331,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsBrakeTest1ButtonMappings}"
-                                          Click="BrakeTest1_MairaMappableButton_Click" />
+                                          Click="BrakeTest1_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
@@ -355,7 +359,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsBrakeTest2ButtonMappings}"
-                                          Click="BrakeTest2_MairaMappableButton_Click" />
+                                          Click="BrakeTest2_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="5"
                        Grid.Column="0"
@@ -382,7 +387,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsBrakeTest3ButtonMappings}"
-                                          Click="BrakeTest3_MairaMappableButton_Click" />
+                                          Click="BrakeTest3_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
         </Grid>
 
@@ -453,7 +459,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsThrottleTest1ButtonMappings}"
-                                          Click="ThrottleTest1_MairaMappableButton_Click" />
+                                          Click="ThrottleTest1_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
@@ -480,7 +487,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsThrottleTest2ButtonMappings}"
-                                          Click="ThrottleTest2_MairaMappableButton_Click" />
+                                          Click="ThrottleTest2_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
             <TextBlock Grid.Row="5"
                        Grid.Column="0"
@@ -507,7 +515,8 @@
                                           Grid.Column="6"
                                           Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
                                           ButtonMappings="{Binding Settings.PedalsThrottleTest3ButtonMappings}"
-                                          Click="ThrottleTest3_MairaMappableButton_Click" />
+                                          Click="ThrottleTest3_MairaMappableButton_Click"
+                                          IsSmall="True" />
 
         </Grid>
 
