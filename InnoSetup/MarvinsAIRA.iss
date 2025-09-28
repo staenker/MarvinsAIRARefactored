@@ -55,7 +55,7 @@ Name: "{userdocs}\MarvinsAIRA Refactored\Sounds"
 Name: "{userdocs}\MarvinsAIRA Refactored\Recordings"
 Name: "{userdocs}\MarvinsAIRA Refactored\Calibration"
 Name: "{userdocs}\MarvinsAIRA Refactored\STT"
-Name: "{userdocs}\MarvinsAIRA Refactored\SimHub Plugin"
+Name: "{userdocs}\MarvinsAIRA Refactored\SimHub"
 
 [Files]
 Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\bin\publish\MarvinsAIRARefactored.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -67,8 +67,8 @@ Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetu
 Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Recordings\*.csv"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Recordings"; Flags: ignoreversion
 Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\Calibration\*.csv"; DestDir: "{userdocs}\MarvinsAIRA Refactored\Calibration"; Flags: ignoreversion
 Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\STT\*"; DestDir: "{userdocs}\MarvinsAIRA Refactored\STT"; Flags: ignoreversion
-Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactoredSimHub\bin\Release\MarvinsAIRARefactoredSimHub.dll"; DestDir: "{userdocs}\MarvinsAIRA Refactored\SimHub Plugin"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactoredSimHub\bin\Release\MarvinsAIRARefactoredSimHub.dll"; DestDir: "{code:SimHubRoot}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\SimHub\*"; DestDir: "{userdocs}\MarvinsAIRA Refactored\SimHub"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\InnoSetup\SimHub\MarvinsAIRARefactoredSimHub.dll"; DestDir: "{code:SimHubRoot}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
