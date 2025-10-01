@@ -1047,10 +1047,10 @@ public class SteeringEffects
 							if ( nextIndex <= 0 )
 							{
 								var x0 = _steeringWheelAnglesInDegrees[ 0 ];
-								var x1 = _steeringWheelAnglesInDegrees[ 10 ];
+								var x1 = _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded / 4 ];
 
 								var y0 = _yawRateInDegreesPerSecond[ 0 ];
-								var y1 = _yawRateInDegreesPerSecond[ 10 ];
+								var y1 = _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded / 4 ];
 
 								var dx = ( x1 - x0 );
 
@@ -1062,10 +1062,10 @@ public class SteeringEffects
 							{
 								var last = _numSteeringWheelAnglesRecorded - 1;
 
-								var x0 = _steeringWheelAnglesInDegrees[ last - 10 ];
+								var x0 = _steeringWheelAnglesInDegrees[ last - _numSteeringWheelAnglesRecorded / 4 ];
 								var x1 = _steeringWheelAnglesInDegrees[ last ];
 
-								var y0 = _yawRateInDegreesPerSecond[ last - 10 ];
+								var y0 = _yawRateInDegreesPerSecond[ last - _numSteeringWheelAnglesRecorded / 4 ];
 								var y1 = _yawRateInDegreesPerSecond[ last ];
 
 								var dx = ( x1 - x0 );
