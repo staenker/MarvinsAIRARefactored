@@ -167,6 +167,12 @@
     <Folder Include="InnoSetup\SimHub\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Translate\resx\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /S /D &quot;$(ProjectDir)InnoSetup\Languages\Resources*.resx&quot; &quot;$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\MarvinsAIRA Refactored\Languages\&quot; /Y /I" />
     <Exec Command="xcopy /S /D &quot;$(ProjectDir)InnoSetup\Sounds\*.wav&quot; &quot;$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\MarvinsAIRA Refactored\Sounds\&quot; /Y /I" />
