@@ -729,6 +729,7 @@ public class Settings : INotifyPropertyChanged
 	#region Racing wheel - Slew compression threshold
 
 	private float _racingWheelSlewCompressionThreshold = 2f;
+
 	public float RacingWheelSlewCompressionThreshold
 	{
 		get => _racingWheelSlewCompressionThreshold;
