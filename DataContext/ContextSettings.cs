@@ -5,6 +5,8 @@ namespace MarvinsAIRARefactored.DataContext;
 
 public class ContextSettings
 {
+	#region Racing wheel
+
 	public bool RacingWheelEnableForceFeedback { get; set; }
 	public float RacingWheelWheelForce { get; set; }
 	public float RacingWheelStrength { get; set; }
@@ -43,7 +45,17 @@ public class ContextSettings
 	public bool RacingWheelCenterWheelWhileRacing { get; set; }
 	public bool RacingWheelCenterWheelWhileParked { get; set; }
 	public bool RacingWheelFadeEnabled { get; set; }
+
+	#endregion
+
+	#region Steering effects - General
+
 	public string SteeringEffectsCalibrationFileName { get; set; } = string.Empty;
+
+	#endregion
+
+	#region Steering effects - Understeer
+
 	public float SteeringEffectsUndersteerMinimumThreshold { get; set; }
 	public float SteeringEffectsUndersteerMaximumThreshold { get; set; }
 	public RacingWheel.VibrationPattern SteeringEffectsUndersteerWheelVibrationPattern { get; set; }
@@ -56,6 +68,11 @@ public class ContextSettings
 	public float SteeringEffectsUndersteerPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationCurve { get; set; }
+
+	#endregion
+
+	#region Steering effects - Oversteer
+
 	public float SteeringEffectsOversteerMinimumThreshold { get; set; }
 	public float SteeringEffectsOversteerMaximumThreshold { get; set; }
 	public RacingWheel.VibrationPattern SteeringEffectsOversteerWheelVibrationPattern { get; set; }
@@ -68,6 +85,11 @@ public class ContextSettings
 	public float SteeringEffectsOversteerPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsOversteerPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsOversteerPedalVibrationCurve { get; set; }
+
+	#endregion
+
+	#region Steering effects - Seat-of-pants
+
 	public float SteeringEffectsSeatOfPantsMinimumThreshold { get; set; }
 	public float SteeringEffectsSeatOfPantsMaximumThreshold { get; set; }
 	public SteeringEffects.SeatOfPantsAlgorithm SteeringEffectsSeatOfPantsAlgorithm { get; set; }
@@ -81,30 +103,55 @@ public class ContextSettings
 	public float SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsSeatOfPantsPedalVibrationCurve { get; set; }
+
+	#endregion
+
+	#region Pedals - General
+
 	public float PedalsMinimumFrequency { get; set; }
 	public float PedalsMaximumFrequency { get; set; }
 	public float PedalsFrequencyCurve { get; set; }
 	public float PedalsMinimumAmplitude { get; set; }
 	public float PedalsMaximumAmplitude { get; set; }
 	public float PedalsAmplitudeCurve { get; set; }
+
+	#endregion
+
+	#region Pedals - Clutch effects
+
 	public Pedals.Effect PedalsClutchEffect1 { get; set; }
 	public float PedalsClutchStrength1 { get; set; }
 	public Pedals.Effect PedalsClutchEffect2 { get; set; }
 	public float PedalsClutchStrength2 { get; set; }
 	public Pedals.Effect PedalsClutchEffect3 { get; set; }
 	public float PedalsClutchStrength3 { get; set; }
+
+	#endregion
+
+	#region Pedals - Brake effects
+
 	public Pedals.Effect PedalsBrakeEffect1 { get; set; }
 	public float PedalsBrakeStrength1 { get; set; }
 	public Pedals.Effect PedalsBrakeEffect2 { get; set; }
 	public float PedalsBrakeStrength2 { get; set; }
 	public Pedals.Effect PedalsBrakeEffect3 { get; set; }
 	public float PedalsBrakeStrength3 { get; set; }
+
+	#endregion
+
+	#region Pedals - Throttle effects
+
 	public Pedals.Effect PedalsThrottleEffect1 { get; set; }
 	public float PedalsThrottleStrength1 { get; set; }
 	public Pedals.Effect PedalsThrottleEffect2 { get; set; }
 	public float PedalsThrottleStrength2 { get; set; }
 	public Pedals.Effect PedalsThrottleEffect3 { get; set; }
 	public float PedalsThrottleStrength3 { get; set; }
+
+	#endregion
+
+	#region Pedals - Effect settings
+
 	public float PedalsShiftIntoGearFrequency { get; set; }
 	public float PedalsShiftIntoGearAmplitude { get; set; }
 	public float PedalsShiftIntoGearDuration { get; set; }
@@ -127,7 +174,14 @@ public class ContextSettings
 	public float PedalsClutchSlipEnd { get; set; }
 	public float PedalsClutchSlipFrequency { get; set; }
 	public float PedalsNoiseDamper { get; set; }
+
+	#endregion
+
+	#region Wind
+
 	public float WindMasterWindPower { get; set; }
 	public float WindMinimumSpeed { get; set; }
 	public float WindCurving { get; set; }
+
+	#endregion
 }
