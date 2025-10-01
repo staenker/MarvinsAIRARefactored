@@ -33,11 +33,11 @@ public partial class Localization : INotifyPropertyChanged
 		{
 			if ( _translations.TryGetValue( key, out var value ) && ( value != string.Empty ) )
 			{
-				return value?.TrimEnd() ?? string.Empty;
+				return value?.Trim() ?? string.Empty;
 			}
 			else if ( _defaults.TryGetValue( key, out value ) && ( value != string.Empty ) )
 			{
-				return value?.TrimEnd() ?? string.Empty;
+				return value?.Trim() ?? string.Empty;
 			}
 			else
 			{
