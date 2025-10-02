@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -325,7 +325,7 @@
     <comment>Racing wheel, Pedals, Graph</comment>
   </data>
   <data name="Maximum" xml:space="preserve">
-    <value></value>
+    <value>Maximaal</value>
     <comment>Racing wheel, Pedals, Graph</comment>
   </data>
   <data name="Curve" xml:space="preserve">
@@ -655,9 +655,6 @@
   <data name="NoRecordingsFound" xml:space="preserve">
     <value>[Geen opnames gevonden]</value>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Centreer het stuur wanneer je niet in de auto zit</value>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Zet simpele modus aan</value>
   </data>
@@ -785,7 +782,7 @@
     <value></value>
   </data>
   <data name="UndersteerWheelVibrationEffect_UC" xml:space="preserve">
-    <value></value>
+    <value>onderstuur stuur vibratie effect</value>
   </data>
   <data name="Progress:" xml:space="preserve">
     <value>Voortgang:</value>
@@ -811,9 +808,6 @@
   <data name="ParkedFriction" xml:space="preserve">
     <value>Stilstand wrijving</value>
   </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
-    <value>Stilstand stuur centrering kracht</value>
-  </data>
   <data name="CurrentCarSetup" xml:space="preserve">
     <value>Huidige wagen setup:</value>
   </data>
@@ -824,7 +818,7 @@
     <value>Er is iets misgegaan</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Details</value>
   </data>
   <data name="ClassicMAIRAIsRunning" xml:space="preserve">
     <value>De Classic versie van MAIRA is nog actief - gelieve deze af te sluiten voordat je de nieuwe verste start!</value>

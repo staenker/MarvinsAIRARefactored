@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -690,9 +690,6 @@
   <data name="NoRecordingsFound" xml:space="preserve">
     <value>[Aucun enregistrement trouvé]</value>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Centrer le volant lorsque vous n’êtes pas dans la voiture</value>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Activer le mode simplifié</value>
   </data>
@@ -844,9 +841,6 @@
     <value>Center wheel while parked</value>
   </data>
   <data name="ParkedFriction" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
     <value></value>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">

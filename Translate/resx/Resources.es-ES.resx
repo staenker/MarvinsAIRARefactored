@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -699,10 +699,6 @@
     <value>[No se han encontrado grabaciones]</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Centrar el volante cuando no se está en el coche</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Activar modo simple</value>
     <comment>Racing wheel</comment>
@@ -867,9 +863,6 @@
     <value></value>
   </data>
   <data name="ParkedFriction" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
     <value></value>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">

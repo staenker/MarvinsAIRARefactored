@@ -742,10 +742,6 @@
     <value>[Nie Znaleziono Nagrań]</value>
     <comment>Baza Kierownicy</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Wycentruj kierownicę gdy nie jesteś w aucie</value>
-    <comment>Baza Kierownicy</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Włącz tryb prosty</value>
     <comment>Baza Kierownicy</comment>
@@ -963,9 +959,6 @@
     <value />
   </data>
   <data name="ParkedFriction">
-    <value />
-  </data>
-  <data name="ParkedWheelCenteringStrength">
     <value />
   </data>
   <data name="CurrentCarSetup">

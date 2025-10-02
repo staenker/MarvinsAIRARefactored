@@ -744,10 +744,6 @@
     <value>[Ingen optagelse fundet]</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Centrer rat når du ikke er i bilen</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Aktivér simpel tilstand</value>
     <comment>Racing wheel</comment>
@@ -946,10 +942,6 @@
   </data>
   <data name="ParkedFriction" xml:space="preserve">
     <value>Parkerings Modstand</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
-    <value>Rat styrke under parkering</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">

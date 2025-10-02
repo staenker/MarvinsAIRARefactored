@@ -805,10 +805,6 @@
     <value>[No Recordings Found]</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Center wheel when not in car</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Enable simple mode</value>
     <comment>Racing wheel</comment>
@@ -1011,10 +1007,6 @@
   </data>
   <data name="ParkedFriction" xml:space="preserve">
     <value>Parked Friction</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
-    <value>Parked Wheel Centering Strength</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">

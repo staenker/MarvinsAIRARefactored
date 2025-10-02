@@ -18,7 +18,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="AppSettings" xml:space="preserve">
-    <value>Innstillinger </value>
+    <value></value>
     <comment>App menu item</comment>
   </data>
   <data name="AppTitle" xml:space="preserve">
@@ -50,7 +50,7 @@
     <comment>Simulator</comment>
   </data>
   <data name="Language_UC" xml:space="preserve">
-    <value></value>
+    <value>LANGUE</value>
     <comment>App settings</comment>
   </data>
   <data name="DetailBooster" xml:space="preserve">
@@ -106,7 +106,7 @@
     <comment>Simulator</comment>
   </data>
   <data name="Simulator" xml:space="preserve">
-    <value></value>
+    <value>Simulateur</value>
     <comment>App menu item</comment>
   </data>
   <data name="SimulatorNotRunning" xml:space="preserve">
@@ -126,7 +126,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="ThisLanguage" xml:space="preserve">
-    <value>Norsk bokmål</value>
+    <value>Français</value>
     <comment>App language list</comment>
   </data>
   <data name="TopmostWindow" xml:space="preserve">
@@ -146,7 +146,7 @@
     <comment>App menu item</comment>
   </data>
   <data name="ConnectToAdminBoxx" xml:space="preserve">
-    <value>Kobling til AdminBoxx</value>
+    <value>Connection à l'AdminBoxx</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="UpdateButtonMappings" xml:space="preserve">
@@ -183,7 +183,7 @@
   </data>
   <data name="DeltaLimitUnits" xml:space="preserve">
     <value></value>
-    <comment>Abbreviation for Newton-meters per millisecond</comment>
+    <comment>Abbreviation for Newton-meters per second</comment>
   </data>
   <data name="DeltaLimiterOn60Hz" xml:space="preserve">
     <value></value>
@@ -418,7 +418,7 @@
     <comment>Cloud service</comment>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value></value>
+    <value>Vérification des mises à jours au démarrage</value>
     <comment>App settings</comment>
   </data>
   <data name="AutomaticallyDownloadUpdates" xml:space="preserve">
@@ -426,15 +426,15 @@
     <comment>App settings</comment>
   </data>
   <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
-    <value></value>
+    <value>Connection à l'AdminBoxx au démarrage de l'application</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Brightness" xml:space="preserve">
-    <value></value>
+    <value>Luminosité</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Volume" xml:space="preserve">
-    <value>Volum</value>
+    <value></value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="NoAudioDevicesFound" xml:space="preserve">
@@ -442,11 +442,11 @@
     <comment>Audio devices list</comment>
   </data>
   <data name="Connection" xml:space="preserve">
-    <value>Kobling</value>
+    <value></value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Skjerm</value>
+    <value>Affichage</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Audio" xml:space="preserve">
@@ -578,7 +578,7 @@
     <comment>App settings</comment>
   </data>
   <data name="CheckNow" xml:space="preserve">
-    <value></value>
+    <value>Vérifier Maintenant</value>
     <comment>App settings</comment>
   </data>
   <data name="CheckingForUpdate" xml:space="preserve">
@@ -590,7 +590,7 @@
     <comment>Status</comment>
   </data>
   <data name="Contribute_UC" xml:space="preserve">
-    <value></value>
+    <value>CONTRIBUER</value>
     <comment>Contribute</comment>
   </data>
   <data name="BuyMeACoffee" xml:space="preserve">
@@ -614,7 +614,7 @@
     <comment>Donate</comment>
   </data>
   <data name="Donate" xml:space="preserve">
-    <value></value>
+    <value>Donner</value>
     <comment>App menu item</comment>
   </data>
   <data name="CodeContributions_UC" xml:space="preserve">
@@ -642,7 +642,7 @@
     <comment>Contribute</comment>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value></value>
+    <value>Contributeurs</value>
     <comment>Contribute</comment>
   </data>
   <data name="ShowWindow" xml:space="preserve">
@@ -683,7 +683,7 @@
   </data>
   <data name="SlewUnits" xml:space="preserve">
     <value></value>
-    <comment>Abbreviation for Newton-meters per second</comment>
+    <comment>Abbreviation for Newton-meters per millisecond</comment>
   </data>
   <data name="WheelForce" xml:space="preserve">
     <value></value>
@@ -714,7 +714,7 @@
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="DiscordModerators_UC" xml:space="preserve">
-    <value></value>
+    <value>MODERATEURS DISCORD</value>
     <comment>Contribute</comment>
   </data>
   <data name="DiscordModeratorsText" xml:space="preserve">
@@ -1094,7 +1094,7 @@
     <comment>Donate</comment>
   </data>
   <data name="Contribute" xml:space="preserve">
-    <value></value>
+    <value>Contribuer</value>
     <comment>App menu item</comment>
   </data>
   <data name="CalibrationFileContributions_UC" xml:space="preserve">
@@ -1150,7 +1150,7 @@
     <comment>App menu item</comment>
   </data>
   <data name="Pedals" xml:space="preserve">
-    <value>Pedaler</value>
+    <value>Pedales</value>
     <comment>App menu item</comment>
   </data>
   <data name="WheelLock" xml:space="preserve">
@@ -1174,7 +1174,7 @@
     <comment>Wind</comment>
   </data>
   <data name="Wind" xml:space="preserve">
-    <value></value>
+    <value>Vent</value>
     <comment>App menu item</comment>
   </data>
   <data name="ConnectToWindOnStartup" xml:space="preserve">

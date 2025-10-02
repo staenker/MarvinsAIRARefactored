@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -701,10 +701,6 @@
     <value></value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value></value>
     <comment>Racing wheel</comment>
@@ -906,10 +902,6 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="ParkedFriction" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
     <value></value>
     <comment>Racing wheel</comment>
   </data>

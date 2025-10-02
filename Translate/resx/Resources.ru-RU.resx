@@ -801,10 +801,6 @@
     <value>[Записей не найдено]</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="CenterWheelWhenNotInCar" xml:space="preserve">
-    <value>Центрировать руль, когда не в машине</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="SimpleMode" xml:space="preserve">
     <value>Включить простой режим настройки</value>
     <comment>Racing wheel</comment>
@@ -1003,10 +999,6 @@
   </data>
   <data name="ParkedFriction" xml:space="preserve">
     <value>Трение на паркове</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="ParkedWheelCenteringStrength" xml:space="preserve">
-    <value>Сила центровки на парковке</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="CurrentCarSetup" xml:space="preserve">
