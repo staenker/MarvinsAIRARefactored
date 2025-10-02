@@ -41,9 +41,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="TextBlock"
-                   Text="{Binding Label, ElementName=Root, FallbackValue=Label}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center">
+                   Text="{Binding Label, ElementName=Root, FallbackValue=Label}">
 
             <TextBlock.Style>
 
@@ -56,8 +54,10 @@
                             Value="0" />
                     <Setter Property="Grid.Column"
                             Value="0" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
                     <Setter Property="Margin"
-                            Value="0,0,0,5" />
+                            Value="0,0,0,2" />
 
                     <Style.Triggers>
 
@@ -75,6 +75,8 @@
                                     Value="1" />
                             <Setter Property="Margin"
                                     Value="10,0,0,0" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Left" />
                         </DataTrigger>
 
                     </Style.Triggers>
