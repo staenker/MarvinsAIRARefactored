@@ -1874,60 +1874,6 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
-	#region Racing wheel - Parked wheel centering strength
-
-	private float _racingWheelParkedWheelCenteringStrength = 0.25f;
-
-	public float RacingWheelParkedWheelCenteringStrength
-	{
-		get => _racingWheelParkedWheelCenteringStrength;
-
-		set
-		{
-			value = MathZ.Saturate( value );
-
-			if ( value != _racingWheelParkedWheelCenteringStrength )
-			{
-				_racingWheelParkedWheelCenteringStrength = value;
-
-				OnPropertyChanged();
-			}
-
-			if ( _racingWheelParkedWheelCenteringStrength == 0f )
-			{
-				RacingWheelParkedWheelCenteringStrengthString = DataContext.Instance.Localization[ "OFF" ];
-			}
-			else
-			{
-				RacingWheelParkedWheelCenteringStrengthString = $"{_racingWheelParkedWheelCenteringStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
-			}
-		}
-	}
-
-	private string _racingWheelParkedWheelCenteringStrengthString = string.Empty;
-
-	[XmlIgnore]
-	public string RacingWheelParkedWheelCenteringStrengthString
-	{
-		get => _racingWheelParkedWheelCenteringStrengthString;
-
-		set
-		{
-			if ( value != _racingWheelParkedWheelCenteringStrengthString )
-			{
-				_racingWheelParkedWheelCenteringStrengthString = value;
-
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	public ContextSwitches RacingWheelParkedWheelCenteringStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
-	public ButtonMappings RacingWheelParkedWheelCenteringStrengthPlusButtonMappings { get; set; } = new();
-	public ButtonMappings RacingWheelParkedWheelCenteringStrengthMinusButtonMappings { get; set; } = new();
-
-	#endregion
-
 	#region Racing wheel - Soft lock strength
 
 	private float _racingWheelSoftLockStrength = 0.25f;
@@ -2171,29 +2117,6 @@ public class Settings : INotifyPropertyChanged
 			}
 		}
 	}
-
-	#endregion
-
-	#region Racing wheel - Center wheel when not in car
-
-	private bool _racingWheelCenterWheelWhenNotInCar = true;
-
-	public bool RacingWheelCenterWheelWhenNotInCar
-	{
-		get => _racingWheelCenterWheelWhenNotInCar;
-
-		set
-		{
-			if ( value != _racingWheelCenterWheelWhenNotInCar )
-			{
-				_racingWheelCenterWheelWhenNotInCar = value;
-
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	public ContextSwitches RacingWheelCenterWheelWhenNotInCarContextSwitches { get; set; } = new( false, false, false, false, false );
 
 	#endregion
 

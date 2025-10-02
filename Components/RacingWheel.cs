@@ -996,23 +996,10 @@ public class RacingWheel
 
 			if ( app.Simulator.IsOnTrack )
 			{
-				var racingCenteringForce = 0f;
+				var centeringForce = Math.Clamp( ( Math.Clamp( app.DirectInput.ForceFeedbackWheelPosition, -0.25f, 0.25f ) + app.DirectInput.ForceFeedbackWheelVelocity * 0.1f ) * settings.RacingWheelWheelCenteringStrength, -1f, 1f );
 
-				if ( settings.RacingWheelCenterWheelWhileRacing )
-				{
-					var centeringForce = ( Math.Clamp( app.DirectInput.ForceFeedbackWheelPosition, -0.25f, 0.25f ) + app.DirectInput.ForceFeedbackWheelVelocity * 0.1f ) * settings.RacingWheelWheelCenteringStrength;
-
-					racingCenteringForce = Math.Clamp( centeringForce, -1f, 1f );
-				}
-
-				var parkedCenteringForce = 0f;
-
-				if ( settings.RacingWheelCenterWheelWhileParked )
-				{
-					var centeringForce = ( Math.Clamp( app.DirectInput.ForceFeedbackWheelPosition, -0.25f, 0.25f ) + app.DirectInput.ForceFeedbackWheelVelocity * 0.1f ) * settings.RacingWheelParkedWheelCenteringStrength;
-
-					parkedCenteringForce = Math.Clamp( centeringForce, -1f, 1f );
-				}
+				var racingCenteringForce = ( settings.RacingWheelCenterWheelWhileRacing ) ? centeringForce : 0f;
+				var parkedCenteringForce = ( settings.RacingWheelCenterWheelWhileParked ) ? centeringForce : 0f;
 
 				outputTorque += MathZ.Lerp( racingCenteringForce, parkedCenteringForce, parkedFactor );
 			}
@@ -1043,20 +1030,6 @@ public class RacingWheel
 				_lastUnfadedOutputTorque = outputTorque;
 			}
 
-			// center wheel when not in car (also affected by fade)
-
-			if ( settings.RacingWheelCenterWheelWhenNotInCar )
-			{
-				if ( !app.Simulator.IsOnTrack )
-				{
-					var centeringForce = Math.Clamp( app.DirectInput.ForceFeedbackWheelPosition, -0.25f, 0.25f ) + 0.1f * app.DirectInput.ForceFeedbackWheelVelocity;
-
-					centeringForce = Math.Clamp( centeringForce, -1f, 1f );
-
-					outputTorque += centeringForce * ( 1f - fadeScale );
-				}
-			}
-
 			// add vibration torque
 
 			outputTorque += vibrationTorque;
@@ -1073,6 +1046,33 @@ public class RacingWheel
 			app.Graph.UpdateLayer( Graph.LayerIndex.InputTorque, steeringWheelTorque500Hz, steeringWheelTorque500Hz / settings.RacingWheelMaxForce );
 			app.Graph.UpdateLayer( Graph.LayerIndex.InputLFE, inputLFEMagnitude, inputLFEMagnitude );
 			app.Graph.UpdateLayer( Graph.LayerIndex.OutputTorque, outputTorque, outputTorque );
+
+			var protectionForegroundColor = 0u;
+			var protectionBackgroundColor = 0u;
+
+			if ( CrashProtectionIsActive )
+			{
+				protectionForegroundColor = 0xFFFF0000;
+				protectionBackgroundColor = 0xFF444444;
+			}
+			else if ( CurbProtectionIsActive )
+			{
+				protectionForegroundColor = 0xFFFFFF00;
+				protectionBackgroundColor = 0xFF444444;
+			}
+
+			if ( outputTorque < -1f )
+			{
+				app.Graph.SetGutterColors( protectionForegroundColor, protectionBackgroundColor, 0xFFFF0000, 0xFFFF0000 );
+			}
+			else if ( outputTorque > 1f )
+			{
+				app.Graph.SetGutterColors( 0xFFFF0000, 0xFFFF0000, protectionForegroundColor, protectionBackgroundColor );
+			}
+			else
+			{
+				app.Graph.SetGutterColors( protectionForegroundColor, protectionBackgroundColor, protectionForegroundColor, protectionBackgroundColor );
+			}
 
 			// update recording data
 
@@ -1152,6 +1152,19 @@ public class RacingWheel
 
 						_algorithmPreviewGraphBase.Update( inputTorque500Hz / settings.RacingWheelMaxForce, 0.5f, 0f, 0f, 1f, 0.25f, 0.25f );
 						_algorithmPreviewGraphBase.Update( outputTorque, 0f, 0.5f, 0.5f, 0.25f, 1f, 1f );
+
+						if ( outputTorque < -1f )
+						{
+							_algorithmPreviewGraphBase.SetGutterColors( 0, 0, 0xFFFF0000, 0xFFFF0000 );
+						}
+						else if ( outputTorque > 1f )
+						{
+							_algorithmPreviewGraphBase.SetGutterColors( 0xFFFF0000, 0xFFFF0000, 0, 0 );
+						}
+						else
+						{
+							_algorithmPreviewGraphBase.SetGutterColors( 0, 0, 0, 0 );
+						}
 					}
 
 					_algorithmPreviewGraphBase.FinishUpdates();

@@ -1014,28 +1014,6 @@ public partial class App : Application
 				}
 			}
 
-			// racing wheel parked wheel centering strength knob
-
-			if ( CheckMappedButtons( settings.RacingWheelParkedWheelCenteringStrengthPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
-			{
-				settings.RacingWheelParkedWheelCenteringStrength += 0.05f;
-
-				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
-				{
-					RacingWheel.SendChatMessage( "ParkedWheelCenteringStrength", settings.RacingWheelParkedWheelCenteringStrengthString );
-				}
-			}
-
-			if ( CheckMappedButtons( settings.RacingWheelParkedWheelCenteringStrengthMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
-			{
-				settings.RacingWheelParkedWheelCenteringStrength -= 0.05f;
-
-				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
-				{
-					RacingWheel.SendChatMessage( "ParkedWheelCenteringStrength", settings.RacingWheelParkedWheelCenteringStrengthString );
-				}
-			}
-
 			// racing wheel soft lock knob
 
 			if ( CheckMappedButtons( settings.RacingWheelSoftLockStrengthPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )

@@ -37,11 +37,9 @@ public class ContextSettings
 	public float RacingWheelCurbProtectionForceReduction { get; set; }
 	public float RacingWheelParkedStrength { get; set; }
 	public float RacingWheelParkedFriction { get; set; }
-	public float RacingWheelParkedWheelCenteringStrength { get; set; }
 	public float RacingWheelSoftLockStrength { get; set; }
 	public float RacingWheelFriction { get; set; }
 	public float RacingWheelWheelCenteringStrength { get; set; }
-	public bool RacingWheelCenterWheelWhenNotInCar { get; set; }
 	public bool RacingWheelCenterWheelWhileRacing { get; set; }
 	public bool RacingWheelCenterWheelWhileParked { get; set; }
 	public bool RacingWheelFadeEnabled { get; set; }
