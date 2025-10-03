@@ -229,7 +229,6 @@ public partial class App : Application
 				LFE.Initialize();
 				MultimediaTimer.Initialize();
 				RecordingManager.Initialize();
-				VirtualJoystick.Initialize();
 				GripOMeterWindow.Initialize();
 				Telemetry.Initialize();
 				SpeechToTextWindow.Initialize();
@@ -317,6 +316,7 @@ public partial class App : Application
 
 		LFE.Shutdown();
 		MultimediaTimer.Shutdown();
+		VirtualJoystick.Shutdown();
 		Telemetry.Shutdown();
 		TradingPaints.Shutdown();
 

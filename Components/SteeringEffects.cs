@@ -1200,11 +1200,21 @@ public class SteeringEffects
 
 			if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
 			{
+				if ( app.VirtualJoystick.Initialized )
+				{
+					app.VirtualJoystick.Shutdown();
+				}
+
 				MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Visible;
 				MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Collapsed;
 			}
 			else
 			{
+				if ( !app.VirtualJoystick.Initialized && !app.VirtualJoystick.Faulted )
+				{
+					app.VirtualJoystick.Initialize();
+				}
+
 				MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Collapsed;
 				MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Visible;
 

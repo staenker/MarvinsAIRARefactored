@@ -30,14 +30,22 @@ public class VirtualJoystick
 	private vJoy.JoystickState _joystickState;
 
 	private bool _initialized = false;
+	private bool _faulted = false;
+
+	public bool Initialized { get => _initialized; }
+	public bool Faulted { get => _faulted; }
 
 	public void Initialize()
 	{
 		var app = App.Instance!;
 
+		app.Logger.WriteLine( $"[VirtualJoystick] Initialize >>>" );
+
 		if ( !_vJoy.vJoyEnabled() )
 		{
 			app.Logger.WriteLine( "[VirtualJoystick] Driver is not enabled" );
+
+			_faulted = true;
 		}
 		else
 		{
@@ -61,12 +69,16 @@ public class VirtualJoystick
 			if ( ( vjdStatus != VjdStat.VJD_STAT_OWN ) && ( vjdStatus != VjdStat.VJD_STAT_FREE ) )
 			{
 				app.Logger.WriteLine( $"[VirtualJoystick] Joystick {JoystickId} is not owned or free" );
+
+				_faulted = true;
 			}
 			else
 			{
 				if ( !_vJoy.AcquireVJD( JoystickId ) )
 				{
 					app.Logger.WriteLine( $"[VirtualJoystick] Joystick {JoystickId} could not be acquired" );
+
+					_faulted = true;
 				}
 				else
 				{
@@ -85,6 +97,24 @@ public class VirtualJoystick
 				}
 			}
 		}
+
+		app.Logger.WriteLine( $"[VirtualJoystick] <<< Initialize" );
+	}
+
+	public void Shutdown()
+	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( $"[VirtualJoystick] Shutdown >>>" );
+
+		if ( _initialized )
+		{
+			_vJoy.RelinquishVJD( JoystickId );
+
+			_initialized = false;
+		}
+
+		app.Logger.WriteLine( $"[VirtualJoystick] <<< Shutdown" );
 	}
 
 	public void Tick( App app )
