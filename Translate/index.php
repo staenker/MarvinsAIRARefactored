@@ -95,6 +95,13 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
                 padding: 16px 20px 32px;
             }
 
+            .container > .sticky-stuff {
+                position: sticky;
+                top: 0;
+                background: var(--bg);
+                z-index: 10;
+            }
+
             .controls {
                 display: flex;
                 gap: 12px;
@@ -146,9 +153,8 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
                 background: var(--panel);
                 border: 1px solid #1b2230;
                 border-radius: 14px;
-                /* was: overflow:hidden; */
-                overflow-x: auto; /* ← allow horizontal scroll */
-                overflow-y: hidden;
+                overflow-x: auto;
+                overflow-y: auto;
                 -webkit-overflow-scrolling: touch; /* smooth on iOS */
             }
 
@@ -176,6 +182,7 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
                 color: var(--muted);
                 font-weight: 600;
             }
+
 
             tbody tr:nth-child(odd) {
                 background: #111726;
@@ -210,7 +217,7 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
                 display: flex;
                 gap: 8px;
                 align-items: center;
-                margin-bottom: 8px;
+                padding-bottom: 8px;
             }
 
             .move-to-right {
@@ -256,32 +263,46 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
                 border-radius: 12px;
                 padding: 10px;
             }
+
+            #contribName::placeholder {
+                color: #f66;
+                opacity: 1;
+            }
+
+            #editEn {
+	            margin-bottom: 1rem;
+            }
 		</style>
 	</head>
 	<body>
+
 		<header>
 			<h1>Translations - Marvin's Awesome iRacing App</h1>
 		</header>
-		<div class="container">
-			<form class="controls" method="get">
-				<label for="lang">Language:</label>
-				<select id="lang" name="lang">
-					<option value="" disabled <?= $selected === '' ? 'selected' : '' ?>>&mdash; Select a language &mdash;</option>
-					<?php foreach ( LANG_CODES as $code => $label ): ?>
-						<option value="<?= h( $code ) ?>" <?= $selected === $code ? 'selected' : '' ?>>
-							<?= h( $label ) ?> (<?= h( $code ) ?>)
-						</option>
-					<?php endforeach; ?>
-				</select>
-				<button type="submit">Switch</button>
-				<span class="status">Base file: <span class="chip <?= $baseExists ? '' : 'missing' ?>"><?= h( BASE_FILE ) ?> <?= $baseExists ? '' : '— missing' ?></span>&nbsp;•&nbsp;Locale file: <span class="chip <?= $localeExists ? '' : 'missing' ?>"><?= h( FILE_STEM . ".{$selected}.resx" ) ?> <!--?= $localeExists ? '' : '— will be created on first save' ?--></span></span>
-			</form>
 
-			<div class="toolbar">
-				<input type="text" id="filter" style="width:20rem" placeholder="Filter by location/key/English/translation…"/>
-				<button type="button" class="secondary" id="showMissingBtn">Show only missing</button>
-				<input type="text" id="contribName" placeholder="Your name (for credits)" style="margin-left:auto; margin-right;auto; width:18rem"/>
-				<button type="button" class="ghost move-to-right" id="downloadResxBtn">Download RESX file</button>
+		<div class="container">
+
+			<div class="sticky-stuff">
+				<form class="controls" method="get">
+					<label for="lang">Language:</label>
+					<select id="lang" name="lang">
+						<option value="" disabled <?= $selected === '' ? 'selected' : '' ?>>&mdash; Select a language &mdash;</option>
+						<?php foreach ( LANG_CODES as $code => $label ): ?>
+							<option value="<?= h( $code ) ?>" <?= $selected === $code ? 'selected' : '' ?>>
+								<?= h( $label ) ?> (<?= h( $code ) ?>)
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<button type="submit">Switch</button>
+					<span class="status">Base file: <span class="chip <?= $baseExists ? '' : 'missing' ?>"><?= h( BASE_FILE ) ?> <?= $baseExists ? '' : '— missing' ?></span>&nbsp;•&nbsp;Locale file: <span class="chip <?= $localeExists ? '' : 'missing' ?>"><?= h( FILE_STEM . ".{$selected}.resx" ) ?> <!--?= $localeExists ? '' : '— will be created on first save' ?--></span></span>
+				</form>
+
+				<div class="toolbar">
+					<input type="text" id="filter" style="width:20rem" placeholder="Filter by location/key/English/translation…"/>
+					<button type="button" class="secondary" id="showMissingBtn">Show only missing</button>
+					<input type="text" id="contribName" placeholder="Type your name here (for credits)" style="margin-left:auto; margin-right;auto; width:18rem"/>
+					<button type="button" class="ghost move-to-right" id="downloadResxBtn">Download RESX file</button>
+				</div>
 			</div>
 
 			<div class="tablewrap">
@@ -311,7 +332,7 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
 			<form method="dialog">
 				<div class="modal-header">
 					<strong>Edit translation</strong>
-					<span id="editKey" class="chip mono"></span>
+					<span id="editKey" class="chip mono" style="display:none"></span>
 					<span id="editId" class="chip mono" style="display:none"></span>
 					<button type="submit" class="ghost" style="margin-left:auto">Close</button>
 				</div>
