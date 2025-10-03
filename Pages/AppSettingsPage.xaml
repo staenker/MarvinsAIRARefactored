@@ -35,6 +35,25 @@
 
         </Grid>
 
+        <controls:MairaGroupHeader Label="{Binding Localization[DefaultPage_UC]}" />
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:MairaComboBox x:Name="DefaultPage_MairaComboBox"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="1"
+                                    SelectedValue="{Binding Settings.AppDefaultPage, Mode=TwoWay}" />
+
+        </Grid>
+
         <controls:MairaGroupHeader Label="{Binding Localization[AppWindow_UC]}" />
 
         <Grid>

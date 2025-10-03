@@ -44,120 +44,6 @@ namespace MarvinsAIRARefactored.Controls
 		public MairaAppMenuPopup()
 		{
 			InitializeComponent();
-
-#if !ADMINBOXX
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.RacingWheel,
-				PageUserControl = _racingWheelPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.SteeringEffects,
-				PageUserControl = _steeringEffectsPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Pedals,
-				PageUserControl = _pedalsPage
-			} );
-
-#if DEBUG
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Wind,
-				PageUserControl = _windPage
-			} );
-
-#endif
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Sounds,
-				PageUserControl = _soundsPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.SpeechToText,
-				PageUserControl = _speechToTextPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.TradingPaints,
-				PageUserControl = _tradingPaintsPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Graph,
-				PageUserControl = _graphPage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Simulator,
-				PageUserControl = _simulatorPage
-			} );
-
-#endif
-
-#if ADMINBOXX
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.AdminBoxx,
-				PageUserControl = _adminBoxxPage
-			} );
-
-#endif
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Application,
-				PageUserControl = _appSettingsPage
-			} );
-
-#if !ADMINBOXX
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Contribute,
-				PageUserControl = _contributePage
-			} );
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Donate,
-				PageUserControl = _donatePage
-			} );
-
-#endif
-
-#if DEBUG
-
-			AppMenuItems.Add( new AppMenuItem
-			{
-				AppPage = AppPage.Debug,
-				PageUserControl = _debugPage
-			} );
-
-#endif
-
-			RelocalizeAppMenuItems();
-
-			SelectedAppPage = AppPage.RacingWheel;
-			SelectedAppPageUserControl = _racingWheelPage;
-			SelectedAppMenuItem = AppMenuItems.FirstOrDefault( appMenuItem => appMenuItem.AppPage == SelectedAppPage );
-
-			CurrentAppPage = SelectedAppPage;
-
-			UpdateSelectedAppPageText();
 		}
 
 		#region User Control Events
@@ -252,6 +138,143 @@ namespace MarvinsAIRARefactored.Controls
 
 		#region Logic
 
+		public void Initialize()
+		{
+
+#if !ADMINBOXX
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.RacingWheel,
+				PageUserControl = _racingWheelPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.SteeringEffects,
+				PageUserControl = _steeringEffectsPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Pedals,
+				PageUserControl = _pedalsPage
+			} );
+
+#if DEBUG
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Wind,
+				PageUserControl = _windPage
+			} );
+
+#endif
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Sounds,
+				PageUserControl = _soundsPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.SpeechToText,
+				PageUserControl = _speechToTextPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.TradingPaints,
+				PageUserControl = _tradingPaintsPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Graph,
+				PageUserControl = _graphPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Simulator,
+				PageUserControl = _simulatorPage
+			} );
+
+#endif
+
+#if ADMINBOXX
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.AdminBoxx,
+				PageUserControl = _adminBoxxPage
+			} );
+
+#endif
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.AppSettings,
+				PageUserControl = _appSettingsPage
+			} );
+
+#if !ADMINBOXX
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Contribute,
+				PageUserControl = _contributePage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Donate,
+				PageUserControl = _donatePage
+			} );
+
+#endif
+
+#if DEBUG
+
+			AppMenuItems.Add( new AppMenuItem
+			{
+				AppPage = AppPage.Debug,
+				PageUserControl = _debugPage
+			} );
+
+#endif
+
+			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+			object currentPage = settings.AppDefaultPage switch
+			{
+				AppPage.RacingWheel => _racingWheelPage,
+				AppPage.SteeringEffects => _steeringEffectsPage,
+				AppPage.Pedals => _pedalsPage,
+				AppPage.Wind => _windPage,
+				AppPage.Sounds => _soundsPage,
+				AppPage.SpeechToText => _speechToTextPage,
+				AppPage.TradingPaints => _tradingPaintsPage,
+				AppPage.Graph => _graphPage,
+				AppPage.Simulator => _simulatorPage,
+				AppPage.AdminBoxx => _adminBoxxPage,
+				AppPage.AppSettings => _appSettingsPage,
+				AppPage.Contribute => _contributePage,
+				AppPage.Donate => _donatePage,
+				AppPage.Debug => _debugPage,
+				_ => _racingWheelPage
+			};
+
+			SelectedAppPage = settings.AppDefaultPage;
+			SelectedAppPageUserControl = currentPage;
+			SelectedAppMenuItem = AppMenuItems.FirstOrDefault( appMenuItem => appMenuItem.AppPage == SelectedAppPage );
+
+			CurrentAppPage = SelectedAppPage;
+
+			UpdateSelectedAppPageText();
+		}
+
 		public void RelocalizeAppMenuItems()
 		{
 			var localization = MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization;
@@ -300,7 +323,7 @@ namespace MarvinsAIRARefactored.Controls
 						menuItem.DisplayName = localization[ "AdminBoxx" ];
 						break;
 
-					case AppPage.Application:
+					case AppPage.AppSettings:
 						menuItem.DisplayName = localization[ "AppSettings" ];
 						break;
 
@@ -367,7 +390,7 @@ namespace MarvinsAIRARefactored.Controls
 					SelectedAppPageText = localization[ "AdminBoxx_UC" ];
 					break;
 
-				case AppPage.Application:
+				case AppPage.AppSettings:
 					SelectedAppPageText = localization[ "AppSettings_UC" ];
 					break;
 

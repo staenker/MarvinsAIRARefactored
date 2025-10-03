@@ -33,7 +33,7 @@ public partial class MainWindow : Window
 		Graph,
 		Simulator,
 		AdminBoxx,
-		Application,
+		AppSettings,
 		Contribute,
 		Donate,
 		Debug
@@ -75,7 +75,7 @@ public partial class MainWindow : Window
 
 		app.Logger.WriteLine( $"[MainWindow] Version is {version}" );
 
-		MarvinsAIRARefactored.DataContext.DataContext.Instance.Localization.SetLanguageComboBoxItemsSource( _appSettingsPage.Language_MairaComboBox );
+		_appSettingsPage.UpdateLanguageOptions();
 
 #if ADMINBOXX
 
@@ -104,6 +104,8 @@ public partial class MainWindow : Window
 
 		UpdateRacingWheelPowerButton();
 		UpdateRacingWheelForceFeedbackButtons();
+
+		AppMenuPopup.Initialize();
 
 		RefreshWindow();
 
@@ -160,6 +162,8 @@ public partial class MainWindow : Window
 			_speechToTextPage.UpdateLanguageOptions();
 
 			app.SpeechToText.UpdateStrings();
+
+			_appSettingsPage.UpdateDefaultPageOptions();
 
 #endif
 

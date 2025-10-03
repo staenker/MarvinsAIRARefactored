@@ -1405,4 +1405,8 @@
     <value>Ratio of Velocities (Vy/Vx)</value>
     <comment>Steering effects</comment>
   </data>
+  <data name="DefaultPage_UC" xml:space="preserve">
+    <value>DEFAULT PAGE</value>
+    <comment>App settings</comment>
+  </data>
 </root>

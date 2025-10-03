@@ -6,13 +6,13 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using MarvinsAIRARefactored.Classes;
-using MarvinsAIRARefactored.Controls;
 
 namespace MarvinsAIRARefactored.Components;
 
 public partial class Localization : INotifyPropertyChanged
 {
 	private readonly Dictionary<string, string> _languages = new() { { "default", "English" } };
+	public Dictionary<string, string> Languages { get => _languages; }
 
 	private Dictionary<string, string> _defaults = [];
 	private Dictionary<string, string> _translations = [];
@@ -134,17 +134,6 @@ public partial class Localization : INotifyPropertyChanged
 		OnPropertyChanged( null );
 
 		app?.Logger.WriteLine( "[Localization] <<< LoadDefaultLanguage" );
-	}
-
-	public void SetLanguageComboBoxItemsSource( MairaComboBox mairaComboBox )
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[Localization] SetLanguageComboBoxItemsSource >>>" );
-
-		mairaComboBox.ItemsSource = _languages;
-
-		app.Logger.WriteLine( "[Localization] <<< SetLanguageComboBoxItemsSource" );
 	}
 
 	public string ChooseInitialLanguage()

@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 
 using MarvinsAIRARefactored.Classes;
 using MarvinsAIRARefactored.Components;
+using MarvinsAIRARefactored.Windows;
 
 namespace MarvinsAIRARefactored.DataContext;
 
@@ -8623,6 +8624,27 @@ public class Settings : INotifyPropertyChanged
 				app.MainWindow.RefreshWindow();
 
 				Misc.ForcePropertySetters( this );
+			}
+		}
+	}
+
+	#endregion
+
+	#region App - Default page
+
+	private MainWindow.AppPage _appDefaultPage = MainWindow.AppPage.RacingWheel;
+
+	public MainWindow.AppPage AppDefaultPage
+	{
+		get => _appDefaultPage;
+
+		set
+		{
+			if ( value != _appDefaultPage )
+			{
+				_appDefaultPage = value;
+
+				OnPropertyChanged();
 			}
 		}
 	}
