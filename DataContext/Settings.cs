@@ -2037,6 +2037,52 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Racing wheel - Vibrate on gear change
+
+	private bool _racingWheelVibrateOnGearChange = false;
+
+	public bool RacingWheelVibrateOnGearChange
+	{
+		get => _racingWheelVibrateOnGearChange;
+
+		set
+		{
+			if ( value != _racingWheelVibrateOnGearChange )
+			{
+				_racingWheelVibrateOnGearChange = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches RacingWheelVibrateOnGearChangeContextSwitches { get; set; } = new( false, false, false, false, false );
+
+	#endregion
+
+	#region Racing wheel - Vibrate on ABS
+
+	private bool _racingWheelVibrateOnABS = false;
+
+	public bool RacingWheelVibrateOnABS
+	{
+		get => _racingWheelVibrateOnABS;
+
+		set
+		{
+			if ( value != _racingWheelVibrateOnABS )
+			{
+				_racingWheelVibrateOnABS = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches RacingWheelVibrateOnABSContextSwitches { get; set; } = new( false, false, false, false, false );
+
+	#endregion
+
 	#region Racing wheel - Send chat messages
 
 	private bool _racingWheelSendChatMessages = true;
@@ -2724,6 +2770,60 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Steering effects - Understeer wheel constant force curve
+
+	private float _steeringEffectsUndersteerWheelConstantForceCurve = 0f;
+
+	public float SteeringEffectsUndersteerWheelConstantForceCurve
+	{
+		get => _steeringEffectsUndersteerWheelConstantForceCurve;
+
+		set
+		{
+			value = Math.Clamp( value, -1f, 1f );
+
+			if ( value != _steeringEffectsUndersteerWheelConstantForceCurve )
+			{
+				_steeringEffectsUndersteerWheelConstantForceCurve = value;
+
+				OnPropertyChanged();
+			}
+
+			if ( _steeringEffectsUndersteerWheelConstantForceCurve == 0f )
+			{
+				SteeringEffectsUndersteerWheelConstantForceCurveString = DataContext.Instance.Localization[ "OFF" ];
+			}
+			else
+			{
+				SteeringEffectsUndersteerWheelConstantForceCurveString = $"{_steeringEffectsUndersteerWheelConstantForceCurve * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			}
+		}
+	}
+
+	private string _steeringEffectsUndersteerWheelConstantForceCurveString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsUndersteerWheelConstantForceCurveString
+	{
+		get => _steeringEffectsUndersteerWheelConstantForceCurveString;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerWheelConstantForceCurveString )
+			{
+				_steeringEffectsUndersteerWheelConstantForceCurveString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerWheelConstantForceCurveContextSwitches { get; set; } = new( true, false, false, false, false );
+	public ButtonMappings SteeringEffectsUndersteerWheelConstantForceCurvePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsUndersteerWheelConstantForceCurveMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
 	#region Steering effects - Understeer pedal vibration minimum frequency
 
 	private float _steeringEffectsUndersteerPedalVibrationMinimumFrequency = 0f;
@@ -3273,6 +3373,60 @@ public class Settings : INotifyPropertyChanged
 	public ContextSwitches SteeringEffectsOversteerWheelConstantForceStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsOversteerWheelConstantForceStrengthPlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsOversteerWheelConstantForceStrengthMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - Oversteer wheel constant force curve
+
+	private float _steeringEffectsOversteerWheelConstantForceCurve = 0f;
+
+	public float SteeringEffectsOversteerWheelConstantForceCurve
+	{
+		get => _steeringEffectsOversteerWheelConstantForceCurve;
+
+		set
+		{
+			value = Math.Clamp( value, -1f, 1f );
+
+			if ( value != _steeringEffectsOversteerWheelConstantForceCurve )
+			{
+				_steeringEffectsOversteerWheelConstantForceCurve = value;
+
+				OnPropertyChanged();
+			}
+
+			if ( _steeringEffectsOversteerWheelConstantForceCurve == 0f )
+			{
+				SteeringEffectsOversteerWheelConstantForceCurveString = DataContext.Instance.Localization[ "OFF" ];
+			}
+			else
+			{
+				SteeringEffectsOversteerWheelConstantForceCurveString = $"{_steeringEffectsOversteerWheelConstantForceCurve * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			}
+		}
+	}
+
+	private string _steeringEffectsOversteerWheelConstantForceCurveString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsOversteerWheelConstantForceCurveString
+	{
+		get => _steeringEffectsOversteerWheelConstantForceCurveString;
+
+		set
+		{
+			if ( value != _steeringEffectsOversteerWheelConstantForceCurveString )
+			{
+				_steeringEffectsOversteerWheelConstantForceCurveString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsOversteerWheelConstantForceCurveContextSwitches { get; set; } = new( true, false, false, false, false );
+	public ButtonMappings SteeringEffectsOversteerWheelConstantForceCurvePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsOversteerWheelConstantForceCurveMinusButtonMappings { get; set; } = new();
 
 	#endregion
 
@@ -3861,6 +4015,60 @@ public class Settings : INotifyPropertyChanged
 	public ContextSwitches SteeringEffectsSeatOfPantsWheelConstantForceStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
 	public ButtonMappings SteeringEffectsSeatOfPantsWheelConstantForceStrengthPlusButtonMappings { get; set; } = new();
 	public ButtonMappings SteeringEffectsSeatOfPantsWheelConstantForceStrengthMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Steering effects - SeatOfPants wheel constant force curve
+
+	private float _steeringEffectsSeatOfPantsWheelConstantForceCurve = 0f;
+
+	public float SteeringEffectsSeatOfPantsWheelConstantForceCurve
+	{
+		get => _steeringEffectsSeatOfPantsWheelConstantForceCurve;
+
+		set
+		{
+			value = Math.Clamp( value, -1f, 1f );
+
+			if ( value != _steeringEffectsSeatOfPantsWheelConstantForceCurve )
+			{
+				_steeringEffectsSeatOfPantsWheelConstantForceCurve = value;
+
+				OnPropertyChanged();
+			}
+
+			if ( _steeringEffectsSeatOfPantsWheelConstantForceCurve == 0f )
+			{
+				SteeringEffectsSeatOfPantsWheelConstantForceCurveString = DataContext.Instance.Localization[ "OFF" ];
+			}
+			else
+			{
+				SteeringEffectsSeatOfPantsWheelConstantForceCurveString = $"{_steeringEffectsSeatOfPantsWheelConstantForceCurve * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			}
+		}
+	}
+
+	private string _steeringEffectsSeatOfPantsWheelConstantForceCurveString = string.Empty;
+
+	[XmlIgnore]
+	public string SteeringEffectsSeatOfPantsWheelConstantForceCurveString
+	{
+		get => _steeringEffectsSeatOfPantsWheelConstantForceCurveString;
+
+		set
+		{
+			if ( value != _steeringEffectsSeatOfPantsWheelConstantForceCurveString )
+			{
+				_steeringEffectsSeatOfPantsWheelConstantForceCurveString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsSeatOfPantsWheelConstantForceCurveContextSwitches { get; set; } = new( true, false, false, false, false );
+	public ButtonMappings SteeringEffectsSeatOfPantsWheelConstantForceCurvePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SteeringEffectsSeatOfPantsWheelConstantForceCurveMinusButtonMappings { get; set; } = new();
 
 	#endregion
 

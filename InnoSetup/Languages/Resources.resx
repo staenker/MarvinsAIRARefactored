@@ -1409,4 +1409,16 @@
     <value>DEFAULT PAGE</value>
     <comment>App settings</comment>
   </data>
+  <data name="Effects_UC" xml:space="preserve">
+    <value>EFFECTS</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="VibrateOnGearChange" xml:space="preserve">
+    <value>Vibrate on gear change</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="VibrateOnABS" xml:space="preserve">
+    <value>Vibrate on ABS activation</value>
+    <comment>Racing wheel</comment>
+  </data>
 </root>

@@ -274,6 +274,17 @@
                                         MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceStrengthMinusButtonMappings}"
                                         DefaultValue="0.1" />
 
+                    <controls:MairaKnob Grid.Column="4"
+                                        Label="{Binding Localization[Curve]}"
+                                        Value="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceCurve, Mode=TwoWay}"
+                                        ValueString="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceCurveString}"
+                                        StepSize="0.01"
+                                        ContextSwitches="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceCurveContextSwitches}"
+                                        PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceCurvePlusButtonMappings}"
+                                        MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerWheelConstantForceCurveMinusButtonMappings}"
+                                        ShowCurve="True"
+                                        DefaultValue="0" />
+
                 </Grid>
 
                 <controls:MairaGroupHeader Label="{Binding Localization[UndersteerPedalVibrationEffect_UC]}" />
@@ -496,6 +507,17 @@
                                         PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerWheelConstantForceStrengthPlusButtonMappings}"
                                         MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerWheelConstantForceStrengthMinusButtonMappings}"
                                         DefaultValue="0.5" />
+
+                    <controls:MairaKnob Grid.Column="4"
+                                        Label="{Binding Localization[Curve]}"
+                                        Value="{Binding Settings.SteeringEffectsOversteerWheelConstantForceCurve, Mode=TwoWay}"
+                                        ValueString="{Binding Settings.SteeringEffectsOversteerWheelConstantForceCurveString}"
+                                        StepSize="0.01"
+                                        ContextSwitches="{Binding Settings.SteeringEffectsOversteerWheelConstantForceCurveContextSwitches}"
+                                        PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerWheelConstantForceCurvePlusButtonMappings}"
+                                        MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerWheelConstantForceCurveMinusButtonMappings}"
+                                        ShowCurve="True"
+                                        DefaultValue="0" />
 
                 </Grid>
 
@@ -725,6 +747,17 @@
                                         PlusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceStrengthPlusButtonMappings}"
                                         MinusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceStrengthMinusButtonMappings}"
                                         DefaultValue="0.5" />
+
+                    <controls:MairaKnob Grid.Column="4"
+                                        Label="{Binding Localization[Curve]}"
+                                        Value="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceCurve, Mode=TwoWay}"
+                                        ValueString="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceCurveString}"
+                                        StepSize="0.01"
+                                        ContextSwitches="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceCurveContextSwitches}"
+                                        PlusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceCurvePlusButtonMappings}"
+                                        MinusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsWheelConstantForceCurveMinusButtonMappings}"
+                                        ShowCurve="True"
+                                        DefaultValue="0" />
 
                 </Grid>
 

@@ -40,6 +40,8 @@ public class ContextSettings
 	public float RacingWheelSoftLockStrength { get; set; }
 	public float RacingWheelFriction { get; set; }
 	public float RacingWheelWheelCenteringStrength { get; set; }
+	public bool RacingWheelVibrateOnGearChange { get; set; }
+	public bool RacingWheelVibrateOnABS { get; set; }
 	public bool RacingWheelCenterWheelWhileRacing { get; set; }
 	public bool RacingWheelCenterWheelWhileParked { get; set; }
 	public bool RacingWheelFadeEnabled { get; set; }
@@ -63,6 +65,7 @@ public class ContextSettings
 	public float SteeringEffectsUndersteerWheelVibrationCurve { get; set; }
 	public RacingWheel.ConstantForceDirection SteeringEffectsUndersteerWheelConstantForceDirection { get; set; }
 	public float SteeringEffectsUndersteerWheelConstantForceStrength { get; set; }
+	public float SteeringEffectsUndersteerWheelConstantForceCurve { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsUndersteerPedalVibrationCurve { get; set; }
@@ -80,6 +83,7 @@ public class ContextSettings
 	public float SteeringEffectsOversteerWheelVibrationCurve { get; set; }
 	public RacingWheel.ConstantForceDirection SteeringEffectsOversteerWheelConstantForceDirection { get; set; }
 	public float SteeringEffectsOversteerWheelConstantForceStrength { get; set; }
+	public float SteeringEffectsOversteerWheelConstantForceCurve { get; set; }
 	public float SteeringEffectsOversteerPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsOversteerPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsOversteerPedalVibrationCurve { get; set; }
@@ -98,6 +102,7 @@ public class ContextSettings
 	public float SteeringEffectsSeatOfPantsWheelVibrationCurve { get; set; }
 	public RacingWheel.ConstantForceDirection SteeringEffectsSeatOfPantsWheelConstantForceDirection { get; set; }
 	public float SteeringEffectsSeatOfPantsWheelConstantForceStrength { get; set; }
+	public float SteeringEffectsSeatOfPantsWheelConstantForceCurve { get; set; }
 	public float SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequency { get; set; }
 	public float SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequency { get; set; }
 	public float SteeringEffectsSeatOfPantsPedalVibrationCurve { get; set; }

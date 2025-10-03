@@ -77,6 +77,8 @@ public class RacingWheel
 	private float _understeerEffectTimerMS = 0f;
 	private float _oversteerEffectTimerMS = 0f;
 	private float _seatOfPantsEffectTimerMS = 0f;
+	private float _vibrateOnGearChangeTimerMS = 0f;
+	private float _vibrateOnABSTimerMS = 0f;
 
 	private readonly float[] _steeringWheelTorque360Hz = new float[ Simulator.SamplesPerFrame360Hz + 2 ];
 
@@ -97,6 +99,7 @@ public class RacingWheel
 	private bool _logiPlayLedsNotWorking = false;
 
 	private int _updateCounter = UpdateInterval + 4;
+	private int _lastGear = 0;
 
 	public void Initialize()
 	{
@@ -628,6 +631,55 @@ public class RacingWheel
 				vibrationTorque += seatOfPantsEffectTorque * settings.SteeringEffectsSeatOfPantsWheelVibrationStrength * MathF.Pow( absSeatOfPantsEffect, MathZ.CurveToPower( settings.SteeringEffectsSeatOfPantsWheelVibrationCurve ) );
 			}
 
+			// gear change vibration effect
+
+			if ( settings.RacingWheelVibrateOnGearChange )
+			{
+				if ( app.Simulator.Gear != _lastGear )
+				{
+					if ( app.Simulator.Gear != 0 )
+					{
+						_vibrateOnGearChangeTimerMS = 100f;
+					}
+
+					_lastGear = app.Simulator.Gear;
+				}
+
+				if ( _vibrateOnGearChangeTimerMS > 0f )
+				{
+					var frequency = 40f;
+					var timeInSeconds = _vibrateOnGearChangeTimerMS * 0.001f;
+					var sine = MathF.Sin( timeInSeconds * MathF.Tau * frequency );
+
+					vibrationTorque += ( sine >= 0f ) ? 0.05f : -0.05f;
+
+					_vibrateOnGearChangeTimerMS -= deltaMilliseconds;
+				}
+			}
+
+			// abs vibration effect
+
+			if ( settings.RacingWheelVibrateOnABS )
+			{
+				if ( app.Simulator.BrakeABSactive )
+				{
+					var frequency = 50f;
+					var timeInSeconds = _vibrateOnABSTimerMS * 0.001f;
+					var phase = ( timeInSeconds * frequency ) % 1f;
+
+					vibrationTorque += 0.05f * ( 4f * MathF.Abs( phase - 0.5f ) - 1f );
+
+					var periodMS = 1000f / frequency;
+
+					if ( _vibrateOnABSTimerMS >= periodMS )
+					{
+						_vibrateOnABSTimerMS -= periodMS * MathF.Floor( _vibrateOnABSTimerMS / periodMS );
+					}
+
+					_vibrateOnABSTimerMS += deltaMilliseconds;
+				}
+			}
+
 			// check if we want to suspend or unsuspend force feedback
 
 			if ( SuspendForceFeedback != _isSuspended )
@@ -881,17 +933,19 @@ public class RacingWheel
 
 			if ( app.SteeringEffects.UndersteerEffect > 0f )
 			{
+				var constantForceTorque = settings.SteeringEffectsUndersteerWheelConstantForceStrength * MathF.Pow( app.SteeringEffects.UndersteerEffect, MathZ.CurveToPower( settings.SteeringEffectsUndersteerWheelConstantForceCurve ) );
+
 				switch ( settings.SteeringEffectsUndersteerWheelConstantForceDirection )
 				{
 					case ConstantForceDirection.DecreaseForce:
 					{
-						outputTorque = MathZ.Lerp( outputTorque, 0f, app.SteeringEffects.UndersteerEffect * settings.SteeringEffectsUndersteerWheelConstantForceStrength );
+						outputTorque = MathZ.Lerp( outputTorque, 0f, constantForceTorque );
 						break;
 					}
 
 					case ConstantForceDirection.IncreaseForce:
 					{
-						outputTorque += MathF.CopySign( app.SteeringEffects.UndersteerEffect * settings.SteeringEffectsUndersteerWheelConstantForceStrength, app.Simulator.VelocityY );
+						outputTorque += MathF.CopySign( constantForceTorque, app.Simulator.VelocityY );
 						break;
 					}
 				}
@@ -901,17 +955,19 @@ public class RacingWheel
 
 			if ( app.SteeringEffects.OversteerEffect > 0f )
 			{
+				var constantForceTorque = settings.SteeringEffectsOversteerWheelConstantForceStrength * MathF.Pow( app.SteeringEffects.OversteerEffect, MathZ.CurveToPower( settings.SteeringEffectsOversteerWheelConstantForceCurve ) );
+
 				switch ( settings.SteeringEffectsOversteerWheelConstantForceDirection )
 				{
 					case ConstantForceDirection.DecreaseForce:
 					{
-						outputTorque = MathZ.Lerp( outputTorque, 0f, app.SteeringEffects.OversteerEffect * settings.SteeringEffectsOversteerWheelConstantForceStrength );
+						outputTorque = MathZ.Lerp( outputTorque, 0f, constantForceTorque );
 						break;
 					}
 
 					case ConstantForceDirection.IncreaseForce:
 					{
-						outputTorque += MathF.CopySign( app.SteeringEffects.OversteerEffect * settings.SteeringEffectsOversteerWheelConstantForceStrength, app.Simulator.VelocityY );
+						outputTorque += MathF.CopySign( constantForceTorque, app.Simulator.VelocityY );
 						break;
 					}
 				}
@@ -921,17 +977,21 @@ public class RacingWheel
 
 			if ( app.SteeringEffects.SeatOfPantsEffect != 0f )
 			{
+				var constantForceTorque = settings.SteeringEffectsSeatOfPantsWheelConstantForceStrength * MathF.CopySign( MathF.Pow( MathF.Abs( app.SteeringEffects.SeatOfPantsEffect ), MathZ.CurveToPower( settings.SteeringEffectsSeatOfPantsWheelConstantForceCurve ) ), app.SteeringEffects.SeatOfPantsEffect );
+
 				switch ( settings.SteeringEffectsSeatOfPantsWheelConstantForceDirection )
 				{
 					case ConstantForceDirection.DecreaseForce:
 					{
-						outputTorque = MathZ.Lerp( outputTorque, 0f, MathF.Abs( app.SteeringEffects.SeatOfPantsEffect ) * settings.SteeringEffectsSeatOfPantsWheelConstantForceStrength );
+						outputTorque = MathZ.Lerp( outputTorque, 0f, MathF.Abs( constantForceTorque ) );
+
 						break;
 					}
 
 					case ConstantForceDirection.IncreaseForce:
 					{
-						outputTorque -= app.SteeringEffects.SeatOfPantsEffect * settings.SteeringEffectsSeatOfPantsWheelConstantForceStrength;
+						outputTorque -= constantForceTorque;
+
 						break;
 					}
 				}
@@ -1004,23 +1064,19 @@ public class RacingWheel
 				outputTorque += MathZ.Lerp( racingCenteringForce, parkedCenteringForce, parkedFactor );
 			}
 
-			// apply fade
-
-			var fadeScale = 0f;
+			// apply vibration effects and fade (vibration effects not played while fading out)
 
 			if ( _fadeTimerMS > 0f )
 			{
 				if ( _usingSteeringWheelTorqueData )
 				{
-					fadeScale = _fadeTimerMS / FadeInTimeMS;
+					outputTorque += vibrationTorque;
 
-					outputTorque *= 1f - fadeScale;
+					outputTorque *= 1f - ( _fadeTimerMS / FadeInTimeMS );
 				}
 				else
 				{
-					fadeScale = _fadeTimerMS / FadeOutTimeMS;
-
-					outputTorque = _lastUnfadedOutputTorque * fadeScale;
+					outputTorque = _lastUnfadedOutputTorque * ( _fadeTimerMS / FadeOutTimeMS );
 				}
 
 				_fadeTimerMS -= deltaMilliseconds;
@@ -1028,11 +1084,11 @@ public class RacingWheel
 			else
 			{
 				_lastUnfadedOutputTorque = outputTorque;
+
+				outputTorque += vibrationTorque;
 			}
 
-			// add vibration torque
-
-			outputTorque += vibrationTorque;
+			// update output torque for telemetry
 
 			_outputTorque = outputTorque;
 

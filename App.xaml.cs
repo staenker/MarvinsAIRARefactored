@@ -1164,6 +1164,18 @@ public partial class App : Application
 				settings.SteeringEffectsUndersteerWheelConstantForceStrength -= 0.01f;
 			}
 
+			// steering effects understeer wheel constant force curve
+
+			if ( CheckMappedButtons( settings.SteeringEffectsUndersteerWheelConstantForceCurvePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsUndersteerWheelConstantForceCurve += 0.05f;
+			}
+
+			if ( CheckMappedButtons( settings.SteeringEffectsUndersteerWheelConstantForceCurveMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsUndersteerWheelConstantForceCurve -= 0.05f;
+			}
+
 			// steering effects understeer pedal vibration minimum frequency
 
 			if ( CheckMappedButtons( settings.SteeringEffectsUndersteerPedalVibrationMinimumFrequencyPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
@@ -1284,6 +1296,18 @@ public partial class App : Application
 				settings.SteeringEffectsOversteerWheelConstantForceStrength -= 0.01f;
 			}
 
+			// steering effects oversteer wheel constant force curve
+
+			if ( CheckMappedButtons( settings.SteeringEffectsOversteerWheelConstantForceCurvePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsOversteerWheelConstantForceCurve += 0.05f;
+			}
+
+			if ( CheckMappedButtons( settings.SteeringEffectsOversteerWheelConstantForceCurveMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsOversteerWheelConstantForceCurve -= 0.05f;
+			}
+
 			// steering effects oversteer pedal vibration minimum frequency
 
 			if ( CheckMappedButtons( settings.SteeringEffectsOversteerPedalVibrationMinimumFrequencyPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
@@ -1402,6 +1426,18 @@ public partial class App : Application
 			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsWheelConstantForceStrengthMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
 				settings.SteeringEffectsSeatOfPantsWheelConstantForceStrength -= 0.01f;
+			}
+
+			// steering effects seat-of-pants wheel constant force curve
+
+			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsWheelConstantForceCurvePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsSeatOfPantsWheelConstantForceCurve += 0.05f;
+			}
+
+			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsWheelConstantForceCurveMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SteeringEffectsSeatOfPantsWheelConstantForceCurve -= 0.05f;
 			}
 
 			// steering effects seat-of-pants pedal vibration minimum frequency
