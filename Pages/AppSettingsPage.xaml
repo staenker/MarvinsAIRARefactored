@@ -16,9 +16,10 @@
 
     <StackPanel>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[Language_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[Language_UC]}"
+                                   Tag="HideIfAdminBoxx" />
 
-        <Grid>
+        <Grid Tag="HideIfAdminBoxx">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -35,9 +36,10 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[DefaultPage_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[DefaultPage_UC]}"
+                                   Tag="HideIfAdminBoxx" />
 
-        <Grid>
+        <Grid Tag="HideIfAdminBoxx">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -120,9 +122,10 @@
 
         </Grid>
 
-        <controls:MairaGroupHeader Label="{Binding Localization[CloudService_UC]}" />
+        <controls:MairaGroupHeader Label="{Binding Localization[CloudService_UC]}"
+                                   Tag="HideIfAdminBoxx" />
 
-        <Grid>
+        <Grid Tag="HideIfAdminBoxx">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

@@ -4,7 +4,7 @@ using System.Windows;
 using UserControl = System.Windows.Controls.UserControl;
 
 using MarvinsAIRARefactored.Windows;
-using MarvinsAIRARefactored.DataContext;
+using MarvinsAIRARefactored.Classes;
 
 namespace MarvinsAIRARefactored.Pages;
 
@@ -13,6 +13,17 @@ public partial class AppSettingsPage : UserControl
 	public AppSettingsPage()
 	{
 		InitializeComponent();
+
+		Loaded += OnLoaded;
+	}
+
+	private void OnLoaded( object? sender, RoutedEventArgs e )
+	{
+#if ADMINBOXX
+
+		Misc.ApplyToTaggedElements( Root, "HideIfAdminBoxx", element => element.Visibility = Visibility.Collapsed );
+
+#endif
 	}
 
 	#region User Control Events
