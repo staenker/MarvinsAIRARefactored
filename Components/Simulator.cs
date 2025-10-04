@@ -297,7 +297,12 @@ public partial class Simulator
 		Array.Clear( SteeringWheelTorque_ST );
 
 		app.AdminBoxx.SimulatorDisconnected();
+
+#if !ADMINBOXX
+
 		app.SteeringEffects.SimulatorDisconnected();
+
+#endif
 
 		app.RacingWheel.SuspendForceFeedback = true;
 		app.MultimediaTimer.Suspend = true;
@@ -363,7 +368,11 @@ public partial class Simulator
 		{
 			UpdateTireProperties();
 
+#if !ADMINBOXX
+
 			MainWindow._steeringEffectsPage.UpdateCalibrationFileNameOptions();
+
+#endif
 
 			DataContext.DataContext.Instance.Settings.UpdateSettings( false );
 
