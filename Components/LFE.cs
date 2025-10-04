@@ -1,9 +1,10 @@
 ﻿
-using MarvinsAIRARefactored.Controls;
-using MarvinsAIRARefactored.Windows;
+using System.Runtime.CompilerServices;
+
 using SharpDX.DirectSound;
 using SharpDX.Multimedia;
-using System.Runtime.CompilerServices;
+
+using MarvinsAIRARefactored.Windows;
 
 namespace MarvinsAIRARefactored.Components;
 
