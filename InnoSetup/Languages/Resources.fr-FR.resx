@@ -1301,4 +1301,7 @@
     <value></value>
     <comment>Steering effects</comment>
   </data>
+  <data name="Display_UC" xml:space="preserve">
+    <value>Affichage</value>
+  </data>
 </root>

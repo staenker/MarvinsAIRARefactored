@@ -1274,4 +1274,10 @@
     <value></value>
     <comment>Steering effects</comment>
   </data>
+  <data name="Audio_UC" xml:space="preserve">
+    <value>Ses</value>
+  </data>
+  <data name="Display_UC" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
 </root>

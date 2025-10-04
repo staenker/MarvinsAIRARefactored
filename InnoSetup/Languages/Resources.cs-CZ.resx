@@ -1172,4 +1172,10 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Rychlost změny a celková komprese</value>
   </data>
+  <data name="Audio_UC" xml:space="preserve">
+    <value>Zvuk</value>
+  </data>
+  <data name="Display_UC" xml:space="preserve">
+    <value>Zobrazení</value>
+  </data>
 </root>

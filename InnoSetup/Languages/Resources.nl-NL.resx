@@ -1140,4 +1140,13 @@
     <value></value>
     <comment>Steering effects</comment>
   </data>
+  <data name="Audio_UC" xml:space="preserve">
+    <value>Geluid</value>
+  </data>
+  <data name="Display_UC" xml:space="preserve">
+    <value>Beeld</value>
+  </data>
+  <data name="AdminBoxx_UC" xml:space="preserve">
+    <value>AdminBoxx</value>
+  </data>
 </root>

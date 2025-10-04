@@ -1174,4 +1174,13 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Փոփոխության արագություն և ընդհանուր սեղմում</value>
   </data>
+  <data name="Audio_UC" xml:space="preserve">
+    <value>Աուդիո</value>
+  </data>
+  <data name="Display_UC" xml:space="preserve">
+    <value>Էկրան</value>
+  </data>
+  <data name="AdminBoxx_UC" xml:space="preserve">
+    <value>Ադմին Բոքս</value>
+  </data>
 </root>
