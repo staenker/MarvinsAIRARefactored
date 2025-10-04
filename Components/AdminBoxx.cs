@@ -171,10 +171,16 @@ public partial class AdminBoxx
 
 	public AdminBoxx()
 	{
+		var app = App.Instance!;
+
+		app.Logger.WriteLine( "[AdminBoxx] Constructor >>>" );
+
 		_usbSerialPortHelper.DataReceived += OnDataReceived;
 		_usbSerialPortHelper.PortClosed += OnPortClosed;
 
 		_timer.Elapsed += OnTimer;
+
+		app.Logger.WriteLine( "[AdminBoxx] <<< Constructor" );
 	}
 
 	public void Initialize()
@@ -224,6 +230,8 @@ public partial class AdminBoxx
 
 		if ( IsConnected )
 		{
+			app.Dispatcher.Invoke( () => MainWindow._adminBoxxPage.Test.IsEnabled = true );
+
 			_pingCounter = 100;
 
 			UpdateColors( _blueNoiseLedOrder, true );
@@ -262,6 +270,7 @@ public partial class AdminBoxx
 
 		app.Dispatcher.Invoke( () =>
 		{
+			MainWindow._adminBoxxPage.Test.IsEnabled = false;
 			MainWindow._adminBoxxPage.ConnectToAdminBoxx_MairaSwitch.IsOn = false;
 		} );
 
