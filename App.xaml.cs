@@ -2198,15 +2198,18 @@ public partial class App : Application
 				{
 					try
 					{
-						app.RacingWheel.Tick( app );
 						app.SettingsFile.Tick( app );
-						app.Pedals.Tick( app );
 						app.AdminBoxx.Tick( app );
 						app.Debug.Tick( app );
 						app.ChatQueue.Tick( app );
 						app.MainWindow.Tick( app );
-						app.MultimediaTimer.Tick( app );
 						app.Simulator.Tick( app );
+
+#if !ADMINBOXX
+
+						app.RacingWheel.Tick( app );
+						app.Pedals.Tick( app );
+						app.MultimediaTimer.Tick( app );
 						app.Sounds.Tick( app );
 						app.Graph.Tick( app );
 						app.SteeringEffects.Tick( app );
@@ -2215,6 +2218,8 @@ public partial class App : Application
 						app.Telemetry.Tick( app );
 						app.SpeechToTextWindow.Tick( app );
 						app.Wind.Tick( app );
+
+#endif
 					}
 					catch ( Exception exception )
 					{
