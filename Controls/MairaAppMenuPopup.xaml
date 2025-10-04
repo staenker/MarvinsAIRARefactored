@@ -29,14 +29,14 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Image Grid.Row="0"
+                <Image x:Name="Image"
+                       Grid.Row="0"
                        Source="/MarvinsAIRARefactored;component/Artwork/Misc/app-menu-logo.png"
                        HorizontalAlignment="Center"
                        Height="96"
                        Margin="20" />
 
-                <ListBox x:Name="MenuList"
-                         Grid.Row="1"
+                <ListBox Grid.Row="1"
                          ItemsSource="{Binding AppMenuItems, ElementName=Root}"
                          SelectedItem="{Binding SelectedAppMenuItem, ElementName=Root, Mode=TwoWay}"
                          BorderThickness="0"

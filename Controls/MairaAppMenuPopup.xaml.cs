@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 using static MarvinsAIRARefactored.Windows.MainWindow;
 
@@ -44,6 +45,14 @@ namespace MarvinsAIRARefactored.Controls
 		public MairaAppMenuPopup()
 		{
 			InitializeComponent();
+
+#if ADMINBOXX
+
+			var uri = new Uri( "pack://application:,,,/MarvinsAIRARefactored;component/Artwork/Misc/adminboxx-logo.png", UriKind.Absolute );
+
+			Image.Source = new BitmapImage( uri );
+
+#endif
 		}
 
 		#region User Control Events
