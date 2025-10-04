@@ -223,7 +223,7 @@ public class SteeringEffects
 
 		if ( ( deviation < 0f ) && ( absDeviation >= settings.SteeringEffectsUndersteerMinimumThreshold ) )
 		{
-			understeerEffect = MathZ.Saturate( MathZ.InverseLerp( settings.SteeringEffectsUndersteerMinimumThreshold, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation ) );
+			understeerEffect = MathZ.InverseLerp( settings.SteeringEffectsUndersteerMinimumThreshold, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation );
 		}
 
 		UndersteerEffect = speedFade * understeerEffect;
@@ -234,7 +234,7 @@ public class SteeringEffects
 
 		if ( ( deviation > 0f ) && ( absDeviation >= settings.SteeringEffectsOversteerMinimumThreshold ) )
 		{
-			oversteerEffect = MathZ.Saturate( MathZ.InverseLerp( settings.SteeringEffectsOversteerMinimumThreshold, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation ) );
+			oversteerEffect = MathZ.InverseLerp( settings.SteeringEffectsOversteerMinimumThreshold, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation );
 		}
 
 		OversteerEffect = speedFade * oversteerEffect;
@@ -245,11 +245,11 @@ public class SteeringEffects
 
 		if ( deviation < 0f )
 		{
-			skidSlip = -MathZ.Saturate( MathZ.InverseLerp( 0f, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation ) );
+			skidSlip = -MathZ.InverseLerp( 0f, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation );
 		}
 		else if ( deviation > 0f )
 		{
-			skidSlip = MathZ.Saturate( MathZ.InverseLerp( 0f, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation ) );
+			skidSlip = MathZ.InverseLerp( 0f, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation );
 		}
 
 		skidSlip = speedFade * skidSlip;
@@ -290,7 +290,7 @@ public class SteeringEffects
 
 		if ( absSeatOfPantsEffect >= settings.SteeringEffectsSeatOfPantsMinimumThreshold )
 		{
-			seatOfPantsEffect = MathF.CopySign( MathZ.Saturate( MathZ.InverseLerp( settings.SteeringEffectsSeatOfPantsMinimumThreshold, settings.SteeringEffectsSeatOfPantsMaximumThreshold, absSeatOfPantsEffect ) ), seatOfPantsEffect );
+			seatOfPantsEffect = MathF.CopySign( MathZ.InverseLerp( settings.SteeringEffectsSeatOfPantsMinimumThreshold, settings.SteeringEffectsSeatOfPantsMaximumThreshold, absSeatOfPantsEffect ), seatOfPantsEffect );
 		}
 
 		SeatOfPantsEffect = speedFade * seatOfPantsEffect;

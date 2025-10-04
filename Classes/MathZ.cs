@@ -33,10 +33,12 @@ public class MathZ
 
 		if ( MathF.Abs( d ) < 1e-6f )
 		{
-			return 0f;
+			return ( t < start ) ? 0f : 1f;
 		}
-
-		return ( t - start ) / d;
+		else
+		{
+			return Saturate( ( t - start ) / d );
+		}
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
