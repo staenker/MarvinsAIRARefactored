@@ -114,6 +114,7 @@
 
         <TextBlock x:Name="TextBlock"
                    Text="{Binding Label, ElementName=Root, FallbackValue='Just a test to see what this looks like'}"
+                   TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Center"
                    Foreground="#fff"
                    Cursor="Hand"

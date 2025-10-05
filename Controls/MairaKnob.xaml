@@ -17,7 +17,8 @@
         <TextBlock x:Name="Label_TextBlock"
                    Grid.Row="0"
                    Text="{Binding Label, ElementName=Root, FallbackValue='Wheel Force'}"
-                   PreviewMouseRightButtonDown="Label_TextBlock_PreviewMouseRightButtonDown">
+                   PreviewMouseRightButtonDown="Label_TextBlock_PreviewMouseRightButtonDown"
+                   TextTrimming="CharacterEllipsis">
 
             <TextBlock.Style>
 

@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:MarvinsAIRARefactored.Controls"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             Background="Transparent">
 
     <Grid>
 
@@ -14,34 +15,50 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="TextBlock"
-                   Grid.Row="0"
-                   Text="{Binding Label, ElementName=Root, FallbackValue='Steering Device'}"
-                   PreviewMouseRightButtonDown="TextBlock_PreviewMouseRightButtonDown">
+        <Grid Grid.Row="0">
 
-            <TextBlock.Style>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-                <Style TargetType="TextBlock"
-                       BasedOn="{StaticResource MairaTextBlockStyle}">
+            <TextBlock x:Name="TextBlock"
+                       Grid.Column="0"
+                       Text="{Binding Label, ElementName=Root, FallbackValue='Steering Device'}"
+                       TextTrimming="CharacterEllipsis"
+                       PreviewMouseRightButtonDown="TextBlock_PreviewMouseRightButtonDown">
 
-                    <Setter Property="Visibility"
-                            Value="Visible" />
+                <TextBlock.Style>
 
-                    <Style.Triggers>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MairaTextBlockStyle}">
 
-                        <DataTrigger Binding="{Binding Label, ElementName=Root}"
-                                     Value="">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                        </DataTrigger>
+                        <Setter Property="Visibility"
+                                Value="Visible" />
 
-                    </Style.Triggers>
+                        <Style.Triggers>
 
-                </Style>
+                            <DataTrigger Binding="{Binding Label, ElementName=Root}"
+                                         Value="">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
 
-            </TextBlock.Style>
+                        </Style.Triggers>
 
-        </TextBlock>
+                    </Style>
+
+                </TextBlock.Style>
+
+            </TextBlock>
+
+            <Button x:Name="HelpButton"
+                    Grid.Column="1"
+                    Style="{StaticResource HelpIconCommandMixin}"
+                    CommandParameter="{Binding HelpTopic, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    Visibility="{Binding IsMouseOver, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        </Grid>
 
         <ComboBox x:Name="ComboBox"
                   Grid.Row="1"

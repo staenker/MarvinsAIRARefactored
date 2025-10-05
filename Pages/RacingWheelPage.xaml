@@ -32,7 +32,8 @@
                                     Grid.Column="0"
                                     Grid.ColumnSpan="3"
                                     Label="{Binding Localization[SteeringDevice]}"
-                                    SelectedValue="{Binding Settings.RacingWheelSteeringDeviceGuid, Mode=TwoWay}" />
+                                    SelectedValue="{Binding Settings.RacingWheelSteeringDeviceGuid, Mode=TwoWay}"
+                                    HelpTopic="steering-device" />
 
             <Grid Grid.Column="5"
                   HorizontalAlignment="Center">
@@ -685,7 +686,7 @@
             </StackPanel>
 
         </Grid>
-        
+
         <controls:MairaGroupHeader Label="{Binding Localization[PrivateMessages_UC]}"
                                    Tag="Complex" />
 

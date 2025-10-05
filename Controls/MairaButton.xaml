@@ -41,7 +41,8 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="TextBlock"
-                   Text="{Binding Label, ElementName=Root, FallbackValue=Label}">
+                   Text="{Binding Label, ElementName=Root, FallbackValue=Label}"
+                   TextTrimming="CharacterEllipsis">
 
             <TextBlock.Style>
 
@@ -137,7 +138,7 @@
                                 Value="{Binding IconHeight, ElementName=Root}" />
 
                         <Style.Triggers>
-                            
+
                             <DataTrigger Binding="{Binding IsSmall, ElementName=Root}"
                                          Value="True">
                                 <Setter Property="Width"
@@ -145,9 +146,9 @@
                                 <Setter Property="Height"
                                         Value="32" />
                             </DataTrigger>
-                            
+
                         </Style.Triggers>
-                        
+
                     </Style>
 
                 </Grid.Style>

@@ -20,6 +20,9 @@
   <ItemGroup>
     <None Remove="Artwork\Flags\portugal_fluttering_flag_64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Remove="Themes\SharedHelpIcon.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -117,6 +120,7 @@
     <Resource Include="Artwork\Misc\simagic-logo.png" />
     <Resource Include="InnoSetup\STT\app-menu-logo.png" />
     <Resource Include="InnoSetup\STT\favicon.ico" />
+    <Resource Include="Themes\SharedHelpIcon.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -125,6 +129,7 @@
     <PackageReference Include="Accord.Neuro" Version="3.8.0" />
     <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     <PackageReference Include="CsvHelper" Version="33.1.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3485.44" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.205">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -168,6 +173,7 @@
 
   <ItemGroup>
     <Folder Include="InnoSetup\SimHub\" />
+    <Folder Include="Help\" />
   </ItemGroup>
 
   <ItemGroup>

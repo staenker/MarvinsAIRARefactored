@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:classes="clr-namespace:MarvinsAIRARefactored.Classes"
         xmlns:controls="clr-namespace:MarvinsAIRARefactored.Controls"
         xmlns:datacontext="clr-namespace:MarvinsAIRARefactored.DataContext"
         mc:Ignorable="d"
@@ -27,6 +28,11 @@
     <Window.DataContext>
         <Binding Source="{x:Static datacontext:DataContext.Instance}" />
     </Window.DataContext>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static classes:HelpService.OpenHelpCommand}"
+                        Executed="OpenHelp_Executed" />
+    </Window.CommandBindings>
 
     <Grid x:Name="Grid"
           Margin="0,0,0,20">
@@ -68,7 +74,7 @@
                        Text="{Binding ElementName=AppMenuPopup, Path=SelectedAppPageText, Mode=OneWay}"
                        PreviewMouseLeftButtonDown="PageName_TextBlock_PreviewMouseLeftButtonDown"
                        Cursor="Hand" />
-            
+
             <controls:MairaStatusBar x:Name="StatusBar"
                                      Grid.Column="4"
                                      HorizontalAlignment="Right"

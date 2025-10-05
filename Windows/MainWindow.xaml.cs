@@ -575,6 +575,11 @@ public partial class MainWindow : Window
 		AppMenuButton.IsMenuOpen = true;
 	}
 
+	private void OpenHelp_Executed( object sender, ExecutedRoutedEventArgs e )
+	{
+		HelpService.ExecuteOpenHelp( e.Parameter );
+	}
+
 	public void Tick( App app )
 	{
 		_updateCounter--;
