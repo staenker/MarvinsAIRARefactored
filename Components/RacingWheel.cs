@@ -376,7 +376,7 @@ public class RacingWheel
 
 		if ( settings.RacingWheelOutputMaximum < 1f )
 		{
-			outputTorque = MathF.Min( outputTorque, settings.RacingWheelOutputMaximum );
+			outputTorque = Math.Clamp( outputTorque, -settings.RacingWheelOutputMaximum, settings.RacingWheelOutputMaximum );
 		}
 
 		// apply output minimum
