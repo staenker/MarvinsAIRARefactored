@@ -6,7 +6,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/MarvinsAIRARefactored;component/Themes/SharedHelpIcon.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
+    <classes:HelpIconVisibilityConverter x:Key="HelpIconVisibility" />
+
     <Style TargetType="{x:Type controls:MairaGroupBox}">
 
         <Setter Property="Template">
@@ -47,8 +49,23 @@
                             <Button x:Name="HelpButton"
                                     Grid.Column="1"
                                     Style="{StaticResource HelpIconCommandMixin}"
-                                    CommandParameter="{TemplateBinding HelpTopic}"
-                                    Visibility="Collapsed"/>
+                                    CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HelpTopic}">
+
+                                <Button.Visibility>
+
+                                    <MultiBinding Converter="{StaticResource HelpIconVisibility}">
+
+                                        <Binding ElementName="Grid"
+                                                 Path="IsMouseOver" />
+
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                 Path="HelpTopic" />
+                                        
+                                    </MultiBinding>
+
+                                </Button.Visibility>
+
+                            </Button>
 
                             <Border Grid.Column="2"
                                     BorderThickness="0,0,0,1"
@@ -60,20 +77,6 @@
                         <ContentPresenter Grid.Row="1" />
 
                     </Grid>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger SourceName="Grid"
-                                 Property="IsMouseOver"
-                                 Value="True">
-
-                            <Setter TargetName="HelpButton"
-                                    Property="Visibility"
-                                    Value="Visible" />
-
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
 
                 </ControlTemplate>
 
