@@ -1,94 +1,30 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MAIRA — Settings Documentation</title>
-  <link rel="stylesheet" href="maira-docs.css" />
-  <style>
-    /* Page-specific micro-tweaks for index */
-    .count{ color: var(--muted); font-size: 13px; margin-top: 8px; }
-  </style>
-</head>
-<body>
-  <main class="container">
-    <header class="header">
-      <div>
-        <h1 class="title">MAIRA Settings</h1>
-        <p class="subtitle">User guide for each setting in MAIRA Refactored. Use the search to filter by name, category, or code keyword.</p>
-        <div class="badges">
-          <span class="badge"><span class="dot"></span>Dark Theme</span>
-          <span class="badge">Searchable</span>
-          <span class="badge">Modular Pages</span>
-        </div>
-      </div>
-      <div class="search">
-        <div>
-          <input id="search" type="search" placeholder="Search settings… (try: steering, FFB, guid)" aria-label="Search settings">
-          <div class="hint">Matches title, description, tags, and internal code names</div>
-          <div id="resultCount" class="count"></div>
-        </div>
-      </div>
-    </header>
-
-    <article class="article">
-      <section class="section">
-        <h2>All Settings</h2>
-        <div id="list" class="settings-list">
-
-          <!-- Steering Device -->
-          <a class="settings-card" href="steering-device.html" 
-             data-keywords="steering device wheelbase ffb device selection input directinput guid RacingWheelSteeringDeviceGuid" 
-             data-category="Racing Wheel">
-            <h3>Steering Device</h3>
-            <p>Choose which wheelbase MAIRA uses for force feedback and button input.</p>
-            <div class="tags">
-              <span class="tag">Racing Wheel</span>
-              <span class="tag">FFB Output</span>
-              <span class="tag">Device Selection</span>
-            </div>
-          </a>
-
-          <!-- More items will be added as docs are written -->
-        </div>
-      </section>
-
-      <hr />
-
-      <p class="footer">MAIRA Refactored • Settings Index • Last updated: October 4, 2025</p>
-    </article>
-  </main>
-
-  <script>
-  (function(){
-    const input = document.getElementById('search');
-    const list = document.getElementById('list');
-    const cards = Array.from(list.querySelectorAll('.settings-card'));
-    const resultCount = document.getElementById('resultCount');
-
-    function normalize(s){ return (s||'').toLowerCase(); }
-    function refresh(){
-      const q = normalize(input.value);
-      let visible = 0;
-      for (const el of cards){
-        const hay = normalize(el.innerText + ' ' + el.dataset.keywords + ' ' + el.dataset.category);
-        const show = !q || hay.includes(q);
-        el.classList.toggle('hidden', !show);
-        if (show) visible++;
-      }
-      resultCount.textContent = q ? `${visible} matching item${visible===1?'':'s'}` : '';
-    }
-    input.addEventListener('input', refresh);
-    refresh();
-
-    // Keyboard focus: Enter to open first visible
-    input.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter'){
-        const first = cards.find(c => !c.classList.contains('hidden'));
-        if (first){ first.focus(); first.click(); }
-      }
-    });
-  })();
-  </script>
-</body>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>MAIRA — Help Index</title>
+		<link rel="stylesheet" href="maira-docs.css"/>
+	</head>
+	<body>
+		<main class="container">
+			<h1 class="title">MAIRA Help</h1>
+			<article class="article">
+				<ul class="list-compact">
+					<li><a href="racing-wheel-device.html">Racing Wheel — Device</a></li>
+					<li><a href="racing-wheel-overall-strength.html">Racing Wheel — Overall Strength</a></li>
+					<li><a href="racing-wheel-algorithm.html">Racing Wheel — Algorithm</a></li>
+					<li><a href="racing-wheel-output.html">Racing Wheel — Output</a></li>
+					<li><a href="racing-wheel-preview.html">Racing Wheel — Preview</a></li>
+					<li><a href="racing-wheel-wheel-lfe.html">Racing Wheel — Wheel LFE</a></li>
+					<li><a href="racing-wheel-protection.html">Racing Wheel — Protection</a></li>
+					<li><a href="racing-wheel-parked-effects.html">Racing Wheel — Parked Effects</a></li>
+					<li><a href="racing-wheel-other-features.html">Racing Wheel — Other Features</a></li>
+					<li><a href="racing-wheel-effects.html">Racing Wheel — Effects</a></li>
+					<li><a href="racing-wheel-private-messages.html">Racing Wheel — Private Messages</a></li>
+					<li><a href="racing-wheel-switches.html">Racing Wheel — Switches</a></li>
+				</ul>
+			</article>
+		</main>
+	</body>
 </html>
