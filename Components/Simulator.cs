@@ -649,7 +649,7 @@ public partial class Simulator
 
 		if ( IsOnTrack )
 		{
-			if ( ( settings.RacingWheelCrashProtectionGForce > 2f ) && ( settings.RacingWheelCrashProtectionDuration > 0f ) && ( settings.RacingWheelCrashProtectionForceReduction > 0f ) )
+			if ( ( settings.RacingWheelCrashProtectionGForce < 20f ) && ( settings.RacingWheelCrashProtectionDuration > 0f ) && ( settings.RacingWheelCrashProtectionForceReduction > 0f ) )
 			{
 				if ( MathF.Abs( GForce ) >= settings.RacingWheelCrashProtectionGForce )
 				{

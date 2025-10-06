@@ -1462,7 +1462,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			if ( _racingWheelCrashProtectionGForce == 2f )
+			if ( _racingWheelCrashProtectionGForce == 20f )
 			{
 				RacingWheelCrashProtectionGForceString = DataContext.Instance.Localization[ "OFF" ];
 			}
