@@ -6,7 +6,7 @@
       <paths name="GoDaddy">
         <serverdata>
           <mappings>
-            <mapping deploy="/public_html/herboldracing.com/help" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/public_html/herboldracing.com/help" local="$PROJECT_DIR$" web="/help" />
           </mappings>
         </serverdata>
       </paths>
