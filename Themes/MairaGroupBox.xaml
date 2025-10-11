@@ -55,9 +55,6 @@
 
                                     <MultiBinding Converter="{StaticResource HelpIconVisibility}">
 
-                                        <Binding ElementName="Grid"
-                                                 Path="IsMouseOver" />
-
                                         <Binding RelativeSource="{RelativeSource TemplatedParent}"
                                                  Path="HelpTopic" />
                                         
