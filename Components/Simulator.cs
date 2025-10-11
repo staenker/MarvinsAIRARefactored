@@ -62,6 +62,7 @@ public partial class Simulator
 	public float[] RRShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
 	public int SeriesID { get; private set; } = 0;
 	public IRacingSdkEnum.Flags SessionFlags { get; private set; } = 0;
+	public int SessionID { get; private set; } = 0;
 	public float ShiftLightsFirstRPM { get; private set; } = 0f;
 	public float ShiftLightsShiftRPM { get; private set; } = 0f;
 	public string SimMode { get; private set; } = string.Empty;
@@ -88,7 +89,6 @@ public partial class Simulator
 	private bool _waitingForFirstSessionInfo = false;
 
 	private int? _tickCountLastFrame = null;
-	private float? _velocityLastFrame = null;
 	private bool? _weatherDeclaredWetLastFrame = null;
 	private bool? _isReplayPlayingLastFrame = null;
 	private IRacingSdkEnum.Flags? _sessionFlagsLastFrame = null;
@@ -213,6 +213,12 @@ public partial class Simulator
 
 		app.AdminBoxx.SimulatorConnected();
 
+#if !ADMINBOXX
+
+		app.SpeechToText.SimulatorConnected();
+
+#endif
+
 		for ( var gear = 0; gear < MaxNumGears; gear++ )
 		{
 			RPMSpeedRatios[ gear ] = 0f;
@@ -232,11 +238,7 @@ public partial class Simulator
 		WindowHandle = null;
 
 		_telemetryDataInitialized = false;
-
-		_tickCountLastFrame = null;
-		_velocityLastFrame = null;
-		_weatherDeclaredWetLastFrame = null;
-		_isReplayPlayingLastFrame = null;
+		_waitingForFirstSessionInfo = false;
 
 		AvailableTires = null;
 		BrakeABSactive = false;
@@ -267,6 +269,7 @@ public partial class Simulator
 		ReplayPlaySpeed = 1;
 		RPM = 0f;
 		SessionFlags = 0;
+		SessionID = 0;
 		Speed = 0f;
 		ShiftLightsFirstRPM = 0f;
 		ShiftLightsShiftRPM = 0f;
@@ -296,11 +299,18 @@ public partial class Simulator
 		Array.Clear( RRShockVel_ST );
 		Array.Clear( SteeringWheelTorque_ST );
 
+		_tickCountLastFrame = null;
+		_weatherDeclaredWetLastFrame = null;
+		_isReplayPlayingLastFrame = null;
+		_sessionFlagsLastFrame = null;
+		_currentTireIndexLastFrame = null;
+
 		app.AdminBoxx.SimulatorDisconnected();
 
 #if !ADMINBOXX
 
 		app.SteeringEffects.SimulatorDisconnected();
+		app.SpeechToText.SimulatorDisconnected();
 
 #endif
 
@@ -327,9 +337,9 @@ public partial class Simulator
 
 		SimMode = sessionInfo.WeekendInfo.SimMode;
 
-		foreach ( var driver in _irsdk.Data.SessionInfo.DriverInfo.Drivers )
+		foreach ( var driver in sessionInfo.DriverInfo.Drivers )
 		{
-			if ( driver.CarIdx == _irsdk.Data.SessionInfo.DriverInfo.DriverCarIdx )
+			if ( driver.CarIdx == sessionInfo.DriverInfo.DriverCarIdx )
 			{
 				CarScreenName = driver.CarScreenName ?? string.Empty;
 				UserName = driver.UserName ?? string.Empty;
@@ -337,8 +347,8 @@ public partial class Simulator
 			}
 		}
 
-		TrackDisplayName = _irsdk.Data.SessionInfo.WeekendInfo.TrackDisplayName ?? string.Empty;
-		TrackConfigName = _irsdk.Data.SessionInfo.WeekendInfo.TrackConfigName ?? string.Empty;
+		TrackDisplayName = sessionInfo.WeekendInfo.TrackDisplayName ?? string.Empty;
+		TrackConfigName = sessionInfo.WeekendInfo.TrackConfigName ?? string.Empty;
 
 		if ( sessionInfo.CarSetup?.Chassis?.Front?.SteeringOffset != null )
 		{
@@ -358,9 +368,9 @@ public partial class Simulator
 			SteeringOffsetInDegrees = 0f;
 		}
 
-		SeriesID = _irsdk.Data.SessionInfo.WeekendInfo.SeriesID;
-		LeagueID = _irsdk.Data.SessionInfo.WeekendInfo.LeagueID;
-		TimeOfDay = _irsdk.Data.SessionInfo.WeekendInfo.WeekendOptions.TimeOfDay;
+		SeriesID = sessionInfo.WeekendInfo.SeriesID;
+		LeagueID = sessionInfo.WeekendInfo.LeagueID;
+		TimeOfDay = sessionInfo.WeekendInfo.WeekendOptions.TimeOfDay;
 
 		app.MainWindow.UpdateStatus();
 
@@ -377,6 +387,13 @@ public partial class Simulator
 			DataContext.DataContext.Instance.Settings.UpdateSettings( false );
 
 			_waitingForFirstSessionInfo = false;
+		}
+
+		if ( SessionID != sessionInfo.WeekendInfo.SessionID )
+		{
+			SessionID = sessionInfo.WeekendInfo.SessionID;
+
+			app.TradingPaints.Reset();
 		}
 
 		app.TradingPaints.Update();
@@ -636,14 +653,7 @@ public partial class Simulator
 
 		// calculate g force
 
-		if ( _velocityLastFrame != null )
-		{
-			GForce = MathF.Abs( Velocity - (float) _velocityLastFrame ) / deltaSeconds / MathZ.OneG;
-		}
-		else
-		{
-			GForce = 0f;
-		}
+		GForce = MathF.Sqrt( LatAccel * LatAccel + LongAccel * LongAccel );
 
 		// crash protection processing
 
@@ -715,15 +725,11 @@ public partial class Simulator
 			}
 		}
 
-		// save values for the next frame
-
-		_velocityLastFrame = Velocity;
-
 		// update rpm / speed ratios
 
 		CurrentRpmSpeedRatio = 0f;
 
-		if ( IsOnTrack && ( Gear > 0 ) && ( Clutch == 1f ) && ( RPM > 500f ) && ( VelocityX >= 4.4704f ) ) // VX >= 10 MPH
+		if ( IsOnTrack && ( Gear > 0 ) && ( Clutch == 1f ) && ( RPM > 500f ) && ( VelocityX >= 10f * MathZ.MPHToMPS ) )
 		{
 			CurrentRpmSpeedRatio = VelocityX / RPM;
 
@@ -743,18 +749,23 @@ public partial class Simulator
 				{
 					RPMSpeedRatios[ Gear ] = MathZ.Lerp( RPMSpeedRatios[ Gear ], CurrentRpmSpeedRatio, 0.01f );
 				}
+
 				/*
-				switch ( Gear )
-				{
-					case 1: app.Debug.Label_1 = $"{RPMSpeedRatios[ 1 ]:F8}"; break;
-					case 2: app.Debug.Label_2 = $"{RPMSpeedRatios[ 2 ]:F8}"; break;
-					case 3: app.Debug.Label_3 = $"{RPMSpeedRatios[ 3 ]:F8}"; break;
-					case 4: app.Debug.Label_4 = $"{RPMSpeedRatios[ 4 ]:F8}"; break;
-					case 5: app.Debug.Label_5 = $"{RPMSpeedRatios[ 5 ]:F8}"; break;
-					case 6: app.Debug.Label_6 = $"{RPMSpeedRatios[ 6 ]:F8}"; break;
-				}
+				app.Debug.Label_1 = $"{RPMSpeedRatios[ 1 ]:F8}";
+				app.Debug.Label_2 = $"{RPMSpeedRatios[ 2 ]:F8}";
+				app.Debug.Label_3 = $"{RPMSpeedRatios[ 3 ]:F8}";
+				app.Debug.Label_4 = $"{RPMSpeedRatios[ 4 ]:F8}";
+				app.Debug.Label_5 = $"{RPMSpeedRatios[ 5 ]:F8}";
+				app.Debug.Label_6 = $"{RPMSpeedRatios[ 6 ]:F8}";
 				*/
 			}
+		}
+
+		// update visibility of overlays
+
+		if ( IsOnTrack != WasOnTrack )
+		{
+			app.GripOMeterWindow.UpdateVisibility();
 		}
 
 		// update steering effects
