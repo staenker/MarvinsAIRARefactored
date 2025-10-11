@@ -132,6 +132,11 @@ public class SteeringEffects
 			if ( _calibrationIsValid )
 			{
 				UpdateEffects( app, deltaSeconds );
+
+				app.Debug.Label_1 = $"UndersteerEffect: {UndersteerEffect}";
+				app.Debug.Label_2 = $"OversteerEffect: {OversteerEffect}";
+				app.Debug.Label_3 = $"SeatOfPantsEffect: {SeatOfPantsEffect}";
+				app.Debug.Label_4 = $"SkidSlip: {SkidSlip}";
 			}
 			else
 			{
@@ -291,6 +296,10 @@ public class SteeringEffects
 		if ( absSeatOfPantsEffect >= settings.SteeringEffectsSeatOfPantsMinimumThreshold )
 		{
 			seatOfPantsEffect = MathF.CopySign( MathZ.InverseLerp( settings.SteeringEffectsSeatOfPantsMinimumThreshold, settings.SteeringEffectsSeatOfPantsMaximumThreshold, absSeatOfPantsEffect ), seatOfPantsEffect );
+		}
+		else
+		{
+			seatOfPantsEffect = 0f;
 		}
 
 		SeatOfPantsEffect = speedFade * seatOfPantsEffect;
@@ -1242,6 +1251,22 @@ public class SteeringEffects
 				DrawCalibrationGraphData();
 
 				RedrawCalibrationGraph = false;
+			}
+
+			var speedInKPH = app.Simulator.Speed * MathZ.MPSToKPH;
+
+			if ( speedInKPH >= 1f )
+			{
+				var yawRateInDegreesPerSecond = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / speedInKPH;
+
+				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.X = app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees;
+				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.Y = -yawRateInDegreesPerSecond * 100f + 3f;
+
+				MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Hidden;
 			}
 		}
 	}
