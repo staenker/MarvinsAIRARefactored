@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MAIRA — Steering Effects • Pedal Vibration Effect</title>
+  <link rel="stylesheet" href="maira-docs.css"/>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div>
+        <h1 class="title">Steering Effects — Pedal Vibration Effect</h1>
+        <p class="subtitle">Drive pedal haptic motors based on <span class="ui-label">Understeer</span>, <span class="ui-label">Oversteer</span>, or <span class="ui-label">Seat of Pants</span> signals.</p>
+        <div class="badges">
+          <span class="badge">Steering Effects</span>
+          <span class="badge">Pedal</span>
+          <span class="badge">Vibration</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="article">
+      <section class="section">
+        <div class="kv">
+          <div class="k">UI Location</div>
+          <div class="v"><span class="ui-label">Steering Effects</span> page • sections <span class="ui-label">Understeer — Pedal Vibration Effect</span>, <span class="ui-label">Oversteer — Pedal Vibration Effect</span>, and <span class="ui-label">Seat of Pants — Pedal Vibration Effect</span></div>
+
+          <div class="k">What it does</div>
+          <div class="v">Applies a vibration to your pedal haptic motors. Only <strong>Strength</strong> is interpolated with the signal. Frequency stays at <span class="ui-label">Minimum</span> until the signal reaches 100%, then switches to <span class="ui-label">Maximum</span> instantly. The <span class="ui-label">Curve</span> shapes how Strength grows, not the frequency.</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Settings</h2>
+        <ul class="list-compact">
+          <li><span class="ui-label">Minimum Frequency</span> — start point for vibration frequency.
+            <div>Range: <span class="ui-label">0 → 100%</span>. Default: <span class="important">0%</span>.</div>
+          </li>
+          <li><span class="ui-label">Maximum Frequency</span> — end point at full signal.
+            <div>Range: <span class="ui-label">0 → 100%</span>. Default: <span class="important">100%</span>.</div>
+          </li>
+          <li><span class="ui-label">Curve</span> — shapes how frequency increases with the signal.
+            <div>Range: <span class="ui-label">−100 → +100%</span>. Default: <span class="important">0%</span> (linear).</div>
+          </li>
+        </ul>
+        <p class="muted">These controls show percentages in the UI. All support <em>+/− button mappings</em> and <em>Context Switches</em>.</p>
+      </section>
+
+      <hr/>
+      <p class="footer">MAIRA Refactored • Steering Effects — Pedal Vibration Effect</p>
+    </article>
+  </main>
+</body>
+</html>
