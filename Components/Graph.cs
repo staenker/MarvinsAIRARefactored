@@ -41,7 +41,7 @@ public class Graph : GraphBase
 			_layerArray[ layerIndex ] = new Layer();
 		}
 
-		app.Logger.WriteLine( "[Graph] Initialize >>>" );
+		app.Logger.WriteLine( "[Graph] <<< Initialize" );
 	}
 
 	public void SetLayerColors( LayerIndex layerIndex, float minR, float minG, float minB, float maxR, float maxG, float maxB )
