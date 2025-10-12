@@ -77,6 +77,8 @@ public partial class AppSettingsPage : UserControl
 
 		DefaultPage_MairaComboBox.ItemsSource = defaultPageOptions;
 		DefaultPage_MairaComboBox.SelectedValue = settings.AppDefaultPage;
+
+		app.Logger.WriteLine( "[AppSettingsPage] <<< UpdateDefaultPageOptions" );
 	}
 
 	#endregion
