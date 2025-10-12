@@ -265,13 +265,26 @@ public class LFE
 	{
 		var app = App.Instance!;
 
+		app.Logger.WriteLine( "[LFE] Worker thread started" );
+
 		var lfe = app.LFE;
 
-		while ( lfe._running )
+		try
 		{
-			var signalReceived = lfe._autoResetEvent.WaitOne( 250 );
+			while ( lfe._running )
+			{
+				var signalReceived = lfe._autoResetEvent.WaitOne( 250 );
 
-			lfe.Update( app, signalReceived );
+				lfe.Update( app, signalReceived );
+			}
 		}
+		catch ( Exception exception )
+		{
+			app.Logger.WriteLine( $"[App] Exception caught: {exception.Message}" );
+
+			app.ShowFatalError( "An exception was thrown inside the LFE worker thread.", exception );
+		}
+
+		app.Logger.WriteLine( "[LFE] Worker thread stopped" );
 	}
 }
