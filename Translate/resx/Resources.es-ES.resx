@@ -1197,4 +1197,7 @@
     <value></value>
     <comment>Steering effects</comment>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Clic</value>
+  </data>
 </root>

@@ -1149,4 +1149,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>转换速率与总体压缩</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>单击</value>
+  </data>
 </root>

@@ -1267,4 +1267,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Скорость нарастания момента(Slew) и сжатие</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Клик</value>
+  </data>
 </root>

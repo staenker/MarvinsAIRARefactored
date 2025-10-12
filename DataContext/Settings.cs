@@ -7512,6 +7512,119 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Sounds - Click enabled
+
+	private bool _soundsClickEnabled = true;
+
+	public bool SoundsClickEnabled
+	{
+		get => _soundsClickEnabled;
+
+		set
+		{
+			if ( value != _soundsClickEnabled )
+			{
+				_soundsClickEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Sounds - Click volume
+
+	private float _soundsClickVolume = 0.75f;
+
+	public float SoundsClickVolume
+	{
+		get => _soundsClickVolume;
+
+		set
+		{
+			value = MathZ.Saturate( value );
+
+			if ( value != _soundsClickVolume )
+			{
+				_soundsClickVolume = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsClickVolumeString = $"{_soundsClickVolume * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsClickVolumeString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsClickVolumeString
+	{
+		get => _soundsClickVolumeString;
+
+		set
+		{
+			if ( value != _soundsClickVolumeString )
+			{
+				_soundsClickVolumeString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsClickVolumePlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsClickVolumeMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
+	#region Sounds - Click frequency ratio
+
+	private float _soundsClickFrequencyRatio = 1f;
+
+	public float SoundsClickFrequencyRatio
+	{
+		get => _soundsClickFrequencyRatio;
+
+		set
+		{
+			value = Math.Clamp( value, 0.25f, 4f );
+
+			if ( value != _soundsClickFrequencyRatio )
+			{
+				_soundsClickFrequencyRatio = value;
+
+				OnPropertyChanged();
+			}
+
+			SoundsClickFrequencyRatioString = $"{_soundsClickFrequencyRatio * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _soundsClickFrequencyRatioString = string.Empty;
+
+	[XmlIgnore]
+	public string SoundsClickFrequencyRatioString
+	{
+		get => _soundsClickFrequencyRatioString;
+
+		set
+		{
+			if ( value != _soundsClickFrequencyRatioString )
+			{
+				_soundsClickFrequencyRatioString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ButtonMappings SoundsClickFrequencyRatioPlusButtonMappings { get; set; } = new();
+	public ButtonMappings SoundsClickFrequencyRatioMinusButtonMappings { get; set; } = new();
+
+	#endregion
+
 	#region Sounds - ABS engaged enabled
 
 	private bool _soundsABSEngagedEnabled = false;

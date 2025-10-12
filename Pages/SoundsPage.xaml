@@ -52,6 +52,57 @@
 
         </controls:MairaGroupBox>
 
+        <controls:MairaGroupBox Label="{Binding Localization[Click_UC]}">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="64" />
+                </Grid.ColumnDefinitions>
+
+                <controls:MairaSwitch Grid.Column="0"
+                                      IsOn="{Binding Settings.SoundsClickEnabled, Mode=TwoWay}"
+                                      Label="{Binding Localization[Enabled]}"
+                                      LabelPosition="Top" />
+
+                <controls:MairaKnob Grid.Column="2"
+                                    Label="{Binding Localization[Volume]}"
+                                    Value="{Binding Settings.SoundsClickVolume, Mode=TwoWay}"
+                                    ValueString="{Binding Settings.SoundsClickVolumeString}"
+                                    StepSize="0.01"
+                                    PlusButtonMappings="{Binding Settings.SoundsClickVolumePlusButtonMappings}"
+                                    MinusButtonMappings="{Binding Settings.SoundsClickVolumeMinusButtonMappings}"
+                                    DefaultValue="0.75" />
+
+                <controls:MairaKnob Grid.Column="4"
+                                    Label="{Binding Localization[FrequencyRatio]}"
+                                    Value="{Binding Settings.SoundsClickFrequencyRatio, Mode=TwoWay}"
+                                    ValueString="{Binding Settings.SoundsClickFrequencyRatioString}"
+                                    StepSize="0.01"
+                                    PlusButtonMappings="{Binding Settings.SoundsClickFrequencyRatioPlusButtonMappings}"
+                                    MinusButtonMappings="{Binding Settings.SoundsClickFrequencyRatioMinusButtonMappings}"
+                                    DefaultValue="1" />
+
+                <controls:MairaButton Grid.Column="10"
+                                      Label="{Binding Localization[Test]}"
+                                      Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/vibrate.png"
+                                      Click="Click_Test_MairaButton_Click"
+                                      IsSmall="True" />
+
+            </Grid>
+
+        </controls:MairaGroupBox>
+
         <controls:MairaGroupBox Label="{Binding Localization[ABSEngaged_UC]}">
 
             <Grid>

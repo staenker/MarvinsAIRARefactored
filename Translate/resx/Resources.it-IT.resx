@@ -1101,4 +1101,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Velocità di Variazione e Compressione Totale</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Clicca</value>
+  </data>
 </root>

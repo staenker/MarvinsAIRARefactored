@@ -1172,4 +1172,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Rychlost změny a celková komprese</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Stiskněte</value>
+  </data>
 </root>

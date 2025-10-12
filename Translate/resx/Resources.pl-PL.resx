@@ -1111,4 +1111,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Rotacja i Całkowita Kompresja</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Wciśnij</value>
+  </data>
 </root>

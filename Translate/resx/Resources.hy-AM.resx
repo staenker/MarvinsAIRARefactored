@@ -1174,4 +1174,7 @@
   <data name="SlewAndTotalCompression" xml:space="preserve">
     <value>Փոփոխության արագություն և ընդհանուր սեղմում</value>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Սեղմում</value>
+  </data>
 </root>

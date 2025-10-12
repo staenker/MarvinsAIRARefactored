@@ -1433,4 +1433,8 @@
     <value>ADMINBOXX</value>
     <comment>AdminBoxx</comment>
   </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>CLICK</value>
+    <comment>Sounds</comment>
+  </data>
 </root>

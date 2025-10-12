@@ -16,6 +16,13 @@ public partial class SoundsPage : UserControl
 
 	#region User Control Events
 
+	private void Click_Test_MairaButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.Sounds.Test( Sounds.SoundEffectType.Click );
+	}
+
 	private void ABSEngaged_Test_MairaButton_Click( object sender, RoutedEventArgs e )
 	{
 		var app = App.Instance!;

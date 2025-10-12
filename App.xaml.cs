@@ -1938,6 +1938,30 @@ public partial class App : Application
 				settings.SoundsMasterVolume -= 0.01f;
 			}
 
+			// sounds click volume
+
+			if ( CheckMappedButtons( settings.SoundsClickVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsClickVolume += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsClickVolumeMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsClickVolume -= 0.01f;
+			}
+
+			// sounds click frequency ratio
+
+			if ( CheckMappedButtons( settings.SoundsClickFrequencyRatioPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsClickFrequencyRatio += 0.01f;
+			}
+
+			if ( CheckMappedButtons( settings.SoundsClickFrequencyRatioMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.SoundsClickFrequencyRatio -= 0.01f;
+			}
+
 			// sounds abs engaged volume
 
 			if ( CheckMappedButtons( settings.SoundsABSEngagedVolumePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
@@ -2154,16 +2178,29 @@ public partial class App : Application
 			{
 				if ( mappedButton.ClickButton.ButtonNumber == buttonNumber )
 				{
+					var fired = false;
+
 					if ( mappedButton.HoldButton.DeviceInstanceGuid == Guid.Empty )
 					{
-						return true;
+						fired = true;
 					}
-					else
+					else if ( DirectInput.IsButtonDown( deviceInstanceGuid, mappedButton.HoldButton.ButtonNumber ) )
 					{
-						if ( DirectInput.IsButtonDown( deviceInstanceGuid, mappedButton.HoldButton.ButtonNumber ) )
+						fired = true;
+					}
+
+					if ( fired )
+					{
+						var settings = DataContext.DataContext.Instance.Settings;
+
+						if ( settings.SoundsMasterEnabled && settings.SoundsClickEnabled )
 						{
-							return true;
+							var app = App.Instance!;
+
+							app.Sounds.Play( Sounds.SoundEffectType.Click );
 						}
+
+						return true;
 					}
 				}
 			}

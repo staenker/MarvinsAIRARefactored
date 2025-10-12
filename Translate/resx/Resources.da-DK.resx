@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -1267,5 +1267,8 @@
   <data name="RatioOfVelocities" xml:space="preserve">
     <value>Hastigheds forhold (Vy/Vx)</value>
     <comment>Steering effects</comment>
+  </data>
+  <data name="Click_UC" xml:space="preserve">
+    <value>Tryk</value>
   </data>
 </root>
