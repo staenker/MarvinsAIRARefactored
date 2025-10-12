@@ -2228,6 +2228,8 @@ public partial class App : Application
 	{
 		var app = Instance!;
 
+		app.Logger.WriteLine( "[App] Worker thread started" );
+
 		while ( app._running )
 		{
 			app._autoResetEvent.WaitOne();
@@ -2263,7 +2265,9 @@ public partial class App : Application
 					}
 					catch ( Exception exception )
 					{
-						app.ShowFatalError( "An exception was thrown while performing Tick() calls on the app worker thread.", exception );
+						app.Logger.WriteLine( $"[App] Exception caught: {exception.Message}" );
+
+						app.ShowFatalError( "An exception was thrown inside the app worker thread.", exception );
 					}
 					finally
 					{
@@ -2272,5 +2276,7 @@ public partial class App : Application
 				} );
 			}
 		}
+
+		app.Logger.WriteLine( "[App] Worker thread stopped" );
 	}
 }
