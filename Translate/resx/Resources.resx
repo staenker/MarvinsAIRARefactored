@@ -1437,4 +1437,12 @@
     <value>CLICK</value>
     <comment>Sounds</comment>
   </data>
+  <data name="PedalsP500" xml:space="preserve">
+    <value>Simagic P500 Pedals</value>
+    <comment>Pedals device</comment>
+  </data>
+  <data name="PedalsPrototype" xml:space="preserve">
+    <value>Prototype Pedals</value>
+    <comment>Pedals device</comment>
+  </data>
 </root>

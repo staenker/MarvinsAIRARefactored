@@ -379,12 +379,20 @@ public partial class MainWindow : Window
 					_pedalsPage.Device_Label.Text = localization[ "PedalsNone" ];
 					break;
 
+				case HPR.PedalsDevice.P500:
+					_pedalsPage.Device_Label.Text = localization[ "PedalsP500" ];
+					break;
+
 				case HPR.PedalsDevice.P1000:
 					_pedalsPage.Device_Label.Text = localization[ "PedalsP1000" ];
 					break;
 
 				case HPR.PedalsDevice.P2000:
 					_pedalsPage.Device_Label.Text = localization[ "PedalsP2000" ];
+					break;
+
+				default:
+					_pedalsPage.Device_Label.Text = localization[ "PedalsPrototype" ];
 					break;
 			}
 		} );
