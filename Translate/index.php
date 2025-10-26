@@ -33,6 +33,7 @@ function h( $s )
 
 // Load language codes list
 require_once __DIR__ . '/languages.php'; // defines LANG_CODES (code => display name)
+require_once __DIR__ . '/percentages.php'; // defines LANG_CODES (code => display name)
 
 // Selected language (default example)
 $selected = $_GET[ 'lang' ] ?? '';
@@ -46,6 +47,58 @@ $localePath = $selected !== '' ? ( RESX_DIR . '/' . FILE_STEM . '.' . $selected 
 $baseExists = file_exists( $basePath );
 $localeExists = $localePath ? file_exists( $localePath ) : false;
 
+/**
+ * Build <option> tags sorted:
+ *  1) Languages with a percentage, descending by percentage
+ *  2) Then the rest, by native name (visible label)
+ * Each option text: "<native> (...) - <English> — <pct>%"
+ */
+function build_language_options( string $selected ): string
+{
+	$langs = LANG_CODES;
+	$pcts = defined( 'PERCENTAGES' ) ? PERCENTAGES : [];
+
+	$withPct = [];
+	$noPct = [];
+
+	foreach ( $langs as $code => $label )
+	{
+		if ( isset( $pcts[ $code ] ) )
+		{
+			$withPct[ $code ] = [ 'label' => $label, 'pct' => (int) $pcts[ $code ] ];
+		}
+		else
+		{
+			$noPct[ $code ] = $label;
+		}
+	}
+
+	// Sort withPct by pct desc, then label asc
+	uasort( $withPct, function ( $a, $b )
+	{
+		if ( $a[ 'pct' ] !== $b[ 'pct' ] ) return $b[ 'pct' ] <=> $a[ 'pct' ];
+		return strcasecmp( $a[ 'label' ], $b[ 'label' ] );
+	} );
+
+	// Build HTML
+	$html = '';
+
+	foreach ( $withPct as $code => $row )
+	{
+		$label = $row[ 'label' ];
+		$pct = $row[ 'pct' ];
+		$html .= sprintf( '<option class="em" value="%s"%s>%s — %d%%</option>' . "\n", h( $code ), $selected == $code ? ' selected' : '', h( $label ), $pct );
+	}
+
+	foreach ( $noPct as $code => $label )
+	{
+		$html .= sprintf( '<option value="%s"%s>%s</option>' . "\n", h( $code ), $selected == $code ? ' selected' : '', h( $label ) );
+	}
+
+	return $html;
+}
+
+$language_options = build_language_options( $selected );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -270,7 +323,12 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
             }
 
             #editEn {
-	            margin-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            option.em {
+	            font-weight: bold;
+	            color: deepskyblue;
             }
 		</style>
 	</head>
@@ -287,11 +345,7 @@ $localeExists = $localePath ? file_exists( $localePath ) : false;
 					<label for="lang">Language:</label>
 					<select id="lang" name="lang">
 						<option value="" disabled <?= $selected === '' ? 'selected' : '' ?>>&mdash; Select a language &mdash;</option>
-						<?php foreach ( LANG_CODES as $code => $label ): ?>
-							<option value="<?= h( $code ) ?>" <?= $selected === $code ? 'selected' : '' ?>>
-								<?= h( $label ) ?> (<?= h( $code ) ?>)
-							</option>
-						<?php endforeach; ?>
+						<?= $language_options ?>
 					</select>
 					<button type="submit">Switch</button>
 					<span class="status">Base file: <span class="chip <?= $baseExists ? '' : 'missing' ?>"><?= h( BASE_FILE ) ?> <?= $baseExists ? '' : '— missing' ?></span>&nbsp;•&nbsp;Locale file: <span class="chip <?= $localeExists ? '' : 'missing' ?>"><?= h( FILE_STEM . ".{$selected}.resx" ) ?> <!--?= $localeExists ? '' : '— will be created on first save' ?--></span></span>

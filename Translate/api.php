@@ -12,8 +12,8 @@ header( 'Content-Type: application/json; charset=utf-8' );
 require_once __DIR__ . '/resx_utils.php';
 require_once __DIR__ . '/languages.php';
 require_once __DIR__ . '/secrets.php';
+require_once __DIR__ . '/percentages_utils.php';
 
-const RESX_DIR = __DIR__ . '/resx';
 const RESX_BACKUP_DIR = __DIR__ . '/resx-backups';
 const BASE_FILE = 'Resources.resx';
 const FILE_STEM = 'Resources';
@@ -130,6 +130,27 @@ function save_action(): void
 		// Save .resx (with backup)
 		$loc[ $key ][ 'value' ] = $val;
 		save_resx_safe( $locPath, $backupPath, $loc, $base );
+		
+		try
+		{
+			$map = load_percentages_map();
+			$pct = compute_locale_percentage_from_arrays( $base, $loc );
+			if ( $pct > 0 )
+			{
+				$map[ $lang ] = $pct;
+			}
+			else
+			{
+				// Remove if no completed strings
+				unset( $map[ $lang ] );
+			}
+			write_percentages_php( $map );
+		}
+		catch ( Throwable $e )
+		{
+			// Non-fatal; optionally log
+			// error_log('percentages update failed: ' . $e->getMessage());
+		}
 		
 		// notify
 		$ip = get_client_ip();
