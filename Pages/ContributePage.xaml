@@ -130,10 +130,11 @@
 
                         <!-- Flag icons from https://www.freeflagicons.com/buy/fluttering_flag/ -->
 
+                        <!--cs-CZ-->
                         <!--Jakub Trinkl-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Jakub Trinkl" />
@@ -144,10 +145,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--da-DK-->
                         <!--DKBjorn-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="DKBjorn" />
@@ -158,10 +160,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--de-DE-->
                         <!--Rene-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Rene Stangl" />
@@ -172,10 +175,12 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--es-ES-->
                         <!--Rodas007-->
+                        <!--DrCrazy-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Rodas007 &amp; DrCrazy" />
@@ -186,33 +191,45 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--fr-CA-->
                         <!--LAS-Zeppelin83-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="36" />
-                                <ColumnDefinition Width="184" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Michael Marcotte"
-                                       Grid.ColumnSpan="2" />
+                            <TextBlock Text="Michael Marcotte" />
                             <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/france_fluttering_flag_64.png"
                                    Height="20"
-                                   HorizontalAlignment="Left"
-                                   Margin="132,2,0,2"
-                                   Grid.Column="1" />
+                                   HorizontalAlignment="Right"
+                                   Margin="0,0,27,0" />
                             <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/canada_fluttering_flag_64.png"
                                    Height="20"
-                                   HorizontalAlignment="Left"
-                                   Grid.Column="1"
-                                   Margin="157,2,0,2" />
+                                   HorizontalAlignment="Right" />
                             <TextBlock Text="Français (Canada)"
-                                       Grid.Column="2" />
+                                       Grid.Column="1" />
                         </Grid>
 
+                        <!--hu-HU-->
+                        <!--Tamás Kovács-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="275" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Tamás Kovács" />
+                            <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/hungary_fluttering_flag_64.png"
+                                   Height="20"
+                                   HorizontalAlignment="Right" />
+                            <TextBlock Text="Magyar (Magyarország)"
+                                       Grid.Column="1" />
+                        </Grid>
+
+                        <!--it-IT-->
                         <!--Valerio.exe-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Valerio Pasqua" />
@@ -223,10 +240,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--nl-NL-->
                         <!--Jordi Koller-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Jordi Koller" />
@@ -237,10 +255,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--pl-PL-->
                         <!--Jarek_iRek-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Jarek_iRek" />
@@ -251,13 +270,15 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--pt-BR-->
                         <!--XKRamires-->
+                        <!--Thiago Oliveira-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Raul Ramires" />
+                            <TextBlock Text="Raul Ramires &amp; Thiago Oliveira" />
                             <Image Source="/MarvinsAIRARefactored;component/Artwork/Flags/brazil_fluttering_flag_64.png"
                                    Height="20"
                                    HorizontalAlignment="Right" />
@@ -265,10 +286,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--pt-PT-->
                         <!--mitt42 (Mitt)-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Vitor Diogo" />
@@ -279,10 +301,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--tr-TR-->
                         <!--0xBATUDEV-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="BATUDEV" />
@@ -293,10 +316,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--hy-AM-->
                         <!--Slavik-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Slavik Mikoyan" />
@@ -307,10 +331,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--ru-RU-->
                         <!--Vpolne-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Stepan Kutyrev" />
@@ -321,10 +346,11 @@
                                        Grid.Column="1" />
                         </Grid>
 
+                        <!--zh-Hans-->
                         <!--Barry@simagic-->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="275" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Barry Lee @ Simagic" />
