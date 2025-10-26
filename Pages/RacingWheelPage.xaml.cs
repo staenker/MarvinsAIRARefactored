@@ -74,6 +74,13 @@ public partial class RacingWheelPage : UserControl
 		scrollViewer.ScrollToHorizontalOffset( half );
 	}
 
+	private void StartRecording_MairaMappableButton_Click( object sender, RoutedEventArgs e )
+	{
+		var app = App.Instance!;
+
+		app.RecordingManager.StartRecording();
+	}
+
 	#endregion
 
 	#region Logic
