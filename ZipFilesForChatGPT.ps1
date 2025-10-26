@@ -16,17 +16,23 @@ $extensions = @(
     '.iss', '.js', '.html', '.css', '.ino', '.py', '.php'
 )
 
-# Normalize paths
+# Normalize and resolve the root path
 $rootPath = (Resolve-Path -LiteralPath $Root).Path
-if (-not [System.IO.Path]::IsPathRooted($DestinationZip)) {
+
+# --- Resolve DestinationZip to a FULL path you have rights to ---
+# If it's not rooted (just a file name or relative), put it under $rootPath
+if (-not ([System.IO.Path]::IsPathRooted($DestinationZip))) {
     $DestinationZip = Join-Path -Path $rootPath -ChildPath $DestinationZip
 }
 
 # Ensure destination directory exists
 $zipDir = Split-Path -Parent $DestinationZip
-if (-not (Test-Path -LiteralPath $zipDir)) {
+if ($zipDir -and -not (Test-Path -LiteralPath $zipDir)) {
     New-Item -ItemType Directory -Path $zipDir | Out-Null
 }
+
+Write-Host "Root: $rootPath"
+Write-Host "Zip : $DestinationZip"
 
 # Remove existing zip if present
 if (Test-Path -LiteralPath $DestinationZip) {
@@ -34,7 +40,7 @@ if (Test-Path -LiteralPath $DestinationZip) {
 }
 
 # Collect files, excluding .git/.vs/bin/obj anywhere in the path
-$excludeRegex = '(^|[\\/])(\.idea|\.git|\.vs|bin|obj|resx|resx-backups)([\\/]|$)'
+$excludeRegex = '(^|[\\/])(\.idea|\.git|\.vs|bin|obj|resx-backups)([\\/]|$)'
 
 $files = Get-ChildItem -LiteralPath $rootPath -Recurse -File -Force |
     Where-Object {
@@ -47,8 +53,14 @@ if (-not $files) {
     exit 0
 }
 
-# Load compression APIs
-Add-Type -AssemblyName System.IO.Compression.FileSystem
+# Load compression APIs (needed on Windows PowerShell 5.1)
+$loaded = [AppDomain]::CurrentDomain.GetAssemblies() | ForEach-Object { $_.GetName().Name }
+if ($loaded -notcontains 'System.IO.Compression') {
+    Add-Type -AssemblyName System.IO.Compression
+}
+if ($loaded -notcontains 'System.IO.Compression.FileSystem') {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+}
 
 function Get-RelPath([string]$basePath, [string]$fullPath) {
     if ($PSVersionTable.PSVersion.Major -ge 6) {
@@ -64,7 +76,13 @@ function Get-RelPath([string]$basePath, [string]$fullPath) {
 $prefix = if ([string]::IsNullOrWhiteSpace($RootFolderName)) { "" } else { ($RootFolderName.TrimEnd('\','/') + "/") }
 
 # Create the zip and add each file with its relative path preserved
-$zip = [System.IO.Compression.ZipFile]::Open($DestinationZip, [System.IO.Compression.ZipArchiveMode]::Create)
+try {
+    $zip = [System.IO.Compression.ZipFile]::Open($DestinationZip, [System.IO.Compression.ZipArchiveMode]::Create)
+} catch {
+    Write-Error "Failed to open zip at '$DestinationZip'. $_"
+    exit 1
+}
+
 try {
     foreach ($f in $files) {
         $rel = Get-RelPath $rootPath $f.FullName
@@ -75,9 +93,9 @@ try {
     }
 }
 finally {
-    $zip.Dispose()
+    if ($zip) { $zip.Dispose() }
 }
 
 Write-Host "Created zip:" -ForegroundColor Green
 Write-Host "  $DestinationZip"
-Write-Host "Files included:" $files.Count
+Write-Host "Files included:" $($files.Count)
