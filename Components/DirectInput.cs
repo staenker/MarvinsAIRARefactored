@@ -97,6 +97,11 @@ public class DirectInput
 
 		app.Logger.WriteLine( "[DirectInput] InitializeForceFeedback >>>" );
 
+		if ( app.TopLevelWindow.WindowHandle == IntPtr.Zero )
+		{
+			throw new Exception( "Top level window handle has not been created." );
+		}
+
 		try
 		{
 			app.Logger.WriteLine( "[DirectInput] Creating the force feedback joystick" );
@@ -118,7 +123,7 @@ public class DirectInput
 		{
 			app.Logger.WriteLine( "[DirectInput] Setting the cooperative level to exclusive and background mode" );
 
-			ForceFeedbackJoystick.SetCooperativeLevel( app.MainWindow.WindowHandle, CooperativeLevel.Exclusive | CooperativeLevel.Background );
+			ForceFeedbackJoystick.SetCooperativeLevel( app.TopLevelWindow.WindowHandle, CooperativeLevel.Exclusive | CooperativeLevel.Background );
 
 			app.Logger.WriteLine( "[DirectInput] Acquiring the joystick" );
 
@@ -362,6 +367,11 @@ public class DirectInput
 
 		app.Logger.WriteLine( "[DirectInput] EnumerateDevices >>>" );
 
+		if ( app.TopLevelWindow.WindowHandle == IntPtr.Zero )
+		{
+			throw new Exception( "Top level window handle has not been created." );
+		}
+
 		foreach ( var joystickInfo in _joystickInfoDictionary )
 		{
 			joystickInfo.Value._joystick.Unacquire();
@@ -401,7 +411,7 @@ public class DirectInput
 
 					app.Logger.WriteLine( "[DirectInput] Setting the cooperative level to non-exclusive and background mode" );
 
-					keyboard.SetCooperativeLevel( app.MainWindow.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background );
+					keyboard.SetCooperativeLevel( app.TopLevelWindow.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background );
 
 					app.Logger.WriteLine( "[DirectInput] Acquiring the keyboard" );
 
@@ -419,7 +429,7 @@ public class DirectInput
 
 					app.Logger.WriteLine( "[DirectInput] Setting the cooperative level to non-exclusive and background mode" );
 
-					joystick.SetCooperativeLevel( app.MainWindow.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background );
+					joystick.SetCooperativeLevel( app.TopLevelWindow.WindowHandle, CooperativeLevel.NonExclusive | CooperativeLevel.Background );
 
 					app.Logger.WriteLine( "[DirectInput] Acquiring the joystick" );
 

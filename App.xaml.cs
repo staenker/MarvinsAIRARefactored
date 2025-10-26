@@ -33,6 +33,7 @@ public partial class App : Application
 	public static App? Instance { get; private set; }
 
 	public Logger Logger { get; private set; }
+	public TopLevelWindow TopLevelWindow { get; private set; }
 	public CloudService CloudService { get; private set; }
 	public SettingsFile SettingsFile { get; private set; }
 	public Graph Graph { get; private set; }
@@ -85,6 +86,7 @@ public partial class App : Application
 		InitializeComponent();
 
 		Logger = new();
+		TopLevelWindow = new();
 		CloudService = new();
 		SettingsFile = new();
 		Graph = new();
@@ -187,8 +189,6 @@ public partial class App : Application
 
 		if ( !createdNew )
 		{
-			Logger.WriteLine( "[App] Another instance of this app is already running!" );
-
 			Misc.BringExistingInstanceToFront();
 
 			Shutdown();
@@ -199,8 +199,6 @@ public partial class App : Application
 
 			if ( !createdNew )
 			{
-				Logger.WriteLine( "[App] Classic MAIRA is currently running!" );
-
 				ShowFatalError( DataContext.DataContext.Instance.Localization[ "ClassicMAIRAIsRunning" ] );
 			}
 			else
@@ -213,6 +211,7 @@ public partial class App : Application
 				}
 
 				Logger.Initialize();
+				TopLevelWindow.Initialize();
 				SettingsFile.Initialize();
 				AdminBoxx.Initialize();
 				AudioManager.Initialize();
@@ -818,6 +817,13 @@ public partial class App : Application
 				{
 					RacingWheel.SendChatMessage( "Curve", settings.RacingWheelOutputCurveString );
 				}
+			}
+
+			// racing wheel start recording
+
+			if ( CheckMappedButtons( settings.RacingWheelStartRecordingMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				RecordingManager.StartRecording();
 			}
 
 			// racing wheel lfe strength knob
@@ -2153,20 +2159,6 @@ public partial class App : Application
 			if ( CheckMappedButtons( settings.AdminBoxxVolumeMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
 				settings.AdminBoxxVolume -= 0.01f;
-			}
-
-			// debug reset recording
-
-			if ( CheckMappedButtons( settings.DebugResetRecordingMappings, deviceInstanceGuid, buttonNumber ) )
-			{
-				RecordingManager.ResetRecording();
-			}
-
-			// debug save recording
-
-			if ( CheckMappedButtons( settings.DebugSaveRecordingMappings, deviceInstanceGuid, buttonNumber ) )
-			{
-				RecordingManager.SaveRecording();
 			}
 		}
 	}
