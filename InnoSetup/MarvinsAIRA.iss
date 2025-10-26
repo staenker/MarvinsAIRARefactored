@@ -40,7 +40,7 @@ SetupIconFile=C:\Users\marvi\OneDrive\Documents\GitHub\MarvinsAIRARefactored\Art
 SolidCompression=yes
 WizardStyle=modern
 CloseApplications=yes
-RestartApplications=no
+RestartApplications=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
