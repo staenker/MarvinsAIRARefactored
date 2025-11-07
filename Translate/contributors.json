@@ -1,9 +1,11 @@
 {
     "es-ES": [
-        "DrCrazy"
+        "DrCrazy",
+        "danmargar"
     ],
     "de-DE": [
-        "Rene Stangl"
+        "Rene Stangl",
+        "Alpha-Xray"
     ],
     "cy-GB": [
         "Christopher Griffiths"
@@ -20,5 +22,18 @@
     ],
     "pt-BR": [
         "Thiago Oliveira"
+    ],
+    "it-IT": [
+        "Luca Leoni"
+    ],
+    "ru-RU": [
+        "Stepan Kutyrev",
+        "Old Pepper"
+    ],
+    "pl-PL": [
+        "Pan_Mar1an"
+    ],
+    "ro-RO": [
+        "Bogdan Bodnarescu"
     ]
 }
