@@ -17,8 +17,8 @@ public sealed class AudioManager : IDisposable
 
 	private FileSystemWatcher? _fileSystemWatcher = null;
 
-	private readonly XAudio2 _xaudio2;
-	private readonly MasteringVoice _masteringVoice;
+	private readonly XAudio2? _xaudio2;
+	private readonly MasteringVoice? _masteringVoice;
 
 	private readonly Dictionary<string, DateTime> _debounceMap = [];
 
@@ -28,8 +28,18 @@ public sealed class AudioManager : IDisposable
 
 		app.Logger.WriteLine( "[AudioManager] Constructor >>>" );
 
-		_xaudio2 = new XAudio2();
-		_masteringVoice = new MasteringVoice( _xaudio2 );
+		try
+		{
+			_xaudio2 = new XAudio2();
+			_masteringVoice = new MasteringVoice( _xaudio2 );
+		}
+		catch ( Exception exception )
+		{
+			_xaudio2 = null;
+			_masteringVoice = null;
+
+			app.Logger.WriteLine( $"[AudioManager] Failed to initialize XAudio2: {exception.Message}" );
+		}
 
 		app.Logger.WriteLine( "[AudioManager] <<< Constructor" );
 	}
@@ -129,7 +139,7 @@ public sealed class AudioManager : IDisposable
 
 	private void LoadSound( string path )
 	{
-		if ( File.Exists( path ) )
+		if ( ( _xaudio2 != null ) && File.Exists( path ) )
 		{
 			var key = Path.GetFileNameWithoutExtension( path )?.ToLower();
 
@@ -235,7 +245,7 @@ public sealed class AudioManager : IDisposable
 			_soundCache.Clear();
 		}
 
-		_masteringVoice.Dispose();
-		_xaudio2.Dispose();
+		_masteringVoice?.Dispose();
+		_xaudio2?.Dispose();
 	}
 }
