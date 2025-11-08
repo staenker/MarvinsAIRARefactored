@@ -5,10 +5,12 @@
     ],
     "de-DE": [
         "Rene Stangl",
-        "Alpha-Xray"
+        "Alpha-Xray",
+        "Marvin"
     ],
     "cy-GB": [
-        "Christopher Griffiths"
+        "Christopher Griffiths",
+        "Marvin"
     ],
     "da-DK": [
         "DKBjorn"
@@ -21,19 +23,29 @@
         "Marvin"
     ],
     "pt-BR": [
-        "Thiago Oliveira"
+        "Thiago Oliveira",
+        "Marvin"
     ],
     "it-IT": [
-        "Luca Leoni"
+        "Luca Leoni",
+        "Marvin"
     ],
     "ru-RU": [
         "Stepan Kutyrev",
-        "Old Pepper"
+        "Old Pepper",
+        "Marvin"
     ],
     "pl-PL": [
-        "Pan_Mar1an"
+        "Pan_Mar1an",
+        "Marvin"
     ],
     "ro-RO": [
         "Bogdan Bodnarescu"
+    ],
+    "pt-PT": [
+        "Marvin"
+    ],
+    "fr-FR": [
+        "Marvin"
     ]
 }
