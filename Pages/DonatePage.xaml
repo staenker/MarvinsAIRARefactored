@@ -105,7 +105,7 @@
                     <InlineUIContainer BaselineAlignment="Center">
                         
                         <Image Source="/MarvinsAIRARefactored;component/Artwork/Misc/buy-me-a-coffee-logo.png"
-                                Height="25"
+                                Height="24"
                                 Margin="0,0,5,0" />
                         
                     </InlineUIContainer>
