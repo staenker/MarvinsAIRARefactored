@@ -154,6 +154,12 @@ namespace MarvinsAIRARefactored.Controls
 
 			AppMenuItems.Add( new AppMenuItem
 			{
+				AppPage = AppPage.Help,
+				PageUserControl = _helpPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
 				AppPage = AppPage.RacingWheel,
 				PageUserControl = _racingWheelPage
 			} );
@@ -258,6 +264,7 @@ namespace MarvinsAIRARefactored.Controls
 
 			object currentPage = settings.AppDefaultPage switch
 			{
+				AppPage.Help => _helpPage,
 				AppPage.RacingWheel => _racingWheelPage,
 				AppPage.SteeringEffects => _steeringEffectsPage,
 				AppPage.Pedals => _pedalsPage,
@@ -292,6 +299,10 @@ namespace MarvinsAIRARefactored.Controls
 			{
 				switch ( menuItem.AppPage )
 				{
+					case AppPage.Help:
+						menuItem.DisplayName = localization[ "Help" ];
+						break;
+
 					case AppPage.RacingWheel:
 						menuItem.DisplayName = localization[ "RacingWheel" ];
 						break;
@@ -359,6 +370,10 @@ namespace MarvinsAIRARefactored.Controls
 
 			switch ( SelectedAppPage )
 			{
+				case AppPage.Help:
+					SelectedAppPageText = localization[ "Help_UC" ];
+					break;
+
 				case AppPage.RacingWheel:
 					SelectedAppPageText = localization[ "RacingWheel_UC" ];
 					break;

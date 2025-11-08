@@ -21,6 +21,7 @@ public partial class MainWindow : Window
 {
 	public enum AppPage
 	{
+		Help,
 		RacingWheel,
 		SteeringEffects,
 		Pedals,
@@ -39,6 +40,7 @@ public partial class MainWindow : Window
 
 	private const int UpdateInterval = 6;
 
+	public static readonly HelpPage _helpPage = new();
 	public static readonly RacingWheelPage _racingWheelPage = new();
 	public static readonly SteeringEffectsPage _steeringEffectsPage = new();
 	public static readonly PedalsPage _pedalsPage = new();
