@@ -1324,7 +1324,7 @@
     <value>Exibição</value>
   </data>
   <data name="AdminBoxx_UC" xml:space="preserve">
-    <value></value>
+    <value>ADMINBOXX</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Click_UC" xml:space="preserve">

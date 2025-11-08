@@ -18,7 +18,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="AppSettings" xml:space="preserve">
-    <value></value>
+    <value>Setări Aplicație</value>
     <comment>App menu item</comment>
   </data>
   <data name="AppTitle" xml:space="preserve">
@@ -42,7 +42,7 @@
     <comment>Racing wheel</comment>
   </data>
   <data name="Graph" xml:space="preserve">
-    <value></value>
+    <value>Grafic</value>
     <comment>App menu item</comment>
   </data>
   <data name="HeaderData_UC" xml:space="preserve">
@@ -106,7 +106,7 @@
     <comment>Simulator</comment>
   </data>
   <data name="Simulator" xml:space="preserve">
-    <value></value>
+    <value>Simulator</value>
     <comment>App menu item</comment>
   </data>
   <data name="SimulatorNotRunning" xml:space="preserve">
@@ -130,7 +130,7 @@
     <comment>App language list</comment>
   </data>
   <data name="TopmostWindow" xml:space="preserve">
-    <value></value>
+    <value>Fereastra cea mai de sus</value>
     <comment>App settings</comment>
   </data>
   <data name="TorqueUnits" xml:space="preserve">
@@ -158,11 +158,11 @@
     <comment>Button mapping</comment>
   </data>
   <data name="Button" xml:space="preserve">
-    <value></value>
+    <value>Buton</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Click" xml:space="preserve">
-    <value></value>
+    <value>Clic</value>
     <comment>Button mapping</comment>
   </data>
   <data name="Hold" xml:space="preserve">
@@ -170,7 +170,7 @@
     <comment>Button mapping</comment>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value></value>
+    <value>Tastatură</value>
     <comment>Button mapping</comment>
   </data>
   <data name="WaitingForInput" xml:space="preserve">
@@ -346,7 +346,7 @@
     <comment>Steering effects</comment>
   </data>
   <data name="SteeringEffects" xml:space="preserve">
-    <value></value>
+    <value>Efecte Volan</value>
     <comment>App menu item</comment>
   </data>
   <data name="WheelLock_UC" xml:space="preserve">
@@ -418,11 +418,11 @@
     <comment>Cloud service</comment>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value></value>
+    <value>Verifică Updateuri Start</value>
     <comment>App settings</comment>
   </data>
   <data name="AutomaticallyDownloadUpdates" xml:space="preserve">
-    <value></value>
+    <value>Downloadează Updateuri Automat</value>
     <comment>App settings</comment>
   </data>
   <data name="ConnectToAdminBoxxOnStartup" xml:space="preserve">
@@ -510,7 +510,7 @@
     <comment>LFE devices list</comment>
   </data>
   <data name="RememberWindowPositionAndSize" xml:space="preserve">
-    <value></value>
+    <value>Memorează poziție și dimensiune fereastră</value>
     <comment>App settings</comment>
   </data>
   <data name="FadeWithBrake" xml:space="preserve">
@@ -570,7 +570,7 @@
     <comment>App settings</comment>
   </data>
   <data name="UIScale" xml:space="preserve">
-    <value></value>
+    <value>Scală UI</value>
     <comment>App settings</comment>
   </data>
   <data name="CloudService_UC" xml:space="preserve">
@@ -578,7 +578,7 @@
     <comment>App settings</comment>
   </data>
   <data name="CheckNow" xml:space="preserve">
-    <value></value>
+    <value>Verifică Acum</value>
     <comment>App settings</comment>
   </data>
   <data name="CheckingForUpdate" xml:space="preserve">
@@ -606,7 +606,7 @@
     <comment>Donate</comment>
   </data>
   <data name="Donors_UC" xml:space="preserve">
-    <value></value>
+    <value>DONATORI</value>
     <comment>Contribute</comment>
   </data>
   <data name="SuperDonors_UC" xml:space="preserve">
@@ -614,7 +614,7 @@
     <comment>Donate</comment>
   </data>
   <data name="Donate" xml:space="preserve">
-    <value></value>
+    <value>Donează</value>
     <comment>App menu item</comment>
   </data>
   <data name="CodeContributions_UC" xml:space="preserve">
@@ -658,11 +658,11 @@
     <comment>App settings</comment>
   </data>
   <data name="StartMinimized" xml:space="preserve">
-    <value></value>
+    <value>Pornește Minimizat</value>
     <comment>App settings</comment>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
-    <value></value>
+    <value>Pornește cu Windows</value>
     <comment>App settings</comment>
   </data>
   <data name="TotalCompressionRate" xml:space="preserve">
@@ -1094,7 +1094,7 @@
     <comment>Donate</comment>
   </data>
   <data name="Contribute" xml:space="preserve">
-    <value></value>
+    <value>Contribuie</value>
     <comment>App menu item</comment>
   </data>
   <data name="CalibrationFileContributions_UC" xml:space="preserve">
@@ -1102,7 +1102,7 @@
     <comment>Contribute</comment>
   </data>
   <data name="Moderators" xml:space="preserve">
-    <value></value>
+    <value>Moderatori</value>
     <comment>Contribute</comment>
   </data>
   <data name="AppSettings_UC" xml:space="preserve">
@@ -1150,7 +1150,7 @@
     <comment>App menu item</comment>
   </data>
   <data name="Pedals" xml:space="preserve">
-    <value></value>
+    <value>Pedale</value>
     <comment>App menu item</comment>
   </data>
   <data name="WheelLock" xml:space="preserve">
@@ -1218,7 +1218,7 @@
     <comment>Wind</comment>
   </data>
   <data name="Speed" xml:space="preserve">
-    <value></value>
+    <value>Viteză</value>
     <comment>Wind</comment>
   </data>
   <data name="FanPower" xml:space="preserve">

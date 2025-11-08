@@ -195,7 +195,7 @@
   </data>
   <data name="RacingWheel_UC" xml:space="preserve">
     <value>RACING WHEEL</value>
-    <comment>Racing wheel</comment>
+    <comment>Page title</comment>
   </data>
   <data name="SteeringDevice" xml:space="preserve">
     <value>Steering Device</value>
@@ -379,7 +379,7 @@
   </data>
   <data name="Pedals_UC" xml:space="preserve">
     <value>PEDALS</value>
-    <comment>Pedals</comment>
+    <comment>Page title</comment>
   </data>
   <data name="PedalsP1000" xml:space="preserve">
     <value>Simagic P1000 Pedals</value>
@@ -447,7 +447,7 @@
   </data>
   <data name="SteeringEffects_UC" xml:space="preserve">
     <value>STEERING EFFECTS</value>
-    <comment>Steering effects</comment>
+    <comment>Page title</comment>
   </data>
   <data name="SteeringEffects" xml:space="preserve">
     <value>Steering Effects</value>
@@ -695,7 +695,7 @@
   </data>
   <data name="Contribute_UC" xml:space="preserve">
     <value>CONTRIBUTE</value>
-    <comment>Contribute</comment>
+    <comment>Page title</comment>
   </data>
   <data name="BuyMeACoffee" xml:space="preserve">
     <value>Buy Me a Coffee</value>
@@ -707,7 +707,7 @@
   </data>
   <data name="Donate_UC" xml:space="preserve">
     <value>DONATE</value>
-    <comment>Donate</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Donors_UC" xml:space="preserve">
     <value>DONORS</value>
@@ -839,7 +839,7 @@
   </data>
   <data name="Sounds_UC" xml:space="preserve">
     <value>SOUNDS</value>
-    <comment>Sounds</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
     <value>Enabled</value>
@@ -1211,19 +1211,19 @@
   </data>
   <data name="AppSettings_UC" xml:space="preserve">
     <value>APP SETTINGS</value>
-    <comment>App settings</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Simulator_UC" xml:space="preserve">
     <value>SIMULATOR</value>
-    <comment>Simulator</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Graph_UC" xml:space="preserve">
     <value>GRAPH</value>
-    <comment>Graph</comment>
+    <comment>Page title</comment>
   </data>
   <data name="SpeechToText_UC" xml:space="preserve">
     <value>SPEECH TO TEXT</value>
-    <comment>Speech to text</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Changelog" xml:space="preserve">
     <value>Changelog</value>
@@ -1275,7 +1275,7 @@
   </data>
   <data name="Wind_UC" xml:space="preserve">
     <value>WIND</value>
-    <comment>Wind</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Wind" xml:space="preserve">
     <value>Wind</value>
@@ -1343,7 +1343,7 @@
   </data>
   <data name="TradingPaints_UC" xml:space="preserve">
     <value>TRADING PAINTS</value>
-    <comment>Trading Paints</comment>
+    <comment>Page title</comment>
   </data>
   <data name="TradingPaintsDisclaimer" xml:space="preserve">
     <value>Marvin's Awesome iRacing App (MAIRA) is not affiliated with Trading Paints</value>
@@ -1431,7 +1431,7 @@
   </data>
   <data name="AdminBoxx_UC" xml:space="preserve">
     <value>ADMINBOXX</value>
-    <comment>AdminBoxx</comment>
+    <comment>Page title</comment>
   </data>
   <data name="Click_UC" xml:space="preserve">
     <value>CLICK</value>
@@ -1444,5 +1444,49 @@
   <data name="PedalsPrototype" xml:space="preserve">
     <value>Prototype Pedals</value>
     <comment>Pedals device</comment>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+    <comment>App menu item</comment>
+  </data>
+  <data name="Help_UC" xml:space="preserve">
+    <value>HELP</value>
+    <comment>Page title</comment>
+  </data>
+  <data name="Documentation_UC" xml:space="preserve">
+    <value>DOCUMENTATION</value>
+    <comment>Help</comment>
+  </data>
+  <data name="Discord_UC" xml:space="preserve">
+    <value>DISCORD</value>
+    <comment>Help</comment>
+  </data>
+  <data name="Forums_UC" xml:space="preserve">
+    <value>FORUMS</value>
+    <comment>Help</comment>
+  </data>
+  <data name="DocumentationWebsite" xml:space="preserve">
+    <value>Documentation Website</value>
+    <comment>Help</comment>
+  </data>
+  <data name="DiscordServer" xml:space="preserve">
+    <value>Discord Server</value>
+    <comment>Help</comment>
+  </data>
+  <data name="iRacingForums" xml:space="preserve">
+    <value>iRacing Forums</value>
+    <comment>Help</comment>
+  </data>
+  <data name="DocumentationText" xml:space="preserve">
+    <value>This documentation website is a forever work in progress, because new features are being added to this app all the time.  I do update the documentation as often as I can, but if the information you are looking for isn't there yet, you can try looking in the Discord server, or in the iRacing forums, for the answers to your questions.</value>
+    <comment>Help</comment>
+  </data>
+  <data name="DiscordText" xml:space="preserve">
+    <value>The MAIRA Discord server is the fastest way to get answers to your questions, if you can't find it in the documentation.  There are volunteers helping out, and I also try to help out as well.</value>
+    <comment>Help</comment>
+  </data>
+  <data name="ForumsText" xml:space="preserve">
+    <value>This is where it all started.  You can look for answers in here, but I am not as active here as I used to be.  Visiting the Discord server is the best way to ask questions.</value>
+    <comment>Help</comment>
   </data>
 </root>

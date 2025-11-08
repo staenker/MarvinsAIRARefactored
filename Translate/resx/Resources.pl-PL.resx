@@ -902,7 +902,7 @@
     <value>To ci ludzie poświęcili swój wolny czas, by przeprowadzić kalibrację efektów układu kierowniczego w swoich ulubionych samochodach i przesłać pliki kalibracyjne!</value>
   </data>
   <data name="DegreesPerSecond" xml:space="preserve">
-    <value> 	°/s</value>
+    <value>°/s</value>
   </data>
   <data name="CalibrationFile_UC" xml:space="preserve">
     <value>PLIK KALIBRACJI</value>
