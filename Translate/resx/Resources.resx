@@ -1489,4 +1489,8 @@
     <value>This is where it all started.  You can look for answers in here, but I am not as active here as I used to be.  Visiting the Discord server is the best way to ask questions.</value>
     <comment>Help</comment>
   </data>
+  <data name="PedalsP700" xml:space="preserve">
+    <value>Simagic P700 Pedals</value>
+    <comment>Pedals device</comment>
+  </data>
 </root>
