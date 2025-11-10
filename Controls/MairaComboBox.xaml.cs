@@ -1,5 +1,6 @@
 ﻿
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -110,6 +111,12 @@ public partial class MairaComboBox : UserControl
 		{
 			mairaComboBox.UpdateSelectedValueVisuals();
 		}
+	}
+
+	public event SelectionChangedEventHandler SelectionChanged
+	{
+		add { ComboBox.SelectionChanged += value; }
+		remove { ComboBox.SelectionChanged -= value; }
 	}
 
 	#endregion
