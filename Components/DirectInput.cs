@@ -138,14 +138,14 @@ public class DirectInput
 					_forceFeedbackEffectParameters = new EffectParameters
 					{
 						Flags = EffectFlags.ObjectOffsets | EffectFlags.Cartesian,
-						Duration = 500000,
+						Duration = -1,
 						Gain = DI_FFNOMINALMAX,
 						SamplePeriod = 0,
 						StartDelay = 0,
 						TriggerButton = DIEB_NOTRIGGER,
-						TriggerRepeatInterval = int.MaxValue,
+						TriggerRepeatInterval = 0,
 						Axes = [ 0 ],
-						Directions = [ 0 ],
+						Directions = [ 1 ],
 						Envelope = new Envelope(),
 						Parameters = new ConstantForce { Magnitude = 0 }
 					};
@@ -155,6 +155,7 @@ public class DirectInput
 					_forceFeedbackEffect = new Effect( ForceFeedbackJoystick, effectInfo.Guid, _forceFeedbackEffectParameters );
 
 					_forceFeedbackEffect.Download();
+					_forceFeedbackEffect.Start();
 
 					break;
 				}
@@ -364,7 +365,7 @@ public class DirectInput
 		{
 			( (ConstantForce) _forceFeedbackEffectParameters.Parameters ).Magnitude = (int) Math.Clamp( magnitude * DI_FFNOMINALMAX, -DI_FFNOMINALMAX, DI_FFNOMINALMAX );
 
-			_forceFeedbackEffect?.SetParameters( _forceFeedbackEffectParameters, EffectParameterFlags.TypeSpecificParameters | EffectParameterFlags.Start );
+			_forceFeedbackEffect?.SetParameters( _forceFeedbackEffectParameters, EffectParameterFlags.TypeSpecificParameters );
 		}
 	}
 
