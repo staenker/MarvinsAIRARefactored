@@ -9,7 +9,7 @@ namespace MarvinsAIRARefactored.Components;
 
 public partial class Wind
 {
-	private const int UpdateInterval = 12;
+	private const int UpdateInterval = 30;
 
 	public bool IsConnected { get; private set; } = false;
 
@@ -22,7 +22,7 @@ public partial class Wind
 
 	private static readonly Regex _fanRPMRegex = FanRPMRegex();
 
-	[GeneratedRegex( @"(?:(?<key>[LR])\s*=\s*(?<val>\d+))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant )]
+	[GeneratedRegex( @"^\s*L(?<left>\d+)\s*R(?<right>\d+)\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant )]
 	private static partial Regex FanRPMRegex();
 
 	public Wind()
@@ -95,48 +95,35 @@ public partial class Wind
 
 	private void OnDataReceived( object? sender, string data )
 	{
-		if ( !string.IsNullOrWhiteSpace( data ) )
+		if ( string.IsNullOrWhiteSpace( data ) )
 		{
-			var trimmed = data.Trim();
-
-			if ( trimmed.StartsWith( "RPM", StringComparison.OrdinalIgnoreCase ) )
-			{
-				var leftFound = false;
-				var rightFound = false;
-				var leftValue = 0;
-				var rightValue = 0;
-
-				var matches = _fanRPMRegex.Matches( trimmed );
-
-				foreach ( Match match in matches )
-				{
-					var key = match.Groups[ "key" ].Value.ToUpperInvariant();
-					var valText = match.Groups[ "val" ].Value;
-
-					if ( !int.TryParse( valText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var rpm ) )
-					{
-						continue;
-					}
-
-					if ( key == "L" )
-					{
-						leftValue = rpm;
-						leftFound = true;
-					}
-					else if ( key == "R" )
-					{
-						rightValue = rpm;
-						rightFound = true;
-					}
-				}
-
-				if ( leftFound && rightFound )
-				{
-					_leftFanRPM = leftValue;
-					_rightFanRPM = rightValue;
-				}
-			}
+			return;
 		}
+
+		var trimmed = data.Trim();
+
+		var match = _fanRPMRegex.Match( trimmed );
+
+		if ( !match.Success )
+		{
+			return;
+		}
+
+		var leftText = match.Groups[ "left" ].Value;
+		var rightText = match.Groups[ "right" ].Value;
+
+		if ( !int.TryParse( leftText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var leftRpm ) )
+		{
+			return;
+		}
+
+		if ( !int.TryParse( rightText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var rightRpm ) )
+		{
+			return;
+		}
+
+		_leftFanRPM = leftRpm;
+		_rightFanRPM = rightRpm;
 	}
 
 	private void OnPortClosed( object? sender, EventArgs e )
@@ -214,8 +201,7 @@ public partial class Wind
 		var leftFanPower = fanPower * ( 1f - MathF.Max( 0, curveFactor ) ) * settings.WindMasterWindPower * 320f;
 		var rightFanPower = fanPower * ( 1f + MathF.Min( 0, curveFactor ) ) * settings.WindMasterWindPower * 320f;
 
-		_usbSerialPortHelper.WriteLine( $"L{leftFanPower:F0}" );
-		_usbSerialPortHelper.WriteLine( $"R{rightFanPower:F0}" );
+		_usbSerialPortHelper.WriteLine( $"L{leftFanPower:F0}R{rightFanPower:F0}" );
 	}
 
 	public void Tick( App app )
@@ -227,9 +213,9 @@ public partial class Wind
 			_updateCounter = UpdateInterval;
 
 			Update( app );
-		}
 
-		MainWindow._windPage.LeftFanRPM_TextBlock.Text = $"{_leftFanRPM}";
-		MainWindow._windPage.RightFanRPM_TextBlock.Text = $"{_rightFanRPM}";
+			MainWindow._windPage.LeftFanRPM_TextBlock.Text = $"{_leftFanRPM}";
+			MainWindow._windPage.RightFanRPM_TextBlock.Text = $"{_rightFanRPM}";
+		}
 	}
 }
