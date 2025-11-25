@@ -31,7 +31,7 @@ bool                idleZeroApplied  = true;        // start in idle (0%)
 const uint8_t       TACH_L_PIN       = 2;           // D2 = INT0
 const uint8_t       TACH_R_PIN       = 3;           // D3 = INT1
 const uint8_t       PULSES_PER_REV   = 2;           // typical PC fan
-const uint8_t       MEAS_PULSES      = 10;          // pulses per measurement window
+const uint8_t       MEAS_PULSES      = 50;          // pulses per measurement window
 const uint32_t      STALL_TIMEOUT_US = 500000UL;    // 0.5 s without pulses -> treat as 0 RPM
 const uint32_t      DEGLITCH_US      = 100UL;       // ignore pulses closer than this
 
@@ -46,8 +46,8 @@ volatile uint32_t   tachRStartUs     = 0;
 volatile uint32_t   lastRPulseUs     = 0;
 
 // -------- Last computed RPM values (used if no fresh window yet) --------
-uint32_t            rpmLeftLast  = 0;
-uint32_t            rpmRightLast = 0;
+uint32_t            rpmLeftLast      = 0;
+uint32_t            rpmRightLast     = 0;
 
 // -------- Helpers --------
 
