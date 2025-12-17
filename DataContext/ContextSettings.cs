@@ -29,7 +29,8 @@ public class ContextSettings
 	public float RacingWheelOutputMaximum { get; set; }
 	public float RacingWheelOutputCurve { get; set; }
 	public float RacingWheelLFEStrength { get; set; }
-	public float RacingWheelCrashProtectionGForce { get; set; }
+	public float RacingWheelCrashProtectionLongitudalGForce { get; set; }
+	public float RacingWheelCrashProtectionLateralGForce { get; set; }
 	public float RacingWheelCrashProtectionDuration { get; set; }
 	public float RacingWheelCrashProtectionForceReduction { get; set; }
 	public float RacingWheelCurbProtectionShockVelocity { get; set; }
