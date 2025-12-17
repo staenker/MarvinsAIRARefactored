@@ -349,8 +349,8 @@
     <value> g</value>
     <comment>Abbreviation for g-force</comment>
   </data>
-  <data name="GForce" xml:space="preserve">
-    <value>G-Force</value>
+  <data name="LongitudalGForce" xml:space="preserve">
+    <value>Longitudal G-Force</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Duration" xml:space="preserve">
@@ -1496,5 +1496,9 @@
   <data name="FanStatus_UC" xml:space="preserve">
     <value>FAN STATUS</value>
     <comment>Wind</comment>
+  </data>
+  <data name="LateralGForce" xml:space="preserve">
+    <value>Lateral G-Force</value>
+    <comment>Racing wheel</comment>
   </data>
 </root>
