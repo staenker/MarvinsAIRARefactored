@@ -350,7 +350,7 @@
     <comment>Abbreviation for g-force</comment>
   </data>
   <data name="LongitudalGForce" xml:space="preserve">
-    <value>Longitudal G-Force</value>
+    <value>Longitudial G-Force</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Duration" xml:space="preserve">
