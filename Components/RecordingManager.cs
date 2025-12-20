@@ -188,7 +188,7 @@ public sealed class RecordingManager : IDisposable
 
 		app.Logger.WriteLine( "[RecordingManager] SaveRecording >>>" );
 
-		var fileName = $"{app.Simulator.CarScreenName} @ {app.Simulator.TrackDisplayName} - {_trackPosition}";
+		var fileName = $"{app.Simulator.CarScreenName} @ {app.Simulator.TrackDisplayName} - {app.Simulator.TrackConfigName} ({_trackPosition}%)";
 
 		var filePath = Path.Combine( _recordingsDirectory, $"{fileName}.csv" );
 
