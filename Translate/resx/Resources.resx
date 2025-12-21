@@ -1501,4 +1501,8 @@
     <value>Lateral G-Force</value>
     <comment>Racing wheel</comment>
   </data>
+  <data name="POV" xml:space="preserve">
+    <value>POV</value>
+    <comment>Button</comment>
+  </data>
 </root>
