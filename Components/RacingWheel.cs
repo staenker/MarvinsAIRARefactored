@@ -741,9 +741,9 @@ public class RacingWheel
 				app.MainWindow.UpdateRacingWheelPowerButton();
 			}
 
-			// if power button is off, or suspend is requested, or unsuspend counter is still counting down, then suspend the racing wheel force feedback
+			// if power button is off, or suspend is requested, or unsuspend counter is still counting down, or replay is playing, then suspend the racing wheel force feedback
 
-			if ( !settings.RacingWheelEnableForceFeedback || _isSuspended || ( _unsuspendTimerMS > 0f ) )
+			if ( !settings.RacingWheelEnableForceFeedback || _isSuspended || ( _unsuspendTimerMS > 0f ) || app.Simulator.IsReplayPlaying )
 			{
 				if ( _currentRacingWheelGuid != null )
 				{
