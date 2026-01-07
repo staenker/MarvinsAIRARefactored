@@ -21,6 +21,9 @@ public partial class Wind
 	private int _leftFanRPM = 0;
 	private int _rightFanRPM = 0;
 
+	private bool _testingLeft = false;
+	private bool _testingRight = false;
+
 	private int _updateCounter = UpdateInterval + 7;
 
 	private static readonly Regex _fanRPMRegex = FanRPMRegex();
@@ -96,6 +99,16 @@ public partial class Wind
 		app.Logger.WriteLine( "[Wind] <<< Disconnect" );
 	}
 
+	public void TestLeft( bool enable )
+	{
+		_testingLeft = enable;
+	}
+
+	public void TestRight( bool enable )
+	{
+		_testingRight = enable;
+	}
+
 	private void OnDataReceived( object? sender, string data )
 	{
 		if ( string.IsNullOrWhiteSpace( data ) )
@@ -168,7 +181,7 @@ public partial class Wind
 
 		var velocity = MathF.Sqrt( app.Simulator.VelocityX * app.Simulator.VelocityX + app.Simulator.VelocityY * app.Simulator.VelocityY );
 
-		var speed = MathF.Max( velocity, settings.WindMinimumSpeed ) / 100f;
+		var speed = MathF.Max( velocity / 100f, settings.WindMinimumSpeed );
 
 		var fanPower = settings.WindFanPower10;
 
@@ -211,10 +224,10 @@ public partial class Wind
 		_leftFanPower = fanPower * ( 1f + MathF.Min( 0, curveFactor ) ) * settings.WindMasterWindPower * 320f;
 		_rightFanPower = fanPower * ( 1f - MathF.Max( 0, curveFactor ) ) * settings.WindMasterWindPower * 320f;
 
-		var leftFanPower = Math.Max( 1f, _leftFanPower );
-		var rightFanPower = Math.Max( 1f, _rightFanPower );
+		_leftFanPower = _testingLeft ? 320 : Math.Max( 0f, _leftFanPower );
+		_rightFanPower = _testingRight ? 320 : Math.Max( 0f, _rightFanPower );
 
-		_usbSerialPortHelper.WriteLine( $"L{leftFanPower:F0}R{rightFanPower:F0}" );
+		_usbSerialPortHelper.WriteLine( $"L{_leftFanPower:F0}R{_rightFanPower:F0}" );
 	}
 
 	public void Tick( App app )

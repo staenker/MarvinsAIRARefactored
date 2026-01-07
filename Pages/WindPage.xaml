@@ -222,13 +222,29 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0"
-                            Grid.Column="0"
-                            VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[LeftFan]}"
-                               HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="0"
+                           Grid.Row="0"
+                           Style="{StaticResource MairaTextBlockStyle}"
+                           Text="{Binding Localization[LeftFan]}"
+                           HorizontalAlignment="Center" />
+
+                <TextBlock Grid.Column="1"
+                           Grid.Row="0"
+                           Style="{StaticResource MairaTextBlockStyle}"
+                           Text="{Binding Localization[RightFan]}"
+                           HorizontalAlignment="Center" />
+
+                <StackPanel Grid.Column="0"
+                            Grid.Row="2"
+                            VerticalAlignment="Center">
 
                     <TextBlock Style="{StaticResource MairaTextBlockStyle}"
                                HorizontalAlignment="Center">
@@ -260,13 +276,9 @@
 
                 </StackPanel>
 
-                <StackPanel Grid.Row="0"
-                            Grid.Column="1"
+                <StackPanel Grid.Column="1"
+                            Grid.Row="2"
                             VerticalAlignment="Center">
-
-                    <TextBlock Style="{StaticResource MairaTextBlockStyle}"
-                               Text="{Binding Localization[RightFan]}"
-                               HorizontalAlignment="Center" />
 
                     <TextBlock Style="{StaticResource MairaTextBlockStyle}"
                                HorizontalAlignment="Center">
@@ -297,6 +309,20 @@
                     </TextBlock>
 
                 </StackPanel>
+
+                <controls:MairaButton Grid.Column="0"
+                                      Grid.Row="5"
+                                      Label="{Binding Localization[Test]}"
+                                      Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/record-white.png"
+                                      BlinkIcon="/MarvinsAIRARefactored;component/Artwork/Buttons/record-orange.png"
+                                      Click="LeftTest_MairaButton_Click"/>
+
+                <controls:MairaButton Grid.Column="1"
+                                      Grid.Row="5"
+                                      Label="{Binding Localization[Test]}"
+                                      Icon="/MarvinsAIRARefactored;component/Artwork/Buttons/record-white.png"
+                                      BlinkIcon="/MarvinsAIRARefactored;component/Artwork/Buttons/record-orange.png"
+                                      Click="RightTest_MairaButton_Click" />
 
             </Grid>
 
