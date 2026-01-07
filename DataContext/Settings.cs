@@ -2419,12 +2419,37 @@ public class Settings : INotifyPropertyChanged
 					OnPropertyChanged();
 
 					app.SteeringEffects.LoadCalibration();
+
+					MainWindow._steeringEffectsPage.CalibrationFileNameChanged( _steeringEffectsCalibrationFileName != string.Empty );
 				}
 			}
 		}
 	}
 
 	public ContextSwitches SteeringEffectsCalibrationFileNameContextSwitches { get; set; } = new( false, true, false, false, false );
+
+	#endregion
+
+	#region Steering effects - Understeer enabled
+
+	private bool _steeringEffectsUndersteerEnabled = false;
+
+	public bool SteeringEffectsUndersteerEnabled
+	{
+		get => _steeringEffectsUndersteerEnabled;
+
+		set
+		{
+			if ( value != _steeringEffectsUndersteerEnabled )
+			{
+				_steeringEffectsUndersteerEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsUndersteerEnabledContextSwitches { get; set; } = new( false, true, false, false, false );
 
 	#endregion
 
@@ -3034,6 +3059,29 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Steering effects - Oversteer enabled
+
+	private bool _steeringEffectsOversteerEnabled = false;
+
+	public bool SteeringEffectsOversteerEnabled
+	{
+		get => _steeringEffectsOversteerEnabled;
+
+		set
+		{
+			if ( value != _steeringEffectsOversteerEnabled )
+			{
+				_steeringEffectsOversteerEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsOversteerEnabledContextSwitches { get; set; } = new( false, true, false, false, false );
+
+	#endregion
+
 	#region Steering effects - Oversteer minimum threshold
 
 	private float _steeringEffectsOversteerMinimumThreshold = 0f;
@@ -3386,7 +3434,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer wheel constant force strength
 
-	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.5f;
+	private float _steeringEffectsOversteerWheelConstantForceStrength = 0.1f;
 
 	public float SteeringEffectsOversteerWheelConstantForceStrength
 	{
@@ -3640,6 +3688,29 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Steering effects - SeatOfPants enabled
+
+	private bool _steeringEffectsSeatOfPantsEnabled = false;
+
+	public bool SteeringEffectsSeatOfPantsEnabled
+	{
+		get => _steeringEffectsSeatOfPantsEnabled;
+
+		set
+		{
+			if ( value != _steeringEffectsSeatOfPantsEnabled )
+			{
+				_steeringEffectsSeatOfPantsEnabled = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	public ContextSwitches SteeringEffectsSeatOfPantsEnabledContextSwitches { get; set; } = new( false, true, false, false, false );
+
+	#endregion
+
 	#region Steering effects - Seat-of-pants minimum threshold
 
 	private float _steeringEffectsSeatOfPantsMinimumThreshold = 0f;
@@ -3650,7 +3721,7 @@ public class Settings : INotifyPropertyChanged
 
 		set
 		{
-			value = Math.Clamp( value, 0f, 10f );
+			value = Math.Clamp( value, 0f, 50f );
 
 			if ( value != _steeringEffectsSeatOfPantsMinimumThreshold )
 			{
@@ -3698,7 +3769,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Seat-of-pants maximum threshold
 
-	private float _steeringEffectsSeatOfPantsMaximumThreshold = 3f;
+	private float _steeringEffectsSeatOfPantsMaximumThreshold = 10f;
 
 	public float SteeringEffectsSeatOfPantsMaximumThreshold
 	{
@@ -3706,7 +3777,7 @@ public class Settings : INotifyPropertyChanged
 
 		set
 		{
-			value = Math.Clamp( value, 0f, 10f );
+			value = Math.Clamp( value, 0f, 50f );
 
 			if ( value != _steeringEffectsSeatOfPantsMaximumThreshold )
 			{
@@ -4005,7 +4076,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Seat-of-pants wheel constant force direction
 
-	private RacingWheel.ConstantForceDirection _steeringEffectsSeatOfPantsWheelConstantForceDirection = RacingWheel.ConstantForceDirection.None;
+	private RacingWheel.ConstantForceDirection _steeringEffectsSeatOfPantsWheelConstantForceDirection = RacingWheel.ConstantForceDirection.IncreaseForce;
 
 	public RacingWheel.ConstantForceDirection SteeringEffectsSeatOfPantsWheelConstantForceDirection
 	{
@@ -4028,7 +4099,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Seat-of-pants wheel constant force strength
 
-	private float _steeringEffectsSeatOfPantsWheelConstantForceStrength = 0.5f;
+	private float _steeringEffectsSeatOfPantsWheelConstantForceStrength = 0.1f;
 
 	public float SteeringEffectsSeatOfPantsWheelConstantForceStrength
 	{
@@ -4082,7 +4153,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - SeatOfPants wheel constant force curve
 
-	private float _steeringEffectsSeatOfPantsWheelConstantForceCurve = 0f;
+	private float _steeringEffectsSeatOfPantsWheelConstantForceCurve = 0.25f;
 
 	public float SteeringEffectsSeatOfPantsWheelConstantForceCurve
 	{
@@ -6360,7 +6431,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Wind - Master wind power
 
-	private float _windMasterWindPower = 0f;
+	private float _windMasterWindPower = 1f;
 
 	public float WindMasterWindPower
 	{
@@ -6477,7 +6548,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Wind - Curving
 
-	private float _windCurving = 0.25f;
+	private float _windCurving = 1f;
 
 	public float WindCurving
 	{

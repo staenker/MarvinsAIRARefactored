@@ -439,7 +439,7 @@ public class RacingWheel
 
 			// understeer vibration effect
 
-			if ( app.SteeringEffects.UndersteerEffect > 0f )
+			if ( settings.SteeringEffectsUndersteerEnabled && ( app.SteeringEffects.UndersteerEffect > 0f ) )
 			{
 				var isUndersteering = ( app.SteeringEffects.UndersteerEffect == 1f );
 
@@ -503,7 +503,7 @@ public class RacingWheel
 
 			// oversteer vibration effect
 
-			if ( app.SteeringEffects.OversteerEffect > 0f )
+			if ( settings.SteeringEffectsOversteerEnabled && ( app.SteeringEffects.OversteerEffect > 0f ) )
 			{
 				var isOversteering = ( app.SteeringEffects.OversteerEffect == 1f );
 
@@ -567,7 +567,7 @@ public class RacingWheel
 
 			// seat-of-pants vibration effect
 
-			if ( app.SteeringEffects.SeatOfPantsEffect != 0f )
+			if ( settings.SteeringEffectsSeatOfPantsEnabled && ( app.SteeringEffects.SeatOfPantsEffect != 0f ) )
 			{
 				var absSeatOfPantsEffect = MathF.Abs( app.SteeringEffects.SeatOfPantsEffect );
 
@@ -864,7 +864,7 @@ public class RacingWheel
 				ClearPeakTorque = false;
 			}
 
-			if ( app.Simulator.IsOnTrack && ( app.Simulator.PlayerTrackSurface == IRSDKSharper.IRacingSdkEnum.TrkLoc.OnTrack ) )
+			if ( app.Simulator.IsOnTrack && ( app.Simulator.PlayerTrackSurface == IRSDKSharper.IRacingSdkEnum.TrkLoc.OnTrack ) && ( app.Simulator.PlayerTrackSurfaceMaterial >= IRSDKSharper.IRacingSdkEnum.TrkSurf.Asphalt1Material ) && ( app.Simulator.PlayerTrackSurfaceMaterial <= IRSDKSharper.IRacingSdkEnum.TrkSurf.RacingDirt2Material ) )
 			{
 				_peakTorque = MathF.Max( _peakTorque, MathZ.Lerp( _peakTorque, MathF.Abs( steeringWheelTorque500Hz ), 0.01f ) );
 			}
@@ -935,7 +935,7 @@ public class RacingWheel
 
 			// understeer constant force effect
 
-			if ( app.SteeringEffects.UndersteerEffect > 0f )
+			if ( settings.SteeringEffectsUndersteerEnabled && ( app.SteeringEffects.UndersteerEffect > 0f ) )
 			{
 				var constantForceTorque = settings.SteeringEffectsUndersteerWheelConstantForceStrength * MathF.Pow( app.SteeringEffects.UndersteerEffect, MathZ.CurveToPower( settings.SteeringEffectsUndersteerWheelConstantForceCurve ) );
 
@@ -957,7 +957,7 @@ public class RacingWheel
 
 			// oversteer constant force effect
 
-			if ( app.SteeringEffects.OversteerEffect > 0f )
+			if ( settings.SteeringEffectsOversteerEnabled && ( app.SteeringEffects.OversteerEffect > 0f ) )
 			{
 				var constantForceTorque = settings.SteeringEffectsOversteerWheelConstantForceStrength * MathF.Pow( app.SteeringEffects.OversteerEffect, MathZ.CurveToPower( settings.SteeringEffectsOversteerWheelConstantForceCurve ) );
 
@@ -979,7 +979,7 @@ public class RacingWheel
 
 			// seat-of-pants constant force effect
 
-			if ( app.SteeringEffects.SeatOfPantsEffect != 0f )
+			if ( settings.SteeringEffectsSeatOfPantsEnabled && ( app.SteeringEffects.SeatOfPantsEffect != 0f ) )
 			{
 				var constantForceTorque = settings.SteeringEffectsSeatOfPantsWheelConstantForceStrength * MathF.CopySign( MathF.Pow( MathF.Abs( app.SteeringEffects.SeatOfPantsEffect ), MathZ.CurveToPower( settings.SteeringEffectsSeatOfPantsWheelConstantForceCurve ) ), app.SteeringEffects.SeatOfPantsEffect );
 

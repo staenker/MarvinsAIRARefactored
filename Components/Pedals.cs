@@ -343,7 +343,7 @@ public class Pedals
 
 		var factor = app.SteeringEffects.UndersteerEffect;
 
-		if ( _testing || ( factor > 0f ) )
+		if ( _testing || ( settings.SteeringEffectsUndersteerEnabled && ( factor > 0f ) ) )
 		{
 			if ( _testing )
 			{
@@ -370,7 +370,7 @@ public class Pedals
 
 		var factor = app.SteeringEffects.OversteerEffect;
 
-		if ( _testing || ( factor > 0f ) )
+		if ( _testing || ( settings.SteeringEffectsOversteerEnabled && ( factor > 0f ) ) )
 		{
 			if ( _testing )
 			{
@@ -397,7 +397,7 @@ public class Pedals
 
 		var factor = MathF.Abs( app.SteeringEffects.SeatOfPantsEffect );
 
-		if ( _testing || ( factor > 0f ) )
+		if ( _testing || ( settings.SoundsSeatOfPantsEnabled && ( factor > 0f ) ) )
 		{
 			if ( _testing )
 			{

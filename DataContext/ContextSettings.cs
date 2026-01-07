@@ -57,6 +57,7 @@ public class ContextSettings
 
 	#region Steering effects - Understeer
 
+	public bool SteeringEffectsUndersteerEnabled { get; set; } = false;
 	public float SteeringEffectsUndersteerMinimumThreshold { get; set; } = 0.05f;
 	public float SteeringEffectsUndersteerMaximumThreshold { get; set; } = 0.15f;
 	public RacingWheel.VibrationPattern SteeringEffectsUndersteerWheelVibrationPattern { get; set; } = RacingWheel.VibrationPattern.SineWave;
@@ -75,6 +76,7 @@ public class ContextSettings
 
 	#region Steering effects - Oversteer
 
+	public bool SteeringEffectsOversteerEnabled { get; set; } = false;
 	public float SteeringEffectsOversteerMinimumThreshold { get; set; } = 0f;
 	public float SteeringEffectsOversteerMaximumThreshold { get; set; } = 0.5f;
 	public RacingWheel.VibrationPattern SteeringEffectsOversteerWheelVibrationPattern { get; set; } = RacingWheel.VibrationPattern.None;
@@ -83,7 +85,7 @@ public class ContextSettings
 	public float SteeringEffectsOversteerWheelVibrationMaximumFrequency { get; set; } = 50f;
 	public float SteeringEffectsOversteerWheelVibrationCurve { get; set; } = 0.25f;
 	public RacingWheel.ConstantForceDirection SteeringEffectsOversteerWheelConstantForceDirection { get; set; } = RacingWheel.ConstantForceDirection.IncreaseForce;
-	public float SteeringEffectsOversteerWheelConstantForceStrength { get; set; } = 0.5f;
+	public float SteeringEffectsOversteerWheelConstantForceStrength { get; set; } = 0.1f;
 	public float SteeringEffectsOversteerWheelConstantForceCurve { get; set; } = 0f;
 	public float SteeringEffectsOversteerPedalVibrationMinimumFrequency { get; set; } = 0f;
 	public float SteeringEffectsOversteerPedalVibrationMaximumFrequency { get; set; } = 1f;
@@ -93,6 +95,7 @@ public class ContextSettings
 
 	#region Steering effects - Seat-of-pants
 
+	public bool SteeringEffectsSeatOfPantsEnabled { get; set; } = false;
 	public float SteeringEffectsSeatOfPantsMinimumThreshold { get; set; } = 0f;
 	public float SteeringEffectsSeatOfPantsMaximumThreshold { get; set; } = 3f;
 	public SteeringEffects.SeatOfPantsAlgorithm SteeringEffectsSeatOfPantsAlgorithm { get; set; } = SteeringEffects.SeatOfPantsAlgorithm.YVelocityOverXVelocity;
@@ -101,9 +104,9 @@ public class ContextSettings
 	public float SteeringEffectsSeatOfPantsWheelVibrationMinimumFrequency { get; set; } = 15f;
 	public float SteeringEffectsSeatOfPantsWheelVibrationMaximumFrequency { get; set; } = 50f;
 	public float SteeringEffectsSeatOfPantsWheelVibrationCurve { get; set; } = 0.25f;
-	public RacingWheel.ConstantForceDirection SteeringEffectsSeatOfPantsWheelConstantForceDirection { get; set; } = RacingWheel.ConstantForceDirection.None;
-	public float SteeringEffectsSeatOfPantsWheelConstantForceStrength { get; set; } = 0.5f;
-	public float SteeringEffectsSeatOfPantsWheelConstantForceCurve { get; set; } = 0f;
+	public RacingWheel.ConstantForceDirection SteeringEffectsSeatOfPantsWheelConstantForceDirection { get; set; } = RacingWheel.ConstantForceDirection.IncreaseForce;
+	public float SteeringEffectsSeatOfPantsWheelConstantForceStrength { get; set; } = 0.1f;
+	public float SteeringEffectsSeatOfPantsWheelConstantForceCurve { get; set; } = 0.25f;
 	public float SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequency { get; set; } = 0f;
 	public float SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequency { get; set; } = 1f;
 	public float SteeringEffectsSeatOfPantsPedalVibrationCurve { get; set; } = 0f;
@@ -183,9 +186,9 @@ public class ContextSettings
 
 	#region Wind
 
-	public float WindMasterWindPower { get; set; } = 0f;
+	public float WindMasterWindPower { get; set; } = 1f;
 	public float WindMinimumSpeed { get; set; } = 0f;
-	public float WindCurving { get; set; } = 0.25f;
+	public float WindCurving { get; set; } = 1f;
 
 	#endregion
 }

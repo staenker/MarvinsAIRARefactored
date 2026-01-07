@@ -129,22 +129,12 @@ public class SteeringEffects
 	{
 		if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
 		{
-			if ( _calibrationIsValid )
-			{
-				UpdateEffects( app, deltaSeconds );
+			UpdateEffects( app, deltaSeconds );
 
-				app.Debug.Label_1 = $"UndersteerEffect: {UndersteerEffect}";
-				app.Debug.Label_2 = $"OversteerEffect: {OversteerEffect}";
-				app.Debug.Label_3 = $"SeatOfPantsEffect: {SeatOfPantsEffect}";
-				app.Debug.Label_4 = $"SkidSlip: {SkidSlip}";
-			}
-			else
-			{
-				UndersteerEffect = 0f;
-				OversteerEffect = 0f;
-				SeatOfPantsEffect = 0f;
-				SkidSlip = 0f;
-			}
+			app.Debug.Label_1 = $"UndersteerEffect: {UndersteerEffect}";
+			app.Debug.Label_2 = $"OversteerEffect: {OversteerEffect}";
+			app.Debug.Label_3 = $"SeatOfPantsEffect: {SeatOfPantsEffect}";
+			app.Debug.Label_4 = $"SkidSlip: {SkidSlip}";
 		}
 		else
 		{
@@ -197,19 +187,22 @@ public class SteeringEffects
 
 		// if both indices are the same (at exact int or at boundary), no need to blend
 
-		float expectedYawRateInDegreesPerSecond;
+		var expectedYawRateInDegreesPerSecond = 0f;
 
-		if ( angleIndexLower == angleIndexUpper )
+		if ( _calibrationIsValid )
 		{
-			expectedYawRateInDegreesPerSecond = _expectedYawRateInDegreesPerSecond[ angleIndexLower ];
-		}
-		else
-		{
-			// linearly interpolate between lower and upper values
+			if ( angleIndexLower == angleIndexUpper )
+			{
+				expectedYawRateInDegreesPerSecond = _expectedYawRateInDegreesPerSecond[ angleIndexLower ];
+			}
+			else
+			{
+				// linearly interpolate between lower and upper values
 
-			var t = angleIndex - angleIndexLower; // (0..1)
+				var t = angleIndex - angleIndexLower; // (0..1)
 
-			expectedYawRateInDegreesPerSecond = MathZ.Lerp( _expectedYawRateInDegreesPerSecond[ angleIndexLower ], _expectedYawRateInDegreesPerSecond[ angleIndexUpper ], t );
+				expectedYawRateInDegreesPerSecond = MathZ.Lerp( _expectedYawRateInDegreesPerSecond[ angleIndexLower ], _expectedYawRateInDegreesPerSecond[ angleIndexUpper ], t );
+			}
 		}
 
 		// calculate absolute deviation from expected; sign encodes under/over
@@ -226,9 +219,12 @@ public class SteeringEffects
 
 		var understeerEffect = 0f;
 
-		if ( ( deviation < 0f ) && ( absDeviation >= settings.SteeringEffectsUndersteerMinimumThreshold ) )
+		if ( _calibrationIsValid )
 		{
-			understeerEffect = MathZ.InverseLerp( settings.SteeringEffectsUndersteerMinimumThreshold, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation );
+			if ( ( deviation < 0f ) && ( absDeviation >= settings.SteeringEffectsUndersteerMinimumThreshold ) )
+			{
+				understeerEffect = MathZ.InverseLerp( settings.SteeringEffectsUndersteerMinimumThreshold, settings.SteeringEffectsUndersteerMaximumThreshold, absDeviation );
+			}
 		}
 
 		UndersteerEffect = speedFade * understeerEffect;
@@ -237,9 +233,12 @@ public class SteeringEffects
 
 		var oversteerEffect = 0f;
 
-		if ( ( deviation > 0f ) && ( absDeviation >= settings.SteeringEffectsOversteerMinimumThreshold ) )
+		if ( _calibrationIsValid )
 		{
-			oversteerEffect = MathZ.InverseLerp( settings.SteeringEffectsOversteerMinimumThreshold, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation );
+			if ( ( deviation > 0f ) && ( absDeviation >= settings.SteeringEffectsOversteerMinimumThreshold ) )
+			{
+				oversteerEffect = MathZ.InverseLerp( settings.SteeringEffectsOversteerMinimumThreshold, settings.SteeringEffectsOversteerMaximumThreshold, absDeviation );
+			}
 		}
 
 		OversteerEffect = speedFade * oversteerEffect;

@@ -6,7 +6,9 @@ using System.Windows.Controls;
 using ComboBox = System.Windows.Controls.ComboBox;
 using UserControl = System.Windows.Controls.UserControl;
 
+using MarvinsAIRARefactored.Classes;
 using MarvinsAIRARefactored.Components;
+using MarvinsAIRARefactored.Controls;
 
 namespace MarvinsAIRARefactored.Pages;
 
@@ -238,6 +240,27 @@ public partial class SteeringEffectsPage : UserControl
 		app.Logger.WriteLine( "[SteeringEffectsPage] <<< UpdateSeatOfPantsAlgorithmOptions" );
 	}
 
+	public void CalibrationFileNameChanged( bool isSelected )
+	{
+		var app = App.Instance!;
+
+		app.Dispatcher.InvokeAsync( () =>
+		{
+			Understeer_CalibrationFileWarning.Visibility = isSelected ? Visibility.Collapsed : Visibility.Visible;
+			Oversteer_CalibrationFileWarning.Visibility = isSelected ? Visibility.Collapsed : Visibility.Visible;
+		} );
+	}
+
+	private void UndersteerEnabled_Toggled( object sender, EventArgs e )
+	{
+		var mairaSwitch = sender as MairaSwitch;
+
+		if ( mairaSwitch is not null )
+		{
+			Misc.ApplyToTaggedElements( Root, "Understeer", element => element.Visibility = ( ( mairaSwitch.IsOn == true ) ? Visibility.Visible : Visibility.Collapsed ) );
+		}
+	}
+
 	private void UndersteerWheelVibrationPattern_MairaComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
 	{
 		var comboBox = sender as ComboBox;
@@ -274,6 +297,16 @@ public partial class SteeringEffectsPage : UserControl
 		}
 	}
 
+	private void OversteerEnabled_Toggled( object sender, EventArgs e )
+	{
+		var mairaSwitch = sender as MairaSwitch;
+
+		if ( mairaSwitch is not null )
+		{
+			Misc.ApplyToTaggedElements( Root, "Oversteer", element => element.Visibility = ( ( mairaSwitch.IsOn == true ) ? Visibility.Visible : Visibility.Collapsed ) );
+		}
+	}
+
 	private void OversteerWheelVibrationPattern_MairaComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
 	{
 		var comboBox = sender as ComboBox;
@@ -307,6 +340,16 @@ public partial class SteeringEffectsPage : UserControl
 				OversteerWheelConstantForceStrength_MairaKnob.Visibility = visibility;
 				OversteerWheelConstantForceCurve_MairaKnob.Visibility = visibility;
 			}
+		}
+	}
+
+	private void SeatOfPantsEnabled_Toggled( object sender, EventArgs e )
+	{
+		var mairaSwitch = sender as MairaSwitch;
+
+		if ( mairaSwitch is not null )
+		{
+			Misc.ApplyToTaggedElements( Root, "SeatOfPants", element => element.Visibility = ( ( mairaSwitch.IsOn == true ) ? Visibility.Visible : Visibility.Collapsed ) );
 		}
 	}
 
