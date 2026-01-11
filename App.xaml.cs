@@ -133,11 +133,14 @@ public partial class App : Application
 
 	public void ShowFatalError( string? message = null, Exception? exception = null )
 	{
-		message ??= DataContext.DataContext.Instance.Localization[ "ExceptionThrown" ];
-
 		var app = App.Instance!;
 
+		app.Logger.WriteLine( "[App] ShowFatalError >>>" );
+		app.Logger.WriteLine( $"\r\n\r\n{exception?.ToString() ?? string.Empty}\r\n" );
+
 		var uiDispatcher = app.Dispatcher;
+
+		message ??= DataContext.DataContext.Instance.Localization[ "ExceptionThrown" ];
 
 		void ShowAndExit()
 		{
@@ -163,6 +166,8 @@ public partial class App : Application
 		{
 			uiDispatcher.Invoke( ShowAndExit, DispatcherPriority.Send );
 		}
+
+		app.Logger.WriteLine( "[App] <<< ShowFatalError" );
 	}
 
 #if !ADMINBOXX
@@ -863,7 +868,7 @@ public partial class App : Application
 				}
 			}
 
-			// racing wheel crash protection longitudal g force knob
+			// racing wheel crash protection longitudinal g force knob
 
 			if ( CheckMappedButtons( settings.RacingWheelCrashProtectionLongitudalGForcePlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
