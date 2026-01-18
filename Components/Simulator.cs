@@ -44,6 +44,7 @@ public partial class Simulator
 	public bool IsConnected { get => _irsdk.IsConnected; }
 	public bool IsOnTrack { get; private set; } = false;
 	public bool IsReplayPlaying { get; private set; } = false;
+	public float LapDist { get; private set; } = 0;
 	public float LapDistPct { get; private set; } = 0f;
 	public int LastRadioTransmitCarIdx { get; private set; } = -1;
 	public float LatAccel { get; private set; } = 0f;
@@ -109,6 +110,7 @@ public partial class Simulator
 	private IRacingSdkDatum? _gearDatum = null;
 	private IRacingSdkDatum? _isOnTrackDatum = null;
 	private IRacingSdkDatum? _isReplayPlayingDatum = null;
+	private IRacingSdkDatum? _lapDistDatum = null;
 	private IRacingSdkDatum? _lapDistPctDatum = null;
 	private IRacingSdkDatum? _latAccelDatum = null;
 	private IRacingSdkDatum? _lfShockVel_STDatum = null;
@@ -261,6 +263,7 @@ public partial class Simulator
 		LateralGForce = 0f;
 		IsOnTrack = false;
 		IsReplayPlaying = false;
+		LapDist = 0f;
 		LapDistPct = 0f;
 		LastRadioTransmitCarIdx = -1;
 		LatAccel = 0f;
@@ -450,6 +453,7 @@ public partial class Simulator
 			_gearDatum = _irsdk.Data.TelemetryDataProperties[ "Gear" ];
 			_isOnTrackDatum = _irsdk.Data.TelemetryDataProperties[ "IsOnTrack" ];
 			_isReplayPlayingDatum = _irsdk.Data.TelemetryDataProperties[ "IsReplayPlaying" ];
+			_lapDistDatum = _irsdk.Data.TelemetryDataProperties[ "LapDist" ];
 			_lapDistPctDatum = _irsdk.Data.TelemetryDataProperties[ "LapDistPct" ];
 			_latAccelDatum = _irsdk.Data.TelemetryDataProperties[ "LatAccel" ];
 			_loadNumTexturesDatum = _irsdk.Data.TelemetryDataProperties[ "LoadNumTextures" ];
@@ -516,6 +520,16 @@ public partial class Simulator
 			return;
 		}
 
+		// poll directinput devices right before we process the algorithm
+
+		app.DirectInput.PollDevices( deltaSeconds );
+
+		// get next 360 Hz steering wheel torque samples
+
+		_irsdk.Data.GetFloatArray( _steeringWheelTorque_STDatum, SteeringWheelTorque_ST, 0, SteeringWheelTorque_ST.Length );
+
+		app.RacingWheel.UpdateSteeringWheelTorqueBuffer = true;
+
 		// update brake abs active
 
 		BrakeABSactive = _irsdk.Data.GetBool( _brakeABSactiveDatum );
@@ -549,8 +563,9 @@ public partial class Simulator
 
 		_isReplayPlayingLastFrame = IsReplayPlaying;
 
-		// update lap dist pct
+		// update lap dist and lap dist pct
 
+		LapDist = _irsdk.Data.GetFloat( _lapDistDatum );
 		LapDistPct = _irsdk.Data.GetFloat( _lapDistPctDatum );
 
 		// load num textures
@@ -617,12 +632,6 @@ public partial class Simulator
 		// get gear
 
 		Gear = _irsdk.Data.GetInt( _gearDatum );
-
-		// get next 360 Hz steering wheel torque samples
-
-		_irsdk.Data.GetFloatArray( _steeringWheelTorque_STDatum, SteeringWheelTorque_ST, 0, SteeringWheelTorque_ST.Length );
-
-		app.RacingWheel.UpdateSteeringWheelTorqueBuffer = true;
 
 		// get car body speed and velocities
 
@@ -813,10 +822,6 @@ public partial class Simulator
 		// update steering effects
 
 		app.SteeringEffects.Update( app, deltaSeconds );
-
-		// poll direct input devices
-
-		app.DirectInput.PollDevices( deltaSeconds );
 
 		// trigger the app worker thread
 
