@@ -1,7 +1,4 @@
 ﻿
-using IWshRuntimeLibrary;
-using PInvoke;
-using System;
 using System.Collections;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -14,6 +11,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+
+using IWshRuntimeLibrary;
+using PInvoke;
+
 using Point = System.Windows.Point;
 
 namespace MarvinsAIRARefactored.Classes;
