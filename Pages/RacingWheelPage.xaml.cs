@@ -318,6 +318,7 @@ public partial class RacingWheelPage : UserControl
 		app.Dispatcher.Invoke( () =>
 		{
 			LFERecordingDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value );
+			LFERecordingDevice_MairaComboBox.SelectedValue = settings.RacingWheelLFERecordingDeviceGuid;
 			LFERecordingDevice_MairaComboBox.OffValue = Guid.Empty;
 		} );
 
