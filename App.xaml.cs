@@ -1422,24 +1422,24 @@ public partial class App : Application
 
 			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsMinimumThresholdPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.SteeringEffectsSeatOfPantsMinimumThreshold += 0.01f;
+				settings.SteeringEffectsSeatOfPantsMinimumThreshold += 0.5f;
 			}
 
 			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsMinimumThresholdMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.SteeringEffectsSeatOfPantsMinimumThreshold -= 0.01f;
+				settings.SteeringEffectsSeatOfPantsMinimumThreshold -= 0.5f;
 			}
 
 			// steering effects seat-of-pants maximum threshold
 
 			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsMaximumThresholdPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.SteeringEffectsSeatOfPantsMaximumThreshold += 0.01f;
+				settings.SteeringEffectsSeatOfPantsMaximumThreshold += 0.5f;
 			}
 
 			if ( CheckMappedButtons( settings.SteeringEffectsSeatOfPantsMaximumThresholdMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.SteeringEffectsSeatOfPantsMaximumThreshold -= 0.01f;
+				settings.SteeringEffectsSeatOfPantsMaximumThreshold -= 0.5f;
 			}
 
 			// steering effects seat-of-pants wheel vibration strength
