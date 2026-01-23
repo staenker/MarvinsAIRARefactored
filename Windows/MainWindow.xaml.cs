@@ -360,6 +360,9 @@ public partial class MainWindow : Window
 					racingWheelMultiDetailGainVisibility = Visibility.Visible;
 					racingWheelMultiOutputSmoothingVisibility = Visibility.Visible;
 					racingWheelCurbProtectionMairaGroupBoxVisibility = Visibility.Visible;
+					racingWheelPredictionModeComboBoxVisibility = Visibility.Visible;
+					racingWheelPredictionBlendKnobControlVisibility = Visibility.Visible;
+					racingWheelPredictionControlsRow = 4;
 					break;
 			}
 
@@ -368,6 +371,8 @@ public partial class MainWindow : Window
 
 			Grid.SetRow( _racingWheelPage.PredictionMode_MairaComboBox, racingWheelPredictionControlsRow );
 			Grid.SetRow( _racingWheelPage.PredictionBlend_MairaKnob, racingWheelPredictionControlsRow );
+
+			_racingWheelPage.AlgorithmThirdRowSpacer_RowDefinition.Height = new GridLength( ( racingWheelPredictionControlsRow == 4 ) ? 20 : 0 );
 
 			_racingWheelPage.DetailBoost_MairaKnob.Visibility = racingWheelDetailBoostKnobControlVisibility;
 			_racingWheelPage.DetailBoostBias_MairaKnob.Visibility = racingWheelDetailBoostBiasKnobControlVisibility;

@@ -232,6 +232,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="20" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition x:Name="AlgorithmThirdRowSpacer_RowDefinition"
+                                       Height="20" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <controls:MairaComboBox x:Name="Algorithm_MairaComboBox"
