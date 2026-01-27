@@ -207,7 +207,7 @@
                                     StepSize="0.01"
                                     PlusButtonMappings="{Binding Settings.SoundsWheelLockSensitivityPlusButtonMappings}"
                                     MinusButtonMappings="{Binding Settings.SoundsWheelLockSensitivityMinusButtonMappings}"
-                                    DefaultValue="0.95" />
+                                    DefaultValue="0.85" />
 
                 <controls:MairaSwitch Grid.Column="8"
                                       IsOn="{Binding Settings.SoundsWheelLockFadeWithBrake, Mode=TwoWay}"
@@ -272,7 +272,7 @@
                                     StepSize="0.01"
                                     PlusButtonMappings="{Binding Settings.SoundsWheelSpinSensitivityPlusButtonMappings}"
                                     MinusButtonMappings="{Binding Settings.SoundsWheelSpinSensitivityMinusButtonMappings}"
-                                    DefaultValue="0.95" />
+                                    DefaultValue="0.85" />
 
                 <controls:MairaSwitch Grid.Column="8"
                                       IsOn="{Binding Settings.SoundsWheelSpinFadeWithThrottle, Mode=TwoWay}"
