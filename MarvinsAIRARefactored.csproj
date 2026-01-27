@@ -20,6 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <ItemGroup>
     <None Remove="Artwork\Flags\hungary_fluttering_flag_64.png" />
+    <None Remove="Artwork\Flags\ukraine_fluttering_flag_64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,6 +104,7 @@
     <Resource Include="Artwork\Flags\russia_fluttering_flag_64.png" />
     <Resource Include="Artwork\Flags\spain_fluttering_flag_64.png" />
     <Resource Include="Artwork\Flags\turkey_fluttering_flag_64.png" />
+    <Resource Include="Artwork\Flags\ukraine_fluttering_flag_64.png" />
     <Resource Include="Artwork\Misc\adminboxx-logo.png" />
     <Resource Include="Artwork\Misc\app-menu-logo.png" />
     <Resource Include="Artwork\Misc\buy-me-a-coffee-logo.png" />
