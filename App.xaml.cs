@@ -254,6 +254,8 @@ public partial class App : Application
 
 				DirectInput.OnInput += OnInput;
 
+				DataContext.DataContext.Instance.Settings.UpdateSettings( false );
+
 				GC.Collect();
 
 				MainWindow.Resources = Current.Resources;

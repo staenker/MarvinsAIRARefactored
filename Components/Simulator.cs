@@ -1,17 +1,14 @@
 ﻿
+using IRSDKSharper;
+using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.DataContext;
+using MarvinsAIRARefactored.Windows;
+using PInvoke;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-
-using IRSDKSharper;
-using PInvoke;
-
-using MarvinsAIRARefactored.Classes;
-using MarvinsAIRARefactored.Windows;
-
 using static MarvinsAIRARefactored.Windows.MainWindow;
 
 namespace MarvinsAIRARefactored.Components;
@@ -318,6 +315,8 @@ public partial class Simulator
 		_sessionFlagsLastFrame = null;
 		_currentTireIndexLastFrame = null;
 
+		DataContext.DataContext.Instance.Settings.UpdateSettings( false );
+
 		app.AdminBoxx.SimulatorDisconnected();
 
 #if !ADMINBOXX
@@ -396,6 +395,8 @@ public partial class Simulator
 
 		if ( _waitingForFirstSessionInfo )
 		{
+			DataContext.DataContext.Instance.Settings.UpdateSettings( false );
+
 			UpdateTireProperties();
 
 #if !ADMINBOXX
@@ -403,8 +404,6 @@ public partial class Simulator
 			MainWindow._steeringEffectsPage.UpdateCalibrationFileNameOptions();
 
 #endif
-
-			DataContext.DataContext.Instance.Settings.UpdateSettings( false );
 
 			_waitingForFirstSessionInfo = false;
 		}
