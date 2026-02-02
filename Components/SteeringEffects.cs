@@ -131,10 +131,12 @@ public class SteeringEffects
 		{
 			UpdateEffects( app, deltaSeconds );
 
+			/*
 			app.Debug.Label_1 = $"UndersteerEffect: {UndersteerEffect}";
 			app.Debug.Label_2 = $"OversteerEffect: {OversteerEffect}";
 			app.Debug.Label_3 = $"SeatOfPantsEffect: {SeatOfPantsEffect}";
 			app.Debug.Label_4 = $"SkidSlip: {SkidSlip}";
+			*/
 		}
 		else
 		{
