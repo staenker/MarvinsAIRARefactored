@@ -55,7 +55,7 @@ public class RacingWheel
 
 	private const float UnsuspendTimeMS = 1000f;
 	private const float FadeInTimeMS = 2000f;
-	private const float FadeOutTimeMS = 500f;
+	private const float FadeOutTimeMS = 750f;
 	private const float TestSignalTimeMS = 2000f;
 	private const float CrashProtectionRecoveryTime = 1000f;
 
@@ -940,6 +940,8 @@ public class RacingWheel
 					_steeringWheelTorque360Hz[ 5 ] = 0f;
 					_steeringWheelTorque360Hz[ 6 ] = 0f;
 					_steeringWheelTorque360Hz[ 7 ] = 0f;
+
+					_predictedSteeringWheelTorque60Hz = 0f;
 				}
 
 				_elapsedMilliseconds = 0f;
@@ -1129,7 +1131,7 @@ public class RacingWheel
 
 			// add wheel LFE
 
-			if ( settings.RacingWheelLFEStrength > 0f )
+			if ( ( settings.RacingWheelLFEStrength > 0f ) && app.Simulator.IsOnTrack )
 			{
 				outputTorque += inputLFEMagnitude * settings.RacingWheelLFEStrength;
 			}
@@ -1271,7 +1273,7 @@ public class RacingWheel
 
 			// update auto force label
 
-			MainWindow._racingWheelPage.AutoForce_TextBlock.Text = $"{_autoTorque:F1} {DataContext.DataContext.Instance.Localization[ "TorqueUnits" ]}";
+			_racingWheelPage.AutoForce_TextBlock.Text = $"{_autoTorque:F1} {DataContext.DataContext.Instance.Localization[ "TorqueUnits" ]}";
 
 			// update logitech rpm lights
 
@@ -1346,8 +1348,14 @@ public class RacingWheel
 
 			// update record button
 
-			MainWindow._racingWheelPage.Record_MairaMappableButton.Disabled = !app.Simulator.IsOnTrack;
-			MainWindow._racingWheelPage.Record_MairaMappableButton.Blink = app.RecordingManager.IsRecording;
+			_racingWheelPage.Record_MairaMappableButton.Disabled = !app.Simulator.IsOnTrack;
+			_racingWheelPage.Record_MairaMappableButton.Blink = app.RecordingManager.IsRecording;
+
+			/*
+			app.Debug.Label_1 = $"FadingIsActive: {FadingIsActive}";
+			app.Debug.Label_2 = $"_fadeTimerMS: {_fadeTimerMS:F0} ms";
+			app.Debug.Label_4 = $"_outputTorque: {_outputTorque * 100f:F0}%";
+			*/
 		}
 	}
 
