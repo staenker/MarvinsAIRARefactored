@@ -1,5 +1,6 @@
 ﻿
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -149,7 +150,7 @@ public partial class SteeringEffectsPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			CalibrationFileName_MairaComboBox.ItemsSource = dictionary;
+			CalibrationFileName_MairaComboBox.ItemsSource = dictionary.ToList();
 
 			if ( autoSelectedValue != string.Empty )
 			{
@@ -184,13 +185,13 @@ public partial class SteeringEffectsPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			UndersteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary;
+			UndersteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary.ToList();
 			UndersteerWheelVibrationPattern_MairaComboBox.SelectedValue = settings.SteeringEffectsUndersteerWheelVibrationPattern;
 
-			OversteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary;
+			OversteerWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary.ToList();
 			OversteerWheelVibrationPattern_MairaComboBox.SelectedValue = settings.SteeringEffectsOversteerWheelVibrationPattern;
 
-			SeatOfPantsWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary;
+			SeatOfPantsWheelVibrationPattern_MairaComboBox.ItemsSource = dictionary.ToList();
 			SeatOfPantsWheelVibrationPattern_MairaComboBox.SelectedValue = settings.SteeringEffectsSeatOfPantsWheelVibrationPattern;
 		} );
 
@@ -215,13 +216,13 @@ public partial class SteeringEffectsPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			UndersteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary;
+			UndersteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary.ToList();
 			UndersteerWheelConstantForceDirection_MairaComboBox.SelectedValue = settings.SteeringEffectsUndersteerWheelConstantForceDirection;
 
-			OversteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary;
+			OversteerWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary.ToList();
 			OversteerWheelConstantForceDirection_MairaComboBox.SelectedValue = settings.SteeringEffectsOversteerWheelConstantForceDirection;
 
-			SeatOfPantsWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary;
+			SeatOfPantsWheelConstantForceDirection_MairaComboBox.ItemsSource = dictionary.ToList();
 			SeatOfPantsWheelConstantForceDirection_MairaComboBox.SelectedValue = settings.SteeringEffectsSeatOfPantsWheelConstantForceDirection;
 		} );
 
@@ -246,7 +247,7 @@ public partial class SteeringEffectsPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			SeatOfPantsAlgorithm_MairaComboBox.ItemsSource = dictionary;
+			SeatOfPantsAlgorithm_MairaComboBox.ItemsSource = dictionary.ToList();
 			SeatOfPantsAlgorithm_MairaComboBox.SelectedValue = settings.SteeringEffectsSeatOfPantsAlgorithm;
 		} );
 

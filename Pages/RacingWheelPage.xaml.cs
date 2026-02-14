@@ -207,7 +207,7 @@ public partial class RacingWheelPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			SteeringDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value );
+			SteeringDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value ).ToList();
 			SteeringDevice_MairaComboBox.SelectedValue = settings.RacingWheelSteeringDeviceGuid;
 			SteeringDevice_MairaComboBox.OffValue = Guid.Empty;
 		} );
@@ -238,7 +238,7 @@ public partial class RacingWheelPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			Algorithm_MairaComboBox.ItemsSource = dictionary;
+			Algorithm_MairaComboBox.ItemsSource = dictionary.ToList();
 			Algorithm_MairaComboBox.SelectedValue = settings.RacingWheelAlgorithm;
 		} );
 
@@ -263,7 +263,7 @@ public partial class RacingWheelPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			PredictionMode_MairaComboBox.ItemsSource = dictionary;
+			PredictionMode_MairaComboBox.ItemsSource = dictionary.ToList();
 			PredictionMode_MairaComboBox.SelectedValue = settings.RacingWheelPredictionMode;
 		} );
 
@@ -292,7 +292,7 @@ public partial class RacingWheelPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			PreviewRecordings_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value );
+			PreviewRecordings_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value ).ToList();
 		} );
 
 		app.Logger.WriteLine( "[RacingWheelPage] <<< UpdatePreviewRecordingsOptions" );
@@ -318,7 +318,7 @@ public partial class RacingWheelPage : UserControl
 
 		app.Dispatcher.Invoke( () =>
 		{
-			LFERecordingDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value );
+			LFERecordingDevice_MairaComboBox.ItemsSource = dictionary.OrderBy( keyValuePair => keyValuePair.Value ).ToList();
 			LFERecordingDevice_MairaComboBox.SelectedValue = settings.RacingWheelLFERecordingDeviceGuid;
 			LFERecordingDevice_MairaComboBox.OffValue = Guid.Empty;
 		} );
