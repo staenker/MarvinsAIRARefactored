@@ -38,6 +38,7 @@ public partial class App : Application
 	}
 
 	public static App? Instance { get; private set; }
+	public bool Ready { get; private set; } = false;
 
 	public Logger Logger { get; private set; }
 	public TopLevelWindow TopLevelWindow { get; private set; }
@@ -255,6 +256,8 @@ public partial class App : Application
 				DirectInput.OnInput += OnInput;
 
 				DataContext.DataContext.Instance.Settings.UpdateSettings( false );
+
+				Ready = true;
 
 				GC.Collect();
 
