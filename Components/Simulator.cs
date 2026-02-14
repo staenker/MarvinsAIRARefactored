@@ -77,6 +77,7 @@ public partial class Simulator
 	public float Speed { get; private set; } = 0f;
 	public bool SteeringFFBEnabled { get; private set; } = false;
 	public float SteeringOffsetInDegrees { get; private set; } = 0f;
+	public float SteeringRatio { get; private set; } = 10f;
 	public float SteeringWheelAngle { get; private set; } = 0f;
 	public float SteeringWheelAngleMax { get; private set; } = 0f;
 	public float[] SteeringWheelTorque_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
@@ -289,6 +290,7 @@ public partial class Simulator
 		SimMode = string.Empty;
 		SteeringFFBEnabled = false;
 		SteeringOffsetInDegrees = 0f;
+		SteeringRatio = 10f;
 		SteeringWheelAngle = 0f;
 		SteeringWheelAngleMax = 0f;
 		Throttle = 0f;
@@ -388,6 +390,24 @@ public partial class Simulator
 		else
 		{
 			SteeringOffsetInDegrees = 0f;
+		}
+
+		if ( sessionInfo.CarSetup?.Chassis?.Front?.SteeringRatio != null )
+		{
+			var numericPart = SteeringRatioRegex().Replace( sessionInfo.CarSetup.Chassis.Front.SteeringRatio, "" ).Trim();
+
+			if ( float.TryParse( numericPart, NumberStyles.Float | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var result ) )
+			{
+				SteeringRatio = result;
+			}
+			else
+			{
+				SteeringRatio = 10f;
+			}
+		}
+		else
+		{
+			SteeringRatio = 10f;
 		}
 
 		SeriesID = sessionInfo.WeekendInfo.SeriesID;
@@ -578,11 +598,9 @@ public partial class Simulator
 
 		LoadNumTextures = _irsdk.Data.GetBool( _loadNumTexturesDatum );
 
-		// suspend racing wheel force feedback if iracing ffb is enabled
+		// update steering ffb enabled
 
 		SteeringFFBEnabled = _irsdk.Data.GetBool( _steeringFFBEnabledDatum );
-
-		app.RacingWheel.SuspendForceFeedback = SteeringFFBEnabled && !settings.RacingWheelAlwaysEnableFFB;
 
 		// get the session flags
 
@@ -890,4 +908,7 @@ public partial class Simulator
 
 	[GeneratedRegex( @"\s*deg\s*$", RegexOptions.IgnoreCase, "en-US" )]
 	private static partial Regex SteeringOffsetRegex();
+
+	[GeneratedRegex( @"\s*:1\s*$", RegexOptions.IgnoreCase, "en-US" )]
+	private static partial Regex SteeringRatioRegex();
 }

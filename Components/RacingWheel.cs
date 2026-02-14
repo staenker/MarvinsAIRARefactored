@@ -1351,6 +1351,10 @@ public class RacingWheel
 			_racingWheelPage.Record_MairaMappableButton.Disabled = !app.Simulator.IsOnTrack;
 			_racingWheelPage.Record_MairaMappableButton.Blink = app.RecordingManager.IsRecording;
 
+			// suspend racing wheel force feedback if iracing ffb is enabled or we are calibrating
+
+			SuspendForceFeedback = app.Simulator.SteeringFFBEnabled && !settings.RacingWheelAlwaysEnableFFB || app.SteeringEffects.IsCalibrating;
+
 			/*
 			app.Debug.Label_1 = $"FadingIsActive: {FadingIsActive}";
 			app.Debug.Label_2 = $"_fadeTimerMS: {_fadeTimerMS:F0} ms";
