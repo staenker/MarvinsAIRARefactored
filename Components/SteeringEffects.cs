@@ -33,6 +33,7 @@ public class SteeringEffects
 	public float SeatOfPantsEffect { get; private set; } = 0f;
 	public float SkidSlip { get; private set; } = 0f;
 
+	public bool IsCalibrating => _calibrationPhase != CalibrationPhase.NotCalibrating;
 	public bool RedrawCalibrationGraph { private get; set; } = false;
 
 	private enum CalibrationPhase
@@ -51,7 +52,7 @@ public class SteeringEffects
 	private const float CalibrationSpeedInKPH = 15f;
 
 	private const int CalibrationGraphWidth = MaxSteeringWheelAngleInDegrees * 2;
-	private const int CalibrationGraphHeight = 400;
+	private const int CalibrationGraphHeight = 450;
 
 	private CalibrationPhase _calibrationPhase = CalibrationPhase.NotCalibrating;
 	private float _calibrationProgress = 0f;
@@ -169,6 +170,10 @@ public class SteeringEffects
 		// get current steering wheel angle in degrees
 
 		var steeringWheelAngleInDegrees = ( app.Simulator.SteeringWheelAngle ) * MathZ.RadiansToDegrees - app.Simulator.SteeringOffsetInDegrees;
+
+		// denormalize from 10:1 steering ratio
+
+		steeringWheelAngleInDegrees *= app.Simulator.SteeringRatio / 10f;
 
 		// get current speed (minimum 1 kph to avoid divide by 0)
 
@@ -392,7 +397,7 @@ public class SteeringEffects
 
 		// update virtual joystick
 
-		app.VirtualJoystick.Steering = ( _targetSteeringWheelAngleInDegrees + app.Simulator.SteeringOffsetInDegrees ) / 450f;
+		app.VirtualJoystick.Steering = _targetSteeringWheelAngleInDegrees / 450f;
 		app.VirtualJoystick.Brake = 0f;
 		app.VirtualJoystick.Throttle = _robotThrottle;
 
@@ -430,10 +435,7 @@ public class SteeringEffects
 
 		// clear out our old calibration data
 
-		_numSteeringWheelAnglesRecorded = 0;
-
-		Array.Clear( _steeringWheelAnglesInDegrees );
-		Array.Clear( _yawRateInDegreesPerSecond );
+		ClearCalibration();
 
 		// next phase
 
@@ -493,7 +495,7 @@ public class SteeringEffects
 		{
 			// save the yaw rate
 
-			_steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded ] = _steeringWheelAngleInDegreesRunningAverage;
+			_steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded ] = ( _steeringWheelAngleInDegreesRunningAverage + app.Simulator.SteeringOffsetInDegrees ) * ( 10f / app.Simulator.SteeringRatio );
 			_yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded ] = _yawRateInDegreesPerSecondRunningAverage;
 
 			// update calibration graph
@@ -506,8 +508,11 @@ public class SteeringEffects
 
 					using var drawingContext = drawingVisual.RenderOpen();
 
-					var p1 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 1 ] + 0.5, CalibrationGraphHeight - _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ] * 100.0 + 0.5 );
-					var p2 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 0 ] + 0.5, CalibrationGraphHeight - _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 0 ] * 100.0 + 0.5 );
+					var y1 = _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 1 ] + 0.5;
+					var y2 = _yawRateInDegreesPerSecond[ _numSteeringWheelAnglesRecorded - 0 ] + 0.5;
+
+					var p1 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 1 ] + 0.5, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+					var p2 = new Point( MaxSteeringWheelAngleInDegrees + _steeringWheelAnglesInDegrees[ _numSteeringWheelAnglesRecorded - 0 ] + 0.5, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
 
 					drawingContext.DrawLine( _calibrationGraphSmoothedDataPen, p1, p2 );
 					drawingContext.Close();
@@ -711,7 +716,7 @@ public class SteeringEffects
 
 				if ( y % 50 == 0 )
 				{
-					var labelValue = ( CalibrationGraphHeight - y ) / 100f;
+					var labelValue = ( CalibrationGraphHeight - y ) / 100f - 0.5f;
 					var labelText = $"{labelValue:F1}";
 
 					DrawLabel( labelText, y, true );
@@ -750,8 +755,8 @@ public class SteeringEffects
 					var a1 = _steeringWheelAnglesInDegrees[ angleIndex - 1 ] + MaxSteeringWheelAngleInDegrees;
 					var a2 = _steeringWheelAnglesInDegrees[ angleIndex - 0 ] + MaxSteeringWheelAngleInDegrees;
 
-					var y1 = _yawRateInDegreesPerSecond[ angleIndex - 1 ];
-					var y2 = _yawRateInDegreesPerSecond[ angleIndex - 0 ];
+					var y1 = _yawRateInDegreesPerSecond[ angleIndex - 1 ] + 0.5;
+					var y2 = _yawRateInDegreesPerSecond[ angleIndex - 0 ] + 0.5;
 
 					var p1 = new Point( a1 - 0.5, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
 					var p2 = new Point( a2 + 0.5, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
@@ -759,68 +764,74 @@ public class SteeringEffects
 					drawingContext.DrawLine( _calibrationGraphRawDataPen, p1, p2 );
 				}
 
-				// draw understeer minimum threshold lines
-
-				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				if ( settings.SteeringEffectsUndersteerEnabled )
 				{
-					var a1 = angleIndex - 0.5;
-					var a2 = angleIndex + 0.5;
+					// draw understeer minimum threshold lines
 
-					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMinimumThreshold;
-					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMinimumThreshold;
+					for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						var a1 = angleIndex - 0.5;
+						var a2 = angleIndex + 0.5;
 
-					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+						var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMinimumThreshold + 0.5;
+						var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMinimumThreshold + 0.5;
 
-					drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
+						var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+						var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+						drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
+					}
+
+					// draw understeer maximum threshold lines
+
+					for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						var a1 = angleIndex - 0.5;
+						var a2 = angleIndex + 0.5;
+
+						var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMaximumThreshold + 0.5;
+						var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMaximumThreshold + 0.5;
+
+						var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+						var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+
+						drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
+					}
 				}
 
-				// draw understeer maximum threshold lines
-
-				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+				if ( settings.SteeringEffectsOversteerEnabled )
 				{
-					var a1 = angleIndex - 0.5;
-					var a2 = angleIndex + 0.5;
+					// draw oversteer minimum threshold lines
 
-					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] - settings.SteeringEffectsUndersteerMaximumThreshold;
-					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] - settings.SteeringEffectsUndersteerMaximumThreshold;
+					for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						var a1 = angleIndex - 0.5;
+						var a2 = angleIndex + 0.5;
 
-					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+						var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMinimumThreshold + 0.5;
+						var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMinimumThreshold + 0.5;
 
-					drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
-				}
+						var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+						var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
 
-				// draw oversteer minimum threshold lines
+						drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
+					}
 
-				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
-				{
-					var a1 = angleIndex - 0.5;
-					var a2 = angleIndex + 0.5;
+					// draw oversteer maximum threshold lines
 
-					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMinimumThreshold;
-					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMinimumThreshold;
+					for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
+					{
+						var a1 = angleIndex - 0.5;
+						var a2 = angleIndex + 0.5;
 
-					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
+						var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMaximumThreshold + 0.5;
+						var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMaximumThreshold + 0.5;
 
-					drawingContext.DrawLine( _calibrationGraphMinimumThresholdPen, p1, p2 );
-				}
+						var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
+						var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
 
-				// draw oversteer maximum threshold lines
-
-				for ( var angleIndex = 1; angleIndex < _expectedYawRateInDegreesPerSecond.Length; angleIndex++ )
-				{
-					var a1 = angleIndex - 0.5;
-					var a2 = angleIndex + 0.5;
-
-					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + settings.SteeringEffectsOversteerMaximumThreshold;
-					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + settings.SteeringEffectsOversteerMaximumThreshold;
-
-					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
-					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
-
-					drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
+						drawingContext.DrawLine( _calibrationGraphMaximumThresholdPen, p1, p2 );
+					}
 				}
 
 				// draw expected yaw rate line
@@ -830,8 +841,8 @@ public class SteeringEffects
 					var a1 = angleIndex - 0.5;
 					var a2 = angleIndex + 0.5;
 
-					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ];
-					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ];
+					var y1 = _expectedYawRateInDegreesPerSecond[ angleIndex - 1 ] + 0.5;
+					var y2 = _expectedYawRateInDegreesPerSecond[ angleIndex - 0 ] + 0.5;
 
 					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
 					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
@@ -1260,8 +1271,8 @@ public class SteeringEffects
 			{
 				var yawRateInDegreesPerSecond = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / speedInKPH;
 
-				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.X = app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees;
-				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.Y = -yawRateInDegreesPerSecond * 100f + 3f;
+				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.X = ( app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees + app.Simulator.SteeringOffsetInDegrees ) * ( 10f / app.Simulator.SteeringRatio );
+				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.Y = ( yawRateInDegreesPerSecond + 0.5f ) * -100f + 6f;
 
 				MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Visible;
 			}
