@@ -1,4 +1,5 @@
 ﻿
+using System.Buffers.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -151,33 +152,31 @@ public partial class Wind
 	{
 		var settings = DataContext.DataContext.Instance.Settings;
 
-		var speedArray = new float[]
-		{
-			settings.WindSpeed1,
-			settings.WindSpeed2,
-			settings.WindSpeed3,
-			settings.WindSpeed4,
-			settings.WindSpeed5,
-			settings.WindSpeed6,
-			settings.WindSpeed7,
-			settings.WindSpeed8,
-			settings.WindSpeed9,
-			settings.WindSpeed10,
-		};
+		Span<float> speedArray = stackalloc float[ 10 ];
 
-		var fanPowerArray = new float[]
-		{
-			settings.WindFanPower1,
-			settings.WindFanPower2,
-			settings.WindFanPower3,
-			settings.WindFanPower4,
-			settings.WindFanPower5,
-			settings.WindFanPower6,
-			settings.WindFanPower7,
-			settings.WindFanPower8,
-			settings.WindFanPower9,
-			settings.WindFanPower10,
-		};
+		speedArray[ 0 ] = settings.WindSpeed1;
+		speedArray[ 1 ] = settings.WindSpeed2;
+		speedArray[ 2 ] = settings.WindSpeed3;
+		speedArray[ 3 ] = settings.WindSpeed4;
+		speedArray[ 4 ] = settings.WindSpeed5;
+		speedArray[ 5 ] = settings.WindSpeed6;
+		speedArray[ 6 ] = settings.WindSpeed7;
+		speedArray[ 7 ] = settings.WindSpeed8;
+		speedArray[ 8 ] = settings.WindSpeed9;
+		speedArray[ 9 ] = settings.WindSpeed10;
+
+		Span<float> fanPowerArray = stackalloc float[ 10 ];
+
+		fanPowerArray[ 0 ] = settings.WindFanPower1;
+		fanPowerArray[ 1 ] = settings.WindFanPower2;
+		fanPowerArray[ 2 ] = settings.WindFanPower3;
+		fanPowerArray[ 3 ] = settings.WindFanPower4;
+		fanPowerArray[ 4 ] = settings.WindFanPower5;
+		fanPowerArray[ 5 ] = settings.WindFanPower6;
+		fanPowerArray[ 6 ] = settings.WindFanPower7;
+		fanPowerArray[ 7 ] = settings.WindFanPower8;
+		fanPowerArray[ 8 ] = settings.WindFanPower9;
+		fanPowerArray[ 9 ] = settings.WindFanPower10;
 
 		var velocity = MathF.Sqrt( app.Simulator.VelocityX * app.Simulator.VelocityX + app.Simulator.VelocityY * app.Simulator.VelocityY );
 
@@ -227,7 +226,34 @@ public partial class Wind
 		_leftFanPower = _testingLeft ? 320 : Math.Max( 0f, _leftFanPower );
 		_rightFanPower = _testingRight ? 320 : Math.Max( 0f, _rightFanPower );
 
-		_usbSerialPortHelper.WriteLine( $"L{_leftFanPower:F0}R{_rightFanPower:F0}" );
+		if ( !app.Simulator.IsOnTrack )
+		{
+			_leftFanPower = 0f;
+			_rightFanPower = 0f;
+		}
+
+		// Format command into a stack-allocated UTF-8 buffer to avoid allocating a string
+
+		var leftVal = (int) MathF.Round( _leftFanPower );
+		var rightVal = (int) MathF.Round( _rightFanPower );
+
+		Span<byte> buf = stackalloc byte[ 32 ];
+
+		var idx = 0;
+
+		buf[ idx++ ] = (byte) 'L';
+
+		Utf8Formatter.TryFormat( leftVal, buf[ idx.. ], out var leftBytes );
+
+		idx += leftBytes;
+
+		buf[ idx++ ] = (byte) 'R';
+
+		Utf8Formatter.TryFormat( rightVal, buf[ idx.. ], out var rightBytes );
+
+		idx += rightBytes;
+
+		_usbSerialPortHelper.WriteLine( buf[ ..idx ] );
 	}
 
 	public void Tick( App app )
