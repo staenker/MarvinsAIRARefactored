@@ -384,7 +384,7 @@
                                             ContextSwitches="{Binding Settings.SteeringEffectsUndersteerPedalVibrationMinimumFrequencyContextSwitches}"
                                             PlusButtonMappings="{Binding Settings.SteeringEffectsUndersteerPedalVibrationMinimumFrequencyPlusButtonMappings}"
                                             MinusButtonMappings="{Binding Settings.SteeringEffectsUndersteerPedalVibrationMinimumFrequencyMinusButtonMappings}"
-                                            DefaultValue="0" />
+                                            DefaultValue="0.1" />
 
                         <controls:MairaKnob Grid.Column="2"
                                             Label="{Binding Localization[MaximumFrequency]}"
@@ -670,7 +670,7 @@
                                             ContextSwitches="{Binding Settings.SteeringEffectsOversteerPedalVibrationMinimumFrequencyContextSwitches}"
                                             PlusButtonMappings="{Binding Settings.SteeringEffectsOversteerPedalVibrationMinimumFrequencyPlusButtonMappings}"
                                             MinusButtonMappings="{Binding Settings.SteeringEffectsOversteerPedalVibrationMinimumFrequencyMinusButtonMappings}"
-                                            DefaultValue="0" />
+                                            DefaultValue="0.1" />
 
                         <controls:MairaKnob Grid.Column="2"
                                             Label="{Binding Localization[MaximumFrequency]}"
@@ -954,7 +954,7 @@
                                             ContextSwitches="{Binding Settings.SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyContextSwitches}"
                                             PlusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyPlusButtonMappings}"
                                             MinusButtonMappings="{Binding Settings.SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyMinusButtonMappings}"
-                                            DefaultValue="0" />
+                                            DefaultValue="0.1" />
 
                         <controls:MairaKnob Grid.Column="2"
                                             Label="{Binding Localization[MaximumFrequency]}"

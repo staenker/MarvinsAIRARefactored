@@ -181,7 +181,7 @@
                                            FontSize="30"
                                            Foreground="#979797"/>
                             </StackPanel>
-                            <TextBlock Text="Rene Stangl, Alpha-Xray, &amp; Italoboy9" />
+                            <TextBlock Text="Rene Stangl, Alpha-Xray &amp; Italoboy9" />
                         </StackPanel>
 
                         <!--es-ES-->

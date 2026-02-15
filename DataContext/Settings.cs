@@ -18,6 +18,7 @@ public class Settings : INotifyPropertyChanged
 	public static bool SuppressUpdatingOfContextSettings { private get; set; } = false;
 
 	private bool _updatingRacingWheelRelatedSettings = false;
+	private bool _updatingPedalsRelatedSettings = false;
 
 	#region INotifyProperty stuff
 
@@ -186,6 +187,30 @@ public class Settings : INotifyPropertyChanged
 			app.RacingWheel.UpdateAlgorithmPreview = true;
 
 			_updatingRacingWheelRelatedSettings = false;
+		}
+	}
+
+	private void UpdateRelatedPedalSettings( [CallerMemberName] string? propertyName = null )
+	{
+		if ( !_updatingPedalsRelatedSettings )
+		{
+			_updatingPedalsRelatedSettings = true;
+
+			UpdateSteeringEffectsUndersteerPedalVibrationMinimumFrequencyString();
+			UpdateSteeringEffectsUndersteerPedalVibrationMaximumFrequencyString();
+			UpdateSteeringEffectsOversteerPedalVibrationMinimumFrequencyString();
+			UpdateSteeringEffectsOversteerPedalVibrationMaximumFrequencyString();
+			UpdateSteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyString();
+			UpdateSteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyString();
+
+			UpdatePedalsShiftIntoGearFrequencyString();
+			UpdatePedalsShiftIntoNeutralFrequencyString();
+			UpdatePedalsABSEngagedFrequencyString();
+			UpdatePedalsWheelLockFrequencyString();
+			UpdatePedalsWheelSpinFrequencyString();
+			UpdatePedalsClutchSlipFrequencyString();
+
+			_updatingPedalsRelatedSettings = false;
 		}
 	}
 
@@ -2986,7 +3011,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Understeer pedal vibration minimum frequency
 
-	private float _steeringEffectsUndersteerPedalVibrationMinimumFrequency = 0f;
+	private float _steeringEffectsUndersteerPedalVibrationMinimumFrequency = 0.1f;
 
 	public float SteeringEffectsUndersteerPedalVibrationMinimumFrequency
 	{
@@ -3003,7 +3028,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsUndersteerPedalVibrationMinimumFrequencyString = $"{_steeringEffectsUndersteerPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsUndersteerPedalVibrationMinimumFrequencyString();
 		}
 	}
 
@@ -3023,6 +3048,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsUndersteerPedalVibrationMinimumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsUndersteerPedalVibrationMinimumFrequency ) );
+
+		SteeringEffectsUndersteerPedalVibrationMinimumFrequencyString = $"{_steeringEffectsUndersteerPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsUndersteerPedalVibrationMinimumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -3050,7 +3082,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsUndersteerPedalVibrationMaximumFrequencyString = $"{_steeringEffectsUndersteerPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsUndersteerPedalVibrationMaximumFrequencyString();
 		}
 	}
 
@@ -3070,6 +3102,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsUndersteerPedalVibrationMaximumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsUndersteerPedalVibrationMaximumFrequency ) );
+
+		SteeringEffectsUndersteerPedalVibrationMaximumFrequencyString = $"{_steeringEffectsUndersteerPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsUndersteerPedalVibrationMaximumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -3617,7 +3656,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Oversteer pedal vibration minimum frequency
 
-	private float _steeringEffectsOversteerPedalVibrationMinimumFrequency = 0f;
+	private float _steeringEffectsOversteerPedalVibrationMinimumFrequency = 0.1f;
 
 	public float SteeringEffectsOversteerPedalVibrationMinimumFrequency
 	{
@@ -3634,7 +3673,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsOversteerPedalVibrationMinimumFrequencyString = $"{_steeringEffectsOversteerPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsOversteerPedalVibrationMinimumFrequencyString();
 		}
 	}
 
@@ -3654,6 +3693,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsOversteerPedalVibrationMinimumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsOversteerPedalVibrationMinimumFrequency ) );
+
+		SteeringEffectsOversteerPedalVibrationMinimumFrequencyString = $"{_steeringEffectsOversteerPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsOversteerPedalVibrationMinimumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -3681,7 +3727,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsOversteerPedalVibrationMaximumFrequencyString = $"{_steeringEffectsOversteerPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsOversteerPedalVibrationMaximumFrequencyString();
 		}
 	}
 
@@ -3701,6 +3747,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsOversteerPedalVibrationMaximumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsOversteerPedalVibrationMaximumFrequency ) );
+
+		SteeringEffectsOversteerPedalVibrationMaximumFrequencyString = $"{_steeringEffectsOversteerPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsOversteerPedalVibrationMaximumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -4282,7 +4335,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Seat-of-pants pedal vibration minimum frequency
 
-	private float _steeringEffectsSeatOfPantsPedalVibrationMinimumFrequency = 0f;
+	private float _steeringEffectsSeatOfPantsPedalVibrationMinimumFrequency = 0.1f;
 
 	public float SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequency
 	{
@@ -4299,7 +4352,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyString = $"{_steeringEffectsSeatOfPantsPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyString();
 		}
 	}
 
@@ -4319,6 +4372,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsSeatOfPantsPedalVibrationMinimumFrequency ) );
+
+		SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyString = $"{_steeringEffectsSeatOfPantsPedalVibrationMinimumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsSeatOfPantsPedalVibrationMinimumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -4346,7 +4406,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyString = $"{_steeringEffectsSeatOfPantsPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateSteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyString();
 		}
 	}
 
@@ -4366,6 +4426,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateSteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _steeringEffectsSeatOfPantsPedalVibrationMaximumFrequency ) );
+
+		SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyString = $"{_steeringEffectsSeatOfPantsPedalVibrationMaximumFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches SteeringEffectsSeatOfPantsPedalVibrationMaximumFrequencyContextSwitches { get; set; } = new( true, true, false, false, false );
@@ -4572,7 +4639,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Pedals - Minimum frequency
 
-	private float _pedalsMinimumFrequency = 15f;
+	private float _pedalsMinimumFrequency = 0f;
 
 	public float PedalsMinimumFrequency
 	{
@@ -4589,6 +4656,8 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 
 				PedalsMaximumFrequency = MathF.Max( PedalsMaximumFrequency, _pedalsMinimumFrequency );
+
+				UpdateRelatedPedalSettings();
 			}
 
 			PedalsMinimumFrequencyString = $"{_pedalsMinimumFrequency:F0} {DataContext.Instance.Localization[ "HertzUnits" ]}";
@@ -4638,6 +4707,8 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 
 				PedalsMinimumFrequency = MathF.Min( PedalsMinimumFrequency, _pedalsMaximumFrequency );
+
+				UpdateRelatedPedalSettings();
 			}
 
 			PedalsMaximumFrequencyString = $"{_pedalsMaximumFrequency:F0} {DataContext.Instance.Localization[ "HertzUnits" ]}";
@@ -5577,7 +5648,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsShiftIntoGearFrequencyString = $"{_pedalsShiftIntoGearFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsShiftIntoGearFrequencyString();
 		}
 	}
 
@@ -5597,6 +5668,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdatePedalsShiftIntoGearFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsShiftIntoGearFrequency ) );
+
+		PedalsShiftIntoGearFrequencyString = $"{_pedalsShiftIntoGearFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches PedalsShiftIntoGearFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );
@@ -5718,7 +5796,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsShiftIntoNeutralFrequencyString = $"{_pedalsShiftIntoNeutralFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsShiftIntoNeutralFrequencyString();
 		}
 	}
 
@@ -5738,6 +5816,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdatePedalsShiftIntoNeutralFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsShiftIntoNeutralFrequency ) );
+
+		PedalsShiftIntoNeutralFrequencyString = $"{_pedalsShiftIntoNeutralFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches PedalsShiftIntoNeutralFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );
@@ -5859,7 +5944,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsABSEngagedFrequencyString = $"{_pedalsABSEngagedFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsABSEngagedFrequencyString();
 		}
 	}
 
@@ -5879,6 +5964,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdatePedalsABSEngagedFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsABSEngagedFrequency ) );
+
+		PedalsABSEngagedFrequencyString = $"{_pedalsABSEngagedFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches PedalsABSEngagedFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );
@@ -5959,7 +6051,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Pedals - Starting RPM
 
-	private float _pedalsStartingRPM = 0f;
+	private float _pedalsStartingRPM = 1f;
 
 	public float PedalsStartingRPM
 	{
@@ -6052,7 +6144,7 @@ public class Settings : INotifyPropertyChanged
 
 	#region Pedals - Wheel lock frequency
 
-	private float _pedalsWheelLockFrequency = 0.1f;
+	private float _pedalsWheelLockFrequency = 0.2f;
 
 	public float PedalsWheelLockFrequency
 	{
@@ -6069,7 +6161,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsWheelLockFrequencyString = $"{_pedalsWheelLockFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsWheelLockFrequencyString();
 		}
 	}
 
@@ -6089,6 +6181,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdatePedalsWheelLockFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsWheelLockFrequency ) );
+
+		PedalsWheelLockFrequencyString = $"{_pedalsWheelLockFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches PedalsWheelLockFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );
@@ -6167,7 +6266,7 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
-	#region Pedals - Wheel slip frequency
+	#region Pedals - Wheel spin frequency
 
 	private float _pedalsWheelSpinFrequency = 1f;
 
@@ -6186,7 +6285,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsWheelSpinFrequencyString = $"{_pedalsWheelSpinFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsWheelSpinFrequencyString();
 		}
 	}
 
@@ -6208,13 +6307,20 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
+	private void UpdatePedalsWheelSpinFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsWheelSpinFrequency ) );
+
+		PedalsWheelSpinFrequencyString = $"{_pedalsWheelSpinFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
+	}
+
 	public ContextSwitches PedalsWheelSpinFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );
 	public ButtonMappings PedalsWheelSpinFrequencyPlusButtonMappings { get; set; } = new();
 	public ButtonMappings PedalsWheelSpinFrequencyMinusButtonMappings { get; set; } = new();
 
 	#endregion
 
-	#region Pedals - Wheel slip sensitivity
+	#region Pedals - Wheel spin sensitivity
 
 	private float _pedalsWheelSpinSensitivity = 0.95f;
 
@@ -6261,7 +6367,7 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
-	#region Pedals - Wheel slip fade with throttle enabled
+	#region Pedals - Wheel spin fade with throttle enabled
 
 	private bool _pedalsWheelSpinFadeWithThrottleEnabled = true;
 
@@ -6401,7 +6507,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			PedalsClutchSlipFrequencyString = $"{_pedalsClutchSlipFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdatePedalsClutchSlipFrequencyString();
 		}
 	}
 
@@ -6421,6 +6527,13 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdatePedalsClutchSlipFrequencyString()
+	{
+		var convertedToHertz = Math.Round( MathZ.Lerp( PedalsMinimumFrequency, PedalsMaximumFrequency, _pedalsClutchSlipFrequency ) );
+
+		PedalsClutchSlipFrequencyString = $"{_pedalsClutchSlipFrequency * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToHertz}{DataContext.Instance.Localization[ "HertzUnits" ]})";
 	}
 
 	public ContextSwitches PedalsClutchSlipFrequencyContextSwitches { get; set; } = new( false, false, false, false, false );

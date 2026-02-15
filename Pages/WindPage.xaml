@@ -16,7 +16,8 @@
 
     <StackPanel>
 
-        <controls:MairaGroupBox Label="{Binding Localization[Connection_UC]}">
+        <controls:MairaGroupBox Label="{Binding Localization[Connection_UC]}"
+                                HelpTopic="advanced/wind/#connection">
 
             <StackPanel>
                 <controls:MairaSwitch x:Name="ConnectToWind_MairaSwitch"
@@ -34,7 +35,8 @@
 
         </controls:MairaGroupBox>
 
-        <controls:MairaGroupBox Label="{Binding Localization[Settings_UC]}">
+        <controls:MairaGroupBox Label="{Binding Localization[Settings_UC]}"
+                                HelpTopic="advanced/wind/#settings">
 
             <Grid>
 
@@ -80,7 +82,8 @@
 
         </controls:MairaGroupBox>
 
-        <controls:MairaGroupBox Label="{Binding Localization[FanPower_UC]}">
+        <controls:MairaGroupBox Label="{Binding Localization[FanPower_UC]}"
+                                HelpTopic="advanced/wind/#fan-power">
 
             <Grid Height="200"
                   HorizontalAlignment="Center">
@@ -213,7 +216,8 @@
 
         </controls:MairaGroupBox>
 
-        <controls:MairaGroupBox Label="{Binding Localization[FanStatus_UC]}">
+        <controls:MairaGroupBox Label="{Binding Localization[FanStatus_UC]}"
+                                HelpTopic="advanced/wind/#fan-status">
 
             <Grid>
 
