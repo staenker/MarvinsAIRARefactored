@@ -97,7 +97,7 @@ public class ContextSettings
 
 	public bool SteeringEffectsSeatOfPantsEnabled { get; set; } = false;
 	public float SteeringEffectsSeatOfPantsMinimumThreshold { get; set; } = 0f;
-	public float SteeringEffectsSeatOfPantsMaximumThreshold { get; set; } = 3f;
+	public float SteeringEffectsSeatOfPantsMaximumThreshold { get; set; } = 10f;
 	public SteeringEffects.SeatOfPantsAlgorithm SteeringEffectsSeatOfPantsAlgorithm { get; set; } = SteeringEffects.SeatOfPantsAlgorithm.YVelocityOverXVelocity;
 	public RacingWheel.VibrationPattern SteeringEffectsSeatOfPantsWheelVibrationPattern { get; set; } = RacingWheel.VibrationPattern.None;
 	public float SteeringEffectsSeatOfPantsWheelVibrationStrength { get; set; } = 0.1f;
