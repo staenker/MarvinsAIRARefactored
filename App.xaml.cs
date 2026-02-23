@@ -1159,6 +1159,50 @@ public partial class App : Application
 				}
 			}
 
+			// racing wheel gear change vibrate strength knob
+
+			if ( CheckMappedButtons( settings.RacingWheelGearChangeVibrateStrengthPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.RacingWheelGearChangeVibrateStrength += 0.05f;
+
+				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
+				{
+					RacingWheel.SendChatMessage( "GearChangeVibrateStrength", settings.RacingWheelGearChangeVibrateStrengthString );
+				}
+			}
+
+			if ( CheckMappedButtons( settings.RacingWheelGearChangeVibrateStrengthMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.RacingWheelGearChangeVibrateStrength -= 0.05f;
+
+				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
+				{
+					RacingWheel.SendChatMessage( "GearChangeVibrateStrength", settings.RacingWheelGearChangeVibrateStrengthString );
+				}
+			}
+
+			// racing wheel abs vibrate strength knob
+
+			if ( CheckMappedButtons( settings.RacingWheelABSVibrateStrengthPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.RacingWheelABSVibrateStrength += 0.05f;
+
+				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
+				{
+					RacingWheel.SendChatMessage( "ABSVibrateStrength", settings.RacingWheelABSVibrateStrengthString );
+				}
+			}
+
+			if ( CheckMappedButtons( settings.RacingWheelABSVibrateStrengthMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
+			{
+				settings.RacingWheelABSVibrateStrength -= 0.05f;
+
+				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
+				{
+					RacingWheel.SendChatMessage( "ABSVibrateStrength", settings.RacingWheelABSVibrateStrengthString );
+				}
+			}
+
 			// steering effects understeer minimum threshold
 
 			if ( CheckMappedButtons( settings.SteeringEffectsUndersteerMinimumThresholdPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )

@@ -1413,14 +1413,6 @@
     <value>EFFECTS</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="VibrateOnGearChange" xml:space="preserve">
-    <value>Vibrate on gear change</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnABS" xml:space="preserve">
-    <value>Vibrate on ABS activation</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="Audio_UC" xml:space="preserve">
     <value>AUDIO</value>
     <comment>AdminBoxx</comment>
@@ -1539,6 +1531,14 @@
   </data>
   <data name="CalibrationIsRunning" xml:space="preserve">
     <value>FFB is disabled because calibration is running</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="GearChangeVibrateStrength" xml:space="preserve">
+    <value>Gear Change Vibrate Strength</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ABSVibrateStrength" xml:space="preserve">
+    <value>ABS Vibrate Strength</value>
     <comment>Racing wheel</comment>
   </data>
 </root>

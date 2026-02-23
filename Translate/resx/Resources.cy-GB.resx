@@ -1309,14 +1309,6 @@
     <value></value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="VibrateOnGearChange" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnABS" xml:space="preserve">
-    <value></value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="Audio_UC" xml:space="preserve">
     <value></value>
     <comment>AdminBoxx</comment>

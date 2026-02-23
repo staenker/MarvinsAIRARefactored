@@ -181,6 +181,10 @@ public class Settings : INotifyPropertyChanged
 			UpdateRacingWheelMaxForceString();
 			UpdateRacingWheelSlewCompressionThresholdString();
 			UpdateRacingWheelTotalCompressionThresholdString();
+			UpdateRacingWheelOutputMinimumString();
+			UpdateRacingWheelOutputMaximumString();
+			UpdateRacingWheelGearChangeVibrateStrengthString();
+			UpdateRacingWheelABSVibrateStrengthString();
 
 			UpdateSteeringEffectsUndersteerWheelVibrationStrengthString();
 			UpdateSteeringEffectsUndersteerWheelConstantForceStrengthString();
@@ -1295,14 +1299,7 @@ public class Settings : INotifyPropertyChanged
 
 			app.RacingWheel.UpdateAlgorithmPreview = true;
 
-			if ( _racingWheelOutputMinimum == 0f )
-			{
-				RacingWheelOutputMinimumString = DataContext.Instance.Localization[ "OFF" ];
-			}
-			else
-			{
-				RacingWheelOutputMinimumString = $"{_racingWheelOutputMinimum * 100f:F1}{DataContext.Instance.Localization[ "Percent" ]}";
-			}
+			UpdateRacingWheelOutputMinimumString();
 		}
 	}
 
@@ -1321,6 +1318,20 @@ public class Settings : INotifyPropertyChanged
 
 				OnPropertyChanged();
 			}
+		}
+	}
+
+	private void UpdateRacingWheelOutputMinimumString()
+	{
+		if ( _racingWheelOutputMinimum == 0f )
+		{
+			RacingWheelOutputMinimumString = DataContext.Instance.Localization[ "OFF" ];
+		}
+		else
+		{
+			var convertedToTorque = RacingWheelWheelForce * _racingWheelOutputMinimum;
+
+			RacingWheelOutputMinimumString = $"{_racingWheelOutputMinimum * 100f:F1}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
 	}
 
@@ -1353,14 +1364,7 @@ public class Settings : INotifyPropertyChanged
 
 			app.RacingWheel.UpdateAlgorithmPreview = true;
 
-			if ( _racingWheelOutputMaximum == 1f )
-			{
-				RacingWheelOutputMaximumString = DataContext.Instance.Localization[ "OFF" ];
-			}
-			else
-			{
-				RacingWheelOutputMaximumString = $"{_racingWheelOutputMaximum * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
-			}
+			UpdateRacingWheelOutputMaximumString();
 		}
 	}
 
@@ -1379,6 +1383,20 @@ public class Settings : INotifyPropertyChanged
 
 				OnPropertyChanged();
 			}
+		}
+	}
+
+	private void UpdateRacingWheelOutputMaximumString()
+	{
+		if ( _racingWheelOutputMaximum == 1f )
+		{
+			RacingWheelOutputMaximumString = DataContext.Instance.Localization[ "OFF" ];
+		}
+		else
+		{
+			var convertedToTorque = RacingWheelWheelForce * _racingWheelOutputMaximum;
+
+			RacingWheelOutputMaximumString = $"{_racingWheelOutputMaximum * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
 	}
 
@@ -2204,49 +2222,125 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
-	#region Racing wheel - Vibrate on gear change
+	#region Racing wheel - Gear change vibrate strength
 
-	private bool _racingWheelVibrateOnGearChange = false;
+	private float _racingWheelGearChangeVibrateStrength = 0.1f;
 
-	public bool RacingWheelVibrateOnGearChange
+	public float RacingWheelGearChangeVibrateStrength
 	{
-		get => _racingWheelVibrateOnGearChange;
+		get => _racingWheelGearChangeVibrateStrength;
 
 		set
 		{
-			if ( value != _racingWheelVibrateOnGearChange )
+			value = MathZ.Saturate( value );
+
+			if ( value != _racingWheelGearChangeVibrateStrength )
 			{
-				_racingWheelVibrateOnGearChange = value;
+				_racingWheelGearChangeVibrateStrength = value;
+
+				OnPropertyChanged();
+			}
+
+			UpdateRacingWheelGearChangeVibrateStrengthString();
+		}
+	}
+
+	private string _racingWheelGearChangeVibrateStrengthString = string.Empty;
+
+	[XmlIgnore]
+	public string RacingWheelGearChangeVibrateStrengthString
+	{
+		get => _racingWheelGearChangeVibrateStrengthString;
+
+		set
+		{
+			if ( value != _racingWheelGearChangeVibrateStrengthString )
+			{
+				_racingWheelGearChangeVibrateStrengthString = value;
 
 				OnPropertyChanged();
 			}
 		}
 	}
 
-	public ContextSwitches RacingWheelVibrateOnGearChangeContextSwitches { get; set; } = new( false, false, false, false, false );
+	private void UpdateRacingWheelGearChangeVibrateStrengthString()
+	{
+		if ( _racingWheelGearChangeVibrateStrength == 0f )
+		{
+			RacingWheelGearChangeVibrateStrengthString = DataContext.Instance.Localization[ "OFF" ];
+		}
+		else
+		{
+			var convertedToTorque = RacingWheelWheelForce * _racingWheelGearChangeVibrateStrength;
+
+			RacingWheelGearChangeVibrateStrengthString = $"{_racingWheelGearChangeVibrateStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
+		}
+	}
+
+	public ContextSwitches RacingWheelGearChangeVibrateStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
+	public ButtonMappings RacingWheelGearChangeVibrateStrengthPlusButtonMappings { get; set; } = new();
+	public ButtonMappings RacingWheelGearChangeVibrateStrengthMinusButtonMappings { get; set; } = new();
 
 	#endregion
 
-	#region Racing wheel - Vibrate on ABS
+	#region Racing wheel - ABS vibrate strength
 
-	private bool _racingWheelVibrateOnABS = false;
+	private float _racingWheelABSVibrateStrength = 0.1f;
 
-	public bool RacingWheelVibrateOnABS
+	public float RacingWheelABSVibrateStrength
 	{
-		get => _racingWheelVibrateOnABS;
+		get => _racingWheelABSVibrateStrength;
 
 		set
 		{
-			if ( value != _racingWheelVibrateOnABS )
+			value = MathZ.Saturate( value );
+
+			if ( value != _racingWheelABSVibrateStrength )
 			{
-				_racingWheelVibrateOnABS = value;
+				_racingWheelABSVibrateStrength = value;
+
+				OnPropertyChanged();
+			}
+
+			UpdateRacingWheelABSVibrateStrengthString();
+		}
+	}
+
+	private string _racingWheelABSVibrateStrengthString = string.Empty;
+
+	[XmlIgnore]
+	public string RacingWheelABSVibrateStrengthString
+	{
+		get => _racingWheelABSVibrateStrengthString;
+
+		set
+		{
+			if ( value != _racingWheelABSVibrateStrengthString )
+			{
+				_racingWheelABSVibrateStrengthString = value;
 
 				OnPropertyChanged();
 			}
 		}
 	}
 
-	public ContextSwitches RacingWheelVibrateOnABSContextSwitches { get; set; } = new( false, false, false, false, false );
+	private void UpdateRacingWheelABSVibrateStrengthString()
+	{
+		if ( _racingWheelABSVibrateStrength == 0f )
+		{
+			RacingWheelABSVibrateStrengthString = DataContext.Instance.Localization[ "OFF" ];
+		}
+		else
+		{
+			var convertedToTorque = RacingWheelWheelForce * _racingWheelABSVibrateStrength;
+
+			RacingWheelABSVibrateStrengthString = $"{_racingWheelABSVibrateStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
+		}
+	}
+
+	public ContextSwitches RacingWheelABSVibrateStrengthContextSwitches { get; set; } = new( true, false, false, false, false );
+	public ButtonMappings RacingWheelABSVibrateStrengthPlusButtonMappings { get; set; } = new();
+	public ButtonMappings RacingWheelABSVibrateStrengthMinusButtonMappings { get; set; } = new();
 
 	#endregion
 
@@ -2732,7 +2826,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsUndersteerWheelVibrationStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsUndersteerWheelVibrationStrength;
 
 			SteeringEffectsUndersteerWheelVibrationStrengthString = $"{_steeringEffectsUndersteerWheelVibrationStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
@@ -2964,7 +3058,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsUndersteerWheelConstantForceStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsUndersteerWheelConstantForceStrength;
 
 			SteeringEffectsUndersteerWheelConstantForceStrengthString = $"{_steeringEffectsUndersteerWheelConstantForceStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
@@ -3392,7 +3486,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsOversteerWheelVibrationStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsOversteerWheelVibrationStrength;
 
 			SteeringEffectsOversteerWheelVibrationStrengthString = $"{_steeringEffectsOversteerWheelVibrationStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
@@ -3624,7 +3718,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsOversteerWheelConstantForceStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsOversteerWheelConstantForceStrength;
 
 			SteeringEffectsOversteerWheelConstantForceStrengthString = $"{_steeringEffectsOversteerWheelConstantForceStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
@@ -4085,7 +4179,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsSeatOfPantsWheelVibrationStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsSeatOfPantsWheelVibrationStrength;
 
 			SteeringEffectsSeatOfPantsWheelVibrationStrengthString = $"{_steeringEffectsSeatOfPantsWheelVibrationStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}
@@ -4317,7 +4411,7 @@ public class Settings : INotifyPropertyChanged
 		}
 		else
 		{
-			var convertedToTorque = RacingWheelMaxForce * _steeringEffectsSeatOfPantsWheelConstantForceStrength;
+			var convertedToTorque = RacingWheelWheelForce * _steeringEffectsSeatOfPantsWheelConstantForceStrength;
 
 			SteeringEffectsSeatOfPantsWheelConstantForceStrengthString = $"{_steeringEffectsSeatOfPantsWheelConstantForceStrength * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 		}

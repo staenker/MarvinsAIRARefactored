@@ -682,7 +682,7 @@ public class RacingWheel
 
 			// gear change vibration effect
 
-			if ( settings.RacingWheelVibrateOnGearChange )
+			if ( settings.RacingWheelGearChangeVibrateStrength > 0f )
 			{
 				if ( app.Simulator.Gear != _lastGear )
 				{
@@ -700,7 +700,7 @@ public class RacingWheel
 					var timeInSeconds = _vibrateOnGearChangeTimerMS * 0.001f;
 					var sine = MathF.Sin( timeInSeconds * MathF.Tau * frequency );
 
-					vibrationTorque += ( sine >= 0f ) ? 0.05f : -0.05f;
+					vibrationTorque += ( sine >= 0f ) ? settings.RacingWheelGearChangeVibrateStrength : -settings.RacingWheelGearChangeVibrateStrength;
 
 					_vibrateOnGearChangeTimerMS -= deltaMilliseconds;
 				}
@@ -708,7 +708,7 @@ public class RacingWheel
 
 			// abs vibration effect
 
-			if ( settings.RacingWheelVibrateOnABS )
+			if ( settings.RacingWheelABSVibrateStrength > 0f )
 			{
 				if ( app.Simulator.BrakeABSactive )
 				{
@@ -716,7 +716,7 @@ public class RacingWheel
 					var timeInSeconds = _vibrateOnABSTimerMS * 0.001f;
 					var phase = ( timeInSeconds * frequency ) % 1f;
 
-					vibrationTorque += 0.05f * ( 4f * MathF.Abs( phase - 0.5f ) - 1f );
+					vibrationTorque += settings.RacingWheelABSVibrateStrength * ( 4f * MathF.Abs( phase - 0.5f ) - 1f );
 
 					var periodMS = 1000f / frequency;
 

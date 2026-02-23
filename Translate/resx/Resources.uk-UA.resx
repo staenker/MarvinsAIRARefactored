@@ -1316,14 +1316,6 @@
     <value>ЕФЕКТИ</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="VibrateOnGearChange" xml:space="preserve">
-    <value>Вібрація при перемиканні передач</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnABS" xml:space="preserve">
-    <value>Вібрація при активації ABS</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="Audio_UC" xml:space="preserve">
     <value>Аудіо</value>
     <comment>AdminBoxx</comment>
