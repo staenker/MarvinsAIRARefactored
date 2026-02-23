@@ -372,7 +372,8 @@
                                         StepSize="0.01"
                                         ContextSwitches="{Binding Settings.RacingWheelMultiSlewRateReductionContextSwitches}"
                                         PlusButtonMappings="{Binding Settings.RacingWheelMultiSlewRateReductionPlusButtonMappings}"
-                                        MinusButtonMappings="{Binding Settings.RacingWheelMultiSlewRateReductionMinusButtonMappings}" />
+                                        MinusButtonMappings="{Binding Settings.RacingWheelMultiSlewRateReductionMinusButtonMappings}"
+                                        DefaultValue="0" />
 
                     <controls:MairaSwitch Grid.Column="0"
                                           Grid.Row="2"
@@ -843,7 +844,7 @@
                                     PlusButtonMappings="{Binding Settings.RacingWheelABSVibrateStrengthPlusButtonMappings}"
                                     MinusButtonMappings="{Binding Settings.RacingWheelABSVibrateStrengthMinusButtonMappings}"
                                     DefaultValue="0.1" />
-                
+
             </Grid>
 
         </controls:MairaGroupBox>
