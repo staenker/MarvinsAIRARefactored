@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -1254,6 +1254,14 @@ Hier ist der Link zum Spenden:</value>
     <value>EFFEKTE</value>
     <comment>Racing wheel</comment>
   </data>
+  <data name="VibrateOnGearChange" xml:space="preserve">
+    <value>Vibration bei Gangwechsel</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="VibrateOnABS" xml:space="preserve">
+    <value>Vibration bei aktivem ABS</value>
+    <comment>Racing wheel</comment>
+  </data>
   <data name="Audio_UC" xml:space="preserve">
     <value>Audio</value>
     <comment>AdminBoxx</comment>
@@ -1356,6 +1364,22 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="PredictionBlend" xml:space="preserve">
     <value>Vorhersagekombination</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="FFBIsDisabled" xml:space="preserve">
+    <value>Force Feedback wurde manuell ausgeschaltet (Not-Stopp)</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="SimModeIsNotFull" xml:space="preserve">
+    <value>iRacing ist im Replaymodus</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="FFBIsEnabledInSimulator" xml:space="preserve">
+    <value>Force Feedback ist in iRacing eingeschaltet</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="CalibrationIsRunning" xml:space="preserve">
+    <value>FFB ist wegen laufender Kalibrierung ausgeschaltet.</value>
     <comment>Racing wheel</comment>
   </data>
 </root>
