@@ -146,14 +146,15 @@
                     </Grid.ColumnDefinitions>
 
                     <controls:MairaKnob Grid.Column="0"
-                                        Label="{Binding Localization[AutoMargin]}"
+                                        Label="{Binding Localization[AutoTarget]}"
                                         Value="{Binding Settings.RacingWheelAutoMargin, Mode=TwoWay}"
                                         ValueString="{Binding Settings.RacingWheelAutoMarginString}"
                                         StepSize="0.01"
                                         ContextSwitches="{Binding Settings.RacingWheelAutoMarginContextSwitches}"
                                         PlusButtonMappings="{Binding Settings.RacingWheelAutoMarginPlusButtonMappings}"
                                         MinusButtonMappings="{Binding Settings.RacingWheelAutoMarginMinusButtonMappings}"
-                                        DefaultValue="0" />
+                                        DefaultValue="0"
+                                        Reverse="True" />
 
                     <Grid Grid.Column="2"
                           HorizontalAlignment="Center">

@@ -470,7 +470,7 @@ public partial class App : Application
 
 			if ( CheckMappedButtons( settings.RacingWheelAutoMarginPlusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.RacingWheelAutoMargin += 1f;
+				settings.RacingWheelAutoMargin -= 0.01f;
 
 				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
 				{
@@ -480,7 +480,7 @@ public partial class App : Application
 
 			if ( CheckMappedButtons( settings.RacingWheelAutoMarginMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.RacingWheelAutoMargin -= 1f;
+				settings.RacingWheelAutoMargin += 0.01f;
 
 				if ( settings.RacingWheelInputMappedSettingUpdateEnabled )
 				{

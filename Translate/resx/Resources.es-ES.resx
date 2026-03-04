@@ -208,8 +208,8 @@
     <value>INTENSIDAD GENERAL</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="AutoMargin" xml:space="preserve">
-    <value>Margen Automático</value>
+  <data name="AutoTarget" xml:space="preserve">
+    <value></value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Clear" xml:space="preserve">

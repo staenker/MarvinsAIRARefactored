@@ -1,8 +1,4 @@
 ﻿
-using MarvinsAIRARefactored.Classes;
-using MarvinsAIRARefactored.DataContext;
-using MarvinsAIRARefactored.Windows;
-using PInvoke;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -10,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+
 using Color = System.Windows.Media.Color;
 using Cursors = System.Windows.Input.Cursors;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -17,6 +14,12 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Pen = System.Windows.Media.Pen;
 using Point = System.Windows.Point;
 using UserControl = System.Windows.Controls.UserControl;
+
+using PInvoke;
+
+using MarvinsAIRARefactored.Classes;
+using MarvinsAIRARefactored.DataContext;
+using MarvinsAIRARefactored.Windows;
 
 namespace MarvinsAIRARefactored.Controls;
 
@@ -93,7 +96,14 @@ public partial class MairaKnob : UserControl
 
 			if ( delta != 0 )
 			{
-				AdjustValue( delta * 0.01f );
+				var amount = delta * 0.01f;
+
+				if ( Reverse )
+				{
+					amount = -amount;
+				}
+
+				AdjustValue( amount );
 
 				User32.SetCursorPos( _draggingCenter.x, _draggingCenter.y );
 			}
@@ -254,6 +264,14 @@ public partial class MairaKnob : UserControl
 	{
 		get => (float?) GetValue( DefaultValueProperty );
 		set => SetValue( DefaultValueProperty, value );
+	}
+
+	public static readonly DependencyProperty ReverseProperty = DependencyProperty.Register( nameof( Reverse ), typeof( bool ), typeof( MairaKnob ), new PropertyMetadata( false ) );
+
+	public bool Reverse
+	{
+		get => (bool) GetValue( ReverseProperty );
+		set => SetValue( ReverseProperty, value );
 	}
 
 	#endregion

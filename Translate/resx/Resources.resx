@@ -313,8 +313,8 @@
     <value>OVERALL STRENGTH</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="AutoMargin" xml:space="preserve">
-    <value>Auto Margin</value>
+  <data name="AutoTarget" xml:space="preserve">
+    <value>Auto Target</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Clear" xml:space="preserve">

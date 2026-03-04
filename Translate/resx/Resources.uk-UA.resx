@@ -210,8 +210,8 @@
     <value>ЗАГАЛЬНА МІЦНІСТЬ	</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="AutoMargin" xml:space="preserve">
-    <value>Автоматичне поле</value>
+  <data name="AutoTarget" xml:space="preserve">
+    <value></value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Clear" xml:space="preserve">

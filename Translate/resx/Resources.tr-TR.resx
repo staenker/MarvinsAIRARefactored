@@ -206,8 +206,8 @@
   <data name="OverallStrength_UC" xml:space="preserve">
     <value>ORTALAMA KUVVET</value>
   </data>
-  <data name="AutoMargin" xml:space="preserve">
-    <value>Otomatik Marj</value>
+  <data name="AutoTarget" xml:space="preserve">
+    <value></value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Clear" xml:space="preserve">
