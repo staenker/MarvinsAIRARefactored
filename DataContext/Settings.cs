@@ -179,6 +179,7 @@ public class Settings : INotifyPropertyChanged
 			UpdateRacingWheelWheelForceString();
 			UpdateRacingWheelStrengthString();
 			UpdateRacingWheelMaxForceString();
+			UpdateRacingWheelAutoMarginString();
 			UpdateRacingWheelSlewCompressionThresholdString();
 			UpdateRacingWheelTotalCompressionThresholdString();
 			UpdateRacingWheelOutputMinimumString();
@@ -459,7 +460,7 @@ public class Settings : INotifyPropertyChanged
 
 		set
 		{
-			value = Math.Clamp( value, -1f, 1f );
+			value = Math.Clamp( value, -0.5f, 1.5f );
 
 			if ( value != _racingWheelAutoMargin )
 			{
@@ -468,7 +469,7 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 
-			RacingWheelAutoMarginString = $"{_racingWheelAutoMargin * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+			UpdateRacingWheelAutoMarginString();
 		}
 	}
 
@@ -488,6 +489,14 @@ public class Settings : INotifyPropertyChanged
 				OnPropertyChanged();
 			}
 		}
+	}
+
+	private void UpdateRacingWheelAutoMarginString()
+	{
+		var convertedToTarget = 1 / ( 1 + _racingWheelAutoMargin );
+		var convertedToTorque = RacingWheelWheelForce * convertedToTarget;
+
+		RacingWheelAutoMarginString = $"{convertedToTarget * 100f:F1}{DataContext.Instance.Localization[ "Percent" ]} ({convertedToTorque:F1}{DataContext.Instance.Localization[ "TorqueUnits" ]})";
 	}
 
 	public ContextSwitches RacingWheelAutoMarginContextSwitches { get; set; } = new( true, false, false, false, false );
