@@ -19,6 +19,8 @@ namespace MarvinsAIRARefactored.Components;
 
 public class SteeringEffects
 {
+	private const int UpdateInterval = 6;
+
 	public static string CalibrationDirectory { get; private set; } = Path.Combine( App.DocumentsFolder, "Calibration" );
 
 	public enum SeatOfPantsAlgorithm
@@ -46,13 +48,15 @@ public class SteeringEffects
 
 	private const int CalibrationFileVersion = 2;
 
-	private const int MaxSteeringWheelAngleInDegrees = 450;
+	private const int MaxSteeringWheelAngleInDegrees = 540;
 	private const int MaxNumSteeringWheelAngles = MaxSteeringWheelAngleInDegrees * 2 + 1;
 
 	private const float CalibrationSpeedInKPH = 15f;
+	private const float CalibrationSpeedToleranceInKPH = 0.5f;
 
 	private const int CalibrationGraphWidth = MaxSteeringWheelAngleInDegrees * 2;
 	private const int CalibrationGraphHeight = 450;
+	private const int HalfCalibrationGraphWidth = CalibrationGraphWidth / 2;
 
 	private CalibrationPhase _calibrationPhase = CalibrationPhase.NotCalibrating;
 	private float _calibrationProgress = 0f;
@@ -62,7 +66,6 @@ public class SteeringEffects
 	private float _lastFrameSpeed = 0f;
 
 	private int _targetSteeringWheelAngleInDegrees = 0;
-	private float _targetSpeedInKPH = 0f;
 
 	private float _robotSettleTimer = 0f;
 	private float _robotThrottle = 0f;
@@ -92,6 +95,11 @@ public class SteeringEffects
 		StartLineCap = PenLineCap.Round,
 		EndLineCap = PenLineCap.Round
 	};
+	private readonly Pen _calibrationGraphExtrapolatedDataPen = new( Brushes.DarkCyan, 2.0 )
+	{
+		StartLineCap = PenLineCap.Round,
+		EndLineCap = PenLineCap.Round
+	};
 	private readonly Pen _calibrationGraphMinimumThresholdPen = new( Brushes.Yellow, 1.0 )
 	{
 		StartLineCap = PenLineCap.Round,
@@ -103,6 +111,8 @@ public class SteeringEffects
 		EndLineCap = PenLineCap.Round
 	};
 
+	private int _updateCounter = UpdateInterval + 8;
+
 	public SteeringEffects()
 	{
 		var app = App.Instance!;
@@ -111,6 +121,7 @@ public class SteeringEffects
 
 		_calibrationGraphRawDataPen.Freeze();
 		_calibrationGraphSmoothedDataPen.Freeze();
+		_calibrationGraphExtrapolatedDataPen.Freeze();
 		_calibrationGraphMinimumThresholdPen.Freeze();
 		_calibrationGraphMaximumThresholdPen.Freeze();
 
@@ -378,7 +389,7 @@ public class SteeringEffects
 			{
 				// update throttle
 
-				var deltaToTarget = _targetSpeedInKPH - app.Simulator.Speed * MathZ.MPSToKPH;
+				var deltaToTarget = CalibrationSpeedInKPH - app.Simulator.Speed * MathZ.MPSToKPH;
 
 				var targetAcceleration = Math.Clamp( deltaToTarget, -1f, 1f );
 
@@ -397,7 +408,7 @@ public class SteeringEffects
 
 		// update virtual joystick
 
-		app.VirtualJoystick.Steering = _targetSteeringWheelAngleInDegrees / 450f;
+		app.VirtualJoystick.Steering = (float) _targetSteeringWheelAngleInDegrees / MaxSteeringWheelAngleInDegrees;
 		app.VirtualJoystick.Brake = 0f;
 		app.VirtualJoystick.Throttle = _robotThrottle;
 
@@ -419,8 +430,9 @@ public class SteeringEffects
 
 		// reset targets
 
-		_targetSteeringWheelAngleInDegrees = (int) ( MathF.Max( -MaxSteeringWheelAngleInDegrees, app.Simulator.SteeringWheelAngleMax * MathZ.RadiansToDegrees / -2f ) );
-		_targetSpeedInKPH = CalibrationSpeedInKPH;
+		var minimumSteeringWheelAngle = app.Simulator.SteeringWheelAngleMax * MathZ.RadiansToDegrees / -2f;
+
+		_targetSteeringWheelAngleInDegrees = (int) ( MathF.Max( -MaxSteeringWheelAngleInDegrees, minimumSteeringWheelAngle ) );
 
 		// reset robot
 
@@ -464,9 +476,12 @@ public class SteeringEffects
 			return;
 		}
 
-		// stop here if we aren't near our speed target yet
+		// stop here if we aren't at our speed target
 
-		if ( ( ( app.Simulator.Speed * MathZ.MPSToKPH ) - _targetSpeedInKPH ) < -1f )
+		var speedInKph = app.Simulator.Speed * MathZ.MPSToKPH;
+		var deltaSpeedInKph = Math.Abs( CalibrationSpeedInKPH - speedInKph );
+
+		if ( deltaSpeedInKph > CalibrationSpeedToleranceInKPH )
 		{
 			return;
 		}
@@ -661,16 +676,16 @@ public class SteeringEffects
 
 			// draw vertical lines
 
-			for ( var x = 0; x <= CalibrationGraphWidth; x += 10 )
+			for ( var x = -HalfCalibrationGraphWidth; x <= HalfCalibrationGraphWidth; x += 10 )
 			{
-				if ( ( x == 0 ) || ( x == CalibrationGraphWidth ) )
+				if ( ( x == -HalfCalibrationGraphWidth ) || ( x == HalfCalibrationGraphWidth ) )
 				{
 					continue;
 				}
 
-				var pen = ( x % 50 == 0 ) ? thickPen : thinPen;
+				var pen = ( Math.Abs( x ) % 50 == 0 ) ? thickPen : thinPen;
 
-				drawingContext.DrawLine( pen, new Point( x + 0.5, 0 ), new Point( x + 0.5, CalibrationGraphHeight ) );
+				drawingContext.DrawLine( pen, new Point( x + 0.5 + HalfCalibrationGraphWidth, 0 ), new Point( x + 0.5 + HalfCalibrationGraphWidth, CalibrationGraphHeight ) );
 			}
 
 			// draw horizontal lines
@@ -689,19 +704,19 @@ public class SteeringEffects
 
 			// draw vertical text
 
-			for ( var x = 0; x <= CalibrationGraphWidth; x += 10 )
+			for ( var x = -HalfCalibrationGraphWidth; x <= HalfCalibrationGraphWidth; x += 10 )
 			{
-				if ( ( x == 0 ) || ( x == CalibrationGraphWidth ) )
+				if ( ( x == -HalfCalibrationGraphWidth ) || ( x == HalfCalibrationGraphWidth ) )
 				{
 					continue;
 				}
 
 				if ( x % 50 == 0 )
 				{
-					var labelValue = Math.Abs( -CalibrationGraphWidth / 2 + ( x / 50 ) * 50 );
+					var labelValue = x;
 					var labelText = $"{labelValue}";
 
-					DrawLabel( labelText, x, false );
+					DrawLabel( labelText, x + HalfCalibrationGraphWidth, false );
 				}
 			}
 
@@ -750,6 +765,9 @@ public class SteeringEffects
 
 				// draw raw calibration data
 
+				var maximumSteeringWheelAngle = float.MinValue;
+				var minimumSteeringWheelAngle = float.MaxValue;
+
 				for ( var angleIndex = 1; angleIndex < _numSteeringWheelAnglesRecorded; angleIndex++ )
 				{
 					var a1 = _steeringWheelAnglesInDegrees[ angleIndex - 1 ] + MaxSteeringWheelAngleInDegrees;
@@ -762,6 +780,9 @@ public class SteeringEffects
 					var p2 = new Point( a2 + 0.5, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
 
 					drawingContext.DrawLine( _calibrationGraphRawDataPen, p1, p2 );
+
+					maximumSteeringWheelAngle = MathF.Max( maximumSteeringWheelAngle, a1 );
+					minimumSteeringWheelAngle = MathF.Min( minimumSteeringWheelAngle, a2 );
 				}
 
 				if ( settings.SteeringEffectsUndersteerEnabled )
@@ -847,7 +868,14 @@ public class SteeringEffects
 					var p1 = new Point( a1, CalibrationGraphHeight - y1 * 100.0 + 0.5 );
 					var p2 = new Point( a2, CalibrationGraphHeight - y2 * 100.0 + 0.5 );
 
-					drawingContext.DrawLine( _calibrationGraphSmoothedDataPen, p1, p2 );
+					if ( ( a1 <= maximumSteeringWheelAngle ) && ( a2 >= minimumSteeringWheelAngle ) )
+					{
+						drawingContext.DrawLine( _calibrationGraphSmoothedDataPen, p1, p2 );
+					}
+					else
+					{
+						drawingContext.DrawLine( _calibrationGraphExtrapolatedDataPen, p1, p2 );
+					}
 				}
 
 				drawingContext.Close();
@@ -1201,84 +1229,104 @@ public class SteeringEffects
 
 	public void Tick( App app )
 	{
-		if ( MairaAppMenuPopup.CurrentAppPage == MainWindow.AppPage.SteeringEffects )
+		_updateCounter--;
+
+		if ( _updateCounter == 0 )
 		{
-			var localization = DataContext.DataContext.Instance.Localization;
+			_updateCounter = UpdateInterval;
 
-			if ( app.Simulator.CarSetupName == string.Empty )
+			if ( MairaAppMenuPopup.CurrentAppPage == MainWindow.AppPage.SteeringEffects )
 			{
-				MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
-				MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Visibility = Visibility.Visible;
-			}
+				var localization = DataContext.DataContext.Instance.Localization;
 
-			if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
-			{
-				MainWindow._steeringEffectsPage.CalibrationProgress_Border.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				MainWindow._steeringEffectsPage.CalibrationProgress_TextBlock.Text = $"{localization[ "Progress:" ]} {_calibrationProgress * 100f:F0}{localization[ "Percent" ]}";
-				MainWindow._steeringEffectsPage.CalibrationProgress_Border.Visibility = Visibility.Visible;
-			}
-
-			if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
-			{
-				if ( app.VirtualJoystick.Initialized )
+				if ( app.Simulator.CarSetupName == string.Empty )
 				{
-					app.VirtualJoystick.Shutdown();
-				}
-
-				MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Visible;
-				MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				if ( !app.VirtualJoystick.Initialized && !app.VirtualJoystick.Faulted )
-				{
-					app.VirtualJoystick.Initialize();
-				}
-
-				MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Collapsed;
-				MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Visible;
-
-				if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
-				{
-					MainWindow._steeringEffectsPage.RunCalibration_MairaButton.Disabled = false;
-					MainWindow._steeringEffectsPage.StopCalibration_MairaButton.Disabled = true;
+					MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Visibility = Visibility.Collapsed;
 				}
 				else
 				{
-					MainWindow._steeringEffectsPage.RunCalibration_MairaButton.Disabled = true;
-					MainWindow._steeringEffectsPage.StopCalibration_MairaButton.Disabled = false;
+					MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Text = $"{localization[ "CurrentCarSetup" ]} {app.Simulator.CarSetupName.ToUpper()}";
+					MainWindow._steeringEffectsPage.CarSetupName_TextBlock.Visibility = Visibility.Visible;
 				}
-			}
 
-			if ( RedrawCalibrationGraph )
-			{
-				DrawCalibrationGraphGrid();
-				DrawCalibrationGraphData();
+				if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
+				{
+					MainWindow._steeringEffectsPage.CalibrationProgress_Border.Visibility = Visibility.Collapsed;
+					MainWindow._steeringEffectsPage.LiveInfo_Border.Visibility = Visibility.Collapsed;
+				}
+				else
+				{
+					MainWindow._steeringEffectsPage.InvalidConfigurationFile_Border.Visibility = Visibility.Hidden;
+					MainWindow._steeringEffectsPage.CalibrationProgress_TextBlock.Text = $"{localization[ "Progress:" ]} {_calibrationProgress * 100f:F0}{localization[ "Percent" ]}";
+					MainWindow._steeringEffectsPage.CalibrationProgress_Border.Visibility = Visibility.Visible;
 
-				RedrawCalibrationGraph = false;
-			}
+					if ( _calibrationSamplesTaken > 0 )
+					{
+						MainWindow._steeringEffectsPage.LiveInfo_TextBlock.Text = $"{_steeringWheelAngleInDegreesRunningAverage:F0}{localization[ "Degrees" ]}  ➤  {_yawRateInDegreesPerSecondRunningAverage:F2}{localization[ "DegreesPerSecond" ]}";
+						MainWindow._steeringEffectsPage.LiveInfo_Border.Visibility = Visibility.Visible;
+					}
+				}
 
-			var speedInKPH = app.Simulator.Speed * MathZ.MPSToKPH;
+				if ( app.Simulator.TrackDisplayName != "Centripetal Circuit" )
+				{
+					if ( app.VirtualJoystick.Initialized )
+					{
+						app.VirtualJoystick.Shutdown();
+					}
 
-			if ( speedInKPH >= 1f )
-			{
-				var yawRateInDegreesPerSecond = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / speedInKPH;
+					MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Visible;
+					MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Collapsed;
+				}
+				else
+				{
+					if ( !app.VirtualJoystick.Initialized && !app.VirtualJoystick.Faulted )
+					{
+						app.VirtualJoystick.Initialize();
+					}
 
-				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.X = ( app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees + app.Simulator.SteeringOffsetInDegrees ) * ( 10f / app.Simulator.SteeringRatio );
-				MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.Y = ( yawRateInDegreesPerSecond + 0.5f ) * -100f + 6f;
+					MainWindow._steeringEffectsPage.NotOnCentripetalCircuitTrack_Border.Visibility = Visibility.Collapsed;
+					MainWindow._steeringEffectsPage.CalibrationButtons_UniformGrid.Visibility = Visibility.Visible;
 
-				MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Hidden;
+					if ( _calibrationPhase == CalibrationPhase.NotCalibrating )
+					{
+						MainWindow._steeringEffectsPage.RunCalibration_MairaButton.Disabled = false;
+						MainWindow._steeringEffectsPage.StopCalibration_MairaButton.Disabled = true;
+					}
+					else
+					{
+						MainWindow._steeringEffectsPage.RunCalibration_MairaButton.Disabled = true;
+						MainWindow._steeringEffectsPage.StopCalibration_MairaButton.Disabled = false;
+					}
+				}
+
+				if ( RedrawCalibrationGraph )
+				{
+					DrawCalibrationGraphGrid();
+					DrawCalibrationGraphData();
+
+					RedrawCalibrationGraph = false;
+				}
+
+				var speedInKPH = app.Simulator.Speed * MathZ.MPSToKPH;
+
+				if ( speedInKPH >= 1f )
+				{
+					var steeringWheelAngleInDegrees = ( app.Simulator.SteeringWheelAngle * MathZ.RadiansToDegrees + app.Simulator.SteeringOffsetInDegrees ) * ( 10f / app.Simulator.SteeringRatio );
+					var yawRateInDegreesPerSecond = MathF.Abs( app.Simulator.YawRate * MathZ.RadiansToDegrees ) / speedInKPH;
+
+					MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.X = steeringWheelAngleInDegrees;
+					MainWindow._steeringEffectsPage.CalibrationDot_Border_Transform.Y = ( yawRateInDegreesPerSecond + 0.5f ) * -100f + 6f;
+					MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Visible;
+
+					MainWindow._steeringEffectsPage.LiveInfo_TextBlock.Text = $"{steeringWheelAngleInDegrees:F0}{localization[ "Degrees" ]}  ➤  {yawRateInDegreesPerSecond:F2}{localization[ "DegreesPerSecond" ]}";
+					MainWindow._steeringEffectsPage.LiveInfo_Border.Visibility = Visibility.Visible;
+
+				}
+				else
+				{
+					MainWindow._steeringEffectsPage.CalibrationDot_Border.Visibility = Visibility.Hidden;
+					MainWindow._steeringEffectsPage.LiveInfo_Border.Visibility = Visibility.Hidden;
+				}
 			}
 		}
 	}

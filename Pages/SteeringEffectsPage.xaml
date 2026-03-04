@@ -66,7 +66,7 @@
 
                             <Image x:Name="Calibration_Image"
                                    Height="450"
-                                   Width="900"
+                                   Width="1080"
                                    RenderOptions.BitmapScalingMode="HighQuality" />
 
                             <Border x:Name="CalibrationDot_Border"
@@ -119,6 +119,24 @@
                         <TextBlock x:Name="CalibrationProgress_TextBlock"
                                    Style="{StaticResource MairaTextBlockStyle}"
                                    Text="Progress: 100%"
+                                   Foreground="#eee" />
+
+                    </Border>
+
+                    <Border x:Name="LiveInfo_Border"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Padding="10,1"
+                            Background="#222"
+                            BorderBrush="#666"
+                            BorderThickness="2"
+                            CornerRadius="8"
+                            Margin="0,122,0,0"
+                            Visibility="Hidden">
+
+                        <TextBlock x:Name="LiveInfo_TextBlock"
+                                   Style="{StaticResource MairaTextBlockStyle}"
+                                   Text="Live Info"
                                    Foreground="#eee" />
 
                     </Border>

@@ -68,7 +68,7 @@ public partial class SteeringEffectsPage : UserControl
 	{
 		var app = App.Instance!;
 
-		app.VirtualJoystick.Steering = -( 90f / 450f );
+		app.VirtualJoystick.Steering = -( 90f / 540f );
 	}
 
 	private void MinThrottle_MairaButton_Click( object sender, RoutedEventArgs e )
