@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 using PInvoke;
 
@@ -13,6 +14,11 @@ public partial class GripOMeterWindow : Window
 {
 	private bool _initialized = false;
 	private bool _isDraggable = false;
+
+	private float _smoothedSkidSlip = 0f;
+	private float _smoothedSeatOfPants = 0f;
+
+	private const float SmoothingFactor = 0.15f;
 
 	public GripOMeterWindow()
 	{
@@ -134,13 +140,15 @@ public partial class GripOMeterWindow : Window
 	{
 		if ( Visibility == Visibility.Visible )
 		{
-			var offsetX = app.SteeringEffects.SkidSlip * 144f;
+			_smoothedSkidSlip += ( app.SteeringEffects.SkidSlip - _smoothedSkidSlip ) * SmoothingFactor;
+			_smoothedSeatOfPants += ( app.SteeringEffects.SeatOfPantsEffect - _smoothedSeatOfPants ) * SmoothingFactor;
 
-			GripOMeter_Ball_Transform.X = offsetX;
+			GripOMeter_Ball_Transform.X = _smoothedSkidSlip * 144f;
+			GripOMeter_SeatOfPants_Transform.X = _smoothedSeatOfPants * 144f;
 
-			offsetX = app.SteeringEffects.SeatOfPantsEffect * 144f;
-
-			GripOMeter_SeatOfPants_Transform.X = offsetX;
+			var intensity = Math.Abs( _smoothedSkidSlip );
+			var channelValue = (byte) ( 255 * ( 1f - intensity ) );
+			GripOMeter_Background.Background = new SolidColorBrush( Color.FromRgb( 255, channelValue, channelValue ) );
 		}
 	}
 }

@@ -56,6 +56,15 @@
                Height="96"
                RenderOptions.BitmapScalingMode="HighQuality" />
 
+        <Border x:Name="GripOMeter_Background"
+                Grid.Row="2"
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Width="376"
+                Height="88"
+                CornerRadius="44"
+                IsHitTestVisible="False" />
+
         <Border Grid.Row="3"
                 Grid.Column="0"
                 Background="Black"
