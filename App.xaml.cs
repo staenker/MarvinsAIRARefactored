@@ -29,7 +29,7 @@ public partial class App : Application
 #endif
 
 	public static string DocumentsFolder { get; } = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments ), AppName );
-	
+
 	public static readonly string DevRootPath = GetDevRootPath();
 
 	private static string GetDevRootPath( [CallerFilePath] string callerFile = "" )
@@ -37,37 +37,39 @@ public partial class App : Application
 		return Path.GetDirectoryName( callerFile ) ?? string.Empty;
 	}
 
+	private static bool IsInDesignMode => System.ComponentModel.DesignerProperties.GetIsInDesignMode( new DependencyObject() );
+
 	public static App? Instance { get; private set; }
 	public bool Ready { get; private set; } = false;
 
-	public Logger Logger { get; private set; }
-	public TopLevelWindow TopLevelWindow { get; private set; }
-	public CloudService CloudService { get; private set; }
-	public SettingsFile SettingsFile { get; private set; }
-	public Graph Graph { get; private set; }
-	public Pedals Pedals { get; private set; }
-	public AdminBoxx AdminBoxx { get; private set; }
-	public Debug Debug { get; private set; }
-	public new MainWindow MainWindow { get; private set; }
-	public RacingWheel RacingWheel { get; private set; }
-	public ChatQueue ChatQueue { get; private set; }
-	public AudioManager AudioManager { get; private set; }
-	public Sounds Sounds { get; private set; }
-	public DirectInput DirectInput { get; private set; }
-	public StreamDeck StreamDeck { get; private set; }
-	public LFE LFE { get; private set; }
-	public MultimediaTimer MultimediaTimer { get; private set; }
-	public Simulator Simulator { get; private set; }
-	public RecordingManager RecordingManager { get; private set; }
-	public SteeringEffects SteeringEffects { get; private set; }
-	public VirtualJoystick VirtualJoystick { get; private set; }
-	public GripOMeterWindow GripOMeterWindow { get; private set; }
-	public Telemetry Telemetry { get; private set; }
-	public SpeechToText SpeechToText { get; private set; }
-	public SpeechToTextWindow SpeechToTextWindow { get; private set; }
-	public Wind Wind { get; private set; }
-	public HidHotplugMonitor HidHotplugMonitor { get; private set; }
-	public TradingPaints TradingPaints { get; private set; }
+	public Logger Logger { get; private set; } = null!;
+	public TopLevelWindow TopLevelWindow { get; private set; } = null!;
+	public CloudService CloudService { get; private set; } = null!;
+	public SettingsFile SettingsFile { get; private set; } = null!;
+	public Graph Graph { get; private set; } = null!;
+	public Pedals Pedals { get; private set; } = null!;
+	public AdminBoxx AdminBoxx { get; private set; } = null!;
+	public Debug Debug { get; private set; } = null!;
+	public new MainWindow MainWindow { get; private set; } = null!;
+	public RacingWheel RacingWheel { get; private set; } = null!;
+	public ChatQueue ChatQueue { get; private set; } = null!;
+	public AudioManager AudioManager { get; private set; } = null!;
+	public Sounds Sounds { get; private set; } = null!;
+	public DirectInput DirectInput { get; private set; } = null!;
+	public StreamDeck StreamDeck { get; private set; } = null!;
+	public LFE LFE { get; private set; } = null!;
+	public MultimediaTimer MultimediaTimer { get; private set; } = null!;
+	public Simulator Simulator { get; private set; } = null!;
+	public RecordingManager RecordingManager { get; private set; } = null!;
+	public SteeringEffects SteeringEffects { get; private set; } = null!;
+	public VirtualJoystick VirtualJoystick { get; private set; } = null!;
+	public GripOMeterWindow GripOMeterWindow { get; private set; } = null!;
+	public Telemetry Telemetry { get; private set; } = null!;
+	public SpeechToText SpeechToText { get; private set; } = null!;
+	public SpeechToTextWindow SpeechToTextWindow { get; private set; } = null!;
+	public Wind Wind { get; private set; } = null!;
+	public HidHotplugMonitor HidHotplugMonitor { get; private set; } = null!;
+	public TradingPaints TradingPaints { get; private set; } = null!;
 
 	public const int TimerPeriodInMilliseconds = 17;
 	public const int TimerTicksPerSecond = 1000 / TimerPeriodInMilliseconds;
@@ -93,7 +95,10 @@ public partial class App : Application
 		Instance = this;
 
 		InitializeComponent();
+	}
 
+	private void InitializeRuntimeComponents()
+	{
 		Logger = new();
 		TopLevelWindow = new();
 		CloudService = new();
@@ -177,12 +182,19 @@ public partial class App : Application
 	private void App_Startup( object sender, StartupEventArgs e )
 #endif
 	{
-		DispatcherUnhandledException += ( sender, args ) =>
+		if ( IsInDesignMode )
 		{
-			args.Handled = true;
+			return;
+		}
 
-			ShowFatalError( null, args.Exception );
-		};
+		InitializeRuntimeComponents();
+
+		DispatcherUnhandledException += ( sender, args ) =>
+			{
+				args.Handled = true;
+
+				ShowFatalError( null, args.Exception );
+			};
 
 		AppDomain.CurrentDomain.UnhandledException += ( sender, args ) =>
 		{
@@ -2067,7 +2079,7 @@ public partial class App : Application
 
 			if ( CheckMappedButtons( settings.WindMinimumSpeedMinusButtonMappings, deviceInstanceGuid, buttonNumber ) )
 			{
-				settings.WindMinimumSpeed-= 0.01f;
+				settings.WindMinimumSpeed -= 0.01f;
 			}
 
 			// wind curving
