@@ -1254,14 +1254,6 @@ Hier ist der Link zum Spenden:</value>
     <value>EFFEKTE</value>
     <comment>Racing wheel</comment>
   </data>
-  <data name="VibrateOnGearChange" xml:space="preserve">
-    <value>Vibration bei Gangwechsel</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnABS" xml:space="preserve">
-    <value>Vibration bei aktivem ABS</value>
-    <comment>Racing wheel</comment>
-  </data>
   <data name="Audio_UC" xml:space="preserve">
     <value>Audio</value>
     <comment>AdminBoxx</comment>

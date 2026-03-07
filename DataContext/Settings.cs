@@ -4764,17 +4764,17 @@ public class Settings : INotifyPropertyChanged
 
 	#region Steering effects - Show Grip-O-Meter label
 
-	private bool _steeringEffectsShowGripOMeterLabel = false;
+	private bool _steeringEffectsShowGripOMeterTitle = true;
 
-	public bool SteeringEffectsShowGripOMeterLabel
+	public bool SteeringEffectsShowGripOMeterTitle
 	{
-		get => _steeringEffectsShowGripOMeterLabel;
+		get => _steeringEffectsShowGripOMeterTitle;
 
 		set
 		{
-			if ( value != _steeringEffectsShowGripOMeterLabel )
+			if ( value != _steeringEffectsShowGripOMeterTitle )
 			{
-				_steeringEffectsShowGripOMeterLabel = value;
+				_steeringEffectsShowGripOMeterTitle = value;
 
 				OnPropertyChanged();
 			}

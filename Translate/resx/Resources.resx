@@ -1541,4 +1541,8 @@
     <value>ABS Vibrate Strength</value>
     <comment>Racing wheel</comment>
   </data>
+  <data name="ShowGripOMeterTitle" xml:space="preserve">
+    <value>Show the Grip-O-Meter window title</value>
+    <comment>Steering effects</comment>
+  </data>
 </root>
