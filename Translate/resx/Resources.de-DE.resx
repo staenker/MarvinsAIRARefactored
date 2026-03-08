@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -141,7 +141,7 @@
     <comment>Racing wheel algorithms list</comment>
   </data>
   <data name="AdminBoxx" xml:space="preserve">
-    <value>Admin Box</value>
+    <value>AdminBoxx</value>
     <comment>Tab item</comment>
   </data>
   <data name="ConnectToAdminBoxx" xml:space="preserve">
@@ -395,7 +395,7 @@
     <comment>Window title</comment>
   </data>
   <data name="RunInstallerQuestion" xml:space="preserve">
-    <value>Möchten Sie die Installation jetzt starten?</value>
+    <value>Installation jetzt starten?</value>
     <comment>Cloud service</comment>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
@@ -885,7 +885,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Error window</comment>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Detaillierung</value>
+    <value>Details</value>
     <comment>Error window</comment>
   </data>
   <data name="ClassicMAIRAIsRunning" xml:space="preserve">
@@ -893,11 +893,11 @@ Hier ist der Link zum Spenden:</value>
     <comment>Error message</comment>
   </data>
   <data name="ExceptionThrown" xml:space="preserve">
-    <value>Eine Ausnahme ist aufgetreten</value>
+    <value>Ein Ausnahmefehler ist aufgetreten</value>
     <comment>Error messages</comment>
   </data>
   <data name="KPHUnits" xml:space="preserve">
-    <value>Kmh</value>
+    <value>Km/h</value>
     <comment>Abbreviation for kilometers per hour</comment>
   </data>
   <data name="CalibrationFileContributors" xml:space="preserve">
@@ -1115,7 +1115,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Abbreviation for miles per hour</comment>
   </data>
   <data name="Wind_UC" xml:space="preserve">
-    <value>Wind</value>
+    <value>WIND</value>
     <comment>Wind</comment>
   </data>
   <data name="Wind" xml:space="preserve">
@@ -1215,19 +1215,20 @@ Hier ist der Link zum Spenden:</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="SeatOfPants_UC" xml:space="preserve">
-    <value>Popo-Meter</value>
+    <value>POPO-METER</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SeatOfPantsWheelVibrationEffect_UC" xml:space="preserve">
-    <value>Vibrationseffekt </value>
+    <value>POPO-METER LENKRADVIBRATION</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SeatOfPantsWheelConstantForceEffect_UC" xml:space="preserve">
-    <value>KONSTANTE KRAFTWIRKUNG</value>
+    <value>POPO-METER KONSTANTE KRAFT
+</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SeatOfPantsPedalVibrationEffect_UC" xml:space="preserve">
-    <value>Popo-Meter Vibrations-Effekt</value>
+    <value>POPO-METER PEDALVIBRATION</value>
     <comment>Steering effects</comment>
   </data>
   <data name="SeatOfPantsEffect" xml:space="preserve">
@@ -1255,7 +1256,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Racing wheel</comment>
   </data>
   <data name="Audio_UC" xml:space="preserve">
-    <value>Audio</value>
+    <value>AUDIO</value>
     <comment>AdminBoxx</comment>
   </data>
   <data name="Display_UC" xml:space="preserve">
@@ -1286,7 +1287,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Page title</comment>
   </data>
   <data name="Documentation_UC" xml:space="preserve">
-    <value>DOCUMENTATION</value>
+    <value>DOKUMENTATION</value>
     <comment>Help</comment>
   </data>
   <data name="Discord_UC" xml:space="preserve">
@@ -1294,11 +1295,11 @@ Hier ist der Link zum Spenden:</value>
     <comment>Help</comment>
   </data>
   <data name="Forums_UC" xml:space="preserve">
-    <value>Forum</value>
+    <value>FORUM</value>
     <comment>Help</comment>
   </data>
   <data name="DocumentationWebsite" xml:space="preserve">
-    <value>Documentation Website</value>
+    <value>Dokumentation Website</value>
     <comment>Help</comment>
   </data>
   <data name="DiscordServer" xml:space="preserve">
@@ -1306,7 +1307,7 @@ Hier ist der Link zum Spenden:</value>
     <comment>Help</comment>
   </data>
   <data name="iRacingForums" xml:space="preserve">
-    <value>iRacing Forums</value>
+    <value>iRacing Forum</value>
     <comment>Help</comment>
   </data>
   <data name="DocumentationText" xml:space="preserve">
@@ -1372,6 +1373,22 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="CalibrationIsRunning" xml:space="preserve">
     <value>FFB ist wegen laufender Kalibrierung ausgeschaltet.</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="GearChangeVibrateStrength" xml:space="preserve">
+    <value>Gangwechsel Vibrationsstärke</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="ABSVibrateStrength" xml:space="preserve">
+    <value>ABS Vibrationsstärke</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="VibrateOnGearChange" xml:space="preserve">
+    <value>Vibration bei Gangwechsel</value>
+    <comment>Racing wheel</comment>
+  </data>
+  <data name="VibrateOnABS" xml:space="preserve">
+    <value>Vibration bei aktivem ABS</value>
     <comment>Racing wheel</comment>
   </data>
 </root>
