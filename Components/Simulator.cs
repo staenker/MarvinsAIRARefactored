@@ -31,6 +31,10 @@ public partial class Simulator
 	public List<IRacingSdkSessionInfo.DriverInfoModel.DriverTireModel>? AvailableTires = null;
 	public bool BrakeABSactive { get; private set; } = false;
 	public float Brake { get; private set; } = 0f;
+	public int[] CarIdxLap {  get; private set; } = new int[ IRacingSdkConst.MaxNumCars ];
+	public float[] CarIdxLapDistPct { get; private set; } = new float[ IRacingSdkConst.MaxNumCars ];
+	public bool[] CarIdxOnPitRoad { get; private set; } = new bool[ IRacingSdkConst.MaxNumCars ];
+	public int[] CarIdxPosition { get; private set; } = new int[ IRacingSdkConst.MaxNumCars ];
 	public string CarScreenName { get; private set; } = string.Empty;
 	public string CarSetupName { get; private set; } = string.Empty;
 	public float[] CFShockVel_ST { get; private set; } = new float[ SamplesPerFrame360Hz ];
@@ -46,6 +50,7 @@ public partial class Simulator
 	public bool IsConnected { get => _irsdk.IsConnected; }
 	public bool IsOnTrack { get; private set; } = false;
 	public bool IsReplayPlaying { get; private set; } = false;
+	public int Lap { get; private set;  } = 0;
 	public float LapDist { get; private set; } = 0;
 	public float LapDistPct { get; private set; } = 0f;
 	public int LastRadioTransmitCarIdx { get; private set; } = -1;
@@ -71,6 +76,8 @@ public partial class Simulator
 	public int SeriesID { get; private set; } = 0;
 	public IRacingSdkEnum.Flags SessionFlags { get; private set; } = 0;
 	public int SessionID { get; private set; } = 0;
+	public int SessionNum { get; private set; } = 0;
+	public double SessionTime { get; private set; } = 0f;
 	public float ShiftLightsFirstRPM { get; private set; } = 0f;
 	public float ShiftLightsShiftRPM { get; private set; } = 0f;
 	public string SimMode { get; private set; } = string.Empty;
@@ -85,6 +92,7 @@ public partial class Simulator
 	public string TimeOfDay { get; private set; } = string.Empty;
 	public string TrackDisplayName { get; private set; } = string.Empty;
 	public string TrackConfigName { get; private set; } = string.Empty;
+	public float TrackLength { get; private set; } = 0f;
 	public string UserName { get; private set; } = string.Empty;
 	public float Velocity { get; private set; } = 0f;
 	public float VelocityX { get; private set; } = 0f;
@@ -105,6 +113,10 @@ public partial class Simulator
 
 	private IRacingSdkDatum? _brakeABSactiveDatum = null;
 	private IRacingSdkDatum? _brakeDatum = null;
+	private IRacingSdkDatum? _carIdxLapDatum = null;
+	private IRacingSdkDatum? _carIdxLapDistPctDatum = null;
+	private IRacingSdkDatum? _carIdxPositionDatum = null;
+	private IRacingSdkDatum? _carIdxOnPitRoadDatum = null;
 	private IRacingSdkDatum? _carIdxTireCompoundDatum = null;
 	private IRacingSdkDatum? _cfShockVel_STDatum = null;
 	private IRacingSdkDatum? _clutchDatum = null;
@@ -113,6 +125,7 @@ public partial class Simulator
 	private IRacingSdkDatum? _gearDatum = null;
 	private IRacingSdkDatum? _isOnTrackDatum = null;
 	private IRacingSdkDatum? _isReplayPlayingDatum = null;
+	private IRacingSdkDatum? _lapDatum = null;
 	private IRacingSdkDatum? _lapDistDatum = null;
 	private IRacingSdkDatum? _lapDistPctDatum = null;
 	private IRacingSdkDatum? _latAccelDatum = null;
@@ -132,6 +145,8 @@ public partial class Simulator
 	private IRacingSdkDatum? _rpmDatum = null;
 	private IRacingSdkDatum? _rrShockVel_STDatum = null;
 	private IRacingSdkDatum? _sessionFlagsDatum = null;
+	private IRacingSdkDatum? _sessionNumDatum = null;
+	private IRacingSdkDatum? _sessionTimeDatum = null;
 	private IRacingSdkDatum? _speedDatum = null;
 	private IRacingSdkDatum? _steeringFFBEnabledDatum = null;
 	private IRacingSdkDatum? _steeringWheelAngleDatum = null;
@@ -266,6 +281,7 @@ public partial class Simulator
 		LateralGForce = 0f;
 		IsOnTrack = false;
 		IsReplayPlaying = false;
+		Lap = 0;
 		LapDist = 0f;
 		LapDistPct = 0f;
 		LastRadioTransmitCarIdx = -1;
@@ -284,6 +300,8 @@ public partial class Simulator
 		RPM = 0f;
 		SessionFlags = 0;
 		SessionID = 0;
+		SessionNum = 0;
+		SessionTime = 0;
 		Speed = 0f;
 		ShiftLightsFirstRPM = 0f;
 		ShiftLightsShiftRPM = 0f;
@@ -296,6 +314,7 @@ public partial class Simulator
 		Throttle = 0f;
 		TrackDisplayName = string.Empty;
 		TrackConfigName = string.Empty;
+		TrackLength = 0f;
 		UserName = string.Empty;
 		Velocity = 0f;
 		VelocityX = 0f;
@@ -328,6 +347,7 @@ public partial class Simulator
 
 		app.SteeringEffects.SimulatorDisconnected();
 		app.SpeechToText.SimulatorDisconnected();
+		app.TimingMarkers.Reset();
 
 #endif
 
@@ -413,6 +433,20 @@ public partial class Simulator
 		LeagueID = sessionInfo.WeekendInfo.LeagueID;
 		TimeOfDay = sessionInfo.WeekendInfo.WeekendOptions.TimeOfDay;
 
+		var match = TrackLengthRegex().Match( sessionInfo.WeekendInfo.TrackLength );
+
+		if ( match.Success )
+		{
+			TrackLength = float.Parse( match.Groups[ 1 ].Value, CultureInfo.InvariantCulture.NumberFormat );
+		}
+		else
+		{
+			TrackLength = 0f;
+		}
+
+		app.Drivers.Update( sessionInfo );
+		app.TimingMarkers.UpdateTrackLength();
+
 		app.MainWindow.UpdateStatus();
 
 		if ( _waitingForFirstSessionInfo )
@@ -472,12 +506,17 @@ public partial class Simulator
 		{
 			_brakeABSactiveDatum = _irsdk.Data.TelemetryDataProperties[ "BrakeABSactive" ];
 			_brakeDatum = _irsdk.Data.TelemetryDataProperties[ "Brake" ];
+			_carIdxLapDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxLap" ];
+			_carIdxLapDistPctDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxLapDistPct" ];
+			_carIdxPositionDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxPosition" ];
+			_carIdxOnPitRoadDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxOnPitRoad" ];
 			_carIdxTireCompoundDatum = _irsdk.Data.TelemetryDataProperties[ "CarIdxTireCompound" ];
 			_clutchDatum = _irsdk.Data.TelemetryDataProperties[ "Clutch" ];
 			_displayUnitsDatum = _irsdk.Data.TelemetryDataProperties[ "DisplayUnits" ];
 			_gearDatum = _irsdk.Data.TelemetryDataProperties[ "Gear" ];
 			_isOnTrackDatum = _irsdk.Data.TelemetryDataProperties[ "IsOnTrack" ];
 			_isReplayPlayingDatum = _irsdk.Data.TelemetryDataProperties[ "IsReplayPlaying" ];
+			_lapDatum = _irsdk.Data.TelemetryDataProperties[ "Lap" ];
 			_lapDistDatum = _irsdk.Data.TelemetryDataProperties[ "LapDist" ];
 			_lapDistPctDatum = _irsdk.Data.TelemetryDataProperties[ "LapDistPct" ];
 			_latAccelDatum = _irsdk.Data.TelemetryDataProperties[ "LatAccel" ];
@@ -493,6 +532,8 @@ public partial class Simulator
 			_replayPlaySpeedDatum = _irsdk.Data.TelemetryDataProperties[ "ReplayPlaySpeed" ];
 			_rpmDatum = _irsdk.Data.TelemetryDataProperties[ "RPM" ];
 			_sessionFlagsDatum = _irsdk.Data.TelemetryDataProperties[ "SessionFlags" ];
+			_sessionNumDatum = _irsdk.Data.TelemetryDataProperties[ "SessionNum" ];
+			_sessionTimeDatum = _irsdk.Data.TelemetryDataProperties[ "SessionTime" ];
 			_speedDatum = _irsdk.Data.TelemetryDataProperties[ "Speed" ];
 			_steeringFFBEnabledDatum = _irsdk.Data.TelemetryDataProperties[ "SteeringFFBEnabled" ];
 			_steeringWheelAngleDatum = _irsdk.Data.TelemetryDataProperties[ "SteeringWheelAngle" ];
@@ -588,10 +629,22 @@ public partial class Simulator
 
 		_isReplayPlayingLastFrame = IsReplayPlaying;
 
-		// update lap dist and lap dist pct
+		// update lap, lap dist, and lap dist pct
 
+		Lap = _irsdk.Data.GetInt( _lapDatum );
 		LapDist = _irsdk.Data.GetFloat( _lapDistDatum );
 		LapDistPct = _irsdk.Data.GetFloat( _lapDistPctDatum );
+
+		_irsdk.Data.GetIntArray( _carIdxLapDatum, CarIdxLap, 0, _carIdxLapDatum!.Count );
+		_irsdk.Data.GetFloatArray( _carIdxLapDistPctDatum, CarIdxLapDistPct, 0, _carIdxLapDistPctDatum!.Count );
+
+		// get the leaderboard position of each car
+
+		_irsdk.Data.GetIntArray( _carIdxPositionDatum, CarIdxPosition, 0, _carIdxPositionDatum!.Count );
+
+		// get whether each car is on pit road
+
+		_irsdk.Data.GetBoolArray( _carIdxOnPitRoadDatum, CarIdxOnPitRoad, 0, _carIdxOnPitRoadDatum!.Count );
 
 		// load num textures
 
@@ -611,6 +664,11 @@ public partial class Simulator
 		}
 
 		_sessionFlagsLastFrame = SessionFlags;
+
+		// get the session number and time
+
+		SessionNum = _irsdk.Data.GetInt( _sessionNumDatum );
+		SessionTime = _irsdk.Data.GetDouble( _sessionTimeDatum );
 
 		// get the current pace mode
 
@@ -910,4 +968,7 @@ public partial class Simulator
 
 	[GeneratedRegex( @"\s*:1\s*$", RegexOptions.IgnoreCase, "en-US" )]
 	private static partial Regex SteeringRatioRegex();
+
+	[GeneratedRegex( @"([-+]?[0-9]*\.?[0-9]+)", RegexOptions.IgnoreCase, "en-US" )]
+	private static partial Regex TrackLengthRegex();
 }

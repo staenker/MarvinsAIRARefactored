@@ -8286,6 +8286,145 @@ public class Settings : INotifyPropertyChanged
 
 	#endregion
 
+	#region Overlays - Show Gap monitor window
+
+	private bool _overlaysShowGapMonitorWindow = false;
+
+	public bool OverlaysShowGapMonitorWindow
+	{
+		get => _overlaysShowGapMonitorWindow;
+
+		set
+		{
+			if ( value != _overlaysShowGapMonitorWindow )
+			{
+				_overlaysShowGapMonitorWindow = value;
+
+				OnPropertyChanged();
+			}
+
+			var app = App.Instance!;
+
+			app.GapMonitorWindow.UpdateVisibility();
+		}
+	}
+
+	#endregion
+
+	#region Overlays - Make Gap monitor draggable
+
+	private bool _overlaysMakeGapMonitorDraggable = false;
+
+	public bool OverlaysMakeGapMonitorDraggable
+	{
+		get => _overlaysMakeGapMonitorDraggable;
+
+		set
+		{
+			if ( value != _overlaysMakeGapMonitorDraggable )
+			{
+				_overlaysMakeGapMonitorDraggable = value;
+
+				OnPropertyChanged();
+			}
+
+			var app = App.Instance!;
+
+			app.GapMonitorWindow.MakeDraggable();
+		}
+	}
+
+	#endregion
+
+	#region Overlays - Gap monitor window position
+
+	private Rectangle _overlaysGapMonitorWindowPosition = Rectangle.Empty;
+
+	public Rectangle OverlaysGapMonitorWindowPosition
+	{
+		get => _overlaysGapMonitorWindowPosition;
+
+		set
+		{
+			if ( value != _overlaysGapMonitorWindowPosition )
+			{
+				_overlaysGapMonitorWindowPosition = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Overlays - Gap monitor window scale
+
+	private float _overlaysGapMonitorWindowScale = 1f;
+
+	public float OverlaysGapMonitorWindowScale
+	{
+		get => _overlaysGapMonitorWindowScale;
+
+		set
+		{
+			value = Math.Clamp( value, 0.5f, 2f );
+
+			if ( value != _overlaysGapMonitorWindowScale )
+			{
+				_overlaysGapMonitorWindowScale = value;
+
+				OnPropertyChanged();
+			}
+
+			OverlaysGapMonitorWindowScaleString = $"{_overlaysGapMonitorWindowScale * 100f:F0}{DataContext.Instance.Localization[ "Percent" ]}";
+		}
+	}
+
+	private string _overlaysGapMonitorWindowScaleString = string.Empty;
+
+	[XmlIgnore]
+	public string OverlaysGapMonitorWindowScaleString
+	{
+		get => _overlaysGapMonitorWindowScaleString;
+
+		set
+		{
+			if ( value != _overlaysGapMonitorWindowScaleString )
+			{
+				_overlaysGapMonitorWindowScaleString = value;
+
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	#endregion
+
+	#region Overlays - Show Gap monitor label
+
+	private bool _overlaysShowGapMonitorTitle = true;
+
+	public bool OverlaysShowGapMonitorTitle
+	{
+		get => _overlaysShowGapMonitorTitle;
+
+		set
+		{
+			if ( value != _overlaysShowGapMonitorTitle )
+			{
+				_overlaysShowGapMonitorTitle = value;
+
+				OnPropertyChanged();
+			}
+
+			var app = App.Instance!;
+
+			app.GapMonitorWindow.UpdateVisibility();
+		}
+	}
+
+	#endregion
+
 	#region Sounds - Master enabled
 
 	private bool _soundsMasterEnabled = true;

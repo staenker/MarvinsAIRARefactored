@@ -64,6 +64,9 @@ public partial class App : Application
 	public SteeringEffects SteeringEffects { get; private set; } = null!;
 	public VirtualJoystick VirtualJoystick { get; private set; } = null!;
 	public GripOMeterWindow GripOMeterWindow { get; private set; } = null!;
+	public Drivers Drivers { get; private set; } = null!;
+	public TimingMarkers TimingMarkers { get; private set; } = null!;
+	public GapMonitorWindow GapMonitorWindow { get; private set; } = null!;
 	public Telemetry Telemetry { get; private set; } = null!;
 	public SpeechToText SpeechToText { get; private set; } = null!;
 	public SpeechToTextWindow SpeechToTextWindow { get; private set; } = null!;
@@ -121,6 +124,9 @@ public partial class App : Application
 		SteeringEffects = new();
 		VirtualJoystick = new();
 		GripOMeterWindow = new();
+		Drivers = new();
+		TimingMarkers = new();
+		GapMonitorWindow = new();
 		Telemetry = new();
 		SpeechToText = new();
 		SpeechToTextWindow = new();
@@ -257,6 +263,8 @@ public partial class App : Application
 				MultimediaTimer.Initialize();
 				RecordingManager.Initialize();
 				GripOMeterWindow.Initialize();
+				TimingMarkers.Initialize();
+				GapMonitorWindow.Initialize();
 				Telemetry.Initialize();
 				SpeechToTextWindow.Initialize();
 				Wind.Initialize();
@@ -343,6 +351,7 @@ public partial class App : Application
 
 		SpeechToTextWindow.Close();
 		GripOMeterWindow.Close();
+		GapMonitorWindow.Close();
 
 		_ = SpeechToText.DisableAsync();
 
@@ -2433,6 +2442,8 @@ public partial class App : Application
 						app.SteeringEffects.Tick( app );
 						app.VirtualJoystick.Tick( app );
 						app.GripOMeterWindow.Tick( app );
+						app.TimingMarkers.Tick( app );
+						app.GapMonitorWindow.Tick( app );
 						app.Telemetry.Tick( app );
 						app.SpeechToTextWindow.Tick( app );
 						app.Wind.Tick( app );

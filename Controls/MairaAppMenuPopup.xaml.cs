@@ -95,6 +95,9 @@ namespace MarvinsAIRARefactored.Controls
 				case AppPage.Wind:
 					return "advanced/wind/";
 
+				case AppPage.Overlays:
+					return "advanced/overlays/";
+
 				case AppPage.Sounds:
 					return "advanced/sounds/";
 
@@ -238,6 +241,12 @@ namespace MarvinsAIRARefactored.Controls
 
 			AppMenuItems.Add( new AppMenuItem
 			{
+				AppPage = AppPage.Overlays,
+				PageUserControl = _overlaysPage
+			} );
+
+			AppMenuItems.Add( new AppMenuItem
+			{
 				AppPage = AppPage.Sounds,
 				PageUserControl = _soundsPage
 			} );
@@ -319,6 +328,7 @@ namespace MarvinsAIRARefactored.Controls
 				AppPage.SteeringEffects => _steeringEffectsPage,
 				AppPage.Pedals => _pedalsPage,
 				AppPage.Wind => _windPage,
+				AppPage.Overlays => _overlaysPage,
 				AppPage.Sounds => _soundsPage,
 				AppPage.SpeechToText => _speechToTextPage,
 				AppPage.TradingPaints => _tradingPaintsPage,
@@ -367,6 +377,10 @@ namespace MarvinsAIRARefactored.Controls
 
 					case AppPage.Wind:
 						menuItem.DisplayName = localization[ "Wind" ];
+						break;
+
+					case AppPage.Overlays:
+						menuItem.DisplayName = localization[ "Overlays" ];
 						break;
 
 					case AppPage.Sounds:
@@ -438,6 +452,10 @@ namespace MarvinsAIRARefactored.Controls
 
 				case AppPage.Wind:
 					SelectedAppPageText = localization[ "Wind_UC" ];
+					break;
+
+				case AppPage.Overlays:
+					SelectedAppPageText = localization[ "Overlays_UC" ];
 					break;
 
 				case AppPage.Sounds:
