@@ -1041,7 +1041,7 @@
 
                 <controls:MairaKnob Grid.Row="0"
                                     Grid.Column="4"
-                                    Label="{Binding Localization[GripOMeterScale]}"
+                                    Label="{Binding Localization[OverlayWindowScale]}"
                                     Value="{Binding Settings.SteeringEffectsGripOMeterWindowScale, Mode=TwoWay}"
                                     ValueString="{Binding Settings.SteeringEffectsGripOMeterWindowScaleString}"
                                     StepSize="0.05"
