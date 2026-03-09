@@ -858,10 +858,6 @@
     <value>抓地力测量计</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>抓地力测量计比例</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>重置抓地力测量计窗口位置</value>
     <comment>Steering effects</comment>

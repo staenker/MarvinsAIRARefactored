@@ -841,9 +841,6 @@
   <data name="GripOMeter_UC" xml:space="preserve">
     <value>ODCZUCIA PRZYCZEPNOŚCI</value>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Skala Odczuć Przyczepności</value>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Resetuj pozycję okna Odczuć Przyczepności</value>
   </data>

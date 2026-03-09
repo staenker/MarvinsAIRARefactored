@@ -862,10 +862,6 @@
     <value>NÍVEL DE ADERÊNCIA</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Escala do Nível de Aderência</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Repor Posição da Janela do Nível de Aderência</value>
     <comment>Steering effects</comment>

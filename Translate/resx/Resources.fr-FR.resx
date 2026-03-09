@@ -873,10 +873,6 @@
     <value>GRIP-O-METER</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Échelle du Grip-O-Meter</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Réinitialiser la position de la fenêtre du Grip-O-Meter</value>
     <comment>Steering effects</comment>

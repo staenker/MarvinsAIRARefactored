@@ -810,9 +810,6 @@
   <data name="GripOMeter_UC" xml:space="preserve">
     <value></value>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Grip-O-Meter Échelle</value>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Réinitialiser the Grip-O-Meter window position</value>
   </data>

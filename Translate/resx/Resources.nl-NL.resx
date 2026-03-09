@@ -775,9 +775,6 @@
   <data name="GripOMeter_UC" xml:space="preserve">
     <value></value>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Reset de Grip-O-Meter schermpositie</value>
   </data>

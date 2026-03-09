@@ -858,10 +858,6 @@
     <value></value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Měřítko Grip-O-Meter</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Obnovit pozici okna Grip-O-Meter</value>
     <comment>Steering effects</comment>

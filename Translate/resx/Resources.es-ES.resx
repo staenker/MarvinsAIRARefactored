@@ -832,9 +832,6 @@
   <data name="GripOMeter_UC" xml:space="preserve">
     <value>MEDIDOR DE GRIP</value>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Escala del Medidor de Grip</value>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Restablecer la posición de la ventana del Medidor de Grip</value>
   </data>

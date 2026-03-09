@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"/>
+  <xsd:schema xmlns="" id="root" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" />
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -831,10 +831,6 @@ Hier ist der Link zum Spenden:</value>
   <data name="GripOMeter_UC" xml:space="preserve">
     <value>Lenkungseffekte</value>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Grip-O-Meter Skalierung </value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Grip-O-Meter Fensterposition zurücksetzen</value>
     <comment>Steering effects</comment>
@@ -1381,14 +1377,6 @@ Hier ist der Link zum Spenden:</value>
   </data>
   <data name="ABSVibrateStrength" xml:space="preserve">
     <value>ABS Vibrationsstärke</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnGearChange" xml:space="preserve">
-    <value>Vibration bei Gangwechsel</value>
-    <comment>Racing wheel</comment>
-  </data>
-  <data name="VibrateOnABS" xml:space="preserve">
-    <value>Vibration bei aktivem ABS</value>
     <comment>Racing wheel</comment>
   </data>
 </root>

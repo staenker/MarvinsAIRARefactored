@@ -866,10 +866,6 @@
     <value>Grip-O-Meter</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Шкала Grip-O-Meter</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Скинути положення вікна Grip-O-Meter</value>
     <comment>Steering effects</comment>
