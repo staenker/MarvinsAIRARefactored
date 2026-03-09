@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarvinsAIRARefactored.Windows"
         xmlns:datacontext="clr-namespace:MarvinsAIRARefactored.DataContext"
+        xmlns:converters="clr-namespace:MarvinsAIRARefactored.Converters"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -18,7 +19,7 @@
         Cursor="SizeAll">
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <converters:BooleanToVisibilityCollapsedConverter x:Key="BoolToVis" />
     </Window.Resources>
 
     <Window.DataContext>
