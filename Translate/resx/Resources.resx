@@ -965,10 +965,6 @@
     <value>GRIP-O-METER</value>
     <comment>Steering effects</comment>
   </data>
-  <data name="GripOMeterScale" xml:space="preserve">
-    <value>Grip-O-Meter Scale</value>
-    <comment>Steering effects</comment>
-  </data>
   <data name="ResetGripOMeter" xml:space="preserve">
     <value>Reset the Grip-O-Meter window position</value>
     <comment>Steering effects</comment>
@@ -1596,5 +1592,37 @@
   <data name="ShowGripOMeterTitle" xml:space="preserve">
     <value>Show the Grip-O-Meter window title</value>
     <comment>Steering effects</comment>
+  </data>
+  <data name="GapMonitor" xml:space="preserve">
+    <value>Gap Monitor</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="Overlays_UC" xml:space="preserve">
+    <value>OVERLAYS</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="GapMonitor_UC" xml:space="preserve">
+    <value>GAP MONITOR</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="ShowGapMonitorWindow" xml:space="preserve">
+    <value>Show the Gap Monitor window</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="MakeGapMonitorWindowDraggable" xml:space="preserve">
+    <value>Make the Gap Monitor window draggable</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="ShowGapMonitorWindowTitle" xml:space="preserve">
+    <value>Show the Gap Monitor window title</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="ResetGapMonitorWindow" xml:space="preserve">
+    <value>Reset the Gap Monitor window position</value>
+    <comment>Overlays</comment>
+  </data>
+  <data name="Overlays" xml:space="preserve">
+    <value>Overlays</value>
+    <comment>App menu item</comment>
   </data>
 </root>
