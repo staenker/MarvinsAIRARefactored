@@ -169,7 +169,7 @@ public partial class GripOMeterWindow : Window
 		{
 			_updateCounter--;
 
-			if ( _updateCounter == 0 )
+			if ( _updateCounter <= 0 )
 			{
 				_updateCounter = UpdateInterval;
 

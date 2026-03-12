@@ -585,7 +585,7 @@ public partial class MainWindow : Window
 	{
 		_updateCounter--;
 
-		if ( _updateCounter == 0 )
+		if ( _updateCounter <= 0 )
 		{
 			_updateCounter = UpdateInterval;
 

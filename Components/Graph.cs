@@ -111,7 +111,7 @@ public class Graph : GraphBase
 
 			_updateCounter--;
 
-			if ( _updateCounter == 0 )
+			if ( _updateCounter <= 0 )
 			{
 				_updateCounter = UpdateInterval;
 			}

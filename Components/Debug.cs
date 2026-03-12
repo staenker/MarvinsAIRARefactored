@@ -28,7 +28,7 @@ public class Debug
 	{
 		_updateCounter--;
 
-		if ( _updateCounter == 0 )
+		if ( _updateCounter <= 0 )
 		{
 			_updateCounter = UpdateInterval;
 

@@ -170,7 +170,7 @@ public partial class GapMonitorWindow : Window
 		{
 			_updateCounter--;
 
-			if ( _updateCounter == 0 )
+			if ( _updateCounter <= 0 )
 			{
 				_updateCounter = UpdateInterval;
 
