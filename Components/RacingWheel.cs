@@ -123,7 +123,7 @@ public class RacingWheel
 
 	private readonly float[,] _algorithmProperties = new float[ 2, 12 ];
 	private readonly Algorithm[] _lastAlgorithm = new Algorithm[ 2 ];
-	private bool _preventSwitchToNoncannedMultiAdjustAlgorithmSource = false;
+	private bool _preventSwitchToNonCannedMultiAdjustAlgorithmSource = false;
 
 	private float _outputTorque = 0f;
 	private float _peakTorque = 0f;
@@ -235,7 +235,7 @@ public class RacingWheel
 
 	public void SwitchToNonCannedMultiAdjustAlgorithmSource()
 	{
-		if ( _preventSwitchToNoncannedMultiAdjustAlgorithmSource )
+		if ( _preventSwitchToNonCannedMultiAdjustAlgorithmSource )
 		{
 			return;
 		}
@@ -272,7 +272,7 @@ public class RacingWheel
 
 	public void SetCannedMultiAdjustAlgorithmValues()
 	{
-		_preventSwitchToNoncannedMultiAdjustAlgorithmSource = true;
+		_preventSwitchToNonCannedMultiAdjustAlgorithmSource = true;
 
 		var settings = DataContext.DataContext.Instance.Settings;
 
@@ -359,7 +359,7 @@ public class RacingWheel
 				break;
 		}
 
-		_preventSwitchToNoncannedMultiAdjustAlgorithmSource = false;
+		_preventSwitchToNonCannedMultiAdjustAlgorithmSource = false;
 	}
 
 	[MethodImpl( MethodImplOptions.AggressiveInlining )]
