@@ -4814,7 +4814,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GripOMeterWindow.UpdateVisibility();
+			app.UpdateGripOMeterWindowVisibility();
 		}
 	}
 
@@ -4839,7 +4839,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GripOMeterWindow.UpdateVisibility();
+			app.UpdateGripOMeterWindowVisibility();
 		}
 	}
 
@@ -4864,7 +4864,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GripOMeterWindow.UpdateVisibility();
+			app.UpdateGripOMeterWindowVisibility();
 		}
 	}
 
@@ -8110,7 +8110,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GapMonitorWindow.UpdateVisibility();
+			app.UpdateGapMonitorWindowVisibility();
 		}
 	}
 
@@ -8135,7 +8135,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GapMonitorWindow.UpdateVisibility();
+			app.UpdateGapMonitorWindowVisibility();
 		}
 	}
 
@@ -8224,7 +8224,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.GapMonitorWindow.UpdateVisibility();
+			app.UpdateGapMonitorWindowVisibility();
 		}
 	}
 
@@ -9354,7 +9354,7 @@ public class Settings : INotifyPropertyChanged
 
 			var app = App.Instance!;
 
-			app.SpeechToTextWindow.UpdateVisibility();
+			app.UpdateSpeechToTextWindowVisibility();
 		}
 	}
 

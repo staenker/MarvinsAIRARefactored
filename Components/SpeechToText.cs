@@ -43,7 +43,7 @@ public sealed class SpeechToText : IDisposable
 		{
 			app.Logger.WriteLine( "[SpeechToText] Chrome/Edge not found. Please install Chrome or Edge to use STT." );
 
-			app.SpeechToTextWindow.SetFinalText( "Chrome/Edge not found. Please install Chrome or Edge to use STT." );
+			app.SpeechToTextWindow?.SetFinalText( "Chrome/Edge not found. Please install Chrome or Edge to use STT." );
 		}
 		else
 		{
@@ -54,19 +54,22 @@ public sealed class SpeechToText : IDisposable
 
 			_chromeSTTBridge.PartialText += text =>
 			{
-				app.SpeechToTextWindow.SetPartialText( text );
+				app.EnsureSpeechToTextWindowExists();
+				app.SpeechToTextWindow?.SetPartialText( text );
 			};
 
 			_chromeSTTBridge.FinalText += text =>
 			{
-				app.SpeechToTextWindow.SetFinalText( text );
+				app.EnsureSpeechToTextWindowExists();
+				app.SpeechToTextWindow?.SetFinalText( text );
 			};
 
 			_chromeSTTBridge.ErrorText += text =>
 			{
 				if ( text != "no-speech" )
 				{
-					app.SpeechToTextWindow.SetFinalText( text );
+					app.EnsureSpeechToTextWindowExists();
+					app.SpeechToTextWindow?.SetFinalText( text );
 				}
 			};
 
@@ -80,7 +83,8 @@ public sealed class SpeechToText : IDisposable
 			{
 				app.Logger.WriteLine( "[SpeechToText] Failed to launch Chrome/Edge." );
 
-				app.SpeechToTextWindow.SetFinalText( "Failed to launch Chrome/Edge." );
+				app.EnsureSpeechToTextWindowExists();
+				app.SpeechToTextWindow?.SetFinalText( "Failed to launch Chrome/Edge." );
 
 				await DisableAsync();
 			}
@@ -94,7 +98,8 @@ public sealed class SpeechToText : IDisposable
 				{
 					app.Logger.WriteLine( "[SpeechToText] Browser page did not connect within 10s." );
 
-					app.SpeechToTextWindow.SetFinalText( "[SpeechToText] Browser page did not connect within 10s." );
+					app.EnsureSpeechToTextWindowExists();
+					app.SpeechToTextWindow?.SetFinalText( "[SpeechToText] Browser page did not connect within 10s." );
 
 					await DisableAsync();
 				}
@@ -112,7 +117,7 @@ public sealed class SpeechToText : IDisposable
 			}
 		}
 
-		app.SpeechToTextWindow.UpdateVisibility();
+		app.UpdateSpeechToTextWindowVisibility();
 
 		app.Logger.WriteLine( "[SpeechToText] << EnableAsync" );
 	}
@@ -159,7 +164,7 @@ public sealed class SpeechToText : IDisposable
 
 		_isEnabled = false;
 
-		app.SpeechToTextWindow.UpdateVisibility();
+		app.UpdateSpeechToTextWindowVisibility();
 
 		app.Logger.WriteLine( "[SpeechToText] << DisableAsync" );
 	}

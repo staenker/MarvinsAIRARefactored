@@ -63,16 +63,17 @@ public partial class App : Application
 	public RecordingManager RecordingManager { get; private set; } = null!;
 	public SteeringEffects SteeringEffects { get; private set; } = null!;
 	public VirtualJoystick VirtualJoystick { get; private set; } = null!;
-	public GripOMeterWindow GripOMeterWindow { get; private set; } = null!;
 	public Drivers Drivers { get; private set; } = null!;
 	public TimingMarkers TimingMarkers { get; private set; } = null!;
-	public GapMonitorWindow GapMonitorWindow { get; private set; } = null!;
 	public Telemetry Telemetry { get; private set; } = null!;
 	public SpeechToText SpeechToText { get; private set; } = null!;
-	public SpeechToTextWindow SpeechToTextWindow { get; private set; } = null!;
 	public Wind Wind { get; private set; } = null!;
 	public HidHotplugMonitor HidHotplugMonitor { get; private set; } = null!;
 	public TradingPaints TradingPaints { get; private set; } = null!;
+
+	public GripOMeterWindow? GripOMeterWindow { get; set; }
+	public GapMonitorWindow? GapMonitorWindow { get; set; }
+	public SpeechToTextWindow? SpeechToTextWindow { get; set; }
 
 	public const int TimerPeriodInMilliseconds = 17;
 	public const int TimerTicksPerSecond = 1000 / TimerPeriodInMilliseconds;
@@ -123,13 +124,10 @@ public partial class App : Application
 		RecordingManager = new();
 		SteeringEffects = new();
 		VirtualJoystick = new();
-		GripOMeterWindow = new();
 		Drivers = new();
 		TimingMarkers = new();
-		GapMonitorWindow = new();
 		Telemetry = new();
 		SpeechToText = new();
-		SpeechToTextWindow = new();
 		Wind = new();
 		HidHotplugMonitor = new();
 		TradingPaints = new();
@@ -262,11 +260,8 @@ public partial class App : Application
 				LFE.Initialize();
 				MultimediaTimer.Initialize();
 				RecordingManager.Initialize();
-				GripOMeterWindow.Initialize();
 				TimingMarkers.Initialize();
-				GapMonitorWindow.Initialize();
 				Telemetry.Initialize();
-				SpeechToTextWindow.Initialize();
 				Wind.Initialize();
 				HidHotplugMonitor.Initialize();
 				TradingPaints.Initialize();
@@ -349,9 +344,9 @@ public partial class App : Application
 			_workerThread.Join( 5000 );
 		}
 
-		SpeechToTextWindow.Close();
-		GripOMeterWindow.Close();
-		GapMonitorWindow.Close();
+		SpeechToTextWindow?.Close();
+		GripOMeterWindow?.Close();
+		GapMonitorWindow?.Close();
 
 		_ = SpeechToText.DisableAsync();
 
@@ -2441,12 +2436,13 @@ public partial class App : Application
 						app.Graph.Tick( app );
 						app.SteeringEffects.Tick( app );
 						app.VirtualJoystick.Tick( app );
-						app.GripOMeterWindow.Tick( app );
 						app.TimingMarkers.Tick( app );
-						app.GapMonitorWindow.Tick( app );
 						app.Telemetry.Tick( app );
-						app.SpeechToTextWindow.Tick( app );
 						app.Wind.Tick( app );
+
+						app.GripOMeterWindow?.Tick( app );
+						app.GapMonitorWindow?.Tick( app );
+						app.SpeechToTextWindow?.Tick( app );
 
 #endif
 					}
@@ -2466,4 +2462,140 @@ public partial class App : Application
 
 		app.Logger.WriteLine( "[App] Worker thread stopped" );
 	}
+
+	#region Overlay Window Management
+
+	public void EnsureGripOMeterWindowExists()
+	{
+		if ( GripOMeterWindow == null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Creating GripOMeterWindow" );
+
+				GripOMeterWindow = new();
+			} );
+		}
+	}
+
+	public void DestroyGripOMeterWindow()
+	{
+		if ( GripOMeterWindow != null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Destroying GripOMeterWindow" );
+
+				GripOMeterWindow.Close();
+
+				GripOMeterWindow = null;
+			} );
+		}
+	}
+
+	public void EnsureGapMonitorWindowExists()
+	{
+		if ( GapMonitorWindow == null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Creating GapMonitorWindow" );
+
+				GapMonitorWindow = new();
+			} );
+		}
+	}
+
+	public void DestroyGapMonitorWindow()
+	{
+		if ( GapMonitorWindow != null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Destroying GapMonitorWindow" );
+
+				GapMonitorWindow.Close();
+
+				GapMonitorWindow = null;
+			} );
+		}
+	}
+
+	public void EnsureSpeechToTextWindowExists()
+	{
+		if ( SpeechToTextWindow == null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Creating SpeechToTextWindow" );
+
+				SpeechToTextWindow = new();
+			} );
+		}
+	}
+
+	public void DestroySpeechToTextWindow()
+	{
+		if ( SpeechToTextWindow != null )
+		{
+			Dispatcher.Invoke( () =>
+			{
+				Logger.WriteLine( "[App] Destroying SpeechToTextWindow" );
+
+				SpeechToTextWindow.Close();
+
+				SpeechToTextWindow = null;
+			} );
+		}
+	}
+
+	public void UpdateGripOMeterWindowVisibility()
+	{
+		var settings = DataContext.DataContext.Instance.Settings;
+
+		if ( settings.SteeringEffectsMakeGripOMeterDraggable || ( settings.SteeringEffectsShowGripOMeterWindow && Simulator.IsConnected && Simulator.IsOnTrack ) )
+		{
+			EnsureGripOMeterWindowExists();
+
+			GripOMeterWindow?.MakeDraggable();
+		}
+		else
+		{
+			DestroyGripOMeterWindow();
+		}
+	}
+
+	public void UpdateGapMonitorWindowVisibility()
+	{
+		var settings = DataContext.DataContext.Instance.Settings;
+
+		if ( settings.OverlaysMakeGapMonitorDraggable || ( settings.OverlaysShowGapMonitorWindow && Simulator.IsConnected && Simulator.IsOnTrack ) )
+		{
+			EnsureGapMonitorWindowExists();
+
+			GapMonitorWindow?.MakeDraggable();
+		}
+		else
+		{
+			DestroyGapMonitorWindow();
+		}
+	}
+
+	public void UpdateSpeechToTextWindowVisibility()
+	{
+		var settings = DataContext.DataContext.Instance.Settings;
+
+		if ( settings.SpeechToTextMakeOverlayWindowDraggable )
+		{
+			EnsureSpeechToTextWindowExists();
+
+			SpeechToTextWindow?.MakeDraggable();
+		}
+		else
+		{
+			DestroySpeechToTextWindow();
+		}
+	}
+
+	#endregion
 }

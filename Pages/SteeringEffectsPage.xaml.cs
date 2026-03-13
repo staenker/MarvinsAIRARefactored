@@ -32,7 +32,7 @@ public partial class SteeringEffectsPage : UserControl
 	{
 		var app = App.Instance!;
 
-		app.GripOMeterWindow.ResetWindow();
+		app.GripOMeterWindow?.ResetWindow();
 	}
 
 	private void RunCalibration_MairaButton_Click( object sender, RoutedEventArgs e )

@@ -20,7 +20,7 @@ public partial class SpeechToTextPage : UserControl
 	{
 		var app = App.Instance!;
 
-		app.SpeechToTextWindow.ResetWindow();
+		app.SpeechToTextWindow?.ResetWindow();
 	}
 
 	#endregion

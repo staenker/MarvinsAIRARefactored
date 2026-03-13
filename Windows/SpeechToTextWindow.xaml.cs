@@ -11,7 +11,6 @@ namespace MarvinsAIRARefactored.Windows;
 
 public partial class SpeechToTextWindow : Window
 {
-	private bool _initialized = false;
 	private bool _isDraggable = false;
 
 	private float _windowVisibilityTimer = 0f;
@@ -28,15 +27,6 @@ public partial class SpeechToTextWindow : Window
 
 		InitializeComponent();
 
-		app.Logger.WriteLine( "[SpeechToTextWindow] <<< Constructor" );
-	}
-
-	public void Initialize()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[SpeechToTextWindow] Initialize >>>" );
-
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var rectangle = settings.SpeechToTextOverlayWindowPosition;
@@ -46,41 +36,28 @@ public partial class SpeechToTextWindow : Window
 
 		WindowStartupLocation = WindowStartupLocation.Manual;
 
-		UpdateVisibility();
+		MakeDraggable();
 
-		_initialized = true;
+		// Only show if draggable mode is on, otherwise it will be shown when speech is detected
+		if ( settings.SpeechToTextMakeOverlayWindowDraggable )
+		{
+			Show();
+		}
 
-		app.Logger.WriteLine( "[SpeechToTextWindow] <<< Initialize" );
-	}
-
-	private void Window_Loaded( object sender, RoutedEventArgs e )
-	{
-		// Do not set WS_EX_TOOLWINDOW here so external window-pickers (like OpenKneeboard)
-		// can discover and select this window. Keep `ShowInTaskbar="False"` in XAML
-		// to avoid taskbar presence while still allowing enumeration by other tools.
-		/*
-		var hwnd = new WindowInteropHelper( this ).Handle;
-
-		var exStyle = User32.GetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE );
-
-		_ = User32.SetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE, (SetWindowLongFlags) ( (uint) exStyle | (uint) SetWindowLongFlags.WS_EX_TOOLWINDOW ) ); // Prevent Alt+Tab visibility
-		*/
+		app.Logger.WriteLine( "[SpeechToTextWindow] <<< Constructor" );
 	}
 
 	private void Window_LocationChanged( object sender, EventArgs e )
 	{
-		if ( _initialized )
+		if ( IsVisible && ( WindowState == WindowState.Normal ) )
 		{
-			if ( IsVisible && ( WindowState == WindowState.Normal ) )
-			{
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
-				var rectangle = settings.SpeechToTextOverlayWindowPosition;
+			var rectangle = settings.SpeechToTextOverlayWindowPosition;
 
-				rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
+			rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
 
-				settings.SpeechToTextOverlayWindowPosition = rectangle;
-			}
+			settings.SpeechToTextOverlayWindowPosition = rectangle;
 		}
 	}
 
@@ -90,30 +67,7 @@ public partial class SpeechToTextWindow : Window
 		Top = 0;
 	}
 
-	public void UpdateVisibility()
-	{
-		if ( _initialized )
-		{
-			Dispatcher.BeginInvoke( () =>
-			{
-				var app = App.Instance!;
-
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
-
-				if ( settings.SpeechToTextMakeOverlayWindowDraggable )
-				{
-					Show();
-					MakeDraggable();
-				}
-				else
-				{
-					Hide();
-				}
-			} );
-		}
-	}
-
-	private void MakeDraggable()
+	public void MakeDraggable()
 	{
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
@@ -143,127 +97,118 @@ public partial class SpeechToTextWindow : Window
 
 	public void SetPartialText( string text )
 	{
-		if ( _initialized )
+		Dispatcher.BeginInvoke( () =>
 		{
-			Dispatcher.BeginInvoke( () =>
+			var app = App.Instance!;
+
+			app.Logger.WriteLine( $"[SpeechToText] Got partial text ({text})" );
+
+			var elapsedTime = DateTime.UtcNow - _speakingTimestamp;
+
+			if ( _speakingCarIdx == -1 || ( elapsedTime.TotalSeconds > 1 ) )
 			{
-				var app = App.Instance!;
+				_speakingCarIdx = app.Simulator.LastRadioTransmitCarIdx;
 
-				app.Logger.WriteLine( $"[SpeechToText] Got partial text ({text})" );
+				app.Logger.WriteLine( $"[SpeechToText] Speaking car index was not set - now set to {_speakingCarIdx}" );
+			}
 
-				var elapsedTime = DateTime.UtcNow - _speakingTimestamp;
+			_speakingTimestamp = DateTime.UtcNow;
 
-				if ( _speakingCarIdx == -1 || ( elapsedTime.TotalSeconds > 1 ) )
-				{
-					_speakingCarIdx = app.Simulator.LastRadioTransmitCarIdx;
+			var driver = app.Simulator.GetDriver( _speakingCarIdx );
 
-					app.Logger.WriteLine( $"[SpeechToText] Speaking car index was not set - now set to {_speakingCarIdx}" );
-				}
-
-				_speakingTimestamp = DateTime.UtcNow;
-
-				var driver = app.Simulator.GetDriver( _speakingCarIdx );
-
-				if ( driver != null )
-				{
-					Partial_Driver_TextBlock.Visibility = Visibility.Visible;
-					Partial_Driver_TextBlock.Text = $"#{driver.CarNumber} {driver.UserName}";
-				}
-				else
-				{
-					Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
-				}
-
-				Partial_Message_TextBlock.Text = text;
-
+			if ( driver != null )
+			{
 				Partial_Driver_TextBlock.Visibility = Visibility.Visible;
-				Partial_Message_TextBlock.Visibility = Visibility.Visible;
+				Partial_Driver_TextBlock.Text = $"#{driver.CarNumber} {driver.UserName}";
+			}
+			else
+			{
+				Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
+			}
 
-				_windowVisibilityTimer = 10f;
+			Partial_Message_TextBlock.Text = text;
 
-				Show();
-			} );
-		}
+			Partial_Driver_TextBlock.Visibility = Visibility.Visible;
+			Partial_Message_TextBlock.Visibility = Visibility.Visible;
+
+			_windowVisibilityTimer = 10f;
+
+			Show();
+		} );
 	}
 
 	public void SetFinalText( string text )
 	{
-		if ( _initialized )
+		Dispatcher.BeginInvoke( () =>
 		{
-			Dispatcher.BeginInvoke( () =>
+			var app = App.Instance!;
+
+			app.Logger.WriteLine( $"[SpeechToText] Got final text ({text})" );
+
+			var driver = app.Simulator.GetDriver( _speakingCarIdx );
+
+			_speakingCarIdx = -1;
+
+			app.Logger.WriteLine( $"[SpeechToText] Speaking car index cleared" );
+
+			if ( driver != null )
 			{
-				var app = App.Instance!;
-
-				app.Logger.WriteLine( $"[SpeechToText] Got final text ({text})" );
-
-				var driver = app.Simulator.GetDriver( _speakingCarIdx );
-
-				_speakingCarIdx = -1;
-
-				app.Logger.WriteLine( $"[SpeechToText] Speaking car index cleared" );
-
-				if ( driver != null )
-				{
-					Final_Driver_TextBlock.Visibility = Visibility.Visible;
-					Final_Driver_TextBlock.Text = $"#{driver.CarNumber} {driver.UserName}";
-				}
-				else
-				{
-					Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
-				}
-
-				Final_Message_TextBlock.Text = text;
-
 				Final_Driver_TextBlock.Visibility = Visibility.Visible;
-				Final_Message_TextBlock.Visibility = Visibility.Visible;
+				Final_Driver_TextBlock.Text = $"#{driver.CarNumber} {driver.UserName}";
+			}
+			else
+			{
+				Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
+			}
 
-				Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
-				Partial_Message_TextBlock.Visibility = Visibility.Collapsed;
+			Final_Message_TextBlock.Text = text;
 
-				_windowVisibilityTimer = 10f;
-				_finalVisibilityTimer = 10f;
+			Final_Driver_TextBlock.Visibility = Visibility.Visible;
+			Final_Message_TextBlock.Visibility = Visibility.Visible;
 
-				Show();
-			} );
-		}
+			Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
+			Partial_Message_TextBlock.Visibility = Visibility.Collapsed;
+
+			_windowVisibilityTimer = 10f;
+			_finalVisibilityTimer = 10f;
+
+			Show();
+		} );
 	}
 
 	public void Tick( App app )
 	{
-		if ( _initialized )
+		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+
+		if ( _windowVisibilityTimer > 0f )
 		{
-			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+			_windowVisibilityTimer -= 1f / 60f;
 
-			if ( _windowVisibilityTimer > 0f )
+			if ( _windowVisibilityTimer <= 0f )
 			{
-				_windowVisibilityTimer -= 1f / 60f;
+				_finalVisibilityTimer = 0f;
 
-				if ( _windowVisibilityTimer <= 0f )
+				Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
+				Final_Message_TextBlock.Visibility = Visibility.Collapsed;
+
+				Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
+				Partial_Message_TextBlock.Visibility = Visibility.Collapsed;
+
+				if ( !settings.SpeechToTextMakeOverlayWindowDraggable )
 				{
-					_finalVisibilityTimer = 0f;
-
-					Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
-					Final_Message_TextBlock.Visibility = Visibility.Collapsed;
-
-					Partial_Driver_TextBlock.Visibility = Visibility.Collapsed;
-					Partial_Message_TextBlock.Visibility = Visibility.Collapsed;
-
-					if ( !settings.SpeechToTextMakeOverlayWindowDraggable )
-					{
-						Hide();
-					}
+					Hide();
 				}
 			}
+		}
 
-			if ( _finalVisibilityTimer > 0f )
+		if ( _finalVisibilityTimer > 0f )
+		{
+			_finalVisibilityTimer -= 1f / 60f;
+
+			if ( _finalVisibilityTimer <= 0f )
 			{
-				_finalVisibilityTimer -= 1f / 60f;
-
-				if ( _finalVisibilityTimer <= 0f )
-				{
-					Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
-					Final_Message_TextBlock.Visibility = Visibility.Collapsed;
-				}
+				Final_Driver_TextBlock.Visibility = Visibility.Collapsed;
+				Final_Message_TextBlock.Visibility = Visibility.Collapsed;
 			}
 		}
 	}

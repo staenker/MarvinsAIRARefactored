@@ -20,7 +20,6 @@ public partial class GapMonitorWindow : Window
 
 	private int _updateCounter = UpdateInterval + 3;
 
-	private bool _initialized = false;
 	private bool _isDraggable = false;
 
 	private int _prevAheadCarIdx = -1;
@@ -50,15 +49,6 @@ public partial class GapMonitorWindow : Window
 
 		InitializeComponent();
 
-		app.Logger.WriteLine( "[GapMonitorWindow] <<< Constructor" );
-	}
-
-	public void Initialize()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[GapMonitorWindow] Initialize >>>" );
-
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
 		var rectangle = settings.OverlaysGapMonitorWindowPosition;
@@ -68,42 +58,24 @@ public partial class GapMonitorWindow : Window
 
 		WindowStartupLocation = WindowStartupLocation.Manual;
 
-		_initialized = true;
+		MakeDraggable();
 
-		UpdateVisibility();
+		Show();
 
-		app.Logger.WriteLine( "[GapMonitorWindow] <<< Initialize" );
-	}
-
-	private void Window_Loaded( object sender, RoutedEventArgs e )
-	{
-		// Do not set WS_EX_TOOLWINDOW here so external window-pickers (like OpenKneeboard)
-		// can discover and select this window. Keep `ShowInTaskbar="False"` in XAML
-		// to avoid taskbar presence while still allowing enumeration by other tools.
-
-		/*
-		var hwnd = new WindowInteropHelper( this ).Handle;
-
-		var exStyle = User32.GetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE );
-
-		_ = User32.SetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE, (SetWindowLongFlags) ( (uint) exStyle | (uint) SetWindowLongFlags.WS_EX_TOOLWINDOW ) ); // Prevent Alt+Tab visibility
-		*/
+		app.Logger.WriteLine( "[GapMonitorWindow] <<< Constructor" );
 	}
 
 	private void Window_LocationChanged( object sender, EventArgs e )
 	{
-		if ( _initialized )
+		if ( IsVisible && ( WindowState == WindowState.Normal ) )
 		{
-			if ( IsVisible && ( WindowState == WindowState.Normal ) )
-			{
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
-				var rectangle = settings.OverlaysGapMonitorWindowPosition;
+			var rectangle = settings.OverlaysGapMonitorWindowPosition;
 
-				rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
+			rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
 
-				settings.OverlaysGapMonitorWindowPosition = rectangle;
-			}
+			settings.OverlaysGapMonitorWindowPosition = rectangle;
 		}
 	}
 
@@ -113,30 +85,7 @@ public partial class GapMonitorWindow : Window
 		Top = 0;
 	}
 
-	public void UpdateVisibility()
-	{
-		if ( _initialized )
-		{
-			Dispatcher.BeginInvoke( () =>
-			{
-				var app = App.Instance!;
-
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
-
-				if ( settings.OverlaysMakeGapMonitorDraggable || ( settings.OverlaysShowGapMonitorWindow && app.Simulator.IsConnected && app.Simulator.IsOnTrack ) )
-				{
-					Show();
-					MakeDraggable();
-				}
-				else
-				{
-					Hide();
-				}
-			} );
-		}
-	}
-
-	private void MakeDraggable()
+	public void MakeDraggable()
 	{
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 

@@ -14,6 +14,6 @@ public partial class OverlaysPage : UserControl
 	{
 		var app = App.Instance!;
 
-		app.GapMonitorWindow.ResetWindow();
+		app.GapMonitorWindow?.ResetWindow();
 	}
 }

@@ -7,6 +7,7 @@
         xmlns:datacontext="clr-namespace:MarvinsAIRARefactored.DataContext"
         xmlns:converters="clr-namespace:MarvinsAIRARefactored.Converters"
         mc:Ignorable="d"
+        Title="MAIRA - Gap Monitor"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -14,7 +15,6 @@
         ShowInTaskbar="False"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
-        Loaded="Window_Loaded"
         LocationChanged="Window_LocationChanged"
         Cursor="SizeAll">
 

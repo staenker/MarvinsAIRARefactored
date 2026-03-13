@@ -18,7 +18,6 @@ public partial class GripOMeterWindow : Window
 
 	private int _updateCounter = UpdateInterval + 3;
 
-	private bool _initialized = false;
 	private bool _isDraggable = false;
 
 	private float _smoothedSkidSlip = 0f;
@@ -35,15 +34,6 @@ public partial class GripOMeterWindow : Window
 		app.Logger.WriteLine( "[GripOMeterWindow] Constructor >>>" );
 
 		InitializeComponent();
-
-		app.Logger.WriteLine( "[GripOMeterWindow] <<< Constructor" );
-	}
-
-	public void Initialize()
-	{
-		var app = App.Instance!;
-
-		app.Logger.WriteLine( "[GripOMeterWindow] Initialize >>>" );
 
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
@@ -67,42 +57,24 @@ public partial class GripOMeterWindow : Window
 			_backgroundBrushes[ i ] = brush;
 		}
 
-		_initialized = true;
+		MakeDraggable();
 
-		UpdateVisibility();
+		Show();
 
-		app.Logger.WriteLine( "[GripOMeterWindow] <<< Initialize" );
-	}
-
-	private void Window_Loaded( object sender, RoutedEventArgs e )
-	{
-		// Do not set WS_EX_TOOLWINDOW here so external window-pickers (like OpenKneeboard)
-		// can discover and select this window. Keep `ShowInTaskbar="False"` in XAML
-		// to avoid taskbar presence while still allowing enumeration by other tools.
-
-		/*
-		var hwnd = new WindowInteropHelper( this ).Handle;
-
-		var exStyle = User32.GetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE );
-
-		_ = User32.SetWindowLong( hwnd, WindowLongIndexFlags.GWL_EXSTYLE, (SetWindowLongFlags) ( (uint) exStyle | (uint) SetWindowLongFlags.WS_EX_TOOLWINDOW ) ); // Prevent Alt+Tab visibility
-		*/
+		app.Logger.WriteLine( "[GripOMeterWindow] <<< Constructor" );
 	}
 
 	private void Window_LocationChanged( object sender, EventArgs e )
 	{
-		if ( _initialized )
+		if ( IsVisible && ( WindowState == WindowState.Normal ) )
 		{
-			if ( IsVisible && ( WindowState == WindowState.Normal ) )
-			{
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
+			var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 
-				var rectangle = settings.SteeringEffectsGripOMeterWindowPosition;
+			var rectangle = settings.SteeringEffectsGripOMeterWindowPosition;
 
-				rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
+			rectangle.Location = new System.Drawing.Point( (int) RestoreBounds.Left, (int) RestoreBounds.Top );
 
-				settings.SteeringEffectsGripOMeterWindowPosition = rectangle;
-			}
+			settings.SteeringEffectsGripOMeterWindowPosition = rectangle;
 		}
 	}
 
@@ -112,30 +84,7 @@ public partial class GripOMeterWindow : Window
 		Top = 0;
 	}
 
-	public void UpdateVisibility()
-	{
-		if ( _initialized )
-		{
-			Dispatcher.BeginInvoke( () =>
-			{
-				var app = App.Instance!;
-
-				var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
-
-				if ( settings.SteeringEffectsMakeGripOMeterDraggable || ( settings.SteeringEffectsShowGripOMeterWindow && app.Simulator.IsConnected && app.Simulator.IsOnTrack ) )
-				{
-					Show();
-					MakeDraggable();
-				}
-				else
-				{
-					Hide();
-				}
-			} );
-		}
-	}
-
-	private void MakeDraggable()
+	public void MakeDraggable()
 	{
 		var settings = MarvinsAIRARefactored.DataContext.DataContext.Instance.Settings;
 

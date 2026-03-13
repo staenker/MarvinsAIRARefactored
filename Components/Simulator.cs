@@ -345,15 +345,15 @@ public partial class Simulator
 
 #if !ADMINBOXX
 
-		app.SteeringEffects.SimulatorDisconnected();
-		app.SpeechToText.SimulatorDisconnected();
-		app.TimingMarkers.Reset();
+			app.SteeringEffects.SimulatorDisconnected();
+			app.SpeechToText.SimulatorDisconnected();
+			app.TimingMarkers.Reset();
 
-		app.GripOMeterWindow.UpdateVisibility();
-		app.SpeechToTextWindow.UpdateVisibility();
-		app.GapMonitorWindow.UpdateVisibility();
+			app.UpdateGripOMeterWindowVisibility();
+			app.UpdateSpeechToTextWindowVisibility();
+			app.UpdateGapMonitorWindowVisibility();
 
-#endif
+		#endif
 
 		app.MultimediaTimer.Suspend = true;
 
@@ -901,8 +901,8 @@ public partial class Simulator
 
 		if ( IsOnTrack != WasOnTrack )
 		{
-			app.GripOMeterWindow.UpdateVisibility();
-			app.GapMonitorWindow.UpdateVisibility();
+			app.UpdateGripOMeterWindowVisibility();
+			app.UpdateGapMonitorWindowVisibility();
 		}
 
 		// update steering effects
