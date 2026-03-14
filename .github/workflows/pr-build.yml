@@ -1,0 +1,28 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore MarvinsAIRARefactored.csproj
+
+      - name: Build
+        run: dotnet build MarvinsAIRARefactored.csproj --configuration Release --no-restore -p:Platform=x64
