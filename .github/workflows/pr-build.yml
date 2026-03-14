@@ -1,17 +1,13 @@
 name: PR Build
 
 on:
-  workflow_dispatch:
   pull_request:
-    branches:
-      - main
-
-permissions:
-  contents: read
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-2025
+    runs-on: windows-2022
 
     steps:
       - name: Checkout
@@ -22,8 +18,8 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Restore
-        run: dotnet restore MarvinsAIRARefactored.csproj
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
 
-      - name: Build
-        run: dotnet build MarvinsAIRARefactored.csproj --configuration Release --no-restore -p:Platform=x64
+      - name: Restore and build
+        run: msbuild MarvinsAIRARefactored.csproj /restore /p:Configuration=Release /p:Platform=x64
