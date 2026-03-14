@@ -151,10 +151,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimagicHPR\SimagicHPR.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="SimagicHPR">
+      <HintPath>SimagicHPR.dll</HintPath>
+    </Reference>
     <Reference Include="vJoyInterfaceWrap">
       <HintPath>vJoyInterfaceWrap.dll</HintPath>
     </Reference>
@@ -162,6 +161,9 @@
 
   <ItemGroup>
     <None Update="LogitechSteeringWheelEnginesWrapper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SimagicHPR.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="vJoyInterface.dll">
